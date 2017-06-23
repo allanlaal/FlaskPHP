@@ -1,0 +1,26 @@
+{
+  "name": "codelab/flaskphp",
+  "description": "FlaskPHP framework by Codelab",
+  "authors": [
+    {
+      "name": "Codelab Solutions OÜ",
+      "email": "codelab@codelab.ee"
+    }
+  ],
+  "require": {
+    "php": ">=7.0",
+    "leafo/scssphp": ">=0.6.7",
+    "tedivm/jshrink": "~1.0"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@bitbucket.org:codelab-solutions/flaskphp.git"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Codelab\\FlaskPHP\\": "src/"
+    }
+  }
+}
