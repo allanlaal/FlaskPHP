@@ -1,6 +1,7 @@
 {
   "name": "codelab/flaskphp",
   "description": "FlaskPHP framework by Codelab",
+  "type": "package",
   "authors": [
     {
       "name": "Codelab Solutions OÜ",
