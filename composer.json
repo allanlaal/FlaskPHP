@@ -11,7 +11,8 @@
   "require": {
     "php": ">=7.0",
     "leafo/scssphp": ">=0.6.7",
-    "tedivm/jshrink": "~1.0"
+    "tedivm/jshrink": "~1.0",
+    "phpmailer/phpmailer": "~5.2"
   },
   "repositories": [
     {
@@ -21,7 +22,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Codelab\\FlaskPHP\\": "src/"
+      "Codelab\\FlaskPHP\\": "class/"
     }
   }
 }

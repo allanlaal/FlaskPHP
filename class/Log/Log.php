@@ -1,0 +1,71 @@
+<?php
+
+
+	/**
+	 *
+	 *   FlaskPHP
+	 *   The log class
+	 *
+	 *   @author Codelab Solutions OÜ <codelab@codelab.ee>
+	 *
+	 */
+
+
+	namespace Codelab\FlaskPHP\Model;
+	use Codelab\FlaskPHP as FlaskPHP;
+
+
+	class Log extends FlaskPHP\Model\ModelInterface
+	{
+
+
+		/**
+		 *   Init model
+		 *   @access public
+		 *   @return LogProvider
+		 */
+
+		public function initModel()
+		{
+			// Main fields
+			$this->setParam('table','base_log');
+			$this->setParam('objectname','Log entry');
+		}
+
+
+		/**
+		 *   Load data object by OID
+		 *   @static
+		 *   @access public
+		 *   @param int $refOID Reference OID
+		 *   @param string $logEntry Log entry
+		 *   @param string $logData Detailed log data
+		 *   @param int $affectedOID Affected element OID (null=none)
+		 *   @param int $userOID User OID (null=current user)
+		 *   @return void
+		 */
+
+		public static function logEntry( $refOID, $logEntry, $logData='', $affectedOID=null, $userOID=null, $timestamp=null )
+		{
+			try
+			{
+				$cols=array();
+				$cols['ref_oid']=$refOID;
+				$cols['affected_oid']=($affectedOID!==null?$affectedOID:0);
+				$cols['user_oid']=($userOID!==null?$userOID:(Flask()->User->isLoggedIn()?Flask()->User->{Flask()->User->getParam('idfield')}:0));
+				$cols['log_tstamp']=($timestamp!==null?$timestamp:date('Y-m-d H:i:s'));
+				$cols['log_entry']=$logEntry;
+				$cols['log_data']=(is_array($logData)?json_encode($logData):$logData);
+				Flask()->DB->queryInsert('base_log',$cols);
+			}
+			catch (\Exception $e)
+			{
+				return;
+			}
+		}
+
+
+	}
+
+
+?>
