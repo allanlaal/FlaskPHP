@@ -13,6 +13,7 @@
 
 	namespace Codelab\FlaskPHP\User;
 	use Codelab\FlaskPHP as FlaskPHP;
+	use Codelab\FlaskHTTP as FlaskHTTP;
 
 
 	class VoogAuthHandler extends AuthHandlerInterface
@@ -70,7 +71,7 @@
 				if (!mb_strlen($password)) throw new FlaskPHP\Exception\Exception(Flask()->Locale->get('FLASK.USER.Login.Error.PasswordEmpty'));
 
 				// Make request
-				$HTTP=new FlaskPHP\Http\HttpRequest();
+				$HTTP=new FlaskHTTP\HttpRequest();
 				$HTTP->setURL($this->voogURL.'/admin/login');
 				$HTTP->setRequestMethod('POST');
 				$HTTP->setOption('newcookiesession',true);
