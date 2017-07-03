@@ -241,8 +241,7 @@
 					// Nothing found?
 					if (empty($this->requestControllerObject))
 					{
-						Flask()->Response->responseStatus=404;
-						return;
+						throw new FlaskPHP\Exception\FatalException('HTTP 404: The requested address /'.$uriElement.' was not found.',404);
 					}
 				}
 
@@ -261,8 +260,7 @@
 				// Check name
 				if (!preg_match("/^[A-Za-z0-9\.\_\-]+$/",$varName))
 				{
-					header("Status: 400 Bad Request");
-					throw new FlaskPHP\Exception\FatalException('HTTP 400: Bad request.');
+					throw new FlaskPHP\Exception\FatalException('HTTP 400: Bad request.',400);
 				}
 
 				// Set variable
@@ -414,6 +412,115 @@
 				return $var;
 			}
 			return null;
+		}
+
+
+		/**
+		 *   Is user using Internet Explorer?
+		 *   @access public
+		 *   @return boolean
+		 */
+
+		public function isIE()
+		{
+			$userAgent=$_SERVER['HTTP_USER_AGENT'];
+			if (strpos($userAgent,'; MSIE ')!==false) return true;
+			if (strpos($userAgent,'Trident/')!==false && strpos($userAgent,'rv:')!==false) return true;
+			return false;
+		}
+
+
+		/**
+		 *   Are we handling an XHR?
+		 *   @access public
+		 *   @return boolean
+		 */
+
+		public function isXHR()
+		{
+			return ((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH']=='XMLHttpRequest')?true:false);
+		}
+
+
+		/**
+		 *   Get user's IP
+		 *   @access public
+		 *   @return string IP
+		 */
+
+		public function remoteIP()
+		{
+			if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+			{
+				return $_SERVER['HTTP_X_FORWARDED_FOR'];
+			}
+			elseif (isset($_SERVER['REMOTE_ADDR']))
+			{
+				return $_SERVER['REMOTE_ADDR'];
+			}
+			else
+			{
+				return '';
+			}
+		}
+
+
+		/**
+		 *   Get user's hostname
+		 *   @access public
+		 *   @return string hostname/IP
+		 */
+
+		public function remoteHost()
+		{
+			if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+			{
+				return @gethostbyaddr($_SERVER['HTTP_X_FORWARDED_FOR']);
+			}
+			elseif (isset($_SERVER['REMOTE_ADDR']))
+			{
+				return @gethostbyaddr($_SERVER['REMOTE_ADDR']);
+			}
+			else
+			{
+				return '';
+			}
+		}
+
+
+		/**
+		 *   Get request method
+		 *   @access public
+		 *   @return string Request method
+		 */
+
+		public function getRequestMethod()
+		{
+			return $this->requestMethod;
+		}
+
+
+		/**
+		 *  Get request URI
+		 *  @access public
+		 *  @return string Request URI
+		 */
+
+		public function getRequestURI()
+		{
+			return $this->requestURI;
+		}
+
+
+		/**
+		 *  Get request URL
+		 *  @access public
+		 *  @return string Request URL
+		 */
+
+		public function getRequestURL()
+		{
+			return $this->requestURL;
 		}
 
 

@@ -78,13 +78,13 @@
 			$this->dbConnection=new \mysqli($this->dbConnectionParam['hostname'],$this->dbConnectionParam['username'],$this->dbConnectionParam['password'],$this->dbConnectionParam['database'],$this->dbConnectionParam['port'],$this->dbConnectionParam['socket']);
 			if (!$this->dbConnection)
 			{
-				throw new FlaskPHP\Exception\DbException('Could not connect to database: '.oneof($this->dbError,'unknown error'));
+				throw new FlaskPHP\Exception\DbException('Could not connect to database: '.oneof(mysqli_error(),'unknown error'));
 			}
 
 			// Select DB
-			if ($this->dbConnection->select_db($this->dbConnectionParam['database']))
+			if (!$this->dbConnection->select_db($this->dbConnectionParam['database']))
 			{
-				throw new FlaskPHP\Exception\DbException('Could not connect to database: '.oneof($this->dbError,'unknown error'));
+				throw new FlaskPHP\Exception\DbException('Could not connect to database: '.oneof($this->dbConnection->error,'unknown error'));
 			}
 
 			// Set database charset to UTF8
@@ -180,8 +180,8 @@
 			);
 			if ($explain)
 			{
-				$explainres=$this->query("EXPLAIN ".$sql,false);
-				while($row=$this->fetchRow($explainres,null))
+				list($explainres,$fieldMetaData)=$this->query("EXPLAIN ".$sql,false);
+				while($row=$this->fetchRow($explainres,$fieldMetaData))
 				{
 					$queryInfo['explain'][]=$row;
 				}
@@ -422,7 +422,7 @@
 			list($res,$fieldMetaData)=$this->query($sql,true);
 			$timeEnd=microtime_float();
 			$queryTime=$timeEnd-$timeStart;
-			if ($res===false) return array();
+			if ($res===false || $res->num_rows==0) return array();
 			while($row=$this->fetchRow($res,$fieldMetaData))
 			{
 				if ($key)
@@ -440,7 +440,7 @@
 			if (mb_stripos($sql,'SQL_CALC_FOUND_ROWS')!==false)
 			{
 				list($res,$fieldMetaData)=$this->query("SELECT found_rows() as found_rows",false);
-				if ($res!==false) while($row=$this->fetchrow($res)) $this->foundRows=intval($row['found_rows']);
+				if ($res!==false) while($row=$this->fetchrow($res,$fieldMetaData)) $this->foundRows=intval($row['found_rows']);
 				$this->endquery($res);
 			}
 

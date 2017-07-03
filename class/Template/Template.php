@@ -178,8 +178,6 @@
 
 		public function parse( $src=null, $parseLocale=true, $parseVariables=true )
 		{
-			global $LAB;
-
 			// Get source
 			if ($src===null)
 			{
@@ -239,8 +237,6 @@
 
 		function _parse_locale( $match )
 		{
-			global $LAB;
-
 			// Split functions
 			$functionList=str_array(trim($match[1]),'|');
 			$localeTag=array_shift($functionList);
@@ -257,7 +253,7 @@
 			}
 
 			// Get from locale
-			$retval=$LAB->Locale->get($localeTag);
+			$retval=Flask()->Locale->get($localeTag);
 			if ($retval===null) return '[[ UNKNOWN LOCALE TAG: '.$localeTag.' ]]';
 
 			// Parameters?
@@ -298,8 +294,6 @@
 
 		function _apply_function( $str, $func )
 		{
-			global $LAB;
-
 			// Get function parameters
 			if (mb_strpos($func,':')!==false)
 			{

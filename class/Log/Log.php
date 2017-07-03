@@ -11,7 +11,7 @@
 	 */
 
 
-	namespace Codelab\FlaskPHP\Model;
+	namespace Codelab\FlaskPHP\Log;
 	use Codelab\FlaskPHP as FlaskPHP;
 
 

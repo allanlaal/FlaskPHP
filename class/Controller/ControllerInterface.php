@@ -342,6 +342,7 @@
 					// Multiple matches?
 					if (sizeof($classList)>1)
 					{
+						echo '<pre>'.var_dump_str($classList).'</pre>';exit;
 						throw new FlaskPHP\Exception\ControllerException('Found multiple action instances in action file'.(sizeof($actionInclude)>1?'s':'').'.',500);
 					}
 

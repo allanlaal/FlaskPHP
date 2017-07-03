@@ -4,7 +4,7 @@
 	/**
 	 *
 	 *   FlaskPHP
-	 *   The FlaskPHP fatal exception
+	 *   The FlaskPHP validate exception
 	 *
 	 *   @author Codelab Solutions OÜ <codelab@codelab.ee>
 	 *

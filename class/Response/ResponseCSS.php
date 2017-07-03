@@ -74,7 +74,7 @@
 			$bundleItem->itemPriority=$cssPriority;
 
 			// Add
-			if ($cssID===null) $cssID=uniqid();
+			if ($cssID===null) $cssID=intval(sizeof($this->responseCSS[$cssBundle])+1);
 			$this->responseCSS[$cssBundle][$cssID]=$bundleItem;
 		}
 
@@ -97,7 +97,7 @@
 			if (!strlen($cssID)) throw new FlaskPHP\Exception\Exception('ID is required, but empty for dynamic CSS.');
 
 			// Init bundle
-			$bundleItem=new HtmlResponseCssItem();
+			$bundleItem=new ResponseCSSItem();
 			$bundleItem->itemType='inline';
 			$bundleItem->itemSource=$cssSource;
 			$bundleItem->itemModifiedTimestamp=$modifiedTimestamp;
@@ -115,14 +115,13 @@
 		 *   @param string $cssURL URL
 		 *   @param string $cssID ID
 		 *   @param int $cssPriority Priority (1-9)
-		 *   @param string $cssMedia Media
 		 *   @return void
 		 */
 
 		public function addExternalCSS( string $cssURL, string $cssID=null, int $cssPriority=5 )
 		{
 			// Init bundle
-			$bundleItem=new HtmlResponseCssItem();
+			$bundleItem=new ResponseCSSItem();
 			$bundleItem->itemType='url';
 			$bundleItem->itemURL=$cssURL;
 			$bundleItem->itemPriority=$cssPriority;
@@ -130,6 +129,29 @@
 			// Add
 			if ($cssID===null) $cssID=uniqid();
 			$this->responseExternalCSS[$cssID]=$bundleItem;
+		}
+
+
+		/**
+		 *   Add Bootstrap
+		 *   @access public
+		 *   @param string $bootstrapTheme Bootstrap theme
+		 *   @param string $cssID ID
+		 *   @param int $cssPriority Priority (1-9)
+		 *   @param string $cssBundle Bundle
+		 *   @return void
+		 */
+
+		public function addBootstrap( string $bootstrapTheme=null, int $cssPriority=1, string $cssBundle='css' )
+		{
+			// Init bundle
+			$bundleItem=new ResponseCSSItem();
+			$bundleItem->itemType='bootstrap';
+			$bundleItem->itemFilename=$bootstrapTheme;
+			$bundleItem->itemPriority=$cssPriority;
+
+			// Add
+			$this->responseCSS[$cssBundle]['bootstrap']=$bundleItem;
 		}
 
 
@@ -234,6 +256,22 @@
 						$assetArray[$cssID]=$cssID;
 						$filemtime=$cssItem->itemModifiedTimestamp;
 					}
+					elseif ($cssID->itemType=='bootstrap')
+					{
+						// Bootstrap itself
+						$assetArray['bootstrap']='bootstrap';
+
+						// Themed Bootstrap
+						if (!empty($cssItem->itemFilename))
+						{
+							if (!Flask()->resolvePath($cssItem->itemFilename)) throw new FlaskPHP\Exception\Exception('Bootstrap theme file not readable: '.$cssItem->itemFilename);
+							$filemtime=filemtime(Flask()->resolvePath($cssItem->itemFilename));
+						}
+
+						// Bootstrap file
+						$filemtime=filemtime(Flask()->resolvePath('static/vendor/bootstrap/css/bootstrap-themed.scss'));
+						if ($filemtime>$assetTimeStamp) $assetTimeStamp=$filemtime;
+					}
 					else
 					{
 						if (!Flask()->resolvePath($cssItem->itemFilename)) throw new FlaskPHP\Exception\Exception('CSS file not readable: '.$cssItem->itemFilename);
@@ -264,6 +302,17 @@
 						if ($cssItem->itemType=='inline')
 						{
 							$assetFileContents.=$cssItem->itemSource;
+						}
+						elseif ($cssItem->itemType=='bootstrap')
+						{
+							if (!empty($cssItem->itemFilename))
+							{
+								$this->SCSS->addImportPath(pathinfo(Flask()->resolvePath($cssItem->itemFilename),PATHINFO_DIRNAME));
+								$assetFileContents.=file_get_contents(Flask()->resolvePath($cssItem->itemFilename));
+							}
+							$bootStrapFilename='static/vendor/bootstrap/css/bootstrap.scss';
+							$this->SCSS->addImportPath(pathinfo(Flask()->resolvePath($bootStrapFilename),PATHINFO_DIRNAME));
+							$assetFileContents.=file_get_contents(Flask()->resolvePath($bootStrapFilename));
 						}
 						else
 						{

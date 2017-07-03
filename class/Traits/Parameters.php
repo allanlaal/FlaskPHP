@@ -56,13 +56,14 @@
 		 *   @param string $paramName Parameter name
 		 *   @param mixed $paramValue Parameter value
 		 *   @throws \Exception
-		 *   @return void
+		 *   @return object
 		 */
 
 		public function setParam( string $paramName, $paramValue )
 		{
 			// Set
 			$this->_param[$paramName]=$paramValue;
+			return $this;
 		}
 
 
@@ -71,7 +72,7 @@
 		 *   @param array $param Array of parameters
 		 *   @param bool $overwrite Overwrite if parameter already set
 		 *   @throws \Exception
-		 *   @return void
+		 *   @return object
 		 */
 
 		public function setParameters( array $param=null, bool $overwrite=true )
@@ -88,6 +89,9 @@
 					$this->_param[$k]=$v;
 				}
 			}
+
+			// Return self for chaining
+			return $this;
 		}
 
 

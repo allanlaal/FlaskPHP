@@ -129,7 +129,7 @@
 	//  Init session
 	//
 
-	$sessionHandler=oneof($FLASK->Config->get('session.handler'),'\Codelab\FlaskPHP\Session\SessionInterface');
+	$sessionHandler=oneof($FLASK->Config->get('session.handler'),'\Codelab\FlaskPHP\Session\Session');
 	$FLASK->Session=new $sessionHandler();
 	$FLASK->Session->loadSession();
 

@@ -99,7 +99,7 @@
 			$bundleItem->itemParam=$jsExtraParam;
 
 			// Add
-			if ($jsID===null) $jsID=uniqid();
+			if ($jsID===null) $jsID=intval(sizeof($this->responseJS[$jsBundle])+1);
 			$this->responseJS[$jsBundle][$jsID]=$bundleItem;
 		}
 
@@ -243,21 +243,21 @@
 
 			if (in_array('jquery',$this->responseBaseJS))
 			{
-				$this->addJS('public/vendor/jquery/jquery.min.js','base_jquery',-9999);
-				$this->addJS('public/vendor/jquery/jquery.form.min.js','base_jquery_form',-9998);
-				$this->addJS('public/vendor/jquery/jquery.maskedinput.min.js','base_jquery_maskedinput',-9997);
+				$this->addJS('static/vendor/jquery/jquery.min.js','base_jquery',-9999);
+				$this->addJS('static/vendor/jquery/jquery.form.min.js','base_jquery_form',-9998);
+				$this->addJS('static/vendor/jquery/jquery.maskedinput.min.js','base_jquery_maskedinput',-9997);
 			}
 			if (in_array('tether',$this->responseBaseJS))
 			{
-				$this->addJS('public/vendor/tether/js/tether.js','base_tether',-9980);
+				$this->addJS('static/vendor/tether/js/tether.js','base_tether',-9980);
 			}
 			if (in_array('bootstrap',$this->responseBaseJS))
 			{
-				$this->addJS('public/vendor/bootstrap/js/bootstrap.min.js','base_bootstrap',-9970);
+				$this->addJS('static/vendor/bootstrap/js/bootstrap.min.js','base_bootstrap',-9970);
 			}
 			if (in_array('underscore',$this->responseBaseJS))
 			{
-				$this->addJS('public/vendor/underscore/underscore.min.js','base_underscore',-9960);
+				$this->addJS('static/vendor/underscore/underscore.min.js','base_underscore',-9960);
 			}
 			if (in_array('flask',$this->responseBaseJS))
 			{

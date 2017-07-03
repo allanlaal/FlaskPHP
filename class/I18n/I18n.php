@@ -236,14 +236,15 @@
 		 *   Set date format
 		 *   @access public
 		 *   @param string $dateFormat Date format identifier
-		 *   @return void
 		 *   @throws \Exception
+		 *   @return I18n
 		 */
 
 		public function setDateFormat( string $dateFormat )
 		{
 			if (!array_key_exists($dateFormat,static::$setDateFormat)) throw new FlaskPHP\Exception\InvalidParameterException('Unknown date format.');
 			$this->i18nDateFormat=$dateFormat;
+			return $this;
 		}
 
 
@@ -251,14 +252,15 @@
 		 *   Set time format
 		 *   @access public
 		 *   @param string $timeFormat Time format identified
-		 *   @return void
 		 *   @throws \Exception
+		 *   @return I18n
 		 */
 
 		public function setTimeFormat( string $timeFormat )
 		{
 			if (!array_key_exists($timeFormat,static::$setTimeFormat)) throw new FlaskPHP\Exception\InvalidParameterException('Unknown time format.');
 			$this->i18nTimeFormat=$timeFormat;
+			return $this;
 		}
 
 
@@ -266,14 +268,15 @@
 		 *   Set decimal separator
 		 *   @access public
 		 *   @param string $decimalSeparator Decimal separator
-		 *   @return void
 		 *   @throws \Exception
+		 *   @return I18n
 		 */
 
 		public function setDecimalSeparator( string $decimalSeparator )
 		{
 			if (!array_key_exists($decimalSeparator,static::$setDecimalSeparator)) throw new FlaskPHP\Exception\InvalidParameterException('Unknown decimal separator.');
 			$this->i18nDecimalSeparator=$decimalSeparator;
+			return $this;
 		}
 
 
@@ -281,14 +284,15 @@
 		 *   Set thousand separator
 		 *   @access public
 		 *   @param string $thousandSeparator Thousand separator
-		 *   @return void
 		 *   @throws \Exception
+		 *   @return I18n
 		 */
 
 		public function setThousandSeparator( string $thousandSeparator )
 		{
 			if (!array_key_exists($thousandSeparator,static::$setThousandSeparator)) throw new FlaskPHP\Exception\InvalidParameterException('Unknown thousand separator.');
 			$this->i18nThousandSeparator=$thousandSeparator;
+			return $this;
 		}
 
 
@@ -296,14 +300,15 @@
 		 *   Set decimal separator
 		 *   @access public
 		 *   @param string $currencyPlacement Currency placement
-		 *   @return void
 		 *   @throws \Exception
+		 *   @return I18n
 		 */
 
 		public function setCurrencyPlacement( string $currencyPlacement )
 		{
 			if (!array_key_exists($currencyPlacement,static::$setCurrencyPlacement)) throw new FlaskPHP\Exception\InvalidParameterException('Unknown currency placement.');
 			$this->i18nCurrencyPlacement=$currencyPlacement;
+			return $this;
 		}
 
 

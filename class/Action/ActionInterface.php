@@ -75,13 +75,11 @@
 
 		public function setDefaults()
 		{
-			global $LAB;
-
 			// Template
 			if ($this->getParam('template')===null) $this->setParam('template','default');
 
 			// URL
-			if ($this->getParam('baseurl')===null) $this->setParam('baseurl',$LAB->Request->requestURI);
+			if ($this->getParam('baseurl')===null) $this->setParam('baseurl',Flask()->Request->requestURI);
 		}
 
 
@@ -142,7 +140,7 @@
 		 *   Run action and return response
 		 *   @access public
 		 *   @throws \Exception
-		 *   @return mixed
+		 *   @return FlaskPHP\Response\ResponseInterface
 		 */
 
 		public function runAction()

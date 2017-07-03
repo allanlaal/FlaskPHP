@@ -1,0 +1,16 @@
+
+FLASK.COMMON.Email                                                   E-mail address
+FLASK.COMMON.Email.Short                                             E-mail
+
+FLASK.COMMON.Password                                                Password
+
+FLASK.USER.LOGIN.Login                                               Login
+FLASK.USER.Login.Success                                             Successful login
+FLASK.USER.Login.Error.EmailEmpty                                    E-mail address is empty.
+FLASK.USER.Login.Error.PasswordEmpty                                 Password is empty.
+FLASK.USER.Login.Error.Unsuccessful                                  Login unsuccessful.
+FLASK.USER.Login.Error.NoSuchUser                                    No such user.
+FLASK.USER.Login.Error.WrongPassword                                 Wrong password.
+FLASK.USER.Login.Error.UserPending                                   Account is pending.
+FLASK.USER.Login.Error.UserDisabled                                  Account disabled.
+FLASK.USER.LOGIN.Error.UnknownLanguage                               Unknown language.

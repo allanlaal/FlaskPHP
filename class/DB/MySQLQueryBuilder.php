@@ -86,8 +86,6 @@
 
 		public function getSQL( string $queryType=null )
 		{
-			global $LAB;
-
 			// Set query type
 			if ($queryType!==null) $this->queryType=$queryType;
 

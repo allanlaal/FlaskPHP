@@ -34,8 +34,6 @@
 
 		public function initModel()
 		{
-			global $LAB;
-
 			// Main parameters
 			$this->setParam('table','base_user');
 			$this->setParam('idfield','user_oid');
@@ -83,7 +81,7 @@
 		public function loadUser( bool $isLogin=false )
 		{
 			// Sanity check: make sure we are logged in
-			$userOID=Flask()->Session->get('LOGIN.user_oid');
+			$userOID=Flask()->Session->get('login.user_oid');
 			if (empty($userOID)) return;
 
 			// Load user
@@ -267,61 +265,68 @@
 		{
 			try
 			{
-				// Check input
-				if (!mb_strlen($email)) throw new FlaskPHP\Exception\ValidateException(Flask()->Locale->get('LAB.USER.Login.Error.EmailEmpty'));
-				if (!mb_strlen($password)) throw new FlaskPHP\Exception\ValidateException(Flask()->Locale->get('LAB.USER.Login.Error.PasswordEmpty'));
+				// Check input & init
+				if (!mb_strlen($email)) throw new FlaskPHP\Exception\ValidateException(Flask()->Locale->get('FLASK.USER.Login.Error.EmailEmpty'));
+				if (!mb_strlen($password)) throw new FlaskPHP\Exception\ValidateException(Flask()->Locale->get('FLASK.USER.Login.Error.PasswordEmpty'));
+				$authenticated=false;
 
-				// Validate against Voog?
-				if ($this->getParam('auth_voog'))
+				// Auth handler?
+				if (!empty(Flask()->Config->get('user.authhandler')))
 				{
-					$voogLogin=$this->authVoog($email,$password,false);
+					// Init
+					$authHandlerClass=Flask()->Config->get('user.authhandler');
+					if (!class_exists($authHandlerClass)) throw new FlaskPHP\Exception\LoginTechnicalException('Auth handler class '.$authHandlerClass.' not found.');
+					$authHander=new $authHandlerClass();
+					$authHander->initAuthHandler();
+
+					// Auth
+					try
+					{
+						$User=$authHander->doLogin($email,$password,true);
+						$authenticated=true;
+					}
+					catch (FlaskPHP\Exception\LoginFailedException $e)
+					{
+						if (!$authHandlerClass->enableFlaskAuth) throw $e;
+						$User=null;
+					}
 				}
 
-				// Select
-				$user=Flask()->DB->selectOneSQL("SELECT * FROM ".$this->getParam('table')." WHERE ".$this->getParam('loginfield_email')."='".addslashes($email)."'");
+				// Regular user
+				else
+				{
+					$queryParam=Flask()->DB->getQueryBuilder();
+					$queryParam->addWhere($this->getParam('loginfield_email')."='".addslashes($email)."'");
+					$User=Flask()->User::getObjectByQuery($queryParam,false);
+				}
 
 				// User not found
-				if (empty($user[$this->getParam('idfield')]))
+				if ($User===null)
 				{
-					// Create new user from Voog?
-					if (!empty($this->getParam('auth_voog')) && $voogLogin===true && !empty($this->getParam('auth_voog_createuser')))
-					{
-						$userClass=get_called_class();
-						$NEWUSER=new $userClass();
-						$NEWUSER->{$this->getParam('loginfield_email')}=$email;
-						$NEWUSER->{$this->getParam('loginfield_password')}=$this->getPasswordHash($password);
-						$NEWUSER->{$this->getParam('loginfield_status')}=0;
-						$NEWUSER->{$this->getParam('loginfield_name')}='Voog / '.$email;
-						$NEWUSER->save(null,'User created from Voog auth');
-						$user=Flask()->DB->selectOneSQL("SELECT * FROM ".$this->getParam('table')." WHERE ".$this->getParam('idfield')."='".intval($NEWUSER->{$this->getParam('idfield')})."'");
-					}
-					else
-					{
-						throw new FlaskPHP\Exception\LoginFailedException(Flask()->Locale->get('LAB.USER.Login.Error.NoSuchUser'));
-					}
+					throw new FlaskPHP\Exception\LoginFailedException(Flask()->Locale->get('FLASK.USER.Login.Error.NoSuchUser'));
 				}
 
 				// Check password
-				if (empty($this->getParam('auth_voog')) || !$voogLogin)
+				if (!$authenticated)
 				{
 					$passwordAlgorithm=oneof($this->getParam('passwordmechanism'),'password_hash');
 					switch($passwordAlgorithm)
 					{
 						// PHP password_hash
 						case 'password_hash':
-							if (!password_verify($password,$user[$this->getParam('loginfield_password')])) throw new FlaskPHP\Exception\LoginFailedException(Flask()->Locale->get('LAB.USER.Login.Error.WrongPassword'));
+							if (!password_verify($password,$User->{$this->getParam('loginfield_password')})) throw new FlaskPHP\Exception\LoginFailedException(Flask()->Locale->get('FLASK.USER.Login.Error.WrongPassword'));
 							break;
 
 						// MD5
 						case 'md5':
-							if (strpos($user[$this->getParam('loginfield_password')],':')!==false)
+							if (strpos($User->{$this->getParam('loginfield_password')},':')!==false)
 							{
-								list($hash,$salt)=preg_split('/:/',$user[$this->getParam('loginfield_password')],2);
-								if (md5($salt.$password)!=$hash) throw new FlaskPHP\Exception\LoginFailedException(Flask()->Locale->get('LAB.USER.Login.Error.WrongPassword'));
+								list($hash,$salt)=preg_split('/:/',$User->{$this->getParam('loginfield_password')},2);
+								if (md5($salt.$password)!=$hash) throw new FlaskPHP\Exception\LoginFailedException(Flask()->Locale->get('FLASK.USER.Login.Error.WrongPassword'));
 							}
 							else
 							{
-								if (md5($password)!=$user[$this->getParam('loginfield_password')]) throw new FlaskPHP\Exception\LoginFailedException(Flask()->Locale->get('LAB.USER.Login.Error.WrongPassword'));
+								if (md5($password)!=$User->{$this->getParam('loginfield_password')}) throw new FlaskPHP\Exception\LoginFailedException(Flask()->Locale->get('FLASK.USER.Login.Error.WrongPassword'));
 							}
 							break;
 
@@ -332,11 +337,11 @@
 				}
 
 				// Check status
-				if ($user[$this->getParam('loginfield_status')]==1) throw new FlaskPHP\Exception\LoginFailedException(Flask()->Locale->get('LAB.USER.Login.Error.UserPending'));
-				if ($user[$this->getParam('loginfield_status')]>1) throw new FlaskPHP\Exception\LoginFailedException(Flask()->Locale->get('LAB.USER.Login.Error.UserDisabled'));
+				if ($User->{$this->getParam('loginfield_status')}==1) throw new FlaskPHP\Exception\LoginFailedException(Flask()->Locale->get('FLASK.USER.Login.Error.UserPending'));
+				if ($User->{$this->getParam('loginfield_status')}>1) throw new FlaskPHP\Exception\LoginFailedException(Flask()->Locale->get('FLASK.USER.Login.Error.UserDisabled'));
 
 				// Set session
-				Flask()->Session->set('LOGIN.user_oid',$user[$this->getParam('idfield')]);
+				Flask()->Session->set('login.user_oid',$User->{$this->getParam('idfield')});
 
 				// Load user
 				$this->loadUser(true);
@@ -352,7 +357,7 @@
 						'loginlog_ip' => Flask()->Request->remoteIP(),
 						'loginlog_hostname' => Flask()->Request->remoteHost(),
 						'loginlog_email' => $this->{$this->getParam('loginfield_email')},
-						'loginlog_entry' => '[[ LAB.USER.Login.Success ]]'
+						'loginlog_entry' => '[[ FLASK.USER.Login.Success ]]'
 					);
 					if (is_array($this->getParam('loginlog_data')))
 					{
@@ -365,7 +370,7 @@
 				}
 
 				// Success
-				return TRUE;
+				return true;
 			}
 			catch (FlaskPHP\Exception\LoginFailedException $e)
 			{
@@ -395,7 +400,7 @@
 				if ($throwExceptionOnError)
 				{
 					if (Flask()->Debug->devEnvironment) throw $e;
-					throw new FlaskPHP\Exception\LoginFailedException(Flask()->Locale->get('LAB.USER.Login.Error.Unsuccessful'));
+					throw new FlaskPHP\Exception\LoginFailedException(Flask()->Locale->get('FLASK.USER.Login.Error.Unsuccessful'));
 				}
 				return false;
 			}
@@ -405,66 +410,8 @@
 				if ($throwExceptionOnError)
 				{
 					if (Flask()->Debug->devEnvironment) throw $e;
-					throw new FlaskPHP\Exception\LoginFailedException(Flask()->Locale->get('LAB.USER.Login.Error.Unsuccessful'));
+					throw new FlaskPHP\Exception\LoginFailedException(Flask()->Locale->get('FLASK.USER.Login.Error.Unsuccessful'));
 				}
-				return false;
-			}
-		}
-
-
-		/**
-		 *   Authenticate against Voog
-		 *   @access public
-		 *   @param string $email E-mail address
-		 *   @param string $password Password
-		 *   @param bool $throwExceptionOnError Throw exception on error
-		 *   @return bool Success/failure
-		 *   @throws \Exception
-		 */
-
-		public function authVoog( $email, $password, $throwExceptionOnError=true )
-		{
-			try
-			{
-				// Check input
-				if (!mb_strlen($email)) throw new FlaskPHP\Exception\Exception(Flask()->Locale->get('LAB.USER.Login.Error.EmailEmpty'));
-				if (!mb_strlen($password)) throw new FlaskPHP\Exception\Exception(Flask()->Locale->get('LAB.USER.Login.Error.PasswordEmpty'));
-				if (!mb_strlen($this->getParam('auth_voog_site'))) throw new FlaskPHP\Exception\Exception('auth_voog_site not specified.');
-
-				// Make request
-				$HTTP=new FlaskPHP\Http\HttpRequest();
-				$HTTP->setURL($this->getParam('auth_voog_site').'/admin/login');
-				$HTTP->setRequestMethod('POST');
-				$HTTP->setOption('newcookiesession',true);
-				$HTTP->setOption('followlocation',false);
-				$HTTP->setRequestHeaders(array(
-					'User-Agent' => 'FlaskPHP by Codelab, Voog user auth agent (curlHTTPRequest)',
-					'Accept' => '',
-					'Accept-Encoding' => ''
-				));
-				$HTTP->setPostFields(array(
-					'utf8' => '✓',
-					'language' => 'en',
-					'email' => $email,
-					'password' => $password
-				));
-				$HTTP->send();
-
-				// 302 - login OK
-				if ($HTTP->getResponseCode()==302)
-				{
-					return true;
-				}
-
-				// Otherwise, fail
-				else
-				{
-					throw new FlaskPHP\Exception\Exception('Login failed, HTTP response: '.$HTTP->getResponseCode());
-				}
-			}
-			catch (\Exception $e)
-			{
-				if ($throwExceptionOnError) throw $e;
 				return false;
 			}
 		}
@@ -473,12 +420,27 @@
 		/**
 		 *   Do logout
 		 *   @access public
+		 *   @throws \Exception
 		 *   @return void
 		 */
 
 		public function doLogout()
 		{
-			Flask()->Session->set('LOGIN.user_oid',null);
+			// Reset session
+			Flask()->Session->set('login.user_oid',null);
+
+			// If we have auth handler, call logout method on that
+			if (!empty(Flask()->Config->get('user.authhandler')))
+			{
+				// Init
+				$authHandlerClass=Flask()->Config->get('user.authhandler');
+				if (!class_exists($authHandlerClass)) throw new FlaskPHP\Exception\LoginTechnicalException('Auth handler class '.$authHandlerClass.' not found.');
+				$authHander=new $authHandlerClass();
+				$authHander->initAuthHandler();
+				$authHander->doLogout();
+			}
+
+			// Run trigger
 			$this->triggerLogout();
 		}
 

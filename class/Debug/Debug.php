@@ -175,8 +175,6 @@
 
 		public function logProfilerInfo()
 		{
-			global $LAB;
-
 			// Only when profiler is enabled
 			if (!$this->profilerOn) return;
 
@@ -222,8 +220,6 @@
 
 		public function getDebugOutput()
 		{
-			global $LAB;
-
 			// Only when debug is enabled
 			if (!$this->debugOn) return '';
 

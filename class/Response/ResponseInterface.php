@@ -134,7 +134,7 @@
 		 *   @access public
 		 *   @param int $responseStatus Status
 		 *   @throws \Exception
-		 *   @return void
+		 *   @return ResponseInterface
 		 */
 
 		public function setStatus( int $responseStatus )
@@ -142,6 +142,7 @@
 			if (empty($responseStatus)) throw new FlaskPHP\Exception\InvalidParameterException('Empty status.');
 			if (!array_key_exists($responseStatus,static::$setHttpStatus)) throw new FlaskPHP\Exception\InvalidParameterException('Invalid HTTP status.');
 			$this->responseStatus=$responseStatus;
+			return $this;
 		}
 
 
@@ -149,12 +150,13 @@
 		 *   Set expiration
 		 *   @access public
 		 *   @param int $responseExpires expiration as timestamp
-		 *   @return void
+		 *   @return ResponseInterface
 		 */
 
 		public function setExpires( int $responseExpires )
 		{
 			$this->responseExpires=$responseExpires;
+			return $this;
 		}
 
 
@@ -163,12 +165,13 @@
 		 *   @access public
 		 *   @var mixed $responseContent Response content
 		 *   @throws \Exception
-		 *   @return void
+		 *   @return ResponseInterface
 		 */
 
 		public function setContent( $responseContent )
 		{
 			$this->responseContent=$responseContent;
+			return $this;
 		}
 
 
@@ -177,12 +180,13 @@
 		 *   @access public
 		 *   @param string $headerName Header name
 		 *   @param string $headerValue Header value
-		 *   @return void
+		 *   @return ResponseInterface
 		 */
 
 		function setHeader( $headerName, $headerValue )
 		{
 			$this->responseHeader[$headerName]=$headerValue;
+			return $this;
 		}
 
 

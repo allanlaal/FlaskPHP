@@ -257,13 +257,11 @@
 
 		public static function getObject( int $oid, bool $forceReload=false, FlaskPHP\DB\QueryBuilderInterface $param=null )
 		{
-			global $LAB;
-
 			// See if we have it in cache
 			$className=get_called_class();
-			if (!$forceReload && is_object($LAB->Cache->modelCache[mb_strtolower($className)][$oid]))
+			if (!$forceReload && is_object(Flask()->Cache->modelCache[mb_strtolower($className)][$oid]))
 			{
-				$retVal=$LAB->Cache->modelCache[mb_strtolower($className)][$oid];
+				$retVal=Flask()->Cache->modelCache[mb_strtolower($className)][$oid];
 				return $retVal;
 			}
 
@@ -289,19 +287,17 @@
 
 		public static function getByField( string $field, $value, bool $forceReload=false, bool $throwException=true, FlaskPHP\DB\QueryBuilderInterface $param=null )
 		{
-			global $LAB;
-
 			// Get class
 			$className=get_called_class();
 			$model=new $className();
 
 			// Param
-			$query=oneof($param,$LAB->DB->getQueryBuilder());
+			$query=oneof($param,Flask()->DB->getQueryBuilder());
 			$query->setModel($model);
 			$query->addWhere($field.'='.$query::colValue($value));
 
 			// See if there is a match
-			$oid=$LAB->DB->selectField($model->getParam('idfield'),$query);
+			$oid=Flask()->DB->selectField($model->getParam('idfield'),$query);
 			if ($oid===null)
 			{
 				if ($throwException) throw new FlaskPHP\Exception\Exception('Model '.$className.' not found where '.$field.' is '.strval($value));
@@ -325,8 +321,6 @@
 
 		public function load( int $oid, FlaskPHP\DB\QueryBuilderInterface $param=null )
 		{
-			global $LAB;
-
 			// Already loaded?
 			if ($this->_loaded) return;
 
@@ -337,13 +331,13 @@
 			if (empty($oid)) throw new FlaskPHP\Exception\Exception('Cannot load '.get_called_class().': missing OID');
 
 			// Parameters
-			$query=oneof($param,$LAB->DB->getQueryBuilder());
+			$query=oneof($param,Flask()->DB->getQueryBuilder());
 			$query->setModel($this);
 			$query->queryField=null;
 			$query->addWhere($this->getParam('idfield').'='.$query::colValue($oid));
 
 			// Load
-			$row=$LAB->DB->selectOne($query);
+			$row=Flask()->DB->selectOne($query);
 			if ($row[$this->getParam('idfield')]!=$oid) throw new FlaskPHP\Exception\Exception('Cannot load '.get_called_class().': OID '.intval($oid).' not found');
 
 			// Set values
@@ -370,14 +364,14 @@
 				}
 				if ($param===null || empty($param->queryField) || sizeof($propList))
 				{
-					$propQuery=$LAB->DB->getQueryBuilder();
+					$propQuery=Flask()->DB->getQueryBuilder();
 					$propQuery->addTable($this->getParam('prop_table'));
 					$propQuery->addWhere($this->getParam('prop_referencefield').'='.intval($oid));
 					if (!empty($propList))
 					{
 						$propQuery->addWhere($this->getParam('prop_namefield').' IN('.$propQuery::inValues($propList).')');
 					}
-					$propSet=$LAB->DB->querySelect($propQuery);
+					$propSet=Flask()->DB->querySelect($propQuery);
 					foreach ($propSet as $prop)
 					{
 						$this->{'prop_'.$prop[$this->getParam('prop_namefield')]}=$prop[$this->getParam('prop_valuefield')];
@@ -387,7 +381,7 @@
 			}
 
 			// Put into object cache
-			$LAB->Cache->modelCache[mb_strtolower(get_called_class())][$this->_oid]=&$this;
+			Flask()->Cache->modelCache[mb_strtolower(get_called_class())][$this->_oid]=&$this;
 
 			// Relations
 			if (sizeof($this->_rel))
@@ -439,8 +433,6 @@
 
 		public function save( FlaskPHP\DB\QueryBuilderInterface $param=null, $logMessage=null, $logData=null, $refOID=null, $logOp=null, $skipValidation=false, $formObject=null )
 		{
-			global $LAB;
-
 			// Init
 			if ($this->_loaded)
 			{
@@ -463,7 +455,7 @@
 			try
 			{
 				// Start transaction
-				$LAB->DB->startTransaction();
+				Flask()->DB->startTransaction();
 
 				// Save
 				if ($this->_loaded)
@@ -493,9 +485,9 @@
 					if (sizeof($cols) && !empty($this->getParam('modfields')))
 					{
 						$cols['mod_tstamp']=date('Y-m-d H:i:s');
-						if (!empty($LAB->User->{$LAB->User->getParam('idfield')}))
+						if (!empty(Flask()->User->{Flask()->User->getParam('idfield')}))
 						{
-							$cols['mod_user_oid']=intval($LAB->User->{$LAB->User->getParam('idfield')});
+							$cols['mod_user_oid']=intval(Flask()->User->{Flask()->User->getParam('idfield')});
 						}
 						else
 						{
@@ -506,13 +498,13 @@
 					// Query
 					if (sizeof($cols))
 					{
-						$queryBuilder=$LAB->DB->getQueryBuilder();
+						$queryBuilder=Flask()->DB->getQueryBuilder();
 						$where=array($this->getParam('idfield')."=".$queryBuilder::colValue($oid));
 						if (!empty($param) && !empty($param->queryWhere))
 						{
 							$where=array_merge($where,$param->queryWhere);
 						}
-						$LAB->DB->queryUpdate($this->getParam('table'),$cols,$where);
+						Flask()->DB->queryUpdate($this->getParam('table'),$cols,$where);
 					}
 				}
 
@@ -554,10 +546,10 @@
 							and ".$this->getParam('no_field')."_month='".intval($icols[$this->getParam('no_field').'_month'])."'
 							and ".$this->getParam('no_field')."_day='".intval($icols[$this->getParam('no_field').'_day'])."'
 						";
-						$LAB->DB->queryInsertSQL($sql);
+						Flask()->DB->queryInsertSQL($sql);
 
 						// Load back
-						$insertedRow=$LAB->DB->selectOneSQL("SELECT * FROM ".$this->getParam('table')." WHERE ".$this->_param['idfield']."=".intval($oid));
+						$insertedRow=Flask()->DB->selectOneSQL("SELECT * FROM ".$this->getParam('table')." WHERE ".$this->_param['idfield']."=".intval($oid));
 						if ($insertedRow[$this->_param['idfield']]!=$oid) throw new FlaskPHP\Exception\Exception('Could not load back inserted row.');
 
 						if (empty($this->{$this->getParam('no_field').'_no'}))
@@ -662,9 +654,9 @@
 						}
 						else
 						{
-							if (!empty($LAB->User->{$LAB->User->getParam('idfield')}))
+							if (!empty(Flask()->User->{Flask()->User->getParam('idfield')}))
 							{
-								$cols['add_user_oid']=intval($LAB->User->{$LAB->User->getParam('idfield')});
+								$cols['add_user_oid']=intval(Flask()->User->{Flask()->User->getParam('idfield')});
 							}
 							else
 							{
@@ -676,13 +668,13 @@
 					// Query
 					if ($this->getParam('no'))
 					{
-						$queryBuilder=$LAB->DB->getQueryBuilder();
+						$queryBuilder=Flask()->DB->getQueryBuilder();
 						$where=array($this->getParam('idfield')."=".$queryBuilder::colValue($oid));
-						$LAB->DB->queryUpdate($this->getParam('table'),$cols,$where);
+						Flask()->DB->queryUpdate($this->getParam('table'),$cols,$where);
 					}
 					else
 					{
-						$LAB->DB->queryInsert($this->getParam('table'),$cols);
+						Flask()->DB->queryInsert($this->getParam('table'),$cols);
 					}
 
 					// We're loaded now
@@ -690,7 +682,7 @@
 					$this->_uniqID=uniqid();
 
 					// Link to objectCache
-					$LAB->Cache->modelCache[mb_strtolower(get_called_class())][$oid]=&$this;
+					Flask()->Cache->modelCache[mb_strtolower(get_called_class())][$oid]=&$this;
 				}
 
 				// Save properties
@@ -714,7 +706,7 @@
 
 					if (sizeof($queryCols))
 					{
-						$LAB->DB->queryReplace($this->getParam('prop_table'),$queryCols);
+						Flask()->DB->queryReplace($this->getParam('prop_table'),$queryCols);
 					}
 				}
 
@@ -730,7 +722,7 @@
 				}
 
 				// Log
-				if (($updated || $LAB->Debug->devEnvironment) && !empty($this->_param['log']) && $logMessage!==false)
+				if (($updated || Flask()->Debug->devEnvironment) && !empty($this->_param['log']) && $logMessage!==false)
 				{
 					$logMessage=oneof($logMessage,$this->getParam('objectname').' [[ BASE.LOG.LogEntry.Action.'.$op.' ]]');
 					if ($refOID===NULL)
@@ -772,14 +764,14 @@
 				$this->triggerPostSave($op,$param,$formObject);
 
 				// Commit
-				$LAB->DB->doCommit();
+				Flask()->DB->doCommit();
 				return;
 			}
 
 			// Catch exception: rollback and re-throw
 			catch (\Exception $e)
 			{
-				$LAB->DB->doRollback();
+				Flask()->DB->doRollback();
 				throw $e;
 			}
 		}
@@ -830,8 +822,6 @@
 
 		public function delete( $logMessage=null, $logData=null, $refOID=null, $logOp=null, $skipValidation=false )
 		{
-			global $LAB;
-
 			// Check
 			if (!$this->_loaded) throw new FlaskPHP\Exception\Exception(get_called_class().'::delete() failed: object not loaded.');
 
@@ -842,21 +832,21 @@
 			try
 			{
 				// Start transaction
-				$LAB->DB->startTransaction();
+				Flask()->DB->startTransaction();
 
 				// Delete main entry
-				$query=$LAB->DB->getQueryBuilder('DELETE');
+				$query=Flask()->DB->getQueryBuilder('DELETE');
 				$query->setModel($this);
 				$query->addWhere($this->getParam('idfield').'='.$query::colValue($this->_oid));
-				$LAB->DB->queryDelete($query);
+				Flask()->DB->queryDelete($query);
 
 				// Delete props
 				if ($this->_param['prop'])
 				{
-					$query=$LAB->DB->getQueryBuilder('DELETE');
+					$query=Flask()->DB->getQueryBuilder('DELETE');
 					$query->addTable($this->getParam('prop_table'));
 					$query->addWhere($this->getParam('prop_referencefield').'='.$query::colValue($this->_oid));
-					$LAB->DB->queryDelete($query);
+					Flask()->DB->queryDelete($query);
 				}
 
 				// Log
@@ -885,14 +875,14 @@
 					}
 					$logData=($this->_param['log']!=='simple'?oneof($logData,$this->getLogData(oneof($logOp,'delete'),$formObject,$refOID)):'');
 					$affectedOID=($refOID!=$this->{$this->getParam('idfield')}?$this->{$this->getParam('idfield')}:false);
-					FlaskPHP\Log\LogProvider::logEntry($refOID,$logMessage,$logData,$affectedOID);
+					FlaskPHP\Log\Log::logEntry($refOID,$logMessage,$logData,$affectedOID);
 				}
 
 				// Post-save trigger
 				$this->triggerPostDelete();
 
 				// Commit
-				$LAB->DB->doCommit();
+				Flask()->DB->doCommit();
 
 				// Reset self
 				$this->_oid=null;
@@ -904,7 +894,7 @@
 			// Catch exception: rollback and re-throw
 			catch (\Exception $e)
 			{
-				$LAB->DB->doRollback();
+				Flask()->DB->doRollback();
 				throw $e;
 			}
 		}
@@ -949,8 +939,6 @@
 
 		public static function swap( int $oid1, int $oid2 )
 		{
-			global $LAB;
-
 			// Generate model instance
 			$modelClassName=get_called_class();
 			$model=new $modelClassName();
@@ -962,35 +950,35 @@
 			try
 			{
 				// Start transaction
-				$LAB->DB->startTransaction();
+				Flask()->DB->startTransaction();
 
 				// Load
-				$query=$LAB->DB->getQueryBuilder('SELECT');
+				$query=Flask()->DB->getQueryBuilder('SELECT');
 				$query->setModel($model);
 				$query->addField($model->getParam('idfield'));
 				$query->addField('ord');
 				$query->addWhere($model->getParam('idfield').' IN('.$query::inValues(array($oid1,$oid2)).')');
-				$dataset=$LAB->DB->querySelect($query);
+				$dataset=Flask()->DB->querySelect($query);
 				if (sizeof($dataset)!=2) throw new FlaskPHP\Exception\Exception('[[ LAB.COMMON.ErrorReadingData ]]');
 
 				// Swap 1
 				$cols=array();
 				$cols['ord']=$dataset[$oid2]['ord'];
-				$LAB->DB->queryUpdate($model->getParam('table'),$cols,$model->getParam('idfield')."=".$query::colValue($oid1));
+				Flask()->DB->queryUpdate($model->getParam('table'),$cols,$model->getParam('idfield')."=".$query::colValue($oid1));
 
 				// Swap 2
 				$cols=array();
 				$cols['ord']=$dataset[$oid1]['ord'];
-				$LAB->DB->queryUpdate($model->getParam('table'),$cols,$model->getParam('idfield')."=".$query::colValue($oid2));
+				Flask()->DB->queryUpdate($model->getParam('table'),$cols,$model->getParam('idfield')."=".$query::colValue($oid2));
 
 				// Commit
-				$LAB->DB->doCommit();
+				Flask()->DB->doCommit();
 			}
 
 			// Catch exception: rollback and re-throw
 			catch (\Exception $e)
 			{
-				$LAB->DB->doRollback();
+				Flask()->DB->doRollback();
 				throw $e;
 			}
 		}
@@ -1004,8 +992,6 @@
 
 		public function getOID()
 		{
-			global $LAB;
-
 			// Init
 			$sequenceTable=oneof($this->_param['sequence'],'base_sequence');
 			$objectType=mb_strtolower(oneof($this->getParam('table'),get_class($this)));
@@ -1013,7 +999,7 @@
 			// Insert an entry into the object table
 			$cols=array();
 			$cols['sequence_objecttype']=$objectType;
-			$oid=$LAB->DB->queryInsert($sequenceTable,$cols);
+			$oid=Flask()->DB->queryInsert($sequenceTable,$cols);
 
 			// Return the ID we got
 			return $oid;
@@ -1031,8 +1017,6 @@
 
 		public function getLogData( $op='edit', &$formObject=null, $refOID=null )
 		{
-			global $LAB;
-
 			// Init
 			$updated=false;
 			$logData=new LogData();
@@ -1182,7 +1166,7 @@
 			}
 
 			// Return
-			if ($op=='edit' && (!$LAB->Debug->devEnvironment && !$updated)) return '';
+			if ($op=='edit' && (!Flask()->Debug->devEnvironment && !$updated)) return '';
 			return $logData->getSerializedData();
 		}
 
@@ -1199,17 +1183,15 @@
 
 		public function isUnique( $fieldName, $fieldValue, FlaskPHP\DB\QueryBuilderInterface $param=null )
 		{
-			global $LAB;
-
 			// Init query
-			$query=oneof($param,$LAB->DB->getQueryBuilder());
+			$query=oneof($param,Flask()->DB->getQueryBuilder());
 			$query->setModel($this);
 			$query->addWhere($fieldName.'='.$query::colValue($fieldValue));
 			if ($this->_loaded) $query->addWhere($this->getParam('idfield').'='.$query::colValue($this->{$this->getParam('idfield')}));
 			$query->addLimit(1);
 
 			// Run query and check
-			$dataset=$LAB->DB->querySelect($query);
+			$dataset=Flask()->DB->querySelect($query);
 			return (sizeof($dataset)?false:true);
 		}
 
@@ -1266,28 +1248,103 @@
 
 
 		/**
-		 *   Get list - static wrapper for loadList()
+		 *   Load object by query
 		 *   @access public
 		 *   @static
 		 *   @param FlaskPHP\DB\QueryBuilderInterface $param Additional parameters
-		 *   @return array
+		 *   @param bool $throwExceptionOnError Throw exception on error
 		 *   @throws \Exception
+		 *   @return ModelInterface
 		 */
 
-		public static function getList( FlaskPHP\DB\QueryBuilderInterface $param=null )
+		public static function getObjectByQuery( FlaskPHP\DB\QueryBuilderInterface $param=null, $throwExceptionOnError=true )
 		{
-			global $LAB;
+			// Check
+			if ($param===null) throw new FlaskPHP\Exception\InvalidParameterException('The $param parameter cannot be empty.');
 
+			// Do
+			try
+			{
+				// Init class
+				$modelClassName=get_called_class();
+				$model=new $modelClassName();
+
+				// Init query
+				$query=$param;
+				$query->setModel($model);
+
+				// Run query
+				$dataset=Flask()->DB->querySelect($query);
+				if (!sizeof($dataset)) throw new FlaskPHP\Exception\Exception('No results found to query.');
+				if (sizeof($dataset)>1) throw new FlaskPHP\Exception\Exception('Multiple results found to query.');
+
+				// Return
+				return static::getObject($dataset[0][$model->getParam('idfield')]);
+			}
+			catch (\Exception $e)
+			{
+				if ($throwExceptionOnError) throw $e;
+				return null;
+			}
+		}
+
+
+		/**
+		 *   Get list as an array of objects
+		 *   @access public
+		 *   @static
+		 *   @param FlaskPHP\DB\QueryBuilderInterface $param Additional parameters
+		 *   @throws \Exception
+		 *   @return array
+		 */
+
+		public static function getObjectList( FlaskPHP\DB\QueryBuilderInterface $param=null )
+		{
 			// Init class
 			$modelClassName=get_called_class();
 			$model=new $modelClassName();
 
 			// Init query
-			$query=oneof($param,$LAB->DB->getQueryBuilder());
+			$query=oneof($param,Flask()->DB->getQueryBuilder());
+			$query->addColumns($model->getParam('idfield'));
 			$query->setModel($model);
 
 			// Run query
-			return $LAB->DB->querySelect($query);
+			$dataset=Flask()->DB->querySelect($query);
+
+			// Compose return array
+			$retval=array();
+			foreach ($dataset as $row)
+			{
+				$retval[$row[$model->getParam('idfield')]]=static::getObject($dataset[0][$model->getParam('idfield')]);
+			}
+
+			// Return
+			return $retval;
+		}
+
+
+		/**
+		 *   Get object list as an associative array
+		 *   @access public
+		 *   @static
+		 *   @param FlaskPHP\DB\QueryBuilderInterface $param Additional parameters
+		 *   @throws \Exception
+		 *   @return array
+		 */
+
+		public static function getList( FlaskPHP\DB\QueryBuilderInterface $param=null )
+		{
+			// Init class
+			$modelClassName=get_called_class();
+			$model=new $modelClassName();
+
+			// Init query
+			$query=oneof($param,Flask()->DB->getQueryBuilder());
+			$query->setModel($model);
+
+			// Run query
+			return Flask()->DB->querySelect($query);
 		}
 
 

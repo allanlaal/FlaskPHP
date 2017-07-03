@@ -32,13 +32,14 @@
 		 *   @access public
 		 *   @param string $responseType Response type
 		 *   @param string $responseContentType Response content-type
-		 *   @return void
+		 *   @return Response
 		 */
 
 		public function setType( string $responseType, string $responseContentType=null )
 		{
 			$this->responseType=$responseType;
 			if (!empty($responseContentType)) $this->responseContentType=$responseContentType;
+			return $this;
 		}
 
 
@@ -46,12 +47,13 @@
 		 *   Set template
 		 *   @access public
 		 *   @param string $responseTemplate Response template
-		 *   @return void
+		 *   @return Response
 		 */
 
 		public function setTemplate( string $responseTemplate )
 		{
 			$this->responseTemplate=$responseTemplate;
+			return $this;
 		}
 
 

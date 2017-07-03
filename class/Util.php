@@ -206,8 +206,6 @@
 
 		public static function getMimeType( $filename )
 		{
-			global $LAB;
-
 			// Get file extension
 			$fileExtension=mb_strtolower(pathinfo($filename,PATHINFO_EXTENSION));
 

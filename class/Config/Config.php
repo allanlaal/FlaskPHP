@@ -102,7 +102,7 @@
 			// Init locales
 			if (!isset($this->configData['locale']['lang']) || empty($this->configData['locale']['lang']))
 			{
-				throw new FlaskPHP\Exception\FatalException('No languages defined.');
+				throw new FlaskPHP\Exception\ConfigException('No languages defined.');
 			}
 			$langSet=str_array($this->configData['locale']['lang']);
 			foreach ($langSet as $lang)

@@ -130,6 +130,19 @@
 
 
 		/**
+		 *   Set template
+		 *   @access public
+		 *   @param string $responseTemplate Template
+		 *   @return void
+		 */
+
+		function setTemplate( string $responseTemplate )
+		{
+			$this->responseTemplate=$responseTemplate;
+		}
+
+
+		/**
 		 *   Set body attribute
 		 *   @access public
 		 *   @param string|array $attributeName Parameter name (or array of names)

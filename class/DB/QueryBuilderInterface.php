@@ -142,11 +142,13 @@
 		/**
 		 *   Set model
 		 *   @param FlaskPHP\Model\ModelInterface $model Model
+		 *   @return QueryBuilderInterface
 		 */
 
 		public function setModel( FlaskPHP\Model\ModelInterface $model )
 		{
 			$this->model=$model;
+			return $this;
 		}
 
 
@@ -156,8 +158,8 @@
 		 *   @param string $table Table
 		 *   @param string|array $joinCondition JOIN condition
 		 *   @param string $joinType JOIN type
-		 *   @return void
 		 *   @throws \Exception
+		 *   @return QueryBuilderInterface
 		 */
 
 		public function addTable( string $table, $joinCondition=null, $joinType='LEFT JOIN' )
@@ -176,13 +178,14 @@
 			{
 				$this->queryTable[$table]=$table;
 			}
+			return $this;
 		}
 
 
 		/**
 		 *   Add fields
 		 *   @param string|array $field Field(s)
-		 *   @return void
+		 *   @return QueryBuilderInterface
 		 */
 
 		public function addField( $field )
@@ -193,19 +196,21 @@
 			{
 				$this->queryField[$col]=$col;
 			}
+			return $this;
 		}
 
 
 		/**
 		 *   Add WHERE clause
 		 *   @param string $where Where claus
-		 *   @return void
+		 *   @return QueryBuilderInterface
 		 */
 
 		public function addWhere( string $where )
 		{
 			if (!is_array($this->queryWhere)) $this->queryWhere=array();
 			$this->queryWhere[$where]=$where;
+			return $this;
 		}
 
 
@@ -213,8 +218,8 @@
 		 *   Set WHERE type
 		 *   @access public
 		 *   @param string $whereType WHERE type (and|or)
-		 *   @return void
 		 *   @throws \Exception
+		 *   @return QueryBuilderInterface
 		 */
 
 		public function setWhereType( string $whereType )
@@ -229,6 +234,7 @@
 				default:
 					throw new FlaskPHP\Exception\DbQueryException('Invalid WHERE type.');
 			}
+			return $this;
 		}
 
 
@@ -236,7 +242,7 @@
 		 *   Add GROUP BY clause(s)
 		 *   @access public
 		 *   @param string|array $groupBy GROUP BY clause(s)
-		 *   @return void
+		 *   @return QueryBuilderInterface
 		 */
 
 		public function addGroupBy( $groupBy )
@@ -247,6 +253,7 @@
 			{
 				$this->queryGroupBy[$gb]=$gb;
 			}
+			return $this;
 		}
 
 
@@ -254,7 +261,7 @@
 		 *   Add HAVING clause(s)
 		 *   @access public
 		 *   @param string|array $having HAVING clause(s)
-		 *   @return void
+		 *   @return QueryBuilderInterface
 		 */
 
 		public function addHaving( $having )
@@ -265,6 +272,7 @@
 			{
 				$this->queryHaving[$h]=$h;
 			}
+			return $this;
 		}
 
 
@@ -272,7 +280,7 @@
 		 *   Add ORDER BY clause(s)
 		 *   @access public
 		 *   @param string|array $orderBy ORDER BY clause(s)
-		 *   @return void
+		 *   @return QueryBuilderInterface
 		 */
 
 		public function addOrderBy( $orderBy )
@@ -283,6 +291,7 @@
 			{
 				$this->queryOrderBy[$ob]=$ob;
 			}
+			return $this;
 		}
 
 
@@ -291,13 +300,14 @@
 		 *   @access public
 		 *   @param int $limit Limit
 		 *   @param int $offset Offset
-		 *   @return void
+		 *   @return QueryBuilderInterface
 		 */
 
 		public function addLimit ( $limit, $offset=null )
 		{
 			$this->queryLimit=$limit;
 			$this->queryLimitOffset=$offset;
+			return $this;
 		}
 
 
