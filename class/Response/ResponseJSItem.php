@@ -4,9 +4,11 @@
 	/**
 	 *
 	 *   FlaskPHP
+	 *   --------
 	 *   Response JS: JS bundle item
 	 *
-	 *   @author Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @author   Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @license  https://www.flaskphp.com/LICENSE MIT
 	 *
 	 */
 

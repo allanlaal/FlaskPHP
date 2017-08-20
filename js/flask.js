@@ -2,8 +2,9 @@
 /**
  *
  *	 FlaskPHP
- *	 ------------
+ *	 --------
  *   2017 (c) Codelab Solutions OÜ <codelab@codelab.ee>
+ *   Distributed under the MIT License: https://www.flaskphp.com/LICENSE
  *
  */
 
@@ -226,6 +227,401 @@ Flask.reload = function()
 
 
 /*
+ *   Alert
+ */
+
+Flask.alert = function( alertMessage, alertTitle )
+{
+	var modalTag=Flask.Modal.createModal(alertTitle,alertMessage);
+	Flask.Modal.setButtons(modalTag,{
+		ok: {
+			title: Locale.get('FLASK.MODAL.Btn.OK'),
+			class: 'primary',
+			onclick: function(){
+				Flask.Modal.closeModal(modalTag);
+			}
+		}
+	});
+};
+
+
+/*
+ *   Modal/dialog
+ *   ------------
+ */
+
+Flask.Modal = {
+
+	// Modal parameters
+	param: [],
+
+	// Create modal
+	createModal: function( title, content, buttons, param )
+	{
+		// Init
+		if (param==null) param={};
+		var modalTag=oneof(param.modalTag,'modal_'+Math.floor(Math.random()*100000+1));
+		if (param.modal_width!=null) param.modal_width=parseInt(param.modal_width);
+		Flask.Modal.param[modalTag]=param;
+
+		// Draw
+		Flask.Modal.drawModal(modalTag,title,content,buttons);
+		if (!(param.showoncreate!=null && param.showoncreate==false)) {
+			Flask.Modal.showModal(modalTag);
+		}
+
+		// Close event
+		$('#'+modalTag).on('hidden.bs.modal',function(){
+			Flask.Modal.removeModal(modalTag);
+		});
+
+		// Return tag
+		return modalTag;
+	},
+
+	// Draw modal
+	drawModal: function( modalTag, title, content, buttons )
+	{
+		// This should be implemented in the layout extension.
+	},
+
+	// Show modal
+	showModal: function( modalTag )
+	{
+		// This should be implemented in the layout extension.
+	},
+
+	// Set title
+	setTitle: function( modalTag, title )
+	{
+		// This should be implemented in the layout extension.
+	},
+
+	// Set content
+	setContent: function( modalTag, content )
+	{
+		// This should be implemented in the layout extension.
+	},
+
+	// Set content
+	setButtons: function( modalTag, buttons )
+	{
+		// This should be implemented in the layout extension.
+	},
+
+	// Close modal
+	closeModal: function( modalTag )
+	{
+		Flask.Modal.hideModal(modalTag);
+		Flask.Modal.removeModal(modalTag);
+	},
+
+	// Hide modal
+	hideModal: function( modalTag )
+	{
+		// This should be implemented in the layout extension.
+	},
+
+	// De-draw modal
+	removeModal: function( modalTag )
+	{
+		// This should be implemented in the layout extension.
+	}
+
+};
+
+
+/*
+ *   Form handler
+ *   ------------
+ */
+
+Flask.Form = {
+
+	// Open form modal
+	openModal: function( url, post_data, param )
+	{
+		// Init
+		if (param==null) param={};
+		if (param.modal_width==null) param.modal_width=750;
+
+		// Get content
+		$.ajax({
+			url: url,
+			data: post_data,
+			success: function (data) {
+				if (data!=null && data.status=='1') {
+					delete data.status;
+					var modalTag=Flask.Modal.createModal('','','',param);
+					if (data.title!=null) {
+						Flask.Modal.setTitle(modalTag,data.title);
+						delete data.title;
+					}
+					if (data.content!=null) {
+						Flask.Modal.setContent(modalTag,data.content);
+						delete data.content;
+					}
+					var btns={};
+					if (data.buttons!=null) {
+						btns=data.buttons;
+						delete data.buttons;
+					}
+					else {
+						btns.save={
+							title: oneof(data.submitbuttontitle,Locale.get('FLASK.FORM.Btn.edit')),
+							onclick: function(){
+								Flask.Form.submitModal(modalTag,'submit_save');
+							},
+							class: 'primary'
+						};
+						if (data.submitbuttontitle!=null) {
+							delete data.submitbuttontitle;
+						}
+					}
+					btns.cancel={
+						title: Locale.get('FLASK.FORM.Btn.Cancel'),
+						onclick: function(){
+							Flask.Modal.closeModal(modalTag);
+						}
+					}
+					Flask.Modal.setButtons(modalTag,btns);
+					for (var k in data) {
+						Flask.Modal.param[modalTag][k]=data[k];
+					}
+				}
+				else {
+					Flask.alert(oneof(data.error,Locale.get('FLASK.COMMON.Error.ErrorOpeningModal')),Locale.get('FLASK.COMMON.Error'));
+				}
+			},
+			error: function(xhr, ajaxOptions, thrownError) {
+				Flask.alert(Locale.get('FLASK.COMMON.Error.ErrorOpeningModal')+' - '+thrownError+' - '+xhr.responseText,Locale.get('FLASK.COMMON.Error'));
+			}
+		});
+
+
+	},
+
+	// Handle submit
+	submit: function( submit_action, param, formID )
+	{
+		// Init
+		if (submit_action==null) {
+			var submit_action='save';
+		}
+		if (formID==null) {
+			var formID='flask-form';
+		}
+
+		// Params
+		if (param==null) {
+			var param={};
+		}
+
+		// Check
+		if ($("#"+formID)[0].action==null || $("#"+formID)[0].action=="") {
+			Flask.alert(Locale.get('FLASK.FORM.Error.CouldNotFindForm'),LOCALE.get('FLASK.COMMON.Error'));
+			return;
+		}
+
+		// Clear errors
+		this.clearErrors(formID);
+
+		// Progress message
+		var progressmessage=oneof(param.progressmessage,Locale.get('FLASK.FORM.Msg.Saving'));
+		this.progressStart(progressmessage);
+
+		// Submit
+		var submitdata={};
+		submitdata.action=submit_action;
+		submitdata[submit_action]=1;
+		$("#"+formID).ajaxSubmit({
+			data: submitdata,
+			success: function( data ) {
+				if (data!=null && data.status=='1') {
+					if (param.success_callback!=null) {
+						Flask.Form.progressStop();
+						param.success_callback(data);
+					}
+					else if (data.reload!=null && data.reload=='1') {
+						Flask.reload();
+					}
+					else if (data.redirect!=null && data.redirect.length>0) {
+						Flask.redirect(data.redirect);
+					}
+					else {
+						Flask.Form.progressStop();
+					}
+				}
+				else
+				{
+					Flask.Form.progressStop();
+					if (data!=null && data.error!=null) {
+						if (typeof(data.error)=='object') {
+							var globalerror=[];
+							for(var fld_tag in data.error) {
+								if ($("#field_"+fld_tag).length>0) {
+									Flask.Form.showFieldError(fld_tag,data.error[fld_tag]);
+								}
+								else {
+									globalerror.push(data.error[fld_tag]);
+								}
+							}
+							if (globalerror.length) {
+								Flask.Form.showErrors(formID,globalerror);
+							}
+						}
+						else {
+							Flask.alert(oneof(data.error,Locale.get('FLASK.COMMON.Error.ErrorSavingData')),Locale.get('FLASK.COMMON.Error'));
+						}
+					}
+					else {
+						Flask.alert(Locale.get('FLASK.COMMON.Error.ErrorSavingData'),Locale.get('FLASK.COMMON.Error'));
+					}
+				}
+			},
+			error: function(xhr, ajaxOptions, thrownError) {
+				Flask.Form.progressStop();
+				Flask.alert(Locale.get('FLASK.COMMON.Error.ErrorSavingData')+' - '+thrownError+' - '+xhr.responseText,Locale.get('FLASK.COMMON.Error'));
+			}
+		});
+	},
+
+	// Submit modal
+	submitModal: function ( modalTag, submit_action, param )
+	{
+		// Check
+		if ($("#"+modalTag+" form").length==0) {
+			Flask.alert(Locale.get('FLASK.FORM.Error.CouldNotFindForm'),Locale.get('FLASK.COMMON.Error'));
+			return;
+		}
+		else {
+			var formID=$("#"+modalTag+" form").first().attr('id');
+		}
+
+		// Param
+		if (param!=null) {
+			for (var k in param) {
+				Flask.Modal.param[modalTag]=param[k];
+			}
+		}
+		var param=Flask.Modal.param[modalTag];
+
+		// Clear errors
+		this.clearErrors(formID);
+
+		// Progress message
+		var progressmessage=oneof(param.progressmessage,Locale.get('FLASK.FORM.Msg.Saving'));
+		this.progressStart(progressmessage);
+
+		// Submit
+		var submitdata={};
+		submitdata.action=submit_action;
+		submitdata[submit_action]=1;
+		$("#"+formID).ajaxSubmit({
+			data: submitdata,
+			success: function( data ) {
+				if (data!=null && data.status=='1') {
+					if (param.success_callback!=null) {
+						Flask.Form.progressStop();
+						param.success_callback(data);
+					}
+					else if (data.reload!=null && data.reload=='1') {
+						Flask.reload();
+					}
+					else if (data.redirect!=null && data.redirect.length>0) {
+						Flask.redirect(data.redirect);
+					}
+					else {
+						Flask.Form.progressStop();
+					}
+				}
+				else
+				{
+					Flask.Form.progressStop();
+					if (data!=null && data.error!=null) {
+						if (typeof(data.error)=='object') {
+							var globalerror=[];
+							for(var fld_tag in data.error) {
+								if ($("#field_"+fld_tag).length>0) {
+									Flask.Form.showFieldError(fld_tag,data.error[fld_tag]);
+								}
+								else {
+									globalerror.push(data.error[fld_tag]);
+								}
+							}
+							if (globalerror.length) {
+								Flask.Form.showErrors(formID,globalerror);
+							}
+						}
+						else {
+							Flask.alert(oneof(data.error,Locale.get('FLASK.COMMON.Error.ErrorSavingData')),Locale.get('FLASK.COMMON.Error'));
+						}
+					}
+					else {
+						Flask.alert(Locale.get('FLASK.COMMON.Error.ErrorSavingData'),Locale.get('FLASK.COMMON.Error'));
+					}
+				}
+			},
+			error: function(xhr, ajaxOptions, thrownError) {
+				Flask.Form.progressStop();
+				Flask.alert(Locale.get('FLASK.COMMON.Error.ErrorSavingData')+' - '+thrownError+' - '+xhr.responseText,Locale.get('FLASK.COMMON.Error'));
+			}
+		});
+	},
+
+	// Clear errors
+	clearErrors: function( formID )
+	{
+		// This should be implemented in the layout extension.
+	},
+
+	// Show errors
+	showErrors: function( formID, error )
+	{
+		// This should be implemented in the layout extension.
+	},
+
+	// Show field error
+	showFieldError: function( field, error )
+	{
+		// This should be implemented in the layout extension.
+	},
+
+	// Progress start trigger
+	progressStart: function( progressmessage )
+	{
+		Flask.ProgressDialog.show(progressmessage);
+	},
+
+	// Progress stop trigger
+	progressStop: function()
+	{
+		Flask.ProgressDialog.hide();
+	}
+
+};
+
+
+/*
+ *   Progress dialog
+ */
+
+Flask.ProgressDialog = {
+
+	// Show
+	show: function( message ) {
+		// This should be implemented in the layout extension.
+	},
+
+	// Hide
+	hide: function () {
+		// This should be implemented in the layout extension.
+	}
+
+};
+
+
+/*
  *   Login handler
  *   -------------
  */
@@ -233,8 +629,7 @@ Flask.reload = function()
 Flask.Login = {
 
 	// Handle e-mail field keypress
-	emailKeypress: function(evt)
-	{
+	emailKeypress: function(evt) {
 		if ( evt.which == 13 )
 		{
 			$("#login_password")[0].focus();
@@ -243,129 +638,82 @@ Flask.Login = {
 	},
 
 	// Handle password field keypress
-	passwordKeypress: function(evt)
-	{
+	passwordKeypress: function(evt) {
 		if ( evt.which == 13 )
 		{
-			Flask.Login.doLogin();
+			this.doLogin();
 			evt.stopPropagation();
 		}
 	},
 
 	// Validate login
-	validateLogin: function()
-	{
-		$("#login_message").hide();
-		$("#login_form div").removeClass('has-danger');
-		$("#login_form input").removeClass('form-control-danger');
-		$("#login_form div.form-control-feedback").remove();
+	validateLogin: function() {
+		this.clearErrors();
 
 		var email=jQuery.trim($("#login_email").val());
-		if (email=='')
-		{
-			$("#field_login_email").addClass('has-danger');
-			$("#login_email").addClass('form-control-danger');
-			$("#login_email").after('<div class="form-control-feedback">'+Locale.get('FLASK.USER.Login.Error.EmailEmpty')+'</div>');
-			$("#login_email")[0].focus();
+		if (email=='') {
+			this.showFieldError('login_email',Locale.get('FLASK.USER.Login.Error.EmailEmpty'));
 			return false;
 		}
-		else if (!email.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))
-		{
-			$("#field_login_email").addClass('has-danger');
-			$("#login_email").addClass('form-control-danger');
-			$("#login_email").after('<div class="form-control-feedback">'+Locale.get('FLASK.USER.Login.Error.EmailInvalid')+'</div>');
-			$("#login_email")[0].focus();
+		else if (!email.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+			this.showFieldError('login_email',Locale.get('FLASK.USER.Login.Error.EmailInvalid'));
 			return false;
 		}
 
 		var password=jQuery.trim($("#login_password").val());
-		if (password=='')
-		{
-			$("#field_login_password").addClass('has-danger');
-			$("#login_password").addClass('form-control-danger');
-			$("#login_password").after('<div class="form-control-feedback">'+Locale.get('FLASK.USER.Login.Error.PasswordEmpty')+'</div>');
-			$("#login_password")[0].focus();
+		if (password=='') {
+			this.showFieldError('login_password',Locale.get('FLASK.USER.Login.Error.PasswordEmpty'));
 			return false;
 		}
 
 		return true;
 	},
 
+	// Clear errors
+	clearErrors: function() {
+		// This should be implemented in the layout extension.
+	},
+
 	// Show errors
-	showErrors: function( error )
-	{
-		if (typeof(error)=='object')
-		{
-			var general_error='';
-			for (var fld in error)
-			{
-				if ($("#field_"+fld).length)
-				{
-					$("#field_"+fld).addClass('has-danger');
-					$("#"+fld).addClass('form-control-danger');
-					$("#"+fld).after('<div class="form-control-feedback">'+error[fld]+'</div>');
-				}
-				else
-				{
-					general_error=general_error+'<div>'+error[fld]+'</div>';
-				}
-			}
-		}
-		else
-		{
-			$("#login_message").text(error).show();
-		}
+	showErrors: function( error ) {
+		// This should be implemented in the layout extension.
+	},
+
+	// Show field error
+	showFieldError: function( field, error ) {
+		// This should be implemented in the layout extension.
 	},
 
 	// Progress start trigger
-	progressStart: function()
-	{
-		$("#login_email").attr('readonly','readonly');
-		$("#login_password").attr('readonly','readonly');
-		$("#login_submit").attr('disabled','disabled');
-		if ($("#login_submit").attr('data-title-progress')!=null && $("#login_submit").attr('data-title-progress')!='')
-		{
-			$("#login_submit").html($("#login_submit").attr('data-title-progress'));
-		}
+	progressStart: function() {
+		// This should be implemented in the layout extension.
 	},
 
 	// Progress stop trigger
-	progressStop: function()
-	{
-		$("#login_email").removeAttr('readonly');
-		$("#login_password").removeAttr('readonly');
-		$("#login_submit").removeAttr('disabled');
-		if ($("#login_submit").attr('data-title')!=null && $("#login_submit").attr('data-title')!='')
-		{
-			$("#login_submit").html($("#login_submit").attr('data-title'));
-		}
+	progressStop: function() {
+		// This should be implemented in the layout extension.
 	},
 
 	// Do login
-	doLogin: function()
-	{
+	doLogin: function() {
 		if (!Flask.Login.validateLogin()) return;
 		Flask.Login.progressStart();
 		$("#login_form").ajaxSubmit({
 			type: 'post',
-			data: { login: '1' },
-			success: function( data )
-			{
+			data: {
+				login: '1'
+			},
+			success: function( data ) {
 				Flask.Login.progressStop();
-				if (data!=null && data.status=='1')
-				{
-					if (data.redirect!=null && data.redirect!='')
-					{
+				if (data!=null && data.status=='1') {
+					if (data.redirect!=null && data.redirect!='') {
 						Flask.redirect(data.redirect);
 					}
-					else if (data.reload!=null && data.reload=='1')
-					{
+					else if (data.reload!=null && data.reload=='1') {
 						Flask.reload();
 					}
-					else
-					{
-						if (data.submitsuccessaction)
-						{
+					else {
+						if (data.submitsuccessaction) {
 							eval(data.submitsuccessaction);
 						}
 					}
@@ -375,8 +723,7 @@ Flask.Login = {
 					Flask.Login.showErrors(data.error);
 				}
 			},
-			error: function()
-			{
+			error: function() {
 				Flask.Login.progressStop();
 				Flask.Login.showErrors(Locale.get('FLASK.COMMON.InvalidResponse'));
 			}

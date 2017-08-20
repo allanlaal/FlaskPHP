@@ -4,9 +4,11 @@
 	/**
 	 *
 	 *   FlaskPHP
+	 *   --------
 	 *   The MySQL database handler
 	 *
-	 *   @author Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @author   Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @license  https://www.flaskphp.com/LICENSE MIT
 	 *
 	 */
 
@@ -670,7 +672,7 @@
 				$sql.=addslashes($col)."=".MySQLQueryBuilder::colValue($value);
 				$fcnt++;
 			}
-			$sql.=" WHERE ".(is_array($where)?join(' and ',$where):$where);
+			$sql.=" WHERE (".(is_array($where)?join(') and (',$where):$where).")";
 
 			// Execute query
 			$timeStart=microtime_float();

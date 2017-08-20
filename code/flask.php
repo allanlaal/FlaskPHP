@@ -4,12 +4,14 @@
 	/**
 	 *
 	 *   FlaskPHP
+	 *   --------
 	 *   The function that returns the Flask superobject
 	 *
-	 *   @author Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @author   Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @license  https://www.flaskphp.com/LICENSE MIT
 	 *
-	 *   @throws \Exception
-	 *   @return \Codelab\FlaskPHP\FlaskPHP
+	 *   @throws   \Exception
+	 *   @return   \Codelab\FlaskPHP\FlaskPHP
 	 *
 	 */
 

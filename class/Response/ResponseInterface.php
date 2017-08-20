@@ -4,9 +4,11 @@
 	/**
 	 *
 	 *   FlaskPHP
+	 *   --------
 	 *   The response type interface
 	 *
-	 *   @author Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @author   Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @license  https://www.flaskphp.com/LICENSE MIT
 	 *
 	 */
 

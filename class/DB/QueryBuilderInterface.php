@@ -4,9 +4,11 @@
 	/**
 	 *
 	 *   FlaskPHP
+	 *   --------
 	 *   The base Query Builder interface
 	 *
-	 *   @author Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @author   Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @license  https://www.flaskphp.com/LICENSE MIT
 	 *
 	 */
 
@@ -230,11 +232,10 @@
 				case 'and':
 				case 'or':
 					$this->queryWhereType=$whereType;
-					return;
+					return $this;
 				default:
 					throw new FlaskPHP\Exception\DbQueryException('Invalid WHERE type.');
 			}
-			return $this;
 		}
 
 

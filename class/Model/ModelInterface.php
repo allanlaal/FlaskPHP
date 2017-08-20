@@ -4,9 +4,11 @@
 	/**
 	 *
 	 *   FlaskPHP
+	 *   --------
 	 *   The model interface
 	 *
-	 *   @author Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @author   Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @license  https://www.flaskphp.com/LICENSE MIT
 	 *
 	 */
 
@@ -99,33 +101,6 @@
 
 
 		/**
-		 *    Skip fields for log
-		 *    @var array
-		 *    @access public
-		 */
-
-		public $_logSkipFields = array();
-
-
-		/**
-		 *    Log field titles
-		 *    @var array
-		 *    @access public
-		 */
-
-		public $_logFieldTitle = array();
-
-
-		/**
-		 *    Log field value mappings
-		 *    @var array
-		 *    @access public
-		 */
-
-		public $_logFieldValueMapping = array();
-
-
-		/**
 		 *   Unique ID of this object instance
 		 *   @var string
 		 *   @access public
@@ -135,9 +110,12 @@
 
 
 		/**
-		 *   Init model
+		 *
+		 *   Init the model object
+		 *   ---------------------
 		 *   @access public
 		 *   @return \Codelab\FlaskPHP\Model\ModelInterface
+		 *
 		 */
 
 		public function __construct()
@@ -149,10 +127,13 @@
 
 
 		/**
+		 *
 		 *   Init model
+		 *   ----------
 		 *   @access public
 		 *   @throws \Exception
 		 *   @return void
+		 *
 		 */
 
 		public function initModel()
@@ -162,10 +143,13 @@
 
 
 		/**
+		 *
 		 *   Init data fields
+		 *   ----------------
 		 *   @access public
 		 *   @throws \Exception
 		 *   @return void
+		 *
 		 */
 
 		public function initFields()
@@ -175,44 +159,47 @@
 
 
 		/**
+		 *
 		 *   Set undefined parameters to defaults
+		 *   ------------------------------------
 		 *   @access public
 		 *   @throws \Exception
 		 *   @return void
+		 *
 		 */
 
 		public function setDefaults()
 		{
 			// Set property table values to defaults
-			if ($this->_param['prop'])
+			if ($this->getParam('prop'))
 			{
-				if (!array_key_exists('prop_table',$this->_param))
+				if (!$this->hasParam('prop_table'))
 				{
-					$this->_param['prop_table']=$this->getParam('table').'_prop';
+					$this->setParam('prop_table',$this->getParam('table').'_prop');
 				}
-				if (!array_key_exists('prop_referencefield',$this->_param))
+				if (!$this->hasParam('prop_referencefield'))
 				{
-					$this->_param['prop_referencefield']=$this->getParam('idfield');
+					$this->setParam('prop_referencefield',$this->getParam('idfield'));
 				}
-				if (!array_key_exists('prop_namefield',$this->_param) || !array_key_exists('prop_valuefield',$this->_param))
+				if (!$this->hasParam('prop_namefield') || !$this->hasParam('prop_valuefield'))
 				{
-					$prop_table_arr=preg_split('/_/',$this->_param['prop_table']);
+					$prop_table_arr=preg_split('/_/',$this->getParam('prop_table'));
 					if (sizeof($prop_table_arr)==1 || (sizeof($prop_table_arr)==2 && $prop_table_arr[1]=='prop'))
 					{
 						$fld_base=$prop_table_arr[0];
 					}
 					else
 					{
-						$fld_base=preg_replace("/^".$prop_table_arr[0]."_/","",$this->_param['prop_table']);
+						$fld_base=preg_replace("/^".$prop_table_arr[0]."_/","",$this->getParam('prop_table'));
 						if ($prop_table_arr[sizeof($prop_table_arr)-1]!='prop') $fld_base.='prop';
 					}
-					if (!array_key_exists('prop_namefield',$this->_param))
+					if (!$this->hasParam('prop_namefield'))
 					{
-						$this->_param['prop_namefield']=$fld_base.'_name';
+						$this->setParam('prop_namefield',$fld_base.'_name');
 					}
-					if (!array_key_exists('prop_valuefield',$this->_param))
+					if (!$this->hasParam('prop_valuefield'))
 					{
-						$this->_param['prop_valuefield']=$fld_base.'_value';
+						$this->setParam('prop_valuefield',$fld_base.'_value');
 					}
 				}
 			}
@@ -220,9 +207,12 @@
 
 
 		/**
+		 *
 		 *   Clear data object
+		 *   -----------------
 		 *   @access public
 		 *   @return void
+		 *
 		 */
 
 		public function clear()
@@ -245,7 +235,9 @@
 
 
 		/**
+		 *
 		 *   Load model by OID
+		 *   -----------------
 		 *   @static
 		 *   @access public
 		 *   @param int $oid Object OID
@@ -253,6 +245,7 @@
 		 *   @param FlaskPHP\DB\QueryBuilderInterface $param Parameters
 		 *   @return ModelInterface loaded object
 		 *   @throws \Exception
+		 *
 		 */
 
 		public static function getObject( int $oid, bool $forceReload=false, FlaskPHP\DB\QueryBuilderInterface $param=null )
@@ -273,7 +266,9 @@
 
 
 		/**
+		 *
 		 *   Get data object by field
+		 *   ------------------------
 		 *   @static
 		 *   @access public
 		 *   @param string $field Field name
@@ -283,6 +278,7 @@
 		 *   @param FlaskPHP\DB\QueryBuilderInterface $param Additional parameters
 		 *   @return ModelInterface loaded object
 		 *   @throws \Exception
+		 *
 		 */
 
 		public static function getByField( string $field, $value, bool $forceReload=false, bool $throwException=true, FlaskPHP\DB\QueryBuilderInterface $param=null )
@@ -311,12 +307,15 @@
 
 
 		/**
+		 *
 		 *   Load model
+		 *   ----------
 		 *   @access public
 		 *   @param int $oid OID value
 		 *   @param FlaskPHP\DB\QueryBuilderInterface $param parameters
 		 *   @return void
 		 *   @throws \Exception
+		 *
 		 */
 
 		public function load( int $oid, FlaskPHP\DB\QueryBuilderInterface $param=null )
@@ -388,9 +387,9 @@
 			{
 				foreach ($this->_rel as $relID => $relParam)
 				{
-					if (empty($this->{$relParam['field']})) continue;
-					if (intval($this->{$relParam['field']})<1000000) continue;
-					$this->{$relID}=$relParam['remotemodel']::getObject($this->{$relParam['field']});
+					if (empty($this->{$relObject->relationField})) continue;
+					if (intval($this->{$relObject->relationField})<1000000) continue;
+					$this->{$relID}=$relParam['remotemodel']::getObject($this->{$relObject->relationField});
 				}
 			}
 
@@ -405,10 +404,13 @@
 
 
 		/**
+		 *
 		 *   Post load trigger
+		 *   -----------------
 		 *   @access public
 		 *   @return void
 		 *   @throws \Exception
+		 *
 		 */
 
 		public function triggerPostLoad()
@@ -418,10 +420,12 @@
 
 
 		/**
+		 *
 		 *   Save model
+		 *   ----------
 		 *   @access public
 		 *   @param FlaskPHP\DB\QueryBuilderInterface $param Parameters
-		 *   @param string|boolean $logMessage Log message (null for default, FALSE for no log, string for message)
+		 *   @param string|boolean $logMessage Log message (null for default, false for no log, string for message)
 		 *   @param string $logData Log data
 		 *   @param int $refOID Log reference OID
 		 *   @param string $logOp Log operation
@@ -429,6 +433,7 @@
 		 *   @param \Codelab\FlaskPHP\Action\FormAction $formObject Form object for logging helper info
 		 *   @return void
 		 *   @throws \Exception
+		 *
 		 */
 
 		public function save( FlaskPHP\DB\QueryBuilderInterface $param=null, $logMessage=null, $logData=null, $refOID=null, $logOp=null, $skipValidation=false, $formObject=null )
@@ -448,7 +453,27 @@
 			// Validate
 			if (!$skipValidation)
 			{
-				$this->validateSave($op,$param,$formObject);
+				$errors=array();
+				try
+				{
+					$this->validateSaveFields($op,$param,$formObject);
+				}
+				catch (FlaskPHP\Exception\ValidateException $e)
+				{
+					$errors=$e->getErrors();
+				}
+				try
+				{
+					$this->validateSave($op,$param,$formObject);
+				}
+				catch (FlaskPHP\Exception\ValidateException $e)
+				{
+					$errors=array_merge($e->getErrors());
+				}
+				if (sizeof($errors))
+				{
+					throw new FlaskPHP\Exception\ValidateException($errors);
+				}
 			}
 
 			// Try
@@ -473,7 +498,7 @@
 						if (is_object($val)) continue;
 						if ($col[0]=='_') continue;
 						if (mb_strtolower($col)!=$col) continue;
-						if ($this->_param['prop'] && !strncasecmp($col,'prop_',5)) continue;
+						if ($this->getParam('prop') && !strncasecmp($col,'prop_',5)) continue;
 						if (!empty($param) && !empty($param->queryField) && !in_array($col,$param->queryField)) continue;
 						if (!empty($param) && !empty($param->skipField) && in_array($col,$param->skipField)) continue;
 						if ((empty($param) || empty($param->queryField)) && $val==$this->_in[$col]) continue;
@@ -538,7 +563,7 @@
 						$icols[$this->getParam('no_field').'_month']=(isset($fmt['M'])?date('m'):'0');
 						$icols[$this->getParam('no_field').'_day']=(isset($fmt['D'])?date('d'):'0');
 						$sql="
-							INSERT INTO ".$this->getParam('table')." (".$this->_param['idfield'].",".$this->getParam('no_field')."_year,".$this->getParam('no_field')."_month,".$this->getParam('no_field')."_day,".$this->getParam('no_field')."_seq)
+							INSERT INTO ".$this->getParam('table')." (".$this->getParam('idfield').",".$this->getParam('no_field')."_year,".$this->getParam('no_field')."_month,".$this->getParam('no_field')."_day,".$this->getParam('no_field')."_seq)
 							SELECT ".intval($oid).",".intval($icols[$this->getParam('no_field').'_year']).",".intval($icols[$this->getParam('no_field').'_month']).",".intval($icols[$this->getParam('no_field').'_day']).",coalesce(max(".$this->getParam('no_field')."_seq),0)+1
 							FROM ".$this->getParam('table')."
 							WHERE
@@ -549,13 +574,13 @@
 						Flask()->DB->queryInsertSQL($sql);
 
 						// Load back
-						$insertedRow=Flask()->DB->selectOneSQL("SELECT * FROM ".$this->getParam('table')." WHERE ".$this->_param['idfield']."=".intval($oid));
-						if ($insertedRow[$this->_param['idfield']]!=$oid) throw new FlaskPHP\Exception\Exception('Could not load back inserted row.');
+						$insertedRow=Flask()->DB->selectOneSQL("SELECT * FROM ".$this->getParam('table')." WHERE ".$this->getParam('idfield')."=".intval($oid));
+						if ($insertedRow[$this->getParam('idfield')]!=$oid) throw new FlaskPHP\Exception\Exception('Could not load back inserted row.');
 
 						if (empty($this->{$this->getParam('no_field').'_no'}))
 						{
 							// Make display number
-							$displayNo=$this->_param['no_format'];
+							$displayNo=$this->getParam('no_format');
 							if (isset($fmt['Y']))
 							{
 								$str=$insertedRow[$this->getParam('no_field').'_year'];
@@ -620,7 +645,7 @@
 								$displayNo.=$insertedRow[$this->getParam('no_field').'_seq'];
 							}
 
-							$this->{$this->getParam('no_field').'_no'}=$this->_param['no_prefix'].$displayNo;
+							$this->{$this->getParam('no_field').'_no'}=$this->getParam('no_prefix').$displayNo;
 							$cols[$this->getParam('no_field').'_no']=$this->{$this->getParam('no_field').'_no'};
 						}
 					}
@@ -631,7 +656,7 @@
 						if (is_object($val)) continue;
 						if ($col[0]=='_') continue;
 						if (mb_strtolower($col)!=$col) continue;
-						if ($this->_param['prop'] && !strncasecmp($col,'prop_',5)) continue;
+						if ($this->getParam('prop') && !strncasecmp($col,'prop_',5)) continue;
 						if (!empty($param) && !empty($param->queryField) && !in_array($col,$param->queryField)) continue;
 						if (!empty($param) && !empty($param->skipField) && in_array($col,$param->skipField)) continue;
 						$cols[$col]=$val;
@@ -713,18 +738,18 @@
 				// (Re-)load relations
 				if (sizeof($this->_rel))
 				{
-					foreach ($this->_rel as $relID => $relParam)
+					foreach ($this->_rel as $relID => $relObject)
 					{
-						if (empty($this->{$relParam['field']})) continue;
-						if (intval($this->{$relParam['field']})<1000000) continue;
-						$this->{$relID}=$relParam['remotemodel']::getObject($this->{$relParam['field']});
+						if (empty($this->{$relObject->relationField})) continue;
+						if (intval($this->{$relObject->relationField})<1000000) continue;
+						$this->{$relID}=$relObject->relationRemoteModel::getObject($this->{$relObject->relationField});
 					}
 				}
 
 				// Log
-				if (($updated || Flask()->Debug->devEnvironment) && !empty($this->_param['log']) && $logMessage!==false)
+				if (($updated || Flask()->Debug->devEnvironment) && $this->getParam('log') && $logMessage!==false)
 				{
-					$logMessage=oneof($logMessage,$this->getParam('objectname').' [[ BASE.LOG.LogEntry.Action.'.$op.' ]]');
+					$logMessage=oneof($logMessage,$this->getParam('objectname').' [[ FLASK.LOG.LogEntry.Action.'.$op.' ]]');
 					if ($refOID===NULL)
 					{
 						if (!empty($this->getParam('log_refoid')))
@@ -746,8 +771,8 @@
 						}
 					}
 					$logData=($this->getParam('log')!=='simple'?oneof($logData,$this->getLogData(oneof($logOp,$op),$formObject,$refOID)):'');
-					$affectedOID=($refOID!=$this->{$this->_param['idfield']}?$this->{$this->_param['idfield']}:'0');
-					FlaskPHP\Log\LogProvider::logEntry($refOID,$logMessage,$logData,$affectedOID,($this->_add_user_oid?$this->_add_user_oid:null),($this->_add_tstamp?$this->_add_tstamp:null));
+					$affectedOID=($refOID!=$this->{$this->getParam('idfield')}?$this->{$this->getParam('idfield')}:null);
+					FlaskPHP\Log\Log::logEntry($refOID,$logMessage,$logData,$affectedOID,($this->_add_user_oid?$this->_add_user_oid:null),($this->_add_tstamp?$this->_add_tstamp:null));
 				}
 
 				// Set $_in to current values
@@ -778,49 +803,93 @@
 
 
 		/**
+		 *
 		 *   Validate for save
+		 *   -----------------
 		 *   @access public
 		 *   @param string $op Operation
-		 *   @param FlaskPHP\DB\QueryBuilderInterface $param Parameters
+		 *   @param \Codelab\FlaskPHP\DB\QueryBuilderInterface $param Parameters
 		 *   @param \Codelab\FlaskPHP\Action\FormAction $formObject Form object if saving from form
 		 *   @return void
 		 *   @throws \Exception
+		 *
 		 */
 
-		public function validateSave( $op, FlaskPHP\DB\QueryBuilderInterface $param=null, $formObject=null )
+		public function validateSaveFields( $op, FlaskPHP\DB\QueryBuilderInterface $param=null, FlaskPHP\Action\FormAction $formObject=null )
 		{
-			// TODO: finish
+			// Traverse fields
+			$errors=array();
+			foreach ($this->_field as $fieldTag => $fieldObject)
+			{
+				try
+				{
+					$fieldObject->validate($this->{$fieldTag},$this,$formObject);
+				}
+				catch (FlaskPHP\Exception\ValidateException $e)
+				{
+					$errors=array_merge($errors,$e->getErrors());
+				}
+			}
+			if (sizeof($errors))
+			{
+				throw new FlaskPHP\Exception\ValidateException($errors);
+			}
 		}
 
 
 		/**
-		 *   Post save trigger
+		 *
+		 *   Validate for save
+		 *   -----------------
 		 *   @access public
 		 *   @param string $op Operation
-		 *   @param FlaskPHP\DB\QueryBuilderInterface $param Parameters
+		 *   @param \Codelab\FlaskPHP\DB\QueryBuilderInterface $param Parameters
 		 *   @param \Codelab\FlaskPHP\Action\FormAction $formObject Form object if saving from form
 		 *   @return void
 		 *   @throws \Exception
+		 *
 		 */
 
-		public function triggerPostSave( $op, FlaskPHP\DB\QueryBuilderInterface $param=null, $formObject=null )
+		public function validateSave( $op, FlaskPHP\DB\QueryBuilderInterface $param=null, FlaskPHP\Action\FormAction $formObject=null )
 		{
 			// This can be implemented in the subclass if necessary
 		}
 
 
 		/**
+		 *
+		 *   Post save trigger
+		 *   -----------------
+		 *   @access public
+		 *   @param string $op Operation
+		 *   @param \Codelab\FlaskPHP\DB\QueryBuilderInterface $param Parameters
+		 *   @param \Codelab\FlaskPHP\Action\FormAction $formObject Form object if saving from form
+		 *   @return void
+		 *   @throws \Exception
+		 *
+		 */
+
+		public function triggerPostSave( $op, FlaskPHP\DB\QueryBuilderInterface $param=null, FlaskPHP\Action\FormAction $formObject=null )
+		{
+			// This can be implemented in the subclass if necessary
+		}
+
+
+		/**
+		 *
 		 *   Delete model
-		 *   @param string|boolean $logMessage Log message (null for default, FALSE for no log, string for message)
+		 *   ------------
+		 *   @param string|boolean $logMessage Log message (null for default, false for no log, string for message)
 		 *   @param string $logData Log data
 		 *   @param int $refOID Log reference OID
 		 *   @param string $logOp Log operation
 		 *   @param bool $skipValidation Skip validation
 		 *   @return void
 		 *   @throws \Exception
+		 *
 		 */
 
-		public function delete( $logMessage=null, $logData=null, $refOID=null, $logOp=null, $skipValidation=false )
+		public function delete( $logMessage=null, $logData=null, int $refOID=null, string $logOp=null, bool $skipValidation=false )
 		{
 			// Check
 			if (!$this->_loaded) throw new FlaskPHP\Exception\Exception(get_called_class().'::delete() failed: object not loaded.');
@@ -841,7 +910,7 @@
 				Flask()->DB->queryDelete($query);
 
 				// Delete props
-				if ($this->_param['prop'])
+				if ($this->getParam('prop'))
 				{
 					$query=Flask()->DB->getQueryBuilder('DELETE');
 					$query->addTable($this->getParam('prop_table'));
@@ -850,19 +919,19 @@
 				}
 
 				// Log
-				if (!empty($this->_param) && $logMessage!==FALSE)
+				if (!empty($this->getParam('log')) && $logMessage!==false)
 				{
-					$logMessage=oneof($logMessage,$this->getParam('objectname').' [[ BASE.LOG.LogEntry.Action.delete ]]');
+					$logMessage=oneof($logMessage,$this->getParam('objectname').' [[ FLASK.LOG.LogEntry.Action.delete ]]');
 					if ($refOID===null)
 					{
 						if (!empty($this->getParam('log_refoid')))
 						{
-							// Numeric: konkreetne väärtus
+							// Numeric: a specific value
 							if (is_numeric($this->getParam('log_refoid')))
 							{
 								$refOID=$this->getParam('log_refoid');
 							}
-							// Otherwise: antud välja väärtus
+							// Otherwise: value of the given field
 							else
 							{
 								$refOID=$this->{$this->getParam('log_refoid')};
@@ -873,7 +942,7 @@
 							$refOID=intval($this->{$this->getParam('idfield')});
 						}
 					}
-					$logData=($this->_param['log']!=='simple'?oneof($logData,$this->getLogData(oneof($logOp,'delete'),$formObject,$refOID)):'');
+					$logData=($this->getParam('log')!=='simple'?oneof($logData,$this->getLogData(oneof($logOp,'delete'),$formObject,$refOID)):'');
 					$affectedOID=($refOID!=$this->{$this->getParam('idfield')}?$this->{$this->getParam('idfield')}:false);
 					FlaskPHP\Log\Log::logEntry($refOID,$logMessage,$logData,$affectedOID);
 				}
@@ -901,11 +970,14 @@
 
 
 		/**
+		 *
 		 *   Validate for delete
+		 *   -------------------
 		 *   @access public
 		 *   @param string $op Operation
 		 *   @return void
 		 *   @throws \Exception
+		 *
 		 */
 
 		public function validateDelete()
@@ -915,10 +987,13 @@
 
 
 		/**
+		 *
 		 *   Post delete trigger
+		 *   -------------------
 		 *   @access public
 		 *   @return void
 		 *   @throws \Exception
+		 *
 		 */
 
 		public function triggerPostDelete()
@@ -928,13 +1003,16 @@
 
 
 		/**
+		 *
 		 *   Swap item order on two items
+		 *   ----------------------------
 		 *   @access public
 		 *   @static
 		 *   @param int $oid1 OID 1
 		 *   @param int $oid2 OID 2
 		 *   @return void
 		 *   @throws \Exception
+		 *
 		 */
 
 		public static function swap( int $oid1, int $oid2 )
@@ -985,15 +1063,18 @@
 
 
 		/**
-		 *   Get a new OID number
+		 *
+		 *   Get a new OID value
+		 *   -------------------
 		 *   @access public
 		 *   @return int OID
+		 *
 		 */
 
 		public function getOID()
 		{
 			// Init
-			$sequenceTable=oneof($this->_param['sequence'],'base_sequence');
+			$sequenceTable=oneof($this->getParam('sequence'),'flask_sequence');
 			$objectType=mb_strtolower(oneof($this->getParam('table'),get_class($this)));
 
 			// Insert an entry into the object table
@@ -1007,55 +1088,59 @@
 
 
 		/**
+		 *
 		 *   Get log data
+		 *   ------------
 		 *   @access public
 		 *   @param string $op Operation
 		 *   @param \Codelab\FlaskPHP\Action\FormAction $formObject Form object if submitting a form
 		 *   @param int $refOID Reference OID
 		 *   @return string
+		 *
 		 */
 
 		public function getLogData( $op='edit', &$formObject=null, $refOID=null )
 		{
 			// Init
 			$updated=false;
-			$logData=new LogData();
 
 			// On delete, log key relations and values
 			if ($op=='delete')
 			{
 				// Init
-				$logData->operation='delete';
-				$updated=true;
+				$logData=new LogData('delete');
 
 				// ID field
 				if (!empty($this->getParam('idfield')))
 				{
-					$ldf=$logData->addField($this->getParam('idfield'),$this->getParam('objectname').' OID');
-					$ldf->setValue($this->{$this->getParam('idfield')});
+					$logData->addData(
+						$this->getParam('idfield'),
+						$logData->createLogObject([
+							'id' => $this->getParam('idfield'),
+							'title' => $this->getParam('objectname').' OID',
+							'value' => $this->{$this->getParam('idfield')}
+						])
+					);
 				}
 
 				// Key relations
 				if (sizeof($this->_rel))
 				{
 					reset($this->_rel);
-					foreach ($this->_rel as $relID => $relParam)
+					foreach ($this->_rel as $relID => $relObject)
 					{
 						// Skip those
-						if (!$relParam['keyrelation']) continue;
-						if ($relParam['type']!='onetomany') continue;
-						if (empty($this->{$relParam['field']})) continue;
-						if (!is_object($this->$relID) || !$this->{$relID}->_loaded) continue;
+						if (!$relObject->relationKeyRelation) continue;
+						if ($relObject->relationType!='onetomany') continue;
+						if (empty($this->{$relObject->relationField})) continue;
+						if (!is_object($this->{$relID}) || !$this->{$relID}->_loaded) continue;
 
-						// Add
-						$ldf=$logData->addField(
-							$this->{$relParam['field']},
-							oneof(
-								( $relParam['name']!==null ? $relParam['name'] : null ),
-								( (array_key_exists($relParam['field'],$this->_field) && is_object($this->_field[$relParam['field']])) ? $this->_field[$relParam['field']]->getTitle() : null ),
-								( (is_object($this->{$relID}) && !empty($this->{$relID}->getParam('objectname'))) ? $this->{$relID}->getParam('objectname') : null ),
-								null
-							)
+						// Relation title
+						$relName=oneof(
+							( $relObject->relationName!==null ? $relObject->relationName : null ),
+							( (array_key_exists($relObject->relationField,$this->_field) && is_object($this->_field[$relObject->relationField])) ? $this->_field[$relObject->relationField]->getTitle() : null ),
+							( (is_object($this->{$relID}) && !empty($this->{$relID}->getParam('objectname'))) ? $this->{$relID}->getParam('objectname') : null ),
+							null
 						);
 
 						// Relation value
@@ -1068,9 +1153,22 @@
 							{
 								if (strlen($this->{$relID}->{$descFld})) $descArr[]=$this->{$relID}->{$descFld};
 							}
-							if (sizeof($descArr)) $desc=join('; ',$descArr);
+							if (sizeof($descArr)) $relValue=join('; ',$descArr);
 						}
-						$ldf->setValue($this->{$relParam['field']},$relValue);
+						else
+						{
+							$relValue=$this->{$relObject->relationField};
+						}
+
+						// Add
+						$logData->addData(
+							$this->getParam('idfield'),
+							$logData->createLogObject([
+								'id' => $relObject->relationField,
+								'title' => $relName,
+								'value' => $relValue
+							])
+						);
 					}
 				}
 
@@ -1080,10 +1178,10 @@
 					$descFldArr=str_array($this->getParam('descriptionfield'));
 					foreach ($descFldArr as $descFld)
 					{
-						// If field object exists, then get value form vielf object
+						// If field object exists, then get value form field object
 						if (array_key_exists($descFld,$this->_field))
 						{
-							$this->_field[$descFld]->getLogData($logData,'delete');
+							$this->_field[$descFld]->getLogData($logData,$this);
 						}
 						else
 						{
@@ -1091,22 +1189,21 @@
 							if (!strlen($this->{$descFld})) continue;
 
 							// Add
-							$ldf=$logData->addField(
+							$logData->addData(
 								$descFld,
-								oneof(
-									( (array_key_exists($descFld,$this->_field) && is_object($this->_field[$descFld])) ? $this->_field[$descFld]->getTitle() : null ),
-									null
-								)
+								$logData->createLogObject([
+									'id' => $descFld,
+									'title' => ($this->getParam('log_field_title')?$this->getParam('log_field_title')[$descFld]:null),
+									'value' => $this{$descFld},
+									'description' => ($this->getParam('log_field_mapping')?$this->getParam('log_field_mapping')[$this{$descFld}]:null)
+								])
 							);
-
-							// Set value
-							$ldf->setValue($this->{$descFld});
 						}
 					}
 				}
 
 				// Return
-				return $logData->getSerializedData();
+				return $logData->getLogJSON();
 			}
 
 			// Changed values
@@ -1119,13 +1216,13 @@
 				if ($col==$this->getParam('idfield')) continue;
 
 				// Skip those that need to be skipped
-				if (in_array($col,$this->_logSkipFields)) continue;
+				if (is_array($this->getParam('log_skipfields')) && in_array($col,$this->getParam('log_skipfields'))) continue;
 				if (array_key_exists($col,$this->_field) && $this->_field[$col]->noLog()) continue;
 
-				// Mitte-editi korral tühja väärtust ei näita
+				// Skip empty values on non-edit
 				if ($op!='edit' && !mb_strlen($val)) continue;
 
-				// Editi korral skipime mittemuutunud asjad
+				// Skip non-changed values on edit
 				if ($op=='edit')
 				{
 					if ($val==$this->_in[$col]) continue;
@@ -1133,52 +1230,71 @@
 					if ($val=='0' && $this->_in[$col]=='') continue;
 				}
 
-				// Otherwise, logime
+				// Otherwise, do log
 				$logValues[$col]=$col;
+				$updated=true;
 			}
 
-			// Traverse through form objects if they exist
+			// Check & init
+			if ($op=='edit' && (!Flask()->Debug->devEnvironment && !$updated)) return '';
+			$logData=new LogData($op,$logValues);
+
+			// Traverse through form object fields if they exist
 			$formObjectField=array();
 			if (is_object($formObject))
 			{
 				foreach ($formObject->field as $fieldTag => $fieldObject)
 				{
-					$formObjectField[$fieldTag]=$fieldTag;
-					$fieldObject->getLogData($logData,$op,$logValues,$formObject);
+					if ($fieldObject->noLog()) continue;
+					$fieldObject->getLogData($logData,$this,$formObject);
 				}
 			}
 
 			// Traverse through model fields
 			foreach ($this->_field as $fieldTag => $fieldObject)
 			{
-				if (in_array($fieldTag,$formObjectField)) continue;
-				$fieldObject->getLogData($logData,$op,$logValues);
+				if (is_object($formObject) && in_array($fieldTag,$formObject->field)) continue;
+				if ($fieldObject->noLog()) continue;
+				$fieldObject->getLogData($logData,$this);
 			}
 
 			// Process the remaining fields
-			foreach ($logValues as $k)
+			foreach ($logData->_field as $fld)
 			{
 				// Skip some
-				if ($k=='ord') continue;
-				if (in_array($k,$this->_logSkipFields)) continue;
+				if ($fld=='ord') continue;
+				if (is_array($this->getParam('log_skipfields')) && in_array($fld,$this->getParam('log_skipfields'))) continue;
 
-				// TODO: finish
+				// Add
+				$logData->addData(
+					$fld,
+					$logData->createLogObject([
+						'id' => $fld,
+						'title' => ($this->getParam('log_field_title')?$this->getParam('log_field_title')[$fld]:null),
+						'old_value' => $this->_in[$fld],
+						'old_description' => ($this->getParam('log_field_mapping')?$this->getParam('log_field_mapping')[$this->_in[$fld]]:null),
+						'new_value' => $this->{$fld},
+						'new_description' => ($this->getParam('log_field_mapping')?$this->getParam('log_field_mapping')[$this->{$fld}]:null)
+					])
+				);
 			}
 
 			// Return
-			if ($op=='edit' && (!Flask()->Debug->devEnvironment && !$updated)) return '';
-			return $logData->getSerializedData();
+			return $logData->getLogJSON();
 		}
 
 
 		/**
+		 *
 		 *   Check if the field value is unique
+		 *   ----------------------------------
 		 *   @access public
 		 *   @param string $fieldName Field name
 		 *   @param mixed $fieldValue Field value
 		 *   @param FlaskPHP\DB\QueryBuilderInterface $param Additional parameters
 		 *   @return bool
 		 *   @throws \Exception
+		 *
 		 */
 
 		public function isUnique( $fieldName, $fieldValue, FlaskPHP\DB\QueryBuilderInterface $param=null )
@@ -1197,7 +1313,9 @@
 
 
 		/**
+		 *
 		 *   Add relation
+		 *   ------------
 		 *   @access public
 		 *   @param string $id Relation ID
 		 *   @param string $field Field/column name
@@ -1206,6 +1324,8 @@
 		 *   @param string $relationName Relation name
 		 *   @param bool $keyRelation Is a key relation
 		 *   @return void
+		 *   @throws \Exception
+		 *
 		 */
 
 		public function addRelation( $id, $field, $remoteModel, $remoteField=null, $relationName=null, $keyRelation=false )
@@ -1216,24 +1336,24 @@
 
 
 		/**
+		 *
 		 *   Add a column/field
+		 *   ------------------
 		 *   @access public
 		 *   @param string $field Field ID/name
 		 *   @param FlaskPHP\Field\FieldInterface $fieldObject Data field object
 		 *   @return FlaskPHP\Field\FieldInterface field object instance
 		 *   @throws \Exception
+		 *
 		 */
 
 		public function addField( string $field, FlaskPHP\Field\FieldInterface $fieldObject )
 		{
 			// Check if the action already exists
-			if (isset($this->_field[$field]))
-			{
-				throw new FlaskPHP\Exception\Exception('Field '.$field.' already exists.');
-			}
+			if (isset($this->_field[$field])) throw new FlaskPHP\Exception\InvalidParameterException('Field '.$field.' already exists.');
 
 			// Create field
-			$this->_field=$fieldObject;
+			$this->_field[$field]=$fieldObject;
 
 			// Set tag/column
 			$this->_field[$field]->tag=$field;
@@ -1248,13 +1368,16 @@
 
 
 		/**
+		 *
 		 *   Load object by query
+		 *   --------------------
 		 *   @access public
 		 *   @static
 		 *   @param FlaskPHP\DB\QueryBuilderInterface $param Additional parameters
 		 *   @param bool $throwExceptionOnError Throw exception on error
-		 *   @throws \Exception
 		 *   @return ModelInterface
+		 *   @throws \Exception
+		 *
 		 */
 
 		public static function getObjectByQuery( FlaskPHP\DB\QueryBuilderInterface $param=null, $throwExceptionOnError=true )
@@ -1290,12 +1413,15 @@
 
 
 		/**
-		 *   Get list as an array of objects
+		 *
+		 *   Get list as an array of model objects
+		 *   -------------------------------------
 		 *   @access public
 		 *   @static
 		 *   @param FlaskPHP\DB\QueryBuilderInterface $param Additional parameters
-		 *   @throws \Exception
 		 *   @return array
+		 *   @throws \Exception
+		 *
 		 */
 
 		public static function getObjectList( FlaskPHP\DB\QueryBuilderInterface $param=null )
@@ -1306,7 +1432,7 @@
 
 			// Init query
 			$query=oneof($param,Flask()->DB->getQueryBuilder());
-			$query->addColumns($model->getParam('idfield'));
+			$query->addField($model->getParam('idfield'));
 			$query->setModel($model);
 
 			// Run query
@@ -1325,12 +1451,15 @@
 
 
 		/**
+		 *
 		 *   Get object list as an associative array
+		 *   ---------------------------------------
 		 *   @access public
 		 *   @static
 		 *   @param FlaskPHP\DB\QueryBuilderInterface $param Additional parameters
-		 *   @throws \Exception
 		 *   @return array
+		 *   @throws \Exception
+		 *
 		 */
 
 		public static function getList( FlaskPHP\DB\QueryBuilderInterface $param=null )

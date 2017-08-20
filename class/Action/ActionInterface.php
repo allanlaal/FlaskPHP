@@ -4,9 +4,11 @@
 	/**
 	 *
 	 *   FlaskPHP
+	 *   --------
 	 *   The action interface class
 	 *
-	 *   @author Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @author   Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @license  https://www.flaskphp.com/LICENSE MIT
 	 *
 	 */
 
@@ -45,12 +47,15 @@
 
 
 		/**
+		 *
 		 *   Inherit parameters from the controller
+		 *   --------------------------------------
 		 *   @access public
 		 *   @param array $param Parameters
 		 *   @param FlaskPHP\Model\ModelInterface $model Model
-		 *   @return void
 		 *   @throws \Exception
+		 *   @return void
+		 *
 		 */
 
 		public function inheritParameters( array $param=null, FlaskPHP\Model\ModelInterface $model=null )
@@ -67,10 +72,13 @@
 
 
 		/**
+		 *
 		 *   Set unset parameters to default values
+		 *   --------------------------------------
 		 *   @access public
-		 *   @return void
 		 *   @throws \Exception
+		 *   @return void
+		 *
 		 */
 
 		public function setDefaults()
@@ -80,6 +88,40 @@
 
 			// URL
 			if ($this->getParam('baseurl')===null) $this->setParam('baseurl',Flask()->Request->requestURI);
+		}
+
+
+		/**
+		 *
+		 *   Build URL
+		 *   ---------
+		 *   @access public
+		 *   @param string $url URL
+		 *   @return string
+		 *
+		 */
+
+		public function buildURL( string $url=null )
+		{
+			// Base URL
+			if ($url[0]=='/' || !strncasecmp($url,'http:',5) || !strncasecmp($url,'https:',6))
+			{
+				$buildURL=$url;
+			}
+			elseif ($url!==null)
+			{
+				$buildURL=$this->getParam('baseurl').'/'.$url;
+			}
+			else
+			{
+				$buildURL=oneof(
+					$this->getParam('url'),
+					$this->getParam('baseurl')
+				);
+			}
+
+			// Return URL
+			return $buildURL;
 		}
 
 

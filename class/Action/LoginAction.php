@@ -4,9 +4,11 @@
 	/**
 	 *
 	 *   FlaskPHP
+	 *   --------
 	 *   The login action
 	 *
-	 *   @author Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @author   Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @license  https://www.flaskphp.com/LICENSE MIT
 	 *
 	 */
 
@@ -20,10 +22,13 @@
 
 
 		/**
+		 *
 		 *   Enable language selection
+		 *   -------------------------
 		 *   @access public
 		 *   @param bool $languageSelect Language select
 		 *   @return void
+		 *
 		 */
 
 		public function enableLanguageSelect( bool $languageSelect )
@@ -33,10 +38,13 @@
 
 
 		/**
+		 *
 		 *   Set language selection source list
+		 *   ----------------------------------
 		 *   @access public
 		 *   @param array $languageSourceList Language source list
 		 *   @return LoginAction
+		 *
 		 */
 
 		public function setLanguageSourceList( array $languageSourceList )
@@ -47,10 +55,13 @@
 
 
 		/**
-		 *   Set reload
+		 *
+		 *   Set reload on success
+		 *   ---------------------
 		 *   @access public
 		 *   @param bool $reload Reload on success
 		 *   @return LoginAction
+		 *
 		 */
 
 		public function setReload( bool $reload )
@@ -61,10 +72,13 @@
 
 
 		/**
+		 *
 		 *   Set redirect URL
+		 *   ----------------
 		 *   @access public
 		 *   @param string $redirectURL Redirect URL
 		 *   @return LoginAction
+		 *
 		 */
 
 		public function setRedirectURL( string $redirectURL )
@@ -75,10 +89,13 @@
 
 
 		/**
+		 *
 		 *   Set template
+		 *   ------------
 		 *   @access public
 		 *   @param string $template Template
 		 *   @return LoginAction
+		 *
 		 */
 
 		public function setTemplate( string $template )
@@ -89,10 +106,13 @@
 
 
 		/**
+		 *
 		 *   Set login banner
+		 *   ----------------
 		 *   @access public
 		 *   @param string $banner Login banner
 		 *   @return LoginAction
+		 *
 		 */
 
 		public function setBanner( string $banner )
@@ -103,10 +123,13 @@
 
 
 		/**
+		 *
 		 *   Set e-mail label
+		 *   ----------------
 		 *   @access public
 		 *   @param string $labelEmail E-mail label
 		 *   @return LoginAction
+		 *
 		 */
 
 		public function setEmailLabel( string $labelEmail )
@@ -117,10 +140,13 @@
 
 
 		/**
+		 *
 		 *   Set password label
+		 *   ------------------
 		 *   @access public
 		 *   @param string $labelPassword Password label
 		 *   @return LoginAction
+		 *
 		 */
 
 		public function setPasswordLabel( string $labelPassword )
@@ -131,10 +157,13 @@
 
 
 		/**
+		 *
 		 *   Set language selection label
+		 *   ----------------------------
 		 *   @access public
 		 *   @param string $labelLangSel Password label
 		 *   @return LoginAction
+		 *
 		 */
 
 		public function setLangSelLabel( string $labelLangSel )
@@ -145,10 +174,13 @@
 
 
 		/**
+		 *
 		 *   Set submit button label
+		 *   -----------------------
 		 *   @access public
 		 *   @param string $labelSubmit Submit button label
 		 *   @return LoginAction
+		 *
 		 */
 
 		public function setSubmitLabel( string $labelSubmit )
@@ -159,10 +191,13 @@
 
 
 		/**
+		 *
 		 *   Init login action
+		 *   -----------------
 		 *   @access public
 		 *   @throws \Exception
 		 *   @return void
+		 *
 		 */
 
 		public function initLogin()
@@ -172,10 +207,13 @@
 
 
 		/**
+		 *
 		 *   Pre-validate login submit
+		 *   -------------------------
 		 *   @access public
 		 *   @throws \Exception
 		 *   @return void
+		 *
 		 */
 
 		public function loginPreValidate()
@@ -185,10 +223,13 @@
 
 
 		/**
+		 *
 		 *   Do login
+		 *   --------
 		 *   @access public
 		 *   @return void
 		 *   @throws \Exception
+		 *
 		 */
 
 		public function doLogin()
@@ -198,10 +239,13 @@
 
 
 		/**
+		 *
 		 *   Login trigger / after-validate
+		 *   ------------------------------
 		 *   @access public
 		 *   @throws \Exception
 		 *   @return void
+		 *
 		 */
 
 		public function loginTrigger()
@@ -211,10 +255,13 @@
 
 
 		/**
+		 *
 		 *   Select language
+		 *   ---------------
 		 *   @access public
 		 *   @return void
 		 *   @throws \Exception
+		 *
 		 */
 
 		public function selectLanguage()
@@ -234,76 +281,30 @@
 
 
 		/**
-		 *  Display login form
-		 *  @access public
-		 *  @return string
+		 *
+		 *   Display login form
+		 *   ------------------
+		 *   @access public
+		 *   @throws \Exception
+		 *   @return string
+		 *
 		 */
 
 		public function displayLoginForm()
 		{
-			$c='<div class="login-wrapper">';
-			if (!empty($this->getParam('banner'))) $c.='<div class="login-banner">'.$this->getParam('banner').'</div>';
-			$c.='<div class="login-form-wrapper">';
-			$c.='<form role="form" id="login_form" class="login-form form-horizontal" method="post" action="'.Flask()->Request->getRequestURI().'" onsubmit="return false">';
-			$c.='<fieldset>';
-
-				// E-mail
-				$c.='
-					<div id="field_login_email" class="form-group row">
-						<label for="login_email" class="col-md-3 col-form-label">'.oneof($this->getParam('label_email'),'[[ FLASK.COMMON.Email ]]').':</label>
-						<div class="col-md-9">
-							<input type="text" class="form-control" id="login_email" name="login_email" onkeydown="Flask.Login.emailKeypress(event)">
-						</div>
-					</div>
-				';
-
-				// Password
-				$c.='
-					<div id="field_login_password" class="form-group row">
-						<label for="login_password" class="col-md-3 col-form-label">'.oneof($this->getParam('label_password'),'[[ FLASK.COMMON.Password ]]').':</label>
-						<div class="col-md-9">
-							<input type="password" class="form-control" id="login_password" name="login_password" onkeydown="Flask.Login.passwordKeypress(event)">
-						</div>
-					</div>
-				';
-
-				// Language selection
-				if ($this->getParam('langsel'))
-				{
-
-				}
-
-				// Login message
-				$c.='
-					<div class="form-group row">
-						<div id="login_message" class="login-message col-md-9 offset-md-3 text-danger" style="display: none"></div>
-					</div>
-				';
-
-				// Login submit
-				$c.='
-					<div class="form-group row">
-						<div class="col-md-9 offset-md-3">
-							<button type="button" id="login_submit" class="btn btn-primary" data-title="'.oneof($this->getParam('label_submit'),'[[ FLASK.USER.LOGIN.Login ]]').'" data-title-progress="<span class=spinner></span>" onclick="Flask.Login.doLogin()">'.oneof($this->getParam('label_submit'),'[[ FLASK.USER.LOGIN.Login ]]').'</button>
-						</div>
-					</div>
-				';
-
-			$c.='</fieldset>';
-			$c.='</form>';
-			$c.='</div>';
-			$c.='</div>';
-
-			$c.='<script language="JavaScript"> $(function(){ $("#login_email").focus(); }); </script>';
-			return $c;
+			// This should be implemented in the layout extension
+			throw new FlaskPHP\Exception\NotImplementedException('Function displayLoginForm() should be implemented in the layout extension.');
 		}
 
 
 		/**
+		 *
 		 *   Run action and return response
+		 *   ------------------------------
 		 *   @access public
 		 *   @throws \Exception
 		 *   @return FlaskPHP\Response\ResponseInterface
+		 *
 		 */
 
 		public function runAction()

@@ -4,9 +4,11 @@
 	/**
 	 *
 	 *   FlaskPHP
-	 *   The Iinternationalization provider
+	 *   --------
+	 *   The internationalization provider
 	 *
-	 *   @author Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @author   Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @license  https://www.flaskphp.com/LICENSE MIT
 	 *
 	 */
 
@@ -393,7 +395,7 @@
 			}
 			else
 			{
-				throw new FlaskPHP\Exception\ValidateException('[[ FLASK.COMMON.Error.Date.Invalid: '.FlaskPHP\Template\Template::parseContent($this->getDateFormat('disp_user')).' ]]');
+				throw new FlaskPHP\Exception\InvalidParameterException('[[ FLASK.COMMON.Error.Date.Invalid: '.FlaskPHP\Template\Template::parseContent($this->getDateFormat('disp_user')).' ]]');
 			}
 
 			// Check

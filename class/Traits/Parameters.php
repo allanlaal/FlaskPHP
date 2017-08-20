@@ -4,9 +4,11 @@
 	/**
 	 *
 	 *   FlaskPHP
+	 *   --------
 	 *   The parameter traits
 	 *
-	 *   @author Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @author   Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @license  https://www.flaskphp.com/LICENSE MIT
 	 *
 	 */
 
@@ -52,6 +54,20 @@
 
 
 		/**
+		 *   Check if a parameter is set
+		 *   @param string $paramName Parameter name
+		 *   @throws \Exception
+		 *   @return bool
+		 */
+
+		public function hasParam( string $paramName )
+		{
+			// Return
+			return array_key_exists($paramName,$this->_param);
+		}
+
+
+		/**
 		 *   Set parameter
 		 *   @param string $paramName Parameter name
 		 *   @param mixed $paramValue Parameter value
@@ -61,8 +77,30 @@
 
 		public function setParam( string $paramName, $paramValue )
 		{
+			// Unset if setting to null
+			if ($paramValue===null)
+			{
+				unset($this->_param[$paramName]);
+				return $this;
+			}
+
 			// Set
 			$this->_param[$paramName]=$paramValue;
+			return $this;
+		}
+
+
+		/**
+		 *   Unset parameter
+		 *   @param string $paramName Parameter name
+		 *   @throws \Exception
+		 *   @return object
+		 */
+
+		public function unsetParam( string $paramName )
+		{
+			// Unset
+			unset($this->_param[$paramName]);
 			return $this;
 		}
 
@@ -79,7 +117,7 @@
 		{
 			// Check
 			if ($param===null) return;
-			if (!is_array($param)) throw new FlaskPHP\Exception\Exception('Param must be an array.');
+			if (!is_array($param)) throw new FlaskPHP\Exception\Exception('$param must be an array.');
 
 			// Set
 			foreach ($param as $k => $v)

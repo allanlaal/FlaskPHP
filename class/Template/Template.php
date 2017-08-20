@@ -4,9 +4,11 @@
 	/**
 	 *
 	 *   FlaskPHP
+	 *   --------
 	 *   Template parser
 	 *
-	 *   @author Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @author   Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @license  https://www.flaskphp.com/LICENSE MIT
 	 *
 	 */
 
@@ -242,14 +244,20 @@
 			$localeTag=array_shift($functionList);
 
 			// Parse locale tag
+			$localeParamList=$localeTagParamList=array();
 			if (mb_strpos($localeTag,':')!==false)
 			{
 				list($localeTag,$localeParamList)=str_array($localeTag,':',2);
-				$localeParamList=str_array($localeParamList,',');
-			}
-			else
-			{
-				$localeParamList=array();
+				$localeParamList=str_array($localeParamList,';');
+				foreach ($localeParamList as $param => $paramValue)
+				{
+					if (mb_strpos($paramValue,'=')!==false)
+					{
+						list($paramName,$paramValue)=str_array($paramValue,'=',2);
+						$localeTagParamList[$paramName]=$paramValue;
+						$localeParamList[$param]=$paramValue;
+					}
+				}
 			}
 
 			// Get from locale
@@ -260,6 +268,13 @@
 			if (sizeof($localeParamList))
 			{
 				$retval=vsprintf($retval,$localeParamList);
+			}
+			if (sizeof($localeTagParamList))
+			{
+				foreach ($localeTagParamList as $param => $paramValue)
+				{
+					$retval=preg_replace('/\{\{\s*'.$param.'\s*\}\}/',$paramValue,$retval);
+				}
 			}
 
 			// Functions?
@@ -298,7 +313,7 @@
 			if (mb_strpos($func,':')!==false)
 			{
 				list($func,$funcParamList)=str_array($func,':',2);
-				$funcParamList=str_array($funcParamList,',');
+				$funcParamList=str_array($funcParamList,';');
 			}
 			else
 			{

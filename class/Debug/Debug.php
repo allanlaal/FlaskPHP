@@ -4,9 +4,11 @@
 	/**
 	 *
 	 *   FlaskPHP
+	 *   --------
 	 *   The FlaskPHP debug provider class
 	 *
-	 *   @author Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @author   Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @license  https://www.flaskphp.com/LICENSE MIT
 	 *
 	 */
 
@@ -191,7 +193,7 @@
 			$pcols['pageprofiler_dbquerycnt_select']=intval($this->debugProfilerData['totalQueryCountSelect']);
 			$pcols['pageprofiler_dbquerycnt_update']=intval($this->debugProfilerData['totalQueryCountUpdate']);
 			$pcols['pageprofiler_peakmemoryusage']=memory_get_peak_usage(true);
-			Flask()->DB->queryInsert('base_pageprofiler',$pcols);
+			Flask()->DB->queryInsert('flask_pageprofiler',$pcols);
 
 			// Log queries
 			if (intval($this->profilerOn)===2 && is_array($this->debugProfilerData['queryInfo']) && sizeof($this->debugProfilerData['queryInfo']))
@@ -206,7 +208,7 @@
 					$qcols['pageprofiler_query_time']=$query['time'];
 					$qcols['pageprofiler_query_affectedrows']=$query['time'];
 					$qcols['pageprofiler_query_explain']=((is_array($query['explain']) && sizeof($query['explain']))?var_dump_str($query['explain']):'');
-					Flask()->DB->queryInsert('base_pageprofiler_query',$qcols);
+					Flask()->DB->queryInsert('flask_pageprofiler_query',$qcols);
 				}
 			}
 		}

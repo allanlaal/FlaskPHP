@@ -4,9 +4,11 @@
 	/**
 	 *
 	 *   FlaskPHP
+	 *   --------
 	 *   The response JS provider
 	 *
-	 *   @author Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @author   Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @license  https://www.flaskphp.com/LICENSE MIT
 	 *
 	 */
 
@@ -55,6 +57,7 @@
 		public $responseBaseJS = array(
 			'jquery',
 			'tether',
+			'popper',
 			'bootstrap',
 			'flask'
 		);
@@ -251,17 +254,25 @@
 			{
 				$this->addJS('static/vendor/tether/js/tether.js','base_tether',-9980);
 			}
+			if (in_array('popper',$this->responseBaseJS))
+			{
+				$this->addJS('static/vendor/popper/popper.min.js','base_popper',-9970);
+			}
 			if (in_array('bootstrap',$this->responseBaseJS))
 			{
-				$this->addJS('static/vendor/bootstrap/js/bootstrap.min.js','base_bootstrap',-9970);
+				$this->addJS('static/vendor/bootstrap/js/bootstrap.js','base_bootstrap',-9960);
 			}
 			if (in_array('underscore',$this->responseBaseJS))
 			{
-				$this->addJS('static/vendor/underscore/underscore.min.js','base_underscore',-9960);
+				$this->addJS('static/vendor/underscore/underscore.min.js','base_underscore',-9950);
 			}
 			if (in_array('flask',$this->responseBaseJS))
 			{
 				$this->addJS('js/flask.js','base_flask',-9000);
+			}
+			if (in_array('bootstrap',$this->responseBaseJS) && in_array('flask',$this->responseBaseJS))
+			{
+				$this->addJS('js/flask.layout.bootstrap.js','base_flask_layout_bootstrap',-8890);
 			}
 
 

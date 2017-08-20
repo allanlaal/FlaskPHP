@@ -35,7 +35,7 @@
 		public function initModel()
 		{
 			// Main parameters
-			$this->setParam('table','base_user');
+			$this->setParam('table','flask_user');
 			$this->setParam('idfield','user_oid');
 			$this->setParam('setord',false);
 			$this->setParam('prop',true);
@@ -62,12 +62,12 @@
 			$this->setParam('loginfield_lastloginhost','user_lastlogin_host');
 
 			// Role table
-			$this->setParam('roletable','base_user_role');
+			$this->setParam('roletable','flask_user_role');
 			$this->setParam('roletable_rolefield','user_role');
 
 			// Log logins?
 			$this->setParam('loginlog',true);
-			$this->setParam('loginlog_table','base_loginlog');
+			$this->setParam('loginlog_table','flask_loginlog');
 		}
 
 
@@ -179,7 +179,7 @@
 
 			// Load
 			$query=Flask()->DB->getQueryBuilder('SELECT');
-			$query->addTable(oneof($this->getParam('roletable'),'base_user_role'));
+			$query->addTable(oneof($this->getParam('roletable'),'flask_user_role'));
 			$query->addField('*');
 			$query->addWhere($this->{$this->getParam('idfield')}.'='.intval($this->{$this->getParam('idfield')}));
 			$dataset=Flask()->DB->querySelect($query);
@@ -213,7 +213,7 @@
 
 				// Delete existing roles
 				$query=Flask()->DB->getQueryBuilder('DELETE');
-				$query->addTable('base_user_role');
+				$query->addTable('flask_user_role');
 				$query->addWhere('user_oid='.intval($this->{$this->getParam('idfield')}));
 				Flask()->DB->queryDelete($query);
 
@@ -236,7 +236,7 @@
 						$cols=array();
 						$cols['user_oid']=$this->{$this->getParam('idfield')};
 						$cols['user_role']=$role;
-						Flask()->DB->queryInsert('base_user_role',$cols);
+						Flask()->DB->queryInsert('flask_user_role',$cols);
 					}
 				}
 
@@ -337,8 +337,9 @@
 				}
 
 				// Check status
-				if ($User->{$this->getParam('loginfield_status')}==1) throw new FlaskPHP\Exception\LoginFailedException(Flask()->Locale->get('FLASK.USER.Login.Error.UserPending'));
-				if ($User->{$this->getParam('loginfield_status')}>1) throw new FlaskPHP\Exception\LoginFailedException(Flask()->Locale->get('FLASK.USER.Login.Error.UserDisabled'));
+				if ($User->{$this->getParam('loginfield_status')}=='pending') throw new FlaskPHP\Exception\LoginFailedException(Flask()->Locale->get('FLASK.USER.Login.Error.UserPending'));
+				if ($User->{$this->getParam('loginfield_status')}=='disabled') throw new FlaskPHP\Exception\LoginFailedException(Flask()->Locale->get('FLASK.USER.Login.Error.UserDisabled'));
+				if ($User->{$this->getParam('loginfield_status')}!='active') throw new FlaskPHP\Exception\LoginFailedException(Flask()->Locale->get('FLASK.USER.Login.Error.UserNotActive'));
 
 				// Set session
 				Flask()->Session->set('login.user_oid',$User->{$this->getParam('idfield')});
@@ -353,7 +354,7 @@
 					$cols=array(
 						'user_oid' => $this->{$this->getParam('idfield')},
 						'loginlog_tstamp' => date('Y-m-d H:i:s'),
-						'loginlog_type' => 1,
+						'loginlog_status' => 'success',
 						'loginlog_ip' => Flask()->Request->remoteIP(),
 						'loginlog_hostname' => Flask()->Request->remoteHost(),
 						'loginlog_email' => $this->{$this->getParam('loginfield_email')},
@@ -366,7 +367,7 @@
 							$cols[$k]=$v;
 						}
 					}
-					Flask()->DB->queryInsert(oneof($this->getParam('loginlog_table'),'base_loginlog'),$cols);
+					Flask()->DB->queryInsert(oneof($this->getParam('loginlog_table'),'flask_loginlog'),$cols);
 				}
 
 				// Success
@@ -380,7 +381,7 @@
 					$cols=array(
 						'user_oid' => intval($this->{$this->getParam('idfield')}),
 						'loginlog_tstamp' => date('Y-m-d H:i:s'),
-						'loginlog_type' => 2,
+						'loginlog_status' => 'failure',
 						'loginlog_ip' => Flask()->Request->remoteIP(),
 						'loginlog_hostname' => Flask()->Request->remoteHost(),
 						'loginlog_email' => $email,
@@ -393,7 +394,7 @@
 							$cols[$k]=$v;
 						}
 					}
-					Flask()->DB->queryInsert(oneof($this->getParam('loginlog_table'),'base_loginlog'),$cols);
+					Flask()->DB->queryInsert(oneof($this->getParam('loginlog_table'),'flask_loginlog'),$cols);
 				}
 
 				// Handle error

@@ -4,9 +4,11 @@
 	/**
 	 *
 	 *   FlaskPHP
+	 *   --------
 	 *   The main configuration provider
 	 *
-	 *   @author Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @author   Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @license  https://www.flaskphp.com/LICENSE MIT
 	 *
 	 */
 
@@ -75,7 +77,7 @@
 			}
 
 			// Load
-			$configFileName=($this->configFilename[0]=='/'?$this->configFilename:Flask()->getAppPath().'/'.$this->configFilename);
+			$configFileName=($this->configFilename[0]=='/'?$this->configFilename:Flask()->getAppPath().'/config/'.$this->configFilename);
 			if (!is_readable($configFileName)) throw new FlaskPHP\Exception\FatalException('Configuration file '.$configFileName.' does not exist or is not readable.');
 			$this->configData=require $configFileName;
 

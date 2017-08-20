@@ -4,9 +4,11 @@
 	/**
 	 *
 	 *   FlaskPHP
+	 *   --------
 	 *   The controller interface
 	 *
-	 *   @author Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @author   Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @license  https://www.flaskphp.com/LICENSE MIT
 	 *
 	 */
 
@@ -339,13 +341,6 @@
 						}
 					}
 
-					// Multiple matches?
-					if (sizeof($classList)>1)
-					{
-						echo '<pre>'.var_dump_str($classList).'</pre>';exit;
-						throw new FlaskPHP\Exception\ControllerException('Found multiple action instances in action file'.(sizeof($actionInclude)>1?'s':'').'.',500);
-					}
-
 					// Nothing?
 					if (!sizeof($classList))
 					{
@@ -356,7 +351,6 @@
 					foreach ($classList as $className)
 					{
 						$actionHandler=new $className();
-						break;
 					}
 				}
 			}

@@ -4,9 +4,11 @@
 	/**
 	 *
 	 *   FlaskPHP
+	 *   --------
 	 *   The locale interface
 	 *
-	 *   @author Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @author   Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @license  https://www.flaskphp.com/LICENSE MIT
 	 *
 	 */
 
@@ -169,8 +171,12 @@
 
 
 		/**
+		 *
 		 *   The constructor
+		 *   ---------------
 		 *   @access public
+		 *   @return Locale
+		 *
 		 */
 
 		public function __construct()
@@ -180,11 +186,13 @@
 
 
 		/**
+		 *
 		 *   Add available language
+		 *   ----------------------
 		 *   @access public
 		 *   @var string $lang Language
 		 *   @throws FlaskPHP\Exception\FatalException
-		 *   @return void
+		 *   @return Locale
 		 */
 
 		public function addLanguage( string $lang )
@@ -204,13 +212,19 @@
 
 			// Add to available locales
 			$this->localeLanguageSet[] = $lang;
+
+			// Return self
+			return $this;
 		}
 
 
 		/**
+		 *
 		 *   Get default language
+		 *   --------------------
 		 *   @access public
 		 *   @return string 2-letter locale tag
+		 *
 		 */
 
 		public function getDefaultLanguage()
@@ -220,10 +234,13 @@
 
 
 		/**
-		 *   Check is the locale exists
+		 *
+		 *   Check if the given locale exists
+		 *   --------------------------------
 		 *   @access public
 		 *   @param string $localeTag Locale tag
-		 *   @return boolean
+		 *   @return bool
+		 *
 		 */
 
 		public function localeExists( string $localeTag )
@@ -233,10 +250,13 @@
 
 
 		/**
+		 *
 		 *   Check is the locale is available
+		 *   --------------------------------
 		 *   @access public
 		 *   @param string $localeTag Locale tag
-		 *   @return boolean TRUE if exists, FALSE if not
+		 *   @return bool
+		 *
 		 */
 
 		public function localeAvailable( string $localeTag )
@@ -246,10 +266,13 @@
 
 
 		/**
+		 *
 		 *   Load locale
+		 *   -----------
 		 *   @access public
 		 *   @param string $localeTag Locale tag
 		 *   @return void
+		 *
 		 */
 
 		public function loadLocale( string $localeTag )
@@ -295,11 +318,14 @@
 
 
 		/**
+		 *
 		 *   Get a localized string
+		 *   ----------------------
 		 *   @access public
 		 *   @param string $varName variable
-		 *   @return string Localized string
 		 *   @throws \Exception
+		 *   @return string Localized string
+		 *
 		 */
 
 		public function get( string $varName )
@@ -319,26 +345,33 @@
 
 
 		/**
+		 *
 		 *   Set a locale string
+		 *   -------------------
 		 *   @access public
 		 *   @param string $varName Variable
 		 *   @param string $varValue Value
-		 *   @return void
+		 *   @return Locale
+		 *
 		 */
 
 		public function set( string $varName, string $varValue )
 		{
 			$varName=mb_strtolower($varName);
 			$this->localeData[$varName]=$varValue;
+			return $this;
 		}
 
 
 		/**
+		 *
 		 *   Load the locale file
+		 *   --------------------
 		 *   @access private
 		 *   @param string $localeFile File name
-		 *   @return void
 		 *   @throws \Exception
+		 *   @return void
+		 *
 		 */
 
 		private function _loadLocaleFile( $localeFile )
@@ -355,6 +388,35 @@
 				if ($line[0]=='/' || $line[0]=='#') continue;
 				list($key,$val)=preg_split("/\s+/", $line,2);
 				if (strlen($key) && strlen($val)) $this->set(trim($key),trim($val));
+			}
+		}
+
+
+		/**
+		 *
+		 *   Get locale name
+		 *   ---------------
+		 *   @access public
+		 *   @static
+		 *   @param string Locale tag
+		 *   @param string $name Name Type
+		 *   @throws \Exception
+		 *   @return string
+		 *
+		 */
+
+		public static function getName( $localeTag, $name=null )
+		{
+			global $LAB;
+
+			if (empty(static::$localeInfo[mb_strtolower($localeTag)])) throw new FlaskPHP\Exception\InvalidParameterException('Unknown locale: '.$localeTag);
+			if (!empty($name))
+			{
+				return static::$localeInfo[mb_strtolower($localeTag)]['name_'.$name];
+			}
+			else
+			{
+				return static::$localeInfo[mb_strtolower($localeTag)]['name'];
 			}
 		}
 

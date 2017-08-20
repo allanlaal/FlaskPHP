@@ -1,16 +1,57 @@
+#
+#
+#   FlaskPHP
+#   --------
+#   System locale - English
+#
+#   (c) Codelab Solutions OÜ <codelab@codelab.ee>
+#   Distributed under the MIT License: https://www.flaskphp.com/LICENSE
+#
+#
 
 FLASK.COMMON.Email                                                   E-mail address
 FLASK.COMMON.Email.Short                                             E-mail
 
 FLASK.COMMON.Password                                                Password
 
+FLASK.COMMON.Language                                                Language
+
+FLASK.COMMON.Error                                                   Error
+FLASK.COMMON.Error.ErrorOpeningModal                                 Error opening dialog
+FLASK.COMMON.Error.ErrorSavingData                                   Error saving data
+
+FLASK.FIELD.Error.RequiredFieldEmpty                                 Required field empty.
+FLASK.FIELD.Error.MinLength                                          Value too short, required at least {{ minlength }} characters.
+FLASK.FIELD.Error.MaxLength                                          Value too long, a maximum of {{ maxlength }} characters allowed.
+FLASK.FIELD.Error.Filter                                             Value contains illegal characters.
+FLASK.FIELD.Error.Unique                                             Value not unique, duplicate value not allowed.
+FLASK.FIELD.Error.InvalidValue                                       Invalid value.
+
 FLASK.USER.LOGIN.Login                                               Login
 FLASK.USER.Login.Success                                             Successful login
 FLASK.USER.Login.Error.EmailEmpty                                    E-mail address is empty.
+FLASK.USER.Login.Error.EmailInvalid                                  Invalid e-mail address.
 FLASK.USER.Login.Error.PasswordEmpty                                 Password is empty.
 FLASK.USER.Login.Error.Unsuccessful                                  Login unsuccessful.
 FLASK.USER.Login.Error.NoSuchUser                                    No such user.
 FLASK.USER.Login.Error.WrongPassword                                 Wrong password.
 FLASK.USER.Login.Error.UserPending                                   Account is pending.
 FLASK.USER.Login.Error.UserDisabled                                  Account disabled.
-FLASK.USER.LOGIN.Error.UnknownLanguage                               Unknown language.
+FLASK.USER.Login.Error.UserDisabled                                  Account not active.
+FLASK.USER.Login.Error.UnknownLanguage                               Unknown language.
+
+FLASK.MODAL.Btn.OK                                                   OK
+
+FLASK.FORM.Title.add                                                 Add a new entry
+FLASK.FORM.Title.edit                                                Edit entry
+FLASK.FORM.Btn.add                                                   Add
+FLASK.FORM.Btn.edit                                                  Save
+FLASK.FORM.Btn.Cancel                                                Cancel
+FLASK.FORM.Msg.Saving                                                Saving data, please wait ...
+FLASK.FORM.Error.CouldNotFindForm                                    Could not find the form.
+FLASK.FORM.Error.Validate                                            The following errors occurred while validating form input
+FLASK.FORM.Error.DuplicateKey                                        A record with the given data already exists, cannot create a duplicate.
+
+FLASK.LOG.LogEntry.Action.add                                        added
+FLASK.LOG.LogEntry.Action.edit                                       edited
+FLASK.LOG.LogEntry.Action.delete                                     deleted

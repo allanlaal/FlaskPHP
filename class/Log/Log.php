@@ -4,9 +4,11 @@
 	/**
 	 *
 	 *   FlaskPHP
+	 *   --------
 	 *   The log class
 	 *
-	 *   @author Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @author   Codelab Solutions OÜ <codelab@codelab.ee>
+	 *   @license  https://www.flaskphp.com/LICENSE MIT
 	 *
 	 */
 
@@ -22,13 +24,12 @@
 		/**
 		 *   Init model
 		 *   @access public
-		 *   @return LogProvider
+		 *   @return void
 		 */
 
 		public function initModel()
 		{
-			// Main fields
-			$this->setParam('table','base_log');
+			$this->setParam('table','flask_log');
 			$this->setParam('objectname','Log entry');
 		}
 
@@ -51,12 +52,12 @@
 			{
 				$cols=array();
 				$cols['ref_oid']=$refOID;
-				$cols['affected_oid']=($affectedOID!==null?$affectedOID:0);
+				$cols['affected_oid']=($affectedOID===null?$refOID:$affectedOID);
 				$cols['user_oid']=($userOID!==null?$userOID:(Flask()->User->isLoggedIn()?Flask()->User->{Flask()->User->getParam('idfield')}:0));
 				$cols['log_tstamp']=($timestamp!==null?$timestamp:date('Y-m-d H:i:s'));
 				$cols['log_entry']=$logEntry;
 				$cols['log_data']=(is_array($logData)?json_encode($logData):$logData);
-				Flask()->DB->queryInsert('base_log',$cols);
+				Flask()->DB->queryInsert('flask_log',$cols);
 			}
 			catch (\Exception $e)
 			{
