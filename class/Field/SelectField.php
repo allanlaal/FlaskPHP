@@ -32,11 +32,28 @@
 
 		/**
 		 *
+		 *   Set option grouping
+		 *   -------------------
+		 *   @access public
+		 *   @param bool $grouping Grouping enabled
+		 *   @return \Codelab\FlaskPHP\Field\SelectField
+		 *
+		 */
+
+		public function setGrouping( bool $grouping )
+		{
+			$this->setParam('optgroup',$grouping);
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Set empty select value
 		 *   ----------------------
 		 *   @access public
 		 *   @param string $select Empty select value
-		 *   @return \Codelab\FlaskPHP\Field\FieldInterface
+		 *   @return \Codelab\FlaskPHP\Field\SelectField
 		 *
 		 */
 
@@ -44,6 +61,28 @@
 		{
 			$this->setParam('select',$select);
 			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Get log data
+		 *   ------------
+		 *   @access public
+		 *   @param FlaskPHP\Model\LogData $logData Log data object
+		 *   @param FlaskPHP\Model\ModelInterface $model Model object
+		 *   @param FlaskPHP\Action\FormAction $form Form object
+		 *   @throws \Exception
+		 *   @return void
+		 *
+		 */
+
+		public function getLogData( FlaskPHP\Model\LogData $logData, FlaskPHP\Model\ModelInterface $model, FlaskPHP\Action\FormAction $form=null )
+		{
+			// Unset from log values
+			$logData->setHandled($this->tag);
+
+			// TODO: finish
 		}
 
 
@@ -66,7 +105,7 @@
 
 			// Style
 			$style=array();
-			if ($this->getParam('fieldstyle')) $style[]=$this->getParam('fieldstyle');
+			if ($this->getParam('form_fieldstyle')) $style[]=$this->getParam('form_fieldstyle');
 			if ($this->getParam('form_comment')) $style[]='width: 70%; display: inline-block';
 
 			// Class

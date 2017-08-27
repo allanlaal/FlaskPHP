@@ -22,37 +22,10 @@
 
 
 		/**
-		 *
-		 *   Set reload
-		 *   ----------
-		 *   @access public
-		 *   @param bool $reload Reload on success
-		 *   @return DialogFormAction
-		 *
+		 *   Include standard Ajax action parameters
 		 */
 
-		public function setReload( bool $reload )
-		{
-			$this->setParam('reload',$reload);
-			return $this;
-		}
-
-
-		/**
-		 *
-		 *   Set redirect URL
-		 *   ----------------
-		 *   @access public
-		 *   @param string $redirectURL Redirect URL
-		 *   @return DialogFormAction
-		 *
-		 */
-
-		public function setRedirectURL( string $redirectURL )
-		{
-			$this->setParam('url_redirect',$redirectURL);
-			return $this;
-		}
+		use FlaskPHP\Traits\AjaxActionParameters;
 
 
 		/**
@@ -73,28 +46,6 @@
 				$displayTrigger=$this->getParam('displaytrigger').$displayTrigger;
 			}
 			$this->setParam('displaytrigger',$displayTrigger);
-			return $this;
-		}
-
-
-		/**
-		 *
-		 *   Set submit success action
-		 *   -------------------------
-		 *   @access public
-		 *   @param string $submitSuccessAction Submit success action
-		 *   @param bool $add Add to existing?
-		 *   @return DialogFormAction
-		 *
-		 */
-
-		public function setSubmitSuccessAction( string $submitSuccessAction, bool $add=true )
-		{
-			if ($add && $this->getParam('submitsuccessaction'))
-			{
-				$submitSuccessAction=$this->getParam('submitsuccessaction').$submitSuccessAction;
-			}
-			$this->setParam('submitsuccessaction',$submitSuccessAction);
 			return $this;
 		}
 
@@ -267,9 +218,9 @@
 						{
 							$response->reload=1;
 						}
-						if ($this->getParam('submitsuccessaction'))
+						if ($this->getParam('successaction'))
 						{
-							$response->submitsuccessaction=$this->getParam('submitsuccessaction');
+							$response->successaction=$this->getParam('successaction');
 						}
 						return new FlaskPHP\Response\JSONResponse($response);
 					}

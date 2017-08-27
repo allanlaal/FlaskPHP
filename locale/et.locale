@@ -1,0 +1,66 @@
+#
+#
+#   FlaskPHP
+#   --------
+#   System locale - Estonian
+#
+#   (c) Codelab Solutions OÜ <codelab@codelab.ee>
+#   Distributed under the MIT License: https://www.flaskphp.com/LICENSE
+#
+#
+
+FLASK.COMMON.Email                                                   E-mailiaadress
+FLASK.COMMON.Email.Short                                             E-mail
+
+FLASK.COMMON.Password                                                Salasõna
+
+FLASK.COMMON.Language                                                Keel
+
+FLASK.COMMON.Error                                                   Viga
+FLASK.COMMON.Error.ErrorOpeningModal                                 Viga dialoogi avamisel
+FLASK.COMMON.Error.ErrorSavingData                                   Viga andmete salvestamisel
+
+FLASK.FIELD.Error.RequiredFieldEmpty                                 Nõutud väli on tühi.
+FLASK.FIELD.Error.MinLength                                          Väärtus liiga lühike, nõutud vähemalt $minlength tähemärki.
+FLASK.FIELD.Error.MaxLength                                          Väärtus liiga pikk, lubatud kuni $maxlength tähemärki.
+FLASK.FIELD.Error.Filter                                             Väärtus sisaldab lubamatuid tähemärke.
+FLASK.FIELD.Error.Unique                                             Väärtus pole unikaalne, duplikaadid pole lubatud.
+FLASK.FIELD.Error.InvalidValue                                       Vigane väärtus.
+FLASK.FIELD.Error.InvalidEmail                                       Vigane e-mailiaadrss.
+
+FLASK.USER.LOGIN.Login                                               Logi sisse
+FLASK.USER.Login.Success                                             Õnnestunud sisselogimine
+FLASK.USER.Login.Error.EmailEmpty                                    E-mailiaadress on tühi.
+FLASK.USER.Login.Error.EmailInvalid                                  Vigane e-mailiaadress.
+FLASK.USER.Login.Error.PasswordEmpty                                 Salasõna on tühi.
+FLASK.USER.Login.Error.Unsuccessful                                  Ebaõnnestunud sisselogimine.
+FLASK.USER.Login.Error.NoSuchUser                                    Sellist kasutajat ei eksisteeri.
+FLASK.USER.Login.Error.WrongPassword                                 Vale salasõna.
+FLASK.USER.Login.Error.UserPending                                   Kasutajakonto on aktiveerimisel.
+FLASK.USER.Login.Error.UserDisabled                                  Kasutajakonto on suletud.
+FLASK.USER.Login.Error.UserDisabled                                  Kasutajakonto pole aktiivne.
+FLASK.USER.Login.Error.UnknownLanguage                               Tundmatu keel.
+
+FLASK.MODAL.Btn.OK                                                   OK
+
+FLASK.FORM.Title.add                                                 Lisa uus kirje
+FLASK.FORM.Title.edit                                                Muuda kirjet
+FLASK.FORM.Btn.add                                                   Lisa
+FLASK.FORM.Btn.edit                                                  Salvesta
+FLASK.FORM.Btn.Cancel                                                Tühista
+FLASK.FORM.Msg.Saving                                                Andmete salvestamine, üks hetk ...
+FLASK.FORM.Error.CouldNotFindForm                                    Ei leidnud vormi.
+FLASK.FORM.Error.Validate                                            Vormi andmete kontrollimisel ilmnesid järgnevad vead
+FLASK.FORM.Error.DuplicateKey                                        Selliste andmetega kirje juba eksisteerib, duplikaati ei saa luua.
+
+FLASK.LIST.Filter.Submit                                             Filtreeri
+FLASK.LIST.Filter.Clear                                              Tühjenda filtrid
+FLASK.LIST.Message.FilterRequired                                    Palun sisesta või vali vähemalt üks filtreerimiskriteerium.
+FLASK.LIST.Message.NoResults                                         Ei leidnud midagi.
+FLASK.LIST.Message.NoResults.Filtered                                Ei leidnud ühtegi filtreerimiskriteeriumitele vastavat kirjet.
+FLASK.LIST.Message.FoundRows                                         Kokku $foundrows kirje(t).
+FLASK.LIST.Return                                                    tagasi
+
+FLASK.LOG.LogEntry.Action.add                                        lisatud
+FLASK.LOG.LogEntry.Action.edit                                       muudetud
+FLASK.LOG.LogEntry.Action.delete                                     kustutatud

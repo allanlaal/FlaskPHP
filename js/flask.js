@@ -230,18 +230,121 @@ Flask.reload = function()
  *   Alert
  */
 
-Flask.alert = function( alertMessage, alertTitle )
+Flask.alert = function( alertMessage, alertTitle, reloadOnClose )
 {
-	var modalTag=Flask.Modal.createModal(alertTitle,alertMessage);
+	var modalTag=Flask.Modal.createModal(alertTitle,alertMessage,null,{
+		reloadonclose: reloadOnClose
+	});
 	Flask.Modal.setButtons(modalTag,{
 		ok: {
 			title: Locale.get('FLASK.MODAL.Btn.OK'),
 			class: 'primary',
 			onclick: function(){
+				if (reloadOnClose) {
+					Flask.reload();
+				}
 				Flask.Modal.closeModal(modalTag);
 			}
 		}
 	});
+};
+
+
+/*
+ *   Base actions
+ */
+
+Flask.doAjaxAction = function( actionURL, actionData, param, confirmed )
+{
+	// Init param
+	if (param==null) {
+		param={};
+	}
+
+	// Confirm?
+	if (param.confirm!=null && (confirmed==null || !confirmed)) {
+		var modalTag=Flask.Modal.createModal(oneof(param.confirm_title,Locale.get('FLASK.MODAL.Confirm')),param.confirm);
+		Flask.Modal.setButtons(modalTag,{
+			ok: {
+				title: oneof(param.confirm_submit,Locale.get('FLASK.MODAL.Btn.OK')),
+				class: 'primary',
+				onclick: function(){
+					Flask.Modal.closeModal(modalTag);
+					Flask.doAjaxAction(actionURL,actionData,param,true);
+				}
+			},
+			cancel: {
+				title: Locale.get('FLASK.FORM.Btn.Cancel'),
+				onclick: function(){
+					Flask.Modal.closeModal(modalTag);
+				}
+			}
+		});
+		return;
+	}
+
+	// Progress message
+	if (param.progressmessage==null || param.progressmessage!==false) {
+		Flask.ProgressDialog.show(oneof(param.progressmessage,Locale.get('FLASK.MODAL.Progress')));
+	}
+
+	// Make Ajax call
+	$.ajax({
+		url: actionURL,
+		data: actionData,
+		success: function(data) {
+			if (data!=null && data.status=='1') {
+				if (data.redirect!=null)
+				{
+					Flask.redirect(data.redirect);
+				}
+				else if ((data.reload!=null && data.reload=='1') || (param.reload_on_success!=null && param.reload_on_success==true))
+				{
+					Flask.reload();
+				}
+				else
+				{
+					Flask.ProgressDialog.hide();
+					if (data.successaction!=null && data.successaction.length>0)
+					{
+						eval(data.successaction);
+					}
+				}
+			}
+			else
+			{
+				Flask.ProgressDialog.hide();
+				Flask.alert(oneof(data.error,Locale.get('FLASK.COMMON.Error.ErrorSavingData')),Locale.get('FLASK.COMMON.Error'),param.reloadonclose);
+			}
+		},
+		error: function(xhr, ajaxOptions, thrownError) {
+			Flask.ProgressDialog.hide();
+			Flask.alert(Locale.get('FLASK.COMMON.Error.ErrorOpeningModal')+' - '+thrownError+' - '+xhr.responseText,Locale.get('FLASK.COMMON.Error'));
+		}
+	});
+};
+
+Flask.doPostSubmit = function( form_url, form_data, confirm_message, new_window )
+{
+	if (confirm_message!=null)
+	{
+		if (!confirm(confirm_message)) return;
+	}
+	var form_tag=Math.floor(Math.random()*100000+1);
+	if (new_window!=null && new_window=='1')
+	{
+		var target=' target="_blank"';
+	}
+	else
+	{
+		var target='';
+	}
+	$('body').append('<form id="form_'+form_tag+'" method="post" action="'+form_url+'"'+target+'></form>');
+	for (var k in form_data)
+	{
+		$('#form_'+form_tag).append('<input type="hidden" name="'+k+'" value="'+htmlspecialchars(form_data[k])+'" />');
+	}
+	$('#form_'+form_tag)[0].submit();
 };
 
 
@@ -388,6 +491,24 @@ Flask.Form = {
 					for (var k in data) {
 						Flask.Modal.param[modalTag][k]=data[k];
 					}
+					Flask.Form.initElements(modalTag);
+					Flask.Form.initUIElements(modalTag);
+					$("#"+modalTag+" form :input").not('.noautosubmit').keypress(function(e){
+						if (e.which==13) {
+							$("#"+modalTag+" .modal-footer button").first().trigger('click');
+						}
+					});
+					if ($("#"+modalTag+" form .defaultfocus").length)
+					{
+						$("#"+modalTag+" form .defaultfocus").focus();
+					}
+					else
+					{
+						if ($("#"+modalTag+" form :input:visible").length)
+						{
+							$("#"+modalTag+" form :input:visible").first().focus();
+						}
+					}
 				}
 				else {
 					Flask.alert(oneof(data.error,Locale.get('FLASK.COMMON.Error.ErrorOpeningModal')),Locale.get('FLASK.COMMON.Error'));
@@ -402,11 +523,11 @@ Flask.Form = {
 	},
 
 	// Handle submit
-	submit: function( submit_action, param, formID )
+	submit: function( submitAction, param, formID )
 	{
 		// Init
-		if (submit_action==null) {
-			var submit_action='save';
+		if (submitAction==null) {
+			var submitAction='save';
 		}
 		if (formID==null) {
 			var formID='flask-form';
@@ -432,8 +553,8 @@ Flask.Form = {
 
 		// Submit
 		var submitdata={};
-		submitdata.action=submit_action;
-		submitdata[submit_action]=1;
+		submitdata.action=submitAction;
+		submitdata[submitAction]=1;
 		$("#"+formID).ajaxSubmit({
 			data: submitdata,
 			success: function( data ) {
@@ -487,7 +608,7 @@ Flask.Form = {
 	},
 
 	// Submit modal
-	submitModal: function ( modalTag, submit_action, param )
+	submitModal: function ( modalTag, submitAction, param )
 	{
 		// Check
 		if ($("#"+modalTag+" form").length==0) {
@@ -515,8 +636,8 @@ Flask.Form = {
 
 		// Submit
 		var submitdata={};
-		submitdata.action=submit_action;
-		submitdata[submit_action]=1;
+		submitdata.action=submitAction;
+		submitdata[submitAction]=1;
 		$("#"+formID).ajaxSubmit({
 			data: submitdata,
 			success: function( data ) {
@@ -525,7 +646,7 @@ Flask.Form = {
 						Flask.Form.progressStop();
 						param.success_callback(data);
 					}
-					else if (data.reload!=null && data.reload=='1') {
+					else if (data.reload!=null && data.reload) {
 						Flask.reload();
 					}
 					else if (data.redirect!=null && data.redirect.length>0) {
@@ -533,6 +654,7 @@ Flask.Form = {
 					}
 					else {
 						Flask.Form.progressStop();
+						Flask.Modal.closeModal(modalTag);
 					}
 				}
 				else
@@ -569,6 +691,17 @@ Flask.Form = {
 		});
 	},
 
+	// Init elements
+	initElements: function( formID )
+	{
+	},
+
+	// Init UI elements
+	initUIElements: function( formID )
+	{
+		// This should be implemented in the layout extension.
+	},
+
 	// Clear errors
 	clearErrors: function( formID )
 	{
@@ -597,6 +730,42 @@ Flask.Form = {
 	progressStop: function()
 	{
 		Flask.ProgressDialog.hide();
+	},
+
+	// Convert field value to uppercase
+	toUpperCase: function ( fieldTag )
+	{
+		$(fieldTag).val($(fieldTag).val().toUpperCase());
+	},
+
+	// Convert field value to uppercase
+	toLowerCase: function ( fieldTag )
+	{
+		$(fieldTag).val($(fieldTag).val().toLowerCase());
+	},
+
+	// Convert field value to "name case"
+  toNameCase: function ( fieldTag )
+	{
+		var name=$(fieldTag).val();
+
+		// Convert "Name Name"
+		var pieces=name.split(" ");
+		for (var i=0;i<pieces.length;i++) {
+			var j = pieces[i].charAt(0).toUpperCase();
+			pieces[i] = j + pieces[i].substr(1);
+		}
+		name=pieces.join(" ");
+
+		// Convert "Name-Name"
+		var pieces=name.split("-");
+		for (var i=0;i<pieces.length;i++) {
+			var j = pieces[i].charAt(0).toUpperCase();
+			pieces[i] = j + pieces[i].substr(1);
+		}
+		name=pieces.join("-");
+
+		$(fieldTag).val(name);
 	}
 
 };
@@ -616,6 +785,43 @@ Flask.ProgressDialog = {
 	// Hide
 	hide: function () {
 		// This should be implemented in the layout extension.
+	}
+
+};
+
+
+/*
+ *   Password utilities
+ *   ------------------
+ */
+
+Flask.Password = {
+
+	// Suggest a secure password
+	suggestPassword: function( fieldTag )
+	{
+		// Generate password
+		while(true)
+		{
+			var password='';
+			var symbols='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz987654321';
+			for(var b=0;b<4;b++)
+			{
+				if (b>0) password+='-';
+				for(var i=0;i<3;i++)
+				{
+					password+=symbols[(Math.floor(Math.random() * symbols.length))];
+				}
+			}
+			if (password.match(/([987654321])+/)) break;
+		}
+
+		// Set
+		$("#"+fieldTag).val(password);
+		$("#"+fieldTag+"_repeat").val(password);
+
+		// Show
+		Flask.alert(Locale.get('FLASK.FORM.Password.Suggest.Result.1')+': <b>'+password+'</b><br/>'+Locale.get('FLASK.FORM.Password.Suggest.Result.2'),Locale.get('FLASK.FORM.Password.Suggest.Title'));
 	}
 
 };
@@ -713,8 +919,8 @@ Flask.Login = {
 						Flask.reload();
 					}
 					else {
-						if (data.submitsuccessaction) {
-							eval(data.submitsuccessaction);
+						if (data.successaction) {
+							eval(data.successaction);
 						}
 					}
 				}

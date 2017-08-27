@@ -12,22 +12,34 @@
 FLASK.COMMON.Email                                                   E-mail address
 FLASK.COMMON.Email.Short                                             E-mail
 
+FLASK.COMMON.Name                                                    Name
+FLASK.COMMON.Name.First                                              First name
+FLASK.COMMON.Name.Middle                                             Middle name
+FLASK.COMMON.Name.Last                                               Last name
+FLASK.COMMON.Name.Title                                              Title
+
 FLASK.COMMON.Password                                                Password
 
 FLASK.COMMON.Language                                                Language
 
 FLASK.COMMON.Error                                                   Error
+FLASK.COMMON.Error.InvalidRequest                                    Invalid request.
 FLASK.COMMON.Error.ErrorOpeningModal                                 Error opening dialog
 FLASK.COMMON.Error.ErrorSavingData                                   Error saving data
 
 FLASK.FIELD.Error.RequiredFieldEmpty                                 Required field empty.
-FLASK.FIELD.Error.MinLength                                          Value too short, required at least {{ minlength }} characters.
-FLASK.FIELD.Error.MaxLength                                          Value too long, a maximum of {{ maxlength }} characters allowed.
+FLASK.FIELD.Error.MinLength                                          Value too short, required at least $minlength characters.
+FLASK.FIELD.Error.MaxLength                                          Value too long, a maximum of $maxlength characters allowed.
 FLASK.FIELD.Error.Filter                                             Value contains illegal characters.
 FLASK.FIELD.Error.Unique                                             Value not unique, duplicate value not allowed.
 FLASK.FIELD.Error.InvalidValue                                       Invalid value.
+FLASK.FIELD.Error.InvalidEmail                                       Invalid e-mail address.
+FLASK.FIELD.Error.PasswordWeak1                                      Password too weak (must contain both characters and numbers).
+FLASK.FIELD.Error.PasswordWeak2                                      Password too weak (must contain lower- and uppercase characters, numbers and punctuation).
+FLASK.FIELD.Error.PasswordRepeatEmpty                                Password repeat empty.
+FLASK.FIELD.Error.PasswordRepeatMismatch                             Password repeat does not match.
 
-FLASK.USER.LOGIN.Login                                               Login
+FLASK.USER.Login.Login                                               Login
 FLASK.USER.Login.Success                                             Successful login
 FLASK.USER.Login.Error.EmailEmpty                                    E-mail address is empty.
 FLASK.USER.Login.Error.EmailInvalid                                  Invalid e-mail address.
@@ -41,6 +53,8 @@ FLASK.USER.Login.Error.UserDisabled                                  Account not
 FLASK.USER.Login.Error.UnknownLanguage                               Unknown language.
 
 FLASK.MODAL.Btn.OK                                                   OK
+FLASK.MODAL.Confirm                                                  Please confirm
+FLASK.MODAL.Progress                                                 Processing request, please wait ...
 
 FLASK.FORM.Title.add                                                 Add a new entry
 FLASK.FORM.Title.edit                                                Edit entry
@@ -51,7 +65,20 @@ FLASK.FORM.Msg.Saving                                                Saving data
 FLASK.FORM.Error.CouldNotFindForm                                    Could not find the form.
 FLASK.FORM.Error.Validate                                            The following errors occurred while validating form input
 FLASK.FORM.Error.DuplicateKey                                        A record with the given data already exists, cannot create a duplicate.
+FLASK.FORM.Password.Suggest.FormComment                              Suggest a secure password
+FLASK.FORM.Password.Suggest.Title                                    Password suggestion
+FLASK.FORM.Password.Suggest.Result.1                                 Your password is
+FLASK.FORM.Password.Suggest.Result.2                                 Please write it down and store in a safe place.
+
+FLASK.LIST.Filter.Submit                                             Apply filters
+FLASK.LIST.Filter.Clear                                              Clear filters
+FLASK.LIST.Message.FilterRequired                                    Please choose at least one filter criteria.
+FLASK.LIST.Message.NoResults                                         No results found.
+FLASK.LIST.Message.NoResults.Filtered                                No results found matching the filter criteria.
+FLASK.LIST.Message.FoundRows                                         Total of $foundrows record(s).
+FLASK.LIST.Return                                                    return
 
 FLASK.LOG.LogEntry.Action.add                                        added
 FLASK.LOG.LogEntry.Action.edit                                       edited
 FLASK.LOG.LogEntry.Action.delete                                     deleted
+FLASK.LOG.LogEntry.Action.delete                                     order swapped

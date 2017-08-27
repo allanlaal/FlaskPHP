@@ -271,10 +271,7 @@
 			}
 			if (sizeof($localeTagParamList))
 			{
-				foreach ($localeTagParamList as $param => $paramValue)
-				{
-					$retval=preg_replace('/\{\{\s*'.$param.'\s*\}\}/',$paramValue,$retval);
-				}
+				$retval=static::parseSimpleVariables($retval,$localeTagParamList);
 			}
 
 			// Functions?
@@ -349,6 +346,29 @@
 		{
 			return $this->parse();
 		}
+
+
+		/**
+		 *   Replace simple $-variables
+		 *   @access public
+		 *   @static
+		 *   @param string $string Input string
+		 *   @param array $variables Variables
+		 *   @return string parsed string
+		 */
+
+		public static function parseSimpleVariables( string $string, array $variables )
+		{
+			uksort($localeTagParamList,function($a,$b){
+				return (strlen($b)-strlen($a));
+			});
+			foreach ($variables as $k => $v)
+			{
+				$string=str_replace('$'.$k,$v,$string);
+			}
+			return $string;
+		}
+
 
 
 	}

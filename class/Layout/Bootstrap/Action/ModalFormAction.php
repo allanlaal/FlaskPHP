@@ -6,7 +6,7 @@
 	 *   FlaskPHP
 	 *   Layout extensions: Bootstrap 4
 	 *   ------------------------------
-	 *   The login action
+	 *   The modal form action
 	 *
 	 *   @author   Codelab Solutions OÜ <codelab@codelab.ee>
 	 *   @license  https://www.flaskphp.com/LICENSE MIT
@@ -35,7 +35,7 @@
 		public function displayFormBegin()
 		{
 			// The form begins
-			$form_begin='<form id="flask-form" class="form-horizontal" method="post" action="'.$this->buildURL($this->getParam('url')).'" onsubmit="return false">';
+			$form_begin='<form id="flask-form" class="form-horizontal" method="post" action="'.$this->buildURL($this->getParam('url')).'">';
 
 			// ID field if it's not in the fieldset
 			if ($this->operation=='edit' && !is_object($this->field[$this->model->getParam('idfield')]))

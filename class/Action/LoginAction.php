@@ -256,6 +256,33 @@
 
 		/**
 		 *
+		 *   Get language list
+		 *   -----------------
+		 *   @access public
+		 *   @return array
+		 *   @throws \Exception
+		 */
+
+		public function getLanguageList()
+		{
+			if ($this->getParam('langsel_sourcelist'))
+			{
+				$languageList=$this->getParam('langsel_sourcelist');
+			}
+			else
+			{
+				$languageList=array();
+				foreach (Flask()->Locale->localeLanguageSet as $lang)
+				{
+					$languageList[$lang]=mb_strtolower(Flask()->Locale->getName($lang));
+				}
+			}
+			return $languageList;
+		}
+
+
+		/**
+		 *
 		 *   Select language
 		 *   ---------------
 		 *   @access public

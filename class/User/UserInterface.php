@@ -29,7 +29,12 @@
 
 
 		/**
+		 *
 		 *   Init model
+		 *   ----------
+		 *   @access public
+		 *   @return void
+		 *
 		 */
 
 		public function initModel()
@@ -72,10 +77,13 @@
 
 
 		/**
+		 *
 		 *   Load user
+		 *   ---------
 		 *   @access public
 		 *   @param bool $isLogin Is login
 		 *   @return void
+		 *
 		 */
 
 		public function loadUser( bool $isLogin=false )
@@ -110,9 +118,12 @@
 
 
 		/**
+		 *
 		 *   Is user logged in?
+		 *   ------------------
 		 *   @access public
 		 *   @return bool
+		 *
 		 */
 
 		public function isLoggedIn()
@@ -124,9 +135,12 @@
 
 
 		/**
+		 *
 		 *   Check if user has any of the given roles
+		 *   ----------------------------------------
 		 *   @param string|array $roleList
 		 *   @return bool
+		 *
 		 */
 
 		public function checkRole( $roleList )
@@ -152,10 +166,13 @@
 
 
 		/**
+		 *
 		 *   Get roles list
+		 *   --------------
 		 *   @access public
 		 *   @static
 		 *   @return array()
+		 *
 		 */
 
 		public static function getRoleList()
@@ -166,10 +183,13 @@
 
 
 		/**
+		 *
 		 *   Get roles
+		 *   ---------
 		 *   @access public
 		 *   @return array()
 		 *   @throws \Exception
+		 *
 		 */
 
 		public function getRoles()
@@ -181,7 +201,7 @@
 			$query=Flask()->DB->getQueryBuilder('SELECT');
 			$query->addTable(oneof($this->getParam('roletable'),'flask_user_role'));
 			$query->addField('*');
-			$query->addWhere($this->{$this->getParam('idfield')}.'='.intval($this->{$this->getParam('idfield')}));
+			$query->addWhere($this->getParam('idfield').'='.intval($this->{$this->getParam('idfield')}));
 			$dataset=Flask()->DB->querySelect($query);
 
 			// Return
@@ -193,11 +213,14 @@
 
 
 		/**
+		 *
 		 *   Set roles
+		 *   ---------
 		 *   @access public
 		 *   @param string|array $roleList Role list (array or tab/comma separated list)
 		 *   @return void
 		 *   @throws \Exception
+		 *
 		 */
 
 		public function setRoles( $roleList )
@@ -252,13 +275,16 @@
 
 
 		/**
+		 *
 		 *   Do login
+		 *   --------
 		 *   @access public
 		 *   @param string $email E-mail address
 		 *   @param string $password Password
 		 *   @param bool $throwExceptionOnError Throw exception on error
 		 *   @return bool Success/failure
 		 *   @throws \Exception
+		 *
 		 */
 
 		public function doLogin( $email, $password, $throwExceptionOnError=true )
@@ -419,10 +445,13 @@
 
 
 		/**
+		 *
 		 *   Do logout
+		 *   ---------
 		 *   @access public
 		 *   @throws \Exception
 		 *   @return void
+		 *
 		 */
 
 		public function doLogout()
@@ -447,11 +476,14 @@
 
 
 		/**
+		 *
 		 *   Get password hash
+		 *   -----------------
 		 *   @access public
 		 *   @param string $password Password
 		 *   @return string Password hash
 		 *   @throws \Exception
+		 *
 		 */
 
 		public function getPasswordHash( string $password )
@@ -484,11 +516,14 @@
 
 
 		/**
+		 *
 		 *   Verify password
+		 *   ---------------
 		 *   @access public
 		 *   @param string $password Password
 		 *   @return bool
 		 *   @throws \Exception
+		 *
 		 */
 
 		public function verifyPassword( string $password )
@@ -526,9 +561,12 @@
 
 
 		/**
+		 *
 		 *   Login trigger
+		 *   -------------
 		 *   @access public
 		 *   @return void
+		 *
 		 */
 
 		public function triggerLogin()
@@ -538,9 +576,12 @@
 
 
 		/**
+		 *
 		 *   Logout trigger
+		 *   --------------
 		 *   @access public
 		 *   @return void
+		 *
 		 */
 
 		public function triggerLogout()

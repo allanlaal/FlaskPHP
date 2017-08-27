@@ -49,7 +49,7 @@
 
 			// Style
 			$style=array();
-			if ($this->getParam('fieldstyle')) $style[]=$this->getParam('fieldstyle');
+			if ($this->getParam('form_fieldstyle')) $style[]=$this->getParam('form_fieldstyle');
 
 			// Class
 			$class=array();

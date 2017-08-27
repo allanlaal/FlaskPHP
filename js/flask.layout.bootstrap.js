@@ -12,6 +12,20 @@
 
 
 /*
+ *   Init
+ *   ----
+ */
+
+$(function(){
+
+	// Init tooltips
+  $('[data-toggle="tooltip"]').tooltip();
+
+});
+
+
+
+/*
  *   Modal/dialog
  *   ------------
  */
@@ -117,6 +131,13 @@ Flask.Modal.removeModal = function( modalTag )
  *   ----
  */
 
+// Init UI elements
+Flask.Form.initUIElements = function( formID )
+{
+	// Init tooltips
+  $('#'+formID+' [data-toggle="tooltip"]').tooltip();
+};
+
 // Clear errors
 Flask.Form.clearErrors = function( formID )
 {
@@ -141,7 +162,9 @@ Flask.Form.showFieldError = function( field, error )
 {
 	$("#field_"+field+" :input").addClass('is-invalid');
 	$("#"+field).after('<div class="invalid-feedback">'+error+'</div>');
-	$("#"+field)[0].focus();
+	if ($(":input.is-invalid").length==1) {
+		$("#"+field).focus();
+	}
 };
 
 
@@ -152,13 +175,28 @@ Flask.Form.showFieldError = function( field, error )
 // Show
 Flask.ProgressDialog.show = function( message )
 {
-	// This should be implemented in the layout extension.
+	var modalHTML='<div id="progressmodal" class="modal" tabindex="-1">';
+	modalHTML+='<div class="modal-dialog">';
+	modalHTML+='<div class="modal-content">';
+	modalHTML+='<div class="modal-body"><h4 class="modal-body-progress mx-4 my-4 text-center"><span class="spinner"></span> '+message+'</h4></div>';
+	modalHTML+='</div>';
+	modalHTML+='</div>';
+	modalHTML+='</div>';
+	$('body').append(modalHTML);
+	$('#progressmodal').modal({
+		backdrop: 'static',
+		keyboard: true,
+		show: true
+	});
 };
 
 // Hide
-Flask.ProgressDialog.hide = function ()
+Flask.ProgressDialog.hide = function()
 {
-	// This should be implemented in the layout extension.
+	if ($("#progressmodal").length) {
+		$("#progressmodal").modal('hide');
+		$("#progressmodal").remove();
+	}
 };
 
 
@@ -181,7 +219,7 @@ Flask.Login.showErrors = function( error )
 {
 	if (typeof(error)=='object')
 	{
-		var general_error='';
+		var generalError='';
 		for (var fld in error)
 		{
 			if ($("#field_"+fld).length)
@@ -190,7 +228,7 @@ Flask.Login.showErrors = function( error )
 			}
 			else
 			{
-				general_error=general_error+'<div>'+error[fld]+'</div>';
+				generalError=generalError+'<div>'+error[fld]+'</div>';
 			}
 		}
 	}

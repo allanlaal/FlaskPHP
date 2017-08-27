@@ -85,18 +85,7 @@
 				// Language selection
 				if ($this->getParam('langsel'))
 				{
-					if ($this->getParam('langsel_sourcelist'))
-					{
-						$languageList=$this->getParam('langsel_sourcelist');
-					}
-					else
-					{
-						$languageList=array();
-						foreach (Flask()->Locale->localeLanguageSet as $lang)
-						{
-							$languageList[$lang]=Flask()->Locale->getName($lang);
-						}
-					}
+					$languageList=$this->getLanguageList();
 					$c.='
 						<div id="field_login_lang" class="form-group row">
 							<label for="login_lang" class="col-md-'.$labelWidth.' col-form-label">'.oneof($this->getParam('label_password'),'[[ FLASK.COMMON.Language ]]').':</label>

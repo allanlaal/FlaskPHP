@@ -464,7 +464,7 @@
 		 *
 		 */
 
-		public function setPlaceholder( $placeHolder )
+		public function setFormPlaceholder( $placeHolder )
 		{
 			$this->setParam('form_placeholder',$placeHolder);
 			return $this;
@@ -510,6 +510,145 @@
 					$this->formObject->addJS($eventAction);
 				}
 			}
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set list field sortable
+		 *   -----------------------
+		 *   @access public
+		 *   @param bool $sortable Is sortable?
+		 *   @return \Codelab\FlaskPHP\Field\FieldInterface
+		 *
+		 */
+
+		public function setListSortable( bool $sortable )
+		{
+			$this->setParam('list_sortable',$sortable);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set list field default sort
+		 *   ---------------------------
+		 *   @access public
+		 *   @param bool $sortDefault Is sortable?
+		 *   @return \Codelab\FlaskPHP\Field\FieldInterface
+		 *
+		 */
+
+		public function setListSortDefault( bool $sortDefault )
+		{
+			$this->setParam('list_sort_default',$sortDefault);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set list field default sort order
+		 *   ---------------------------------
+		 *   @access public
+		 *   @param string $defaultSortOrder Default sort order (asc, desc)
+		 *   @throws FlaskPHP\Exception\InvalidParameterException
+		 *   @return \Codelab\FlaskPHP\Field\FieldInterface
+		 *
+		 */
+
+		public function setListDefaultSortOrder( string $defaultSortOrder )
+		{
+			$defaultSortOrder=mb_strtolower($defaultSortOrder);
+			if (!in_array($defaultSortOrder,['asc','desc'])) throw new FlaskPHP\Exception\InvalidParameterException('Invalid sort order value');
+			$this->setParam('list_sort_defaultorder',$defaultSortOrder);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set list field alignment
+		 *   ------------------------
+		 *   @access public
+		 *   @param string $align Alignment
+		 *   @return \Codelab\FlaskPHP\Field\FieldInterface
+		 *
+		 */
+
+		public function setListFieldAlign( string $align )
+		{
+			$this->setParam('list_fieldalign',$align);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set list field width
+		 *   --------------------
+		 *   @access public
+		 *   @param string $width Width
+		 *   @return \Codelab\FlaskPHP\Field\FieldInterface
+		 *
+		 */
+
+		public function setListFieldWidth( string $width )
+		{
+			$this->setParam('list_fieldwidth',$width);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set list field class
+		 *   --------------------
+		 *   @access public
+		 *   @param string $class Field class(es)
+		 *   @return \Codelab\FlaskPHP\Field\FieldInterface
+		 *
+		 */
+
+		public function setListFieldClass( string $class )
+		{
+			$this->setParam('list_fieldclass',$class);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set list field style
+		 *   --------------------
+		 *   @access public
+		 *   @param string $style Field style
+		 *   @return \Codelab\FlaskPHP\Field\FieldInterface
+		 *
+		 */
+
+		public function setListFieldStyle( string $style )
+		{
+			$this->setParam('list_fieldstyle',$style);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set list field width
+		 *   --------------------
+		 *   @access public
+		 *   @param bool $noWrap No wrap
+		 *   @return \Codelab\FlaskPHP\Field\FieldInterface
+		 *
+		 */
+
+		public function setListNoWrap( bool $noWrap )
+		{
+			$this->setParam('list_nowrap',$noWrap);
 			return $this;
 		}
 
@@ -872,6 +1011,42 @@
 
 		/**
 		 *
+		 *   Get list value
+		 *   --------------
+		 *   @access public
+		 *   @param mixed $value Value
+		 *   @param array $row Row
+		 *   @throws \Exception
+		 *   @return mixed
+		 *
+		 */
+
+		public function listValue( $value, array &$row )
+		{
+			return htmlspecialchars($value);
+		}
+
+
+		/**
+		 *
+		 *   Get list total value
+		 *   --------------------
+		 *   @access public
+		 *   @param mixed $value Value
+		 *   @param array $row Row
+		 *   @throws \Exception
+		 *   @return mixed
+		 *
+		 */
+
+		public function listTotalValue( $value, array &$row )
+		{
+			return htmlspecialchars($value);
+		}
+
+
+		/**
+		 *
 		 *   Get options
 		 *   -----------
 		 *   @access public
@@ -958,7 +1133,7 @@
 			if ($this->getParam('form_multirow')>1)
 			{
 				$c='';
-				for ($i=1;$i<=$this->$this->getParam('form_multirow');++$i)
+				for ($i=1;$i<=$this->getParam('form_multirow');++$i)
 				{
 					$c.=$this->renderFormBeginningBlock($this->getValue(),$i);
 					$c.=$this->renderFormLabel($this->getValue(),$i);
@@ -1002,8 +1177,8 @@
 
 		/**
 		 *
-		 *   Render form field: beginning block
-		 *   ----------------------------------
+		 *   Render form field: label
+		 *   ------------------------
 		 *   @access public
 		 *   @param mixed $value Value
 		 *   @param int $row Row (for multi-row fields)
@@ -1074,6 +1249,61 @@
 		{
 			// Default simple wrapper
 			return '</div>';
+		}
+
+
+		/**
+		 *
+		 *   Get list query parameters
+		 *   -------------------------
+		 *   @access public
+		 *   @param FlaskPHP\DB\QueryBuilderInterface $loadListParam List load parameters
+		 *   @throws \Exception
+		 *   @return void
+		 *
+		 */
+
+		public function getListQuery( FlaskPHP\DB\QueryBuilderInterface $loadListParam )
+		{
+			// TODO: finish
+			$loadListParam->addField(array($this->tag));
+		}
+
+
+		/**
+		 *
+		 *   Get list total query parameters
+		 *   -------------------------------
+		 *   @access public
+		 *   @param FlaskPHP\DB\QueryBuilderInterface $loadListParam List load parameters
+		 *   @throws \Exception
+		 *   @return void
+		 *
+		 */
+
+		public function getListTotalQuery( FlaskPHP\DB\QueryBuilderInterface $loadListParam )
+		{
+			// TODO: finish
+			$loadListParam->addField(array('sum('.$this->tag.') as '.$this->tag));
+		}
+
+
+		/**
+		 *
+		 *   Get list sort criteria
+		 *   ----------------------
+		 *   @access public
+		 *   @param string $sortOrder Sort order
+		 *   @param FlaskPHP\DB\QueryBuilderInterface $loadListParam List load parameters
+		 *   @throws \Exception
+		 *   @return void
+		 *
+		 */
+
+		public function getListSortCriteria( string $sortOrder, FlaskPHP\DB\QueryBuilderInterface $loadListParam )
+		{
+			// TODO: finish
+			$loadListParam->addOrderBy($this->tag.' '.$sortOrder);
 		}
 
 

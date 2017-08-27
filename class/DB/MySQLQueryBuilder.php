@@ -40,6 +40,10 @@
 			{
 				$retval=($value?'1':'0');
 			}
+			elseif (is_null($value))
+			{
+				$retval='NULL';
+			}
 			elseif (is_string($value))
 			{
 				if (preg_match("/^([A-Za-z]+)\(.*?\)$/",trim($value)))
@@ -145,7 +149,10 @@
 			}
 			else
 			{
-				$sql.='*';
+				if (!in_array($this->queryType,['DELETE']))
+				{
+					$sql.='*';
+				}
 			}
 
 			// Tables

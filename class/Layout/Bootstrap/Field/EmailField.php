@@ -6,7 +6,7 @@
 	 *   FlaskPHP
 	 *   Layout extensions: Bootstrap 4
 	 *   ------------------------------
-	 *   The text field
+	 *   The e-mail field
 	 *
 	 *   @author   Codelab Solutions OÜ <codelab@codelab.ee>
 	 *   @license  https://www.flaskphp.com/LICENSE MIT
@@ -18,7 +18,7 @@
 	use Codelab\FlaskPHP as FlaskPHP;
 
 
-	class TextField extends FlaskPHP\Field\TextField
+	class EmailField extends FlaskPHP\Field\EmailField
 	{
 
 
@@ -27,7 +27,6 @@
 		 */
 
 		use BootstrapField;
-
 
 
 		/**

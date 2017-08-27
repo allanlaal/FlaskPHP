@@ -55,7 +55,13 @@
 		public function renderFormLabel( $value, int $row=null )
 		{
 			$labelWidth=oneof($this->getParam('form_labelwidth'),3);
-			$c='<label for="'.$this->tag.'" class="col-md-'.$labelWidth.' col-form-label">'.$this->getTitle().':</label>';
+			$c='<label for="'.$this->tag.'" class="col-md-'.$labelWidth.' col-form-label text-right">';
+			if ($this->getParam('required')=='always' || (is_object($this->formObject) && $this->getParam('required')==$this->formObject->operation) || $this->getParam('required_if'))
+			{
+				$c.='<span class="icon-asterisk text-muted"></span> ';
+			}
+			$c.=$this->getTitle().':';
+			$c.='</label>';
 			return $c;
 		}
 

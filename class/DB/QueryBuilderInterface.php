@@ -137,7 +137,7 @@
 
 		public function __construct( string $queryType=null )
 		{
-			$this->queryType=$queryType;
+			$this->queryType=mb_strtoupper($queryType);
 		}
 
 

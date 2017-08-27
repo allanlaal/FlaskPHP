@@ -84,10 +84,10 @@
 		public function setDefaults()
 		{
 			// Template
-			if ($this->getParam('template')===null) $this->setParam('template','default');
+			if (!$this->hasParam('template')) $this->setParam('template','default');
 
 			// URL
-			if ($this->getParam('baseurl')===null) $this->setParam('baseurl',Flask()->Request->requestURI);
+			if (!$this->hasParam('baseurl')) $this->setParam('baseurl',Flask()->Request->requestURI);
 		}
 
 

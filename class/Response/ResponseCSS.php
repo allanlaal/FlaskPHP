@@ -76,7 +76,7 @@
 			$bundleItem->itemPriority=$cssPriority;
 
 			// Add
-			if ($cssID===null) $cssID=intval(sizeof($this->responseCSS[$cssBundle])+1);
+			if ($cssID===null) $cssID=md5($bundleItem->itemFilename);
 			$this->responseCSS[$cssBundle][$cssID]=$bundleItem;
 		}
 
@@ -129,7 +129,7 @@
 			$bundleItem->itemPriority=$cssPriority;
 
 			// Add
-			if ($cssID===null) $cssID=uniqid();
+			if ($cssID===null) $cssID=md5($bundleItem->itemURL);
 			$this->responseExternalCSS[$cssID]=$bundleItem;
 		}
 

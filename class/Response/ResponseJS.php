@@ -102,7 +102,7 @@
 			$bundleItem->itemParam=$jsExtraParam;
 
 			// Add
-			if ($jsID===null) $jsID=intval(sizeof($this->responseJS[$jsBundle])+1);
+			if ($jsID===null) $jsID=md5($bundleItem->itemFilename);
 			$this->responseJS[$jsBundle][$jsID]=$bundleItem;
 		}
 
@@ -127,7 +127,7 @@
 			$bundleItem->itemParam=$jsExtraParam;
 
 			// Add
-			if ($jsID===null) $jsID=uniqid();
+			if ($jsID===null) $jsID=md5($bundleItem->itemURL);
 			$this->responseExternalJS[$jsID]=$bundleItem;
 		}
 
@@ -152,7 +152,7 @@
 			$bundleItem->itemParam=$jsExtraParam;
 
 			// Add
-			if ($jsID===null) $jsID=uniqid();
+			if ($jsID===null) $jsID=md5($bundleItem->itemSource);
 			$this->responseInlineJS[$jsID]=$bundleItem;
 		}
 

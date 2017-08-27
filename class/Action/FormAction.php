@@ -112,7 +112,7 @@
 		/**
 		 *
 		 *   Init fields
-		 *   ---------
+		 *   -----------
 		 *   @access public
 		 *   @throws \Exception
 		 *   @return void

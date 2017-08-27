@@ -325,7 +325,7 @@
 			{
 				foreach ($value as $k => $v)
 				{
-					$value[$k]=BASE::sanitizeInput($v);
+					$value[$k]=static::sanitizeInput($v);
 				}
 				return $value;
 			}
