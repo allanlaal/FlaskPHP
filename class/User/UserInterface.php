@@ -112,7 +112,7 @@
 					$this->{$this->getParam('loginfield_lastloginhost')}=Flask()->Request->remoteHost();
 					$saveParam->addField($this->getParam('loginfield_lastloginhost'));
 				}
-				$this->save($saveParam,false);
+				$this->save($saveParam,false,null,null,null,true);
 			}
 		}
 

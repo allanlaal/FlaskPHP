@@ -209,10 +209,10 @@
 		{
 			// Sanity check
 			if ($model===null) throw new FlaskPHP\Exception\Exception('Error in parseRelation(): model not passed.');
-			if (!is_array($model->_rel[$relation])) throw new FlaskPHP\Exception\Exception('Error in parseRelation(): relation '.$relation.' does not exist in '.get_class($model));
+			if (!is_object($model->_rel[$relation])) throw new FlaskPHP\Exception\Exception('Error in parseRelation(): relation '.$relation.' does not exist in '.get_class($model));
 
 			// Create relation model instance
-			$relationModelClass=$model->_rel[$relation]['remotemodel'];
+			$relationModelClass=$model->_rel[$relation]->relationRemoteModel;
 			$relationModel=new $relationModelClass();
 
 			// Add table if it does not exist
@@ -220,7 +220,7 @@
 			{
 				$this->addTable(
 					$relationModel->getParam('table'),
-					$relationModel->getParam('table').'.'.oneof($model->_rel[$relation]['remotefield'],$relationModel->getParam('idfield')).'='.$model->getParam('table').'.'.$model->_rel[$relation]['field'],
+					$relationModel->getParam('table').'.'.oneof($model->_rel[$relation]->relationRemoteField,$relationModel->getParam('idfield')).'='.$model->getParam('table').'.'.$model->_rel[$relation]->relationField,
 					'LEFT JOIN'
 				);
 			}

@@ -391,6 +391,20 @@
 						return new FlaskPHP\Response\JSONResponse($response);
 					}
 				}
+				catch (FlaskPHP\Exception\ValidateException $e)
+				{
+					// Log out user if we logged it in
+					if (Flask()->User->isLoggedIn())
+					{
+						Flask()->User->doLogout();
+					}
+
+					// Return error
+					$response=new \stdClass();
+					$response->status=2;
+					$response->error=join('<br>',$e->getErrors());
+					return new FlaskPHP\Response\JSONResponse($response);
+				}
 				catch (\Exception $e)
 				{
 					// Log out user if we logged it in

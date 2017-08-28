@@ -1419,12 +1419,13 @@
 		 *   @access public
 		 *   @static
 		 *   @param FlaskPHP\DB\QueryBuilderInterface $param Additional parameters
+		 *   @param string $keyField Key field
 		 *   @return array
 		 *   @throws \Exception
 		 *
 		 */
 
-		public static function getObjectList( FlaskPHP\DB\QueryBuilderInterface $param=null )
+		public static function getObjectList( FlaskPHP\DB\QueryBuilderInterface $param=null, string $keyField=null )
 		{
 			// Init class
 			$modelClassName=get_called_class();
@@ -1433,6 +1434,7 @@
 			// Init query
 			$query=oneof($param,Flask()->DB->getQueryBuilder());
 			$query->addField($model->getParam('idfield'));
+			if ($keyField) $query->addField($keyField);
 			$query->setModel($model);
 
 			// Run query
@@ -1442,7 +1444,7 @@
 			$retval=array();
 			foreach ($dataset as $row)
 			{
-				$retval[$row[$model->getParam('idfield')]]=static::getObject($dataset[0][$model->getParam('idfield')]);
+				$retval[$row[oneof($keyField,$model->getParam('idfield'))]]=static::getObject($dataset[0][$model->getParam('idfield')]);
 			}
 
 			// Return
@@ -1457,12 +1459,13 @@
 		 *   @access public
 		 *   @static
 		 *   @param FlaskPHP\DB\QueryBuilderInterface $param Additional parameters
+		 *   @param string $keyField Key field
 		 *   @return array
 		 *   @throws \Exception
 		 *
 		 */
 
-		public static function getList( FlaskPHP\DB\QueryBuilderInterface $param=null )
+		public static function getList( FlaskPHP\DB\QueryBuilderInterface $param=null, string $keyField=null )
 		{
 			// Init class
 			$modelClassName=get_called_class();
@@ -1473,7 +1476,55 @@
 			$query->setModel($model);
 
 			// Run query
-			return Flask()->DB->querySelect($query);
+			return Flask()->DB->querySelect($query,$keyField);
+		}
+
+
+		/**
+		 *
+		 *   Get object list for dropdown options
+		 *   ------------------------------------
+		 *   @access public
+		 *   @static
+		 *   @param string $valueField Value field
+		 *   @param string $keyField Key field (defaults to OID)
+		 *   @param string $orderBy Order by
+		 *   @param FlaskPHP\DB\QueryBuilderInterface $param Additional parameters
+		 *   @return array
+		 *   @throws \Exception
+		 *
+		 */
+
+		public static function getOptionsList( string $valueField, string $keyField=null, string $orderBy=null, FlaskPHP\DB\QueryBuilderInterface $param=null )
+		{
+			// Init class
+			$modelClassName=get_called_class();
+			$model=new $modelClassName();
+
+			// Init query
+			$query=oneof($param,Flask()->DB->getQueryBuilder());
+			$query->setModel($model);
+			$query->addField(oneof($keyField,$model->getParam('idfield')));
+			$query->addField($valueField);
+			if ($model->getParam('setord'))
+			{
+				$query->addOrderBy('ord');
+			}
+			else
+			{
+				$query->addOrderBy(oneof($orderBy,$valueField));
+			}
+
+			// Run query
+			$dataset=Flask()->DB->querySelect($query);
+
+			// Compose result
+			$optionsList=array();
+			foreach ($dataset as $row)
+			{
+				$optionsList[$row[oneof($keyField,$model->getParam('idfield'))]]=$row[$valueField];
+			}
+			return $optionsList;
 		}
 
 

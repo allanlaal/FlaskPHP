@@ -88,6 +88,25 @@
 
 		/**
 		 *
+		 *   Get list value
+		 *   --------------
+		 *   @access public
+		 *   @param mixed $value Value
+		 *   @param array $row Row
+		 *   @throws \Exception
+		 *   @return mixed
+		 *
+		 */
+
+		public function listValue( $value, array &$row )
+		{
+			$options=$this->getOptions();
+			return htmlspecialchars($options[$value]);
+		}
+
+
+		/**
+		 *
 		 *   Render form field: element
 		 *   --------------------------
 		 *   @access public

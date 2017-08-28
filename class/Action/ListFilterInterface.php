@@ -65,6 +65,178 @@
 
 		/**
 		 *
+		 *   Set query field
+		 *   ---------------
+		 *   @access public
+		 *   @param string|array $field Field
+		 *   @return \Codelab\FlaskPHP\Action\ListFilterInterface
+		 *
+		 */
+
+		public function setField( $field )
+		{
+			$this->setParam('field',$field);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set field options source
+		 *   ------------------------
+		 *   @access public
+		 *   @param string $source Source type
+		 *   @throws FlaskPHP\Exception\InvalidParameterException
+		 *   @return \Codelab\FlaskPHP\Action\ListFilterInterface
+		 *
+		 */
+
+		public function setSource( string $source )
+		{
+			switch($source)
+			{
+				case 'list':
+				case 'query':
+				case 'model':
+				case 'func':
+					$this->setParam('source',$source);
+					break;
+				default:
+					throw new FlaskPHP\Exception\InvalidParameterException('Unknown source: '.$source);
+			}
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set source list
+		 *   ---------------
+		 *   @access public
+		 *   @param array $sourceList Source list
+		 *   @return \Codelab\FlaskPHP\Action\ListFilterInterface
+		 *
+		 */
+
+		public function setSourceList( array $sourceList )
+		{
+			$this->setParam('source_list',$sourceList);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set source model
+		 *   ----------------
+		 *   @access public
+		 *   @param string|FlaskPHP\Model\ModelInterface $sourceModel source data object
+		 *   @param string $keyField Key field
+		 *   @param string $valueField Value field
+		 *   @param FlaskPHP\DB\QueryBuilderInterface $param Additional load parameters
+		 *   @return \Codelab\FlaskPHP\Action\ListFilterInterface
+		 *
+		 */
+
+		public function setSourceModel( $sourceModel, string $keyField, string $valueField, FlaskPHP\DB\QueryBuilderInterface $param=null )
+		{
+			$this->setParam('source','model');
+			$this->setParam('source_model',$sourceModel);
+			$this->setParam('source_keyfield',$keyField);
+			$this->setParam('source_valuefield',$valueField);
+			$this->setParam('source_param',$param);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set source list
+		 *   ---------------
+		 *   @access public
+		 *   @param string $sourceQuery Source query
+		 *   @return \Codelab\FlaskPHP\Action\ListFilterInterface
+		 *
+		 */
+
+		public function setSourceQuery( $sourceQuery )
+		{
+			$this->setParam('source_query',$sourceQuery);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Get options
+		 *   -----------
+		 *   @access public
+		 *   @throws \Exception
+		 *   @return array
+		 *
+		 */
+
+		public function getOptions()
+		{
+			// Init
+			$options=array();
+
+			// Get options
+			switch($this->getParam('source'))
+			{
+				// Query
+				case 'query':
+					$dataset=Flask()->DB->querySelectSQL($this->getParam('source_query'));
+					foreach ($dataset as $row)
+					{
+						$options[$row['value']]=$row['description'];
+					}
+					break;
+
+				// Model
+				case 'model':
+					$model=$this->getParam('source_model');
+					$query=oneof($this->getParam('source_param'),Flask()->DB->getQueryBuilder('SELECT'));
+					$query->setModel($model);
+					$query->addField($this->getParam('source_keyfield').' as value');
+					$query->addField($this->getParam('source_valuefield').' as description');
+					$query->addOrderBy($model->getParam('setord')?'ord':'value');
+					$dataset=$model->getList($query);
+					foreach ($dataset as $row)
+					{
+						$options[$row['value']]=$row['description'];
+					}
+					break;
+
+				// Function
+				case 'func':
+					$options=call_user_func($this->getParam('source_func'),$this);
+					break;
+
+				// Default: source array/list
+				default:
+					$options=(array)$this->getParam('source_list');
+					break;
+			}
+
+			// Apply zero-hack if necessary
+			if ($this->getParam('zerohack'))
+			{
+				$origoptions=$options;
+				$options=array();
+				foreach ($origoptions as $k => $v)
+				{
+					$options['val_'.$k]=$v;
+				}
+			}
+
+			// Return
+			return $options;
+		}
+
+
+		/**
+		 *
 		 *   Trigger: pre-display
 		 *   --------------------
 		 *   @access public
@@ -229,15 +401,30 @@
 			// Mark filter applied
 			$this->listObject->filterApplied=true;
 
-			// TODO: finish
-			if ($this->getParam('exact') || !is_string($value))
+			// Field list
+			if ($this->hasParam('field'))
 			{
-				$loadListParam->addWhere($this->tag."=".$loadListParam::colValue($value));
+				$fieldList=str_array($this->getParam('field'));
 			}
 			else
 			{
-				$loadListParam->addWhere($this->tag." like ".$loadListParam::colValue('%'.strval($value).'%'));
+				$fieldList=array($this->tag);
 			}
+
+			// TODO: finish
+			$whereList=array();
+			foreach ($fieldList as $field)
+			{
+				if ($this->getParam('exact') || !is_string($value))
+				{
+					$whereList[]=$field."=".$loadListParam::colValue($value);
+				}
+				else
+				{
+					$whereList[]=$field." like ".$loadListParam::colValue('%'.strval($value).'%');
+				}
+			}
+			$loadListParam->addWhere('('.join(') or (',$whereList).')');
 		}
 
 

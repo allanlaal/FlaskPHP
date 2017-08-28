@@ -27,6 +27,7 @@ FLASK.COMMON.Error.InvalidRequest                                    Invalid req
 FLASK.COMMON.Error.ErrorOpeningModal                                 Error opening dialog
 FLASK.COMMON.Error.ErrorSavingData                                   Error saving data
 
+FLASK.FIELD.Select                                                   select from here
 FLASK.FIELD.Error.RequiredFieldEmpty                                 Required field empty.
 FLASK.FIELD.Error.MinLength                                          Value too short, required at least $minlength characters.
 FLASK.FIELD.Error.MaxLength                                          Value too long, a maximum of $maxlength characters allowed.
@@ -72,6 +73,7 @@ FLASK.FORM.Password.Suggest.Result.2                                 Please writ
 
 FLASK.LIST.Filter.Submit                                             Apply filters
 FLASK.LIST.Filter.Clear                                              Clear filters
+FLASK.LIST.Filter.ShowAll                                            show all
 FLASK.LIST.Message.FilterRequired                                    Please choose at least one filter criteria.
 FLASK.LIST.Message.NoResults                                         No results found.
 FLASK.LIST.Message.NoResults.Filtered                                No results found matching the filter criteria.
