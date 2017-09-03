@@ -24,6 +24,23 @@
 
 		/**
 		 *
+		 *   Set label width
+		 *   ---------------
+		 *   @access public
+		 *   @param int $labelWidth Label width
+		 *   @return ModalFormAction
+		 *
+		 */
+
+		public function setLabelWidth( int $labelWidth )
+		{
+			$this->setParam('labelwidth',$labelWidth);
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Display form begin
 		 *   ------------------
 		 *   @access public

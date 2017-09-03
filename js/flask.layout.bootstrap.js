@@ -201,6 +201,36 @@ Flask.ProgressDialog.hide = function()
 
 
 /*
+ *   Tabbed view
+ */
+
+// Show tab
+Flask.Tab.showTab = function( tab )
+{
+	$(".tabbedview-tabcontent").hide();
+	$("#content_"+tab).show();
+	$(".tabbedview-tabbar .nav-link").removeClass('active');
+	$("#tab_"+tab+" .nav-link").addClass('active');
+};
+
+Flask.Tab.showError = function( tab, error )
+{
+	$("#content_"+tab).html('<div class="p-3 mb-2 bg-danger text-white">'+error+'</div>');
+};
+
+// Progress start trigger
+Flask.Tab.progressStart = function( tab )
+{
+	$("#content_"+tab).html('<div class="tabbedview-progress"><span class="spinner"></span> '+Locale.get('FLASK.TABBEDVIEW.Progress')+'</div>');
+};
+
+// Progress stop trigger
+Flask.Tab.progressStop = function( tab ) {
+	$("#content_"+tab+" .tabbedview-progress").remove();
+};
+
+
+/*
  *   Login handler
  *   -------------
  */

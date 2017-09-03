@@ -19,12 +19,19 @@ FLASK.COMMON.Name.Last                                               Last name
 FLASK.COMMON.Name.Title                                              Title
 
 FLASK.COMMON.Password                                                Password
-
 FLASK.COMMON.Language                                                Language
+
+FLASK.COMMON.Address                                                 Address
+FLASK.COMMON.Address.Street                                          Street address
+FLASK.COMMON.Address.City                                            City
+FLASK.COMMON.Address.State                                           State
+FLASK.COMMON.Address.ZIP                                             ZIP
+FLASK.COMMON.Address.Country                                         Country
 
 FLASK.COMMON.Error                                                   Error
 FLASK.COMMON.Error.InvalidRequest                                    Invalid request.
 FLASK.COMMON.Error.ErrorOpeningModal                                 Error opening dialog
+FLASK.COMMON.Error.ErrorReadingData                                  Error reading data
 FLASK.COMMON.Error.ErrorSavingData                                   Error saving data
 
 FLASK.FIELD.Select                                                   select from here
@@ -79,6 +86,8 @@ FLASK.LIST.Message.NoResults                                         No results 
 FLASK.LIST.Message.NoResults.Filtered                                No results found matching the filter criteria.
 FLASK.LIST.Message.FoundRows                                         Total of $foundrows record(s).
 FLASK.LIST.Return                                                    return
+
+FLASK.TABBEDVIEW.Progress                                            Loading data, one moment ...
 
 FLASK.LOG.LogEntry.Action.add                                        added
 FLASK.LOG.LogEntry.Action.edit                                       edited

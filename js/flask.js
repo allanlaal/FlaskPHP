@@ -791,6 +791,113 @@ Flask.ProgressDialog = {
 
 
 /*
+ *   Tabbed view
+ */
+
+Flask.Tab = {
+
+	loaded: [],
+
+	// Select tab
+	selectTab: function( tab, tabContentURL ) {
+		// Show tab
+		this.showTab(tab);
+
+		// URL
+		var URL=document.location.toString();
+		if (URL.match('#'))
+		{
+			var URLbase=URL.split('#')[0];
+			document.location.href=URLbase+'#'+tab;
+		}
+		else
+		{
+			document.location.href=URL+'#'+tab;
+		}
+
+		// Already loaded
+		if (this.loaded[tab]!=null && this.loaded[tab]==1) {
+			return;
+		}
+
+		// Load content
+		if (tabContentURL==null && $("#content_"+tab).attr('rel')!='undefined' && $("#content_"+tab).attr('rel')!='')
+		{
+			tabContentURL=$("#content_"+tab).attr('rel');
+		}
+		if (tabContentURL!=null)
+		{
+			// Show loading progress
+			this.progressStart(tab);
+
+			// Get content
+			$.ajax({
+				method: 'GET',
+				url: tabContentURL,
+				success: function( data ) {
+					Flask.Tab.progressStop(tab);
+					if (data!=null && data.status=='1') {
+						$("#content_"+tab).hide().html(data.content).fadeIn(200);
+						Flask.Tab.loaded[tab]=1;
+
+						// Init tooltips
+						Flask.initElements("#content_"+tab);
+
+						// Init tab
+						Flask.Tab.initTab(tab);
+
+						// Fire display trigger
+						if ($("#content_"+tab).attr('data-displaytrigger').length)
+						{
+							eval($("#content_"+tab).attr('data-displaytrigger'));
+						}
+					}
+					else
+					{
+						Flask.Tab.showError(oneof(data.error,Locale.get('FLASK.COMMON.Error.ErrorReadingData')));
+					}
+				},
+				error: function(xhr, ajaxOptions, thrownError) {
+					Flask.Tab.progressStop(tab);
+					Flask.Tab.showError(Locale.get('FLASK.COMMON.Error.ErrorReadingData')+' - '+thrownError+' - '+xhr.responseText);
+				}
+			});
+		}
+	},
+
+	// Show tab
+	showTab: function( tab ) {
+		// This can be overwritten in the layout implementation.
+		$('.tabbedview-tabcontent').hide();
+		$('#content_'+tab).show();
+		$(".tabbedview-tabbar .tabbedview-tab").removeClass('active');
+		$('#tab_'+tab).addClass('active');
+	},
+
+	showError: function( tab, error ) {
+		// This should be implemented in the layout extension.
+		$("#content_"+tab).html('<div class="error">'+error+'</div>');
+	},
+
+	// Progress start trigger
+	progressStart: function( tab ) {
+		// This should be implemented in the layout extension.
+	},
+
+	// Progress stop trigger
+	progressStop: function( tab ) {
+		// This should be implemented in the layout extension.
+	},
+
+	// Init tab
+	initTab: function ( tab ) {
+		// This can be implemented in the application.
+	}
+
+};
+
+
+/*
  *   Password utilities
  *   ------------------
  */

@@ -36,11 +36,7 @@
 		public function renderFormElement( $value, int $row=null )
 		{
 			// Value
-			$value=htmlspecialchars($value);
-			$value=str_replace('{','&#123;',$value);
-			$value=str_replace('}','&#125;',$value);
-			$value=str_replace('[','&#091;',$value);
-			$value=str_replace(']','&#093;',$value);
+			$value=$this->escapeValue($value);
 
 			// Style
 			$style=array();

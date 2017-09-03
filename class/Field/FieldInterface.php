@@ -638,6 +638,91 @@
 
 		/**
 		 *
+		 *   List parameters: list link
+		 *   --------------------------
+		 *   @access public
+		 *   @param string $link List link
+		 *   @param string $linkTarget Link target
+		 *   @param bool $linkEnabledIf Link enabled condition
+		 *   @return \Codelab\FlaskPHP\Field\FieldInterface
+		 *
+		 */
+
+		public function setListLink( string $link, string $linkTarget=null, bool $linkEnabledIf=null )
+		{
+			$this->setParam('list_link',$link);
+			$this->setParam('list_link_target',$linkTarget);
+			$this->setParam('list_link_enabledif',$linkEnabledIf);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Add list event
+		 *   --------------
+		 *   @access public
+		 *   @param string $eventType Event type
+		 *   @param string $eventAction Event action
+		 *   @throws \Exception
+		 *   @return \Codelab\FlaskPHP\Field\FieldInterface
+		 *
+		 */
+
+		public function addListEvent( string $eventType, string $eventAction )
+		{
+			// Add
+			if ($this->hasParam('list_event') && array_key_exists($eventType,$this->_param['list_event']))
+			{
+				$this->_param['list_event'][$eventType].=$eventAction;
+			}
+
+			// Set
+			else
+			{
+				$this->_param['list_event'][$eventType]=$eventAction;
+			}
+
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   List parameters: empty value
+		 *   ----------------------------
+		 *   @access public
+		 *   @param string $emptyValue Empty value
+		 *   @return \Codelab\FlaskPHP\Field\FieldInterface
+		 *
+		 */
+
+		public function setListEmptyValue( string $emptyValue )
+		{
+			$this->setParam('list_emptyvalue',$emptyValue);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   List parameters: list value format
+		 *   ----------------------------------
+		 *   @access public
+		 *   @param string $format List format (for date() function)
+		 *   @return \Codelab\FlaskPHP\Field\FieldInterface
+		 *
+		 */
+
+		public function setListFormat( $format )
+		{
+			$this->setParam('list_format',$format);
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Set list field width
 		 *   --------------------
 		 *   @access public
@@ -995,6 +1080,23 @@
 
 		/**
 		 *
+		 *   Get displayable value
+		 *   ---------------------
+		 *   @access public
+		 *   @param bool $encodeContent Encode content
+		 *   @throws \Exception
+		 *   @return mixed
+		 *
+		 */
+
+		public function displayValue( bool $encodeContent=true )
+		{
+			return htmlspecialchars($this->getValue());
+		}
+
+
+		/**
+		 *
 		 *   Get field form save value
 		 *   -------------------------
 		 *   @access public
@@ -1023,7 +1125,58 @@
 
 		public function listValue( $value, array &$row )
 		{
-			return htmlspecialchars($value);
+			// Init
+			$listValue='';
+
+			// Link
+			$listLink=$this->getParam('list_link');
+			if ($listLink && $this->getParam('list_link_enabledif'))
+			{
+				eval('$listLinkEnabled=('.$this->getParam('list_link_enabledif').')?true:false;');
+				if (!$listLinkEnabled) $listLink=null;
+			}
+			if ($listLink)
+			{
+				$listLink=FlaskPHP\Template\Template::parseSimpleVariables($listLink,$row);
+			}
+			if ($listLink || $this->getParam('list_event'))
+			{
+				$listValue.='<a';
+				if ($listLink)
+				{
+					if ($this->hasParam('list_link_target')) $listValue.=' target="'.$this->getParam('list_link_target').'"';
+					$listValue.=' href="'.$listLink.'"';
+				}
+				if ($this->getParam('list_event'))
+				{
+					foreach ($this->getParam('list_event') as $eventType => $eventAction)
+					{
+						$eventAction=FlaskPHP\Template\Template::parseSimpleVariables($eventAction,$row);
+						$listValue.=' '.$eventType.'="'.$eventAction.'"';
+					}
+				}
+				$listValue.='>';
+			}
+
+			// Value
+			if (!mb_strlen($value) && $this->hasParam('list_emptyvalue'))
+			{
+				$value=$this->getParam('list_emptyvalue');
+			}
+			if ($this->hasParam('list_format'))
+			{
+				$value=sprintf($this->getParam('list_format'),$value);
+			}
+			$listValue.=htmlspecialchars($value);
+
+			// Link ends
+			if ($listLink || $this->getParam('list_event'))
+			{
+				$listValue.='</a>';
+			}
+
+			// Return value
+			return $listValue;
 		}
 
 
@@ -1111,6 +1264,28 @@
 
 			// Return
 			return $options;
+		}
+
+
+		/**
+		 *
+		 *   Escape value
+		 *   ------------
+		 *   @access public
+		 *   @param mixed $value Value
+		 *   @return string
+		 *
+		 */
+
+		public function escapeValue( $value )
+		{
+			if (!is_string($value)) return $value;
+			$value=htmlspecialchars($value);
+			$value=str_replace('{','&#123;',$value);
+			$value=str_replace('}','&#125;',$value);
+			$value=str_replace('[','&#091;',$value);
+			$value=str_replace(']','&#093;',$value);
+			return $value;
 		}
 
 

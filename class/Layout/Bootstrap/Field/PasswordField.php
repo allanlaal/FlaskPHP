@@ -63,7 +63,7 @@
 		public function renderFormLabel( $value, int $row=null )
 		{
 			$labelWidth=oneof($this->getParam('form_labelwidth'),3);
-			$c='<label for="'.$this->tag.'" class="col-md-'.$labelWidth.' col-form-label">';
+			$c='<label for="'.$this->tag.'" class="col-md-'.$labelWidth.' col-form-label text-right">';
 			switch ($row)
 			{
 				case 2:
