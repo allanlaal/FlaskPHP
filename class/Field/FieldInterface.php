@@ -1066,6 +1066,10 @@
 			{
 				return $this->zeroHack($this->formObject->model->{$this->tag},'add');
 			}
+			elseif ($this->formObject===null && is_object($this->modelObject) && $this->modelObject->_loaded)
+			{
+				return $this->zeroHack($this->modelObject->{$this->tag},'add');
+			}
 
 			// Default
 			if ($this->hasParam('default'))
@@ -1091,7 +1095,8 @@
 
 		public function displayValue( bool $encodeContent=true )
 		{
-			return htmlspecialchars($this->getValue());
+			if ($encodeContent) htmlspecialchars($this->getValue());
+			return $this->getValue();
 		}
 
 

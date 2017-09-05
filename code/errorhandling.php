@@ -244,7 +244,7 @@
 		$response['status']='2';
 		$response['error']='FATAL ERROR: '.$errorMessage;
 		if ($stackTrace!==false) $response['stacktrace']=$stackTrace;
-		echo json_encode($response,JSON_FORCE_OBJECT|JSON_HEX_QUOT);
+		echo json_encode($response,JSON_FORCE_OBJECT|JSON_HEX_QUOT|JSON_HEX_APOS);
 	}
 
 

@@ -97,20 +97,11 @@
 
 		public function addField( FlaskPHP\Model\ModelInterface $model, string $field, $emptyValue=null, string $label=null )
 		{
-			// Check
-			if (!array_key_exists($field,$model->_field)) throw new FlaskPHP\Exception\InvalidParameterException('Field '.$field.' does not exist in the model.');
-
-			// Field Hack (tm)
-			$fieldObject=$model->_field[$field];
-			$fieldObject->formObject=new FlaskPHP\Action\FormAction();
-			$fieldObject->formObject->operation='edit';
-			$fieldObject->formObject->model=$model;
+			// Get field
+			$fieldObject=$model->getField($field);
 
 			// Label
-			if ($label===null)
-			{
-				$label=$fieldObject->getTitle();
-			}
+			if ($label===null) $label=$fieldObject->getTitle();
 
 			// Value
 			$value=$fieldObject->displayValue();

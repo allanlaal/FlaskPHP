@@ -107,6 +107,26 @@
 
 		/**
 		 *
+		 *   Get displayable value
+		 *   ---------------------
+		 *   @access public
+		 *   @param bool $encodeContent Encode content
+		 *   @throws \Exception
+		 *   @return mixed
+		 *
+		 */
+
+		public function displayValue( bool $encodeContent=true )
+		{
+			$options=$this->getOptions();
+			$value=$options[$this->getValue()];
+			if ($encodeContent) htmlspecialchars($value);
+			return $value;
+		}
+
+
+		/**
+		 *
 		 *   Render form field: element
 		 *   --------------------------
 		 *   @access public

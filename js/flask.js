@@ -792,6 +792,7 @@ Flask.ProgressDialog = {
 
 /*
  *   Tabbed view
+ *   -----------
  */
 
 Flask.Tab = {
@@ -892,6 +893,120 @@ Flask.Tab = {
 	// Init tab
 	initTab: function ( tab ) {
 		// This can be implemented in the application.
+	}
+
+};
+
+
+/*
+ *   Chooser field
+ *   -------------
+ */
+
+Flask.Chooser = {
+
+	// Open search modal
+	openModal: function( fieldTag, param, data )
+	{
+		// This should be implemented in the layout extension.
+	},
+
+	// Close search modal
+	closeModal: function( fieldTag )
+	{
+		// This should be implemented in the layout extension.
+	},
+
+	// Keypress event handler
+	searchKeyPress: function( event, fieldTag, param, data )
+	{
+		if (event.which==13) {
+			this.searchSubmit(fieldTag,param,data);
+			event.stopPropagation();
+		}
+	},
+
+	// Do search
+	searchSubmit: function( fieldTag, param, data )
+	{
+		// Search value
+		var search=$("#"+fieldTag+"_search").val().trim();
+		if (search=='') return;
+
+		// Submit data
+		if (data==null) {
+			var data={};
+		}
+		data.field=fieldTag;
+		data.search=search;
+
+		// Run query
+		Flask.Chooser.progressStart(fieldTag);
+		$.ajax({
+			url: param.search_url,
+			data: data,
+			success: function( data ) {
+				Flask.Chooser.progressStop(fieldTag);
+				if (data!=null && data.status=='1')
+				{
+					Flask.Chooser.displaySearchResults(fieldTag,data.content);
+				}
+				else
+				{
+					Flask.Chooser.displayError(fieldTag,oneof(data.error,Locale.get('FLASK.FIELD.Chooser.Error')));
+				}
+			},
+			error: function(xhr, ajaxOptions, thrownError) {
+				Flask.Chooser.progressStop(fieldTag);
+				Flask.Chooser.displayError(Locale.get('FLASK.FIELD.Chooser.Error')+' - '+thrownError+' - '+xhr.responseText);
+			}
+		});
+	},
+
+	// Progress start trigger
+	progressStart: function( fieldTag ) {
+		// This should be implemented in the layout extension.
+	},
+
+	// Progress stop trigger
+	progressStop: function( fieldTag ) {
+		// This should be implemented in the layout extension.
+	},
+
+	// Display search results
+	displaySearchResults: function( fieldTag, content )
+	{
+		// This can be overwritten in the layout class if needed
+		$("#"+fieldTag+"_result").html(content);
+	},
+
+	// Display error
+	displayError: function( fieldTag, error )
+	{
+		// This can be overwritten in the layout class if needed
+		$("#"+fieldTag+"_result").html('<div class="error">'+error+'</div>');
+	},
+
+	// Clear chooser value
+	clearChooser: function( fieldTag, param )
+	{
+		// This can be overwritten in the layout class if needed
+		$("#field_"+fieldTag+" .chooser-value").html(param.emptyvalue);
+	},
+
+	// Choose chooser value
+	chooseValue: function( fieldTag, value, description )
+	{
+		// This can be overwritten in the layout class if needed
+		$("#"+fieldTag).val(value).trigger('change');
+		$("#field_"+fieldTag+" .chooser-value").html(description);
+		Flask.Chooser.closeModal(fieldTag);
+	},
+
+	// Clear chooser value
+	addValue: function( fieldTag, value, description )
+	{
+		// This can be overwritten in the layout class if needed
 	}
 
 };

@@ -161,7 +161,7 @@ Flask.Form.showErrors = function( formID, error )
 Flask.Form.showFieldError = function( field, error )
 {
 	$("#field_"+field+" :input").addClass('is-invalid');
-	$("#"+field).after('<div class="invalid-feedback">'+error+'</div>');
+	$("#"+field).parent().append('<div class="invalid-feedback">'+error+'</div>');
 	if ($(":input.is-invalid").length==1) {
 		$("#"+field).focus();
 	}
@@ -202,6 +202,7 @@ Flask.ProgressDialog.hide = function()
 
 /*
  *   Tabbed view
+ *   -----------
  */
 
 // Show tab
@@ -228,6 +229,74 @@ Flask.Tab.progressStart = function( tab )
 Flask.Tab.progressStop = function( tab ) {
 	$("#content_"+tab+" .tabbedview-progress").remove();
 };
+
+
+/*
+ *   Chooser field
+ *   -------------
+ */
+
+// Open search modal
+Flask.Chooser.openModal = function( fieldTag, param, data )
+{
+	// Generate HTML
+	html='<div class="chooser-modal">';
+	html+='<div class="chooser-modal-searchform"></div><table style="width: 100%"><tr>';
+	html+='<td class="chooser-modal-searchform-inputfield" style="width: 99%">';
+	html+='<input type="text" class="chooser-modal-searchinput form-control" id="'+fieldTag+'_search" placeholder="'+param.search_placeholder+'" autocomplete="off" maxlength="255">';
+	html+='</td>';
+	html+='<td class="chooser-modal-searchform-actions" style="width: 1%; white-space: nowrap">';
+	html+='<button type="button" class="btn btn-secondary" id="'+fieldTag+'_submit"><span class="icon-search"></span> '+Locale.get('FLASK.FIELD.Chooser.Search.Submit')+'</button>';
+	html+='</td>';
+	html+='</tr></table></div>';
+	html+='<div class="chooser-modal-searchresult mt-4" id="'+fieldTag+'_result"></div>';
+	html+='</table>';
+
+	// Open dialog
+	var modalTag=Flask.Modal.createModal(param.search_title,html,null,{
+		modalTag: 'searchmodal_'+fieldTag
+	});
+	Flask.Modal.showModal(modalTag);
+	$("#"+fieldTag+'_search').focus();
+
+	// Attach events
+	$("#"+fieldTag+"_search").on('keypress',function(event){
+		Flask.Chooser.searchKeyPress(event,fieldTag,param,data);
+	});
+	$("#"+fieldTag+"_submit").on('click',function(){
+		Flask.Chooser.searchSubmit(fieldTag,param,data);
+	});
+};
+
+// Close search modal
+Flask.Chooser.closeModal = function( fieldTag )
+{
+	Flask.Modal.closeModal('searchmodal_'+fieldTag);
+};
+
+// Progress start trigger
+Flask.Chooser.progressStart = function( fieldTag )
+{
+	$("#"+fieldTag+"_result").html('<span class="spinner"></span> '+Locale.get('FLASK.FIELD.Chooser.Progress'));
+};
+
+// Progress stop trigger
+Flask.Chooser.progressStop = function( fieldTag ) {
+	$("#"+fieldTag+"_result").html('');
+};
+
+// Display error
+Flask.Chooser.displayError = function( fieldTag, error )
+{
+	$("#"+fieldTag+"_result").html('<div class="p-3 bg-danger text-white">'+error+'</div>');
+};
+
+// Clear chooser value
+Flask.Chooser.clearChooser = function( fieldTag, param )
+{
+	$("#field_"+fieldTag+" .chooser-value").html('<div class="chooser-emptyvalue text-muted">'+param.emptyvalue+'</div>');
+};
+
 
 
 /*

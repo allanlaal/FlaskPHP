@@ -237,6 +237,28 @@
 
 		/**
 		 *
+		 *   Escape value
+		 *   ------------
+		 *   @access public
+		 *   @param mixed $value Value
+		 *   @return string
+		 *
+		 */
+
+		public function escapeValue( $value )
+		{
+			if (!is_string($value)) return $value;
+			$value=htmlspecialchars($value);
+			$value=str_replace('{','&#123;',$value);
+			$value=str_replace('}','&#125;',$value);
+			$value=str_replace('[','&#091;',$value);
+			$value=str_replace(']','&#093;',$value);
+			return $value;
+		}
+
+
+		/**
+		 *
 		 *   Trigger: pre-display
 		 *   --------------------
 		 *   @access public

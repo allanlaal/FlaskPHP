@@ -163,6 +163,14 @@
 				$valueState=$this->escapeValue($this->formObject->model->{$this->tag.'_state'});
 				$valueCountry=$this->escapeValue($this->formObject->model->{$this->tag.'_country'});
 			}
+			elseif (!is_object($this->formObject) && is_object($this->modelObject) && $this->modelObject->_loaded)
+			{
+				$value=$this->escapeValue($this->modelObject->{$this->tag});
+				$valueCity=$this->escapeValue($this->modelObject->{$this->tag.'_city'});
+				$valueZIP=$this->escapeValue($this->modelObject->{$this->tag.'_zip'});
+				$valueState=$this->escapeValue($this->modelObject->{$this->tag.'_state'});
+				$valueCountry=$this->escapeValue($this->modelObject->{$this->tag.'_country'});
+			}
 
 			// Init
 			$address=array();

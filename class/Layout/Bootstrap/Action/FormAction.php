@@ -88,7 +88,7 @@
 			// Submit param
 			$submitParam=new \stdClass();
 			if ($this->getParam('progressmessage')) $submitParam->progressmessage=$this->getParam('progressmessage');
-			$submitParam=json_encode($submitParam,JSON_FORCE_OBJECT|JSON_HEX_QUOT);
+			$submitParam=FlaskPHP\Util::htmlJSON($submitParam);
 
 			// Custom submit buttons
 			if (sizeof($this->submit))
@@ -113,7 +113,7 @@
 			// Cancel
 			$cancelParam=new \stdClass();
 			if ($this->getParam('progressmessage')) $cancelParam->progressmessage=$this->getParam('progressmessage');
-			$cancelParam=json_encode($cancelParam,JSON_FORCE_OBJECT|JSON_HEX_QUOT);
+			$cancelParam=FlaskPHP\Util::htmlJSON($cancelParam);
 			$submit='<button type="button" id="submit_cancel" "btn btn-secondary" name="submit_cancel" onclick="Flask.Form.submit(\'submit_cancel\','.$cancelParam.')">[[ FLASK.FORM.Btn.Cancel ]]</button>';
 			$this->template->set('submit_cancel',$submit);
 			$form_submit.=$submit;

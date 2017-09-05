@@ -9,6 +9,23 @@
 #
 #
 
+FLASK.COMMON.OK                                                      OK
+FLASK.COMMON.Warnings                                                Warnings
+FLASK.COMMON.NotOK                                                   Not OK
+FLASK.COMMON.Missing                                                 missing
+FLASK.COMMON.NotSet                                                  not set
+FLASK.COMMON.NotEntered                                              not entered
+FLASK.COMMON.NotConnected                                            not connected
+FLASK.COMMON.None                                                    none
+FLASK.COMMON.Empty                                                   empty
+FLASK.COMMON.Unknown                                                 unknown
+FLASK.COMMON.All                                                     all
+FLASK.COMMON.SelectAll                                               select all
+FLASK.COMMON.Selected                                                selected
+FLASK.COMMON.Other                                                   other
+FLASK.COMMON.OtherEnter                                              other, enter
+FLASK.COMMON.BackToList                                              back to list
+
 FLASK.COMMON.Email                                                   E-mail address
 FLASK.COMMON.Email.Short                                             E-mail
 
@@ -46,6 +63,18 @@ FLASK.FIELD.Error.PasswordWeak1                                      Password to
 FLASK.FIELD.Error.PasswordWeak2                                      Password too weak (must contain lower- and uppercase characters, numbers and punctuation).
 FLASK.FIELD.Error.PasswordRepeatEmpty                                Password repeat empty.
 FLASK.FIELD.Error.PasswordRepeatMismatch                             Password repeat does not match.
+
+FLASK.FIELD.Chooser.choose                                           choose
+FLASK.FIELD.Chooser.clear                                            clear
+FLASK.FIELD.Chooser.Search.Title                                     Choose
+FLASK.FIELD.Chooser.Search.Placeholder                               Enter search term
+FLASK.FIELD.Chooser.Search.Submit                                    Search
+FLASK.FIELD.Chooser.Progress                                         Querying data, please wait ...
+FLASK.FIELD.Chooser.Result.NoResults                                 No results found.
+FLASK.FIELD.Chooser.Result.MaxResults                                More than $maxresults results found, please be more specific.
+FLASK.FIELD.Chooser.Error                                            Error fetching search results.
+FLASK.FIELD.Chooser.Error.SearchEmpty                                Please enter a search string.
+FLASK.FIELD.Chooser.Error.SearchMinLength                            Search string too short, please enter at least $minlength characters.
 
 FLASK.USER.Login.Login                                               Login
 FLASK.USER.Login.Success                                             Successful login

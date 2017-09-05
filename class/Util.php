@@ -25,11 +25,14 @@
 
 
 		/**
+		 *
 		 *   Sanitize input
+		 *   --------------
 		 *   @access public
 		 *   @static
 		 *   @param mixed $value Value
-		 *   @return string Sanitized value
+		 *   @return mixed
+		 *
 		 */
 
 		public static function sanitizeInput( $value )
@@ -47,12 +50,15 @@
 
 
 		/**
-		 *   Is this a valid e-mail address
+		 *
+		 *   Is this a valid e-mail address?
+		 *   -------------------------------
 		 *   @access public
 		 *   @static
 		 *   @param string $email E-mail address
 		 *   @param bool $allowMultiple Allow multiple e-mail addresses?
 		 *   @return bool
+		 *
 		 */
 
 		public static function isValidEmail( $email, $allowMultiple=false )
@@ -80,12 +86,15 @@
 
 
 		/**
-		 *  Convert string to a URL-compatible format
-		 *  @access public
-		 *  @static
-		 *  @param string $str Text
-		 *  @param int $maxLength Maximum length
-		 *  @return string
+		 *
+		 *   Convert string to a URL-compatible format
+		 *   -----------------------------------------
+		 *   @access public
+		 *   @static
+		 *   @param string $str Text
+		 *   @param int $maxLength Maximum length
+		 *   @return string
+		 *
 		 */
 
 		public static function stringToURL( $str, $maxLength=100 )
@@ -115,7 +124,9 @@
 
 
 		/**
+		 *
 		 *   Convert array to <select> options
+		 *   ---------------------------------
 		 *   @access public
 		 *   @static
 		 *   @param array $options Options array
@@ -124,6 +135,7 @@
 		 *   @param array $optionAttributes Option attributes
 		 *   @param bool $escapeContent Escape parameters
 		 *   @return string
+		 *
 		 */
 
 		public static function arrayToSelectOptions( array $options, $selected=null, $optGrouping=false, $optionAttributes=null, $escapeContent=true )
@@ -166,13 +178,16 @@
 
 
 		/**
+		 *
 		 *   Get array/object value
+		 *   ----------------------
 		 *   @access public
 		 *   @static
 		 *   @param array|object $input Input element
 		 *   @param string $key Key
 		 *   @throws \Exception
 		 *   @return mixed
+		 *
 		 */
 
 		public static function getValue( $input, $key, bool $throwExceptionOnNonExisting=false, $defaultValue=null )
@@ -198,12 +213,15 @@
 
 
 		/**
+		 *
 		 *   Get MIME type for filename
+		 *   --------------------------
 		 *   @access public
 		 *   @static
 		 *   @param string $filename Filename
 		 *   @throws \Exception
 		 *   @return string|bool
+		 *
 		 */
 
 		public static function getMimeType( $filename )
@@ -231,6 +249,24 @@
 
 			// Nothing?
 			return false;
+		}
+
+
+		/**
+		 *
+		 *   Get JSON string usable in HTML
+		 *   ------------------------------
+		 *   @access public
+		 *   @static
+		 *   @param mixed $value Input value
+		 *   @return string
+		 *
+		 */
+
+		public static function htmlJSON( $value )
+		{
+			if (empty($value)) return '{}';
+			return str_replace('"',"'",json_encode($value,JSON_FORCE_OBJECT|JSON_HEX_QUOT|JSON_HEX_APOS));
 		}
 
 

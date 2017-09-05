@@ -40,6 +40,23 @@
 
 		/**
 		 *
+		 *   Set mails clickable in list/display
+		 *   -----------------------------------
+		 *   @access public
+		 *   @param bool $listClickable Set mails clickable in list/display
+		 *   @return \Codelab\FlaskPHP\Field\FieldInterface
+		 *
+		 */
+
+		public function setListClickable( bool $listClickable )
+		{
+			$this->setParam('list_clickable',$listClickable);
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Validate field value
 		 *   --------------------
 		 *   @access public
@@ -108,6 +125,42 @@
 
 			// If we got here, it validates.
 			return;
+		}
+
+
+		/**
+		 *
+		 *   Get displayable value
+		 *   ---------------------
+		 *   @access public
+		 *   @param bool $encodeContent Encode content
+		 *   @throws \Exception
+		 *   @return mixed
+		 *
+		 */
+
+		public function displayValue( bool $encodeContent=true )
+		{
+			if ($this->getParam('list_clickable'))
+			{
+				if ($this->getParam('allowmultiple'))
+				{
+					$emailArray=str_array($this->getValue());
+				}
+				else
+				{
+					$emailArray=array($this->getValue());
+				}
+				foreach ($emailArray as $k => $v)
+				{
+					$emailArray[$k]='<a href="mailto:'.$v.'">'.$v.'</a>';
+				}
+			}
+			else
+			{
+				if ($encodeContent) htmlspecialchars($this->getValue());
+				return $this->getValue();
+			}
 		}
 
 

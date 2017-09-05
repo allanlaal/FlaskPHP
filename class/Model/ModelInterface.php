@@ -385,11 +385,11 @@
 			// Relations
 			if (sizeof($this->_rel))
 			{
-				foreach ($this->_rel as $relID => $relParam)
+				foreach ($this->_rel as $relID => $relObject)
 				{
 					if (empty($this->{$relObject->relationField})) continue;
 					if (intval($this->{$relObject->relationField})<1000000) continue;
-					$this->{$relID}=$relParam['remotemodel']::getObject($this->{$relObject->relationField});
+					$this->{$relID}=$relObject->relationRemoteModel::getObject($this->{$relObject->relationField});
 				}
 			}
 
@@ -943,7 +943,7 @@
 						}
 					}
 					$logData=($this->getParam('log')!=='simple'?oneof($logData,$this->getLogData(oneof($logOp,'delete'),$formObject,$refOID)):'');
-					$affectedOID=($refOID!=$this->{$this->getParam('idfield')}?$this->{$this->getParam('idfield')}:false);
+					$affectedOID=($refOID!=$this->{$this->getParam('idfield')}?$this->{$this->getParam('idfield')}:null);
 					FlaskPHP\Log\Log::logEntry($refOID,$logMessage,$logData,$affectedOID);
 				}
 
@@ -1362,7 +1362,28 @@
 			// Set back-reference
 			$this->_field[$field]->modelObject=$this;
 
-			// Return reference to action
+			// Return reference to field
+			return $this->_field[$field];
+		}
+
+
+		/**
+		 *
+		 *   Get column/field object
+		 *   -----------------------
+		 *   @access public
+		 *   @param string $field Field ID/name
+		 *   @return FlaskPHP\Field\FieldInterface field object instance
+		 *   @throws \Exception
+		 *
+		 */
+
+		public function getField( string $field )
+		{
+			// Check if the action already exists
+			if (!array_key_exists($field,$this->_field)) throw new FlaskPHP\Exception\InvalidParameterException('Field '.$field.' not defined.');
+
+			// Return field
 			return $this->_field[$field];
 		}
 
@@ -1444,7 +1465,7 @@
 			$retval=array();
 			foreach ($dataset as $row)
 			{
-				$retval[$row[oneof($keyField,$model->getParam('idfield'))]]=static::getObject($dataset[0][$model->getParam('idfield')]);
+				$retval[$row[oneof($keyField,$model->getParam('idfield'))]]=static::getObject($row[$model->getParam('idfield')]);
 			}
 
 			// Return

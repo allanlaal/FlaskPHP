@@ -6,7 +6,7 @@
 	 *   FlaskPHP
 	 *   Layout extensions: Bootstrap 4
 	 *   ------------------------------
-	 *   The e-mail field
+	 *   The display field
 	 *
 	 *   @author   Codelab Solutions OÜ <codelab@codelab.ee>
 	 *   @license  https://www.flaskphp.com/LICENSE MIT
@@ -18,7 +18,7 @@
 	use Codelab\FlaskPHP as FlaskPHP;
 
 
-	class EmailField extends FlaskPHP\Field\EmailField
+	class DisplayField extends FlaskPHP\Field\DisplayField
 	{
 
 
@@ -27,6 +27,7 @@
 		 */
 
 		use BootstrapField;
+
 
 
 		/**
@@ -65,29 +66,12 @@
 
 			// Field
 			$c.='<input';
-				$c.=' type="text"';
+				$c.=' type="hidden"';
 				$c.=' id="'.$this->tag.'"';
 				$c.=' name="'.$this->tag.'"';
 				$c.=' value="'.$value.'"';
 				$c.=' data-originalvalue="'.$value.'"';
-				$c.=' autocomplete="off"';
-				$c.=' class="'.join(' ',$class).'"';
-				if (!empty($style)) $c.=' style="'.join('; ',$style).'"';
-				if ($this->getParam('maxlength')) $c.=' maxlength="'.$this->getParam('maxlength').'"';
-				if ($this->getParam('readonly') || $this->getParam('form_readonly')) $c.=' readonly="readonly"';
-				if ($this->getParam('disabled') || $this->getParam('form_disabled')) $c.=' disabled="disabled"';
-				if ($this->getParam('form_placeholder')) $c.=' placeholder="'.htmlspecialchars($this->getParam('form_placeholder')).'"';
-				if ($this->getParam('form_emptyformat')) $c.=' data-emptyformat="'.htmlspecialchars($this->getParam('form_emptyformat')).'"';
-				elseif ($this->getParam('emptyformat')) $c.=' data-emptyformat="'.htmlspecialchars($this->getParam('emptyformat')).'"';
-				if ($this->getParam('form_keephiddenvalue')) $c.=' data-keephiddenvalue="1"';
-				if ($this->getParam('form_editmask')) $c.=' data-mask="'.$this->getParam('form_editmask').'"';
-				if ($this->getParam('form_autocomplete'))
-				{
-					$c.='data-autocomplete-minlength="'.intval($this->getParam("form_autocomplete_minlength")).'"';
-					$c.='data-autocomplete-sourceurl="'.htmlspecialchars($this->getParam("form_autocomplete_sourceurl")).'"';
-					$c.='data-autocomplete-sourcelist="'.htmlspecialchars($this->getParam("form_autocomplete_sourcelist")).'"';
-					$c.='data-autocomplete-keyvalue="'.($this->getParam("form_autocomplete_keyvalue")?'1':'0').'"';
-				}
+				$c.=' data-keephiddenvalue="1"';
 				if ($this->getParam('form_event'))
 				{
 					foreach ($this->getParam('form_event') as $eventType => $eventContent) $c.=' '.$eventType.'="'.$eventContent.'"';
@@ -97,6 +81,9 @@
 					foreach ($this->getParam('form_data') as $dataKey => $dataValue) $c.=' data-'.$dataKey.'="'.htmlspecialchars($dataValue).'"';
 				}
 			$c.='>';
+
+			// Value
+			$c.='<div class="form-control-plaintext">'.$value.'</div>';
 
 			// Comment
 			$c.=$this->renderComment();
