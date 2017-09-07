@@ -182,7 +182,7 @@
 			$this->requestHeader=getallheaders();
 
 			// Parse URI
-			$uriArray=oneof(str_array($_SERVER['SCRIPT_URL'],'\/'),array('index'));
+			$uriArray=oneof(str_array($_SERVER['REQUEST_URI'],'\/'),array('index'));
 			$this->requestURI='/'.join('/',$uriArray);
 			$this->requestURL=Flask()->Config->get('app.url').$this->requestURI;
 			while (true)

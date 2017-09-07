@@ -26,7 +26,7 @@ $(function(){
 		var anchor = URL.split('#')[1];
 		if ($("#content_"+anchor).length)
 		{
-			Flask.Tab.select(anchor);
+			Flask.Tab.selectTab(anchor);
 		}
 	}
 
