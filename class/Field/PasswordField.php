@@ -23,34 +23,17 @@
 
 		/**
 		 *
-		 *   The constructor
-		 *   ---------------
-		 *   @access public
-		 *   @param string $tag Field tag
-		 *   @return \Codelab\FlaskPHP\Field\PasswordField
-		 *
-		 */
-
-		public function __construct( string $tag=null )
-		{
-			parent::__construct($tag);
-			$this->setParam('form_multirow',2);
-		}
-
-
-		/**
-		 *
 		 *   Set title for repeat
 		 *   --------------------
 		 *   @access public
-		 *   @param string $titleRepeat Repeat title
+		 *   @param string $placeholderRepeat Repeat placeholder
 		 *   @return \Codelab\FlaskPHP\Field\PasswordField
 		 *
 		 */
 
-		public function setTitleRepeat( string $titleRepeat )
+		public function setFormPlaceholderRepeat( string $placeholderRepeat )
 		{
-			$this->setParam('title_repeat',$titleRepeat);
+			$this->setParam('form_placeholder_repeat',$placeholderRepeat);
 			return $this;
 		}
 
@@ -292,36 +275,7 @@
 		public function renderFormBeginningBlock( $value, int $row=null )
 		{
 			// Default simple wrapper
-			return '<div id="field_'.$this->tag.($row==2?'_repeat':'').'" class="field">';
-		}
-
-
-		/**
-		 *
-		 *   Render form field: label
-		 *   ------------------------
-		 *   @access public
-		 *   @param mixed $value Value
-		 *   @param int $row Row (for multi-row fields)
-		 *   @throws \Exception
-		 *   @return string
-		 *
-		 */
-
-		public function renderFormLabel( $value, int $row=null )
-		{
-			$c='<label>';
-			switch ($row)
-			{
-				case 2:
-					$c.=$this->getParam('title_repeat').':';
-					break;
-				default:
-					$c.=$this->getParam('title').':';
-					break;
-			}
-			$c.='</label>';
-			return $c;
+			return '<div id="fieldgroup_'.$this->tag.'" class="grouped fields">';
 		}
 
 
@@ -349,23 +303,27 @@
 			$class=array();
 			if (!empty($this->getParam('form_fieldclass'))) $class[]=$this->getParam('form_fieldclass');
 
-			// Wrapper
-			$c='<div class="element">';
+			// Wrapper for password
+			$c='<div id="field_'.$this->tag.'" class="field">';
+
+			// Password suggest
+			if ($this->getParam('form_suggest'))
+			{
+				$c.='<div class="ui right labeled input">';
+			}
 
 			// Field
 			$c.='<input';
 				$c.=' type="password"';
-				$c.=' id="'.$this->tag.($row==2?'_repeat':'').'"';
-				$c.=' name="'.$this->tag.($row==2?'_repeat':'').'"';
+				$c.=' id="'.$this->tag.'"';
+				$c.=' name="'.$this->tag.'"';
 				$c.=' autocomplete="off"';
 				$c.=' class="'.join(' ',$class).'"';
 				if (!empty($style)) $c.=' style="'.join('; ',$style).'"';
+				$c.=' placeholder="'.oneof($this->getParam('form_placeholder'),'[[ FLASK.FIELD.Password.EnterPassword ]]').'"';
 				if ($this->getParam('maxlength')) $c.=' maxlength="'.$this->getParam('maxlength').'"';
 				if ($this->getParam('readonly') || $this->getParam('form_readonly')) $c.=' readonly="readonly"';
 				if ($this->getParam('disabled') || $this->getParam('form_disabled')) $c.=' disabled="disabled"';
-				if ($this->getParam('form_placeholder')) $c.=' placeholder="'.htmlspecialchars($this->getParam('form_placeholder')).'"';
-				if ($this->getParam('form_emptyformat')) $c.=' data-emptyformat="'.htmlspecialchars($this->getParam('form_emptyformat')).'"';
-				elseif ($this->getParam('emptyformat')) $c.=' data-emptyformat="'.htmlspecialchars($this->getParam('emptyformat')).'"';
 				if ($this->getParam('form_keephiddenvalue')) $c.=' data-keephiddenvalue="1"';
 				if ($this->getParam('form_event'))
 				{
@@ -378,27 +336,48 @@
 			$c.='>';
 
 			// Password suggest
-			if ($row==1 && $this->getParam('form_suggest'))
+			if ($this->getParam('form_suggest'))
 			{
-				$passwordSuggest='<a onclick="Flask.Password.suggestPassword(\''.$this->tag.'\')"><span class="icon-bulb"></span> [[ FLASK.FORM.Password.Suggest.FormComment ]]</a>';
-				if ($this->getParam('form_comment'))
-				{
-					$this->setParam('form_comment','<div>'.$passwordSuggest.'</div><div>'.$this->getParam('form_comment').'</div>');
-				}
-				else
-				{
-					$this->setParam('form_comment',$passwordSuggest);
-				}
+				$c.='<a class="ui tag label" onclick="Flask.Password.suggestPassword(\''.$this->tag.'\')"><span class="icon-bulb"></span></a>';
+				$c.='</div>';
 			}
 
 			// Comment
-			if ($row==1)
-			{
-				$c.=$this->renderComment();
-			}
+			$c.=$this->renderComment();
 
 			// Wrapper ends
 			$c.='</div>';
+
+			// Wrapper for repeat
+			$c.='<div id="field_'.$this->tag.'_repeat" class="field">';
+
+			// Field
+			$c.='<input';
+				$c.=' type="password"';
+				$c.=' id="'.$this->tag.'_repeat"';
+				$c.=' name="'.$this->tag.'_repeat"';
+				$c.=' autocomplete="off"';
+				$c.=' class="'.join(' ',$class).'"';
+				if (!empty($style)) $c.=' style="'.join('; ',$style).'"';
+				$c.=' placeholder="'.oneof($this->getParam('form_placeholder_repeat'),'[[ FLASK.FIELD.Password.RepeatPassword ]]').'"';
+				if ($this->getParam('maxlength')) $c.=' maxlength="'.$this->getParam('maxlength').'"';
+				if ($this->getParam('readonly') || $this->getParam('form_readonly')) $c.=' readonly="readonly"';
+				if ($this->getParam('disabled') || $this->getParam('form_disabled')) $c.=' disabled="disabled"';
+				if ($this->getParam('form_keephiddenvalue')) $c.=' data-keephiddenvalue="1"';
+				if ($this->getParam('form_event'))
+				{
+					foreach ($this->getParam('form_event') as $eventType => $eventContent) $c.=' '.$eventType.'="'.$eventContent.'"';
+				}
+				if ($this->getParam('form_data'))
+				{
+					foreach ($this->getParam('form_data') as $dataKey => $dataValue) $c.=' data-'.$dataKey.'="'.htmlspecialchars($dataValue).'"';
+				}
+			$c.='>';
+
+			// Wrapper ends
+			$c.='</div>';
+
+			// Return
 			return $c;
 		}
 

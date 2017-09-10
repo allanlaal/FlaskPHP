@@ -4,7 +4,6 @@
 	{{ list_globalaction }}
 	{{ list_filter }}
 	{{ list_content }}
-	{{ list_paging }}
 	{{ list_extrafooter }}
 </div>
 {{ list_returnlink }}

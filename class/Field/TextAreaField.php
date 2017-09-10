@@ -62,14 +62,10 @@
 
 			// Class
 			$class=array();
-			if (!empty($this->getParam('form_autocomplete'))) $class[]='autocomplete';
 			if (!empty($this->getParam('form_fieldclass'))) $class[]=$this->getParam('form_fieldclass');
 
-			// Wrapper
-			$c='<div class="element">';
-
 			// Field
-			$c.='<textarea';
+			$c='<textarea';
 				$c.=' type="text"';
 				$c.=' id="'.$this->tag.'"';
 				$c.=' name="'.$this->tag.'"';
@@ -87,13 +83,6 @@
 				elseif ($this->getParam('emptyformat')) $c.=' data-emptyformat="'.htmlspecialchars($this->getParam('emptyformat')).'"';
 				if ($this->getParam('form_keephiddenvalue')) $c.=' data-keephiddenvalue="1"';
 				if ($this->getParam('form_editmask')) $c.=' data-mask="'.$this->getParam('form_editmask').'"';
-				if ($this->getParam('form_autocomplete'))
-				{
-					$c.='data-autocomplete-minlength="'.intval($this->getParam("form_autocomplete_minlength")).'"';
-					$c.='data-autocomplete-sourceurl="'.htmlspecialchars($this->getParam("form_autocomplete_sourceurl")).'"';
-					$c.='data-autocomplete-sourcelist="'.htmlspecialchars($this->getParam("form_autocomplete_sourcelist")).'"';
-					$c.='data-autocomplete-keyvalue="'.($this->getParam("form_autocomplete_keyvalue")?'1':'0').'"';
-				}
 				if ($this->getParam('form_event'))
 				{
 					foreach ($this->getParam('form_event') as $eventType => $eventContent) $c.=' '.$eventType.'="'.$eventContent.'"';
@@ -109,8 +98,7 @@
 			// Comment
 			$c.=$this->renderComment();
 
-			// Wrapper ends
-			$c.='</div>';
+			// Return
 			return $c;
 		}
 

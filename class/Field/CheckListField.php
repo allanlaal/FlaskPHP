@@ -238,6 +238,25 @@
 
 		/**
 		 *
+		 *   Render form field: beginning block
+		 *   ----------------------------------
+		 *   @access public
+		 *   @param mixed $value Value
+		 *   @param int $row Row (for multi-row fields)
+		 *   @throws \Exception
+		 *   @return string
+		 *
+		 */
+
+		public function renderFormBeginningBlock( $value, int $row=null )
+		{
+			// Default simple wrapper
+			return '<div id="field_'.$this->tag.'" class="grouped fields">';
+		}
+
+
+		/**
+		 *
 		 *   Render form field: element
 		 *   --------------------------
 		 *   @access public
@@ -271,10 +290,8 @@
 				$checkboxStyle='float: left; width: '.floor(100/$this->param['itemsperrow']).'%';
 			}
 
-			// Wrapper
-			$c='<div class="element">';
-
 			// Iterate through groups
+			$c='';
 			foreach ($options as $optGroupName => $optGroupOptions)
 			{
 				// Title
@@ -284,7 +301,6 @@
 				}
 
 				// Checkboxes
-				$c.='<ul class="checklist">';
 				foreach ($optGroupOptions as $optionVal => $optionDescription)
 				{
 					if ($this->getParam('separateitems'))
@@ -302,8 +318,8 @@
 						$checkboxChecked=(in_array($optionVal,$value)?true:false);
 					}
 
-					$c.='<li class="checkbox" style="'.$checkboxStyle.'">';
-					$c.='<label>';
+					$c.='<div class="field" style="'.$checkboxStyle.'">';
+					$c.='<div class="ui checkbox">';
 					$c.='<input';
 					$c.=' type="checkbox"';
 					$c.=' id="'.$checkboxID.'"';
@@ -322,18 +338,16 @@
 					{
 						foreach ($this->getParam('form_data') as $dataKey => $dataValue) $c.=' data-'.$dataKey.'="'.htmlspecialchars($dataValue).'"';
 					}
-					$c.='>'.htmlspecialchars($optionDescription);
-					$c.='</label>';
-					$c.='</li>';
+					$c.='>';
+					$c.='<label for="'.$checkboxID.'">'.htmlspecialchars($optionDescription).'</label>';
+					$c.='</div>';
 				}
-				$c.='</ul>';
 			}
 
 			// Comment
 			$c.=$this->renderComment();
 
-			// Wrapper ends
-			$c.='</div>';
+			// Return
 			return $c;
 		}
 

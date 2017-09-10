@@ -309,7 +309,8 @@
 
 		public function renderFilterBeginningBlock()
 		{
-			$filterBeginningBlock='<div class="filter-item" id="filter_'.$this->tag.'">';
+			$filterBeginningBlock='<div class="filter-item column" id="filter_'.$this->tag.'">';
+			$filterBeginningBlock.='<div class="field">';
 			return $filterBeginningBlock;
 		}
 
@@ -363,6 +364,7 @@
 		public function renderFilterEndingBlock()
 		{
 			$filterEndingBlock='</div>';
+			$filterEndingBlock.='</div>';
 			return $filterEndingBlock;
 		}
 
@@ -439,11 +441,11 @@
 			{
 				if ($this->getParam('exact') || !is_string($value))
 				{
-					$whereList[]=$field."=".$loadListParam::colValue($value);
+					$whereList[]=$this->listObject->model->getParam('table').'.'.$field."=".$loadListParam::colValue($value);
 				}
 				else
 				{
-					$whereList[]=$field." like ".$loadListParam::colValue('%'.strval($value).'%');
+					$whereList[]=$this->listObject->model->getParam('table').'.'.$field." like ".$loadListParam::colValue('%'.strval($value).'%');
 				}
 			}
 			$loadListParam->addWhere('('.join(') or (',$whereList).')');

@@ -309,18 +309,72 @@
 
 		/**
 		 *
-		 *   Display login form
-		 *   ------------------
+		 *   Remder login form
+		 *   -----------------
 		 *   @access public
 		 *   @throws \Exception
 		 *   @return string
 		 *
 		 */
 
-		public function displayLoginForm()
+		public function renderLoginForm()
 		{
-			// This should be implemented in the layout extension
-			throw new FlaskPHP\Exception\NotImplementedException('Function displayLoginForm() should be implemented in the layout extension.');
+			// Init
+			$labelWidth=oneof($this->getParam('labelwidth'),3);
+			$fieldWidth=intval(12-$labelWidth);
+
+			// Render
+			$c='<div class="login-wrapper">';
+			if (!empty($this->getParam('banner'))) $c.='<div class="login-banner">'.$this->getParam('banner').'</div>';
+			$c.='<div class="login-form-content">';
+			$c.='<form role="form" id="login_form" class="login-form ui form" method="post" action="'.Flask()->Request->getRequestURI().'" onsubmit="return false">';
+
+				// E-mail
+				$c.='
+					<div id="field_login_email" class="login-form-field field">
+						<label for="login_email">'.oneof($this->getParam('label_email'),'[[ FLASK.COMMON.Email ]]').':</label>
+						<input type="text" class="form-control" id="login_email" name="login_email" onkeydown="Flask.Login.emailKeypress(event)">
+					</div>
+				';
+
+				// Password
+				$c.='
+					<div id="field_login_password" class="login-form-field field">
+						<label for="login_password">'.oneof($this->getParam('label_password'),'[[ FLASK.COMMON.Password ]]').':</label>
+						<input type="password" class="form-control" id="login_password" name="login_password" onkeydown="Flask.Login.passwordKeypress(event)">
+					</div>
+				';
+
+				// Language selection
+				if ($this->getParam('langsel'))
+				{
+					$languageList=$this->getLanguageList();
+					$c.='
+						<div id="field_login_lang" class="login-form-field field">
+							<label for="login_lang">'.oneof($this->getParam('label_password'),'[[ FLASK.COMMON.Language ]]').':</label>
+							<select class="ui dropdown" id="login_lang" name="login_lang">'.FlaskPHP\Util::arrayToSelectOptions($languageList,Flask()->Request->requestLang).'</select>
+						</div>
+					';
+				}
+
+				// Login message
+				$c.='
+					<div id="login_message" class="login-message"></div>
+				';
+
+				// Login submit
+				$c.='
+					<div class="login-submit">
+						<button type="button" id="login_submit" class="ui primary button" data-title="'.oneof($this->getParam('label_submit'),'[[ FLASK.USER.LOGIN.Login ]]').'" onclick="Flask.Login.doLogin()">'.oneof($this->getParam('label_submit'),'[[ FLASK.USER.LOGIN.Login ]]').'</button>
+					</div>
+				';
+
+			$c.='</form>';
+			$c.='</div>';
+			$c.='</div>';
+
+			$c.='<script language="JavaScript"> $(function(){ $("#login_email").focus(); }); </script>';
+			return $c;
 		}
 
 
@@ -387,7 +441,7 @@
 					{
 						$response=new \stdClass();
 						$response->status=1;
-						$response->content=$this->displayLoginForm();
+						$response->content=$this->renderLoginForm();
 						return new FlaskPHP\Response\JSONResponse($response);
 					}
 				}
@@ -430,7 +484,7 @@
 				// Render
 				$response=new FlaskPHP\Response\HTMLResponse();
 				$response->setTemplate(oneof($this->getParam('template'),'login'));
-				$response->setContent($this->displayLoginForm());
+				$response->setContent($this->renderLoginForm());
 
 				// Return login form
 				return $response;

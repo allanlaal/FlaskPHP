@@ -52,6 +52,12 @@ FLASK.COMMON.Error.ErrorReadingData                                  Error readi
 FLASK.COMMON.Error.ErrorSavingData                                   Error saving data
 
 FLASK.FIELD.Select                                                   select from here
+FLASK.FIELD.Password.EnterPassword                                   Enter password
+FLASK.FIELD.Password.RepeatPassword                                  Repeat password
+FLASK.FIELD.Password.Suggest.FormComment                             Suggest a secure password
+FLASK.FIELD.Password.Suggest.Title                                   Password suggestion
+FLASK.FIELD.Password.Suggest.Result.1                                Your password is
+FLASK.FIELD.Password.Suggest.Result.2                                Please write it down and store in a safe place.
 FLASK.FIELD.Error.RequiredFieldEmpty                                 Required field empty.
 FLASK.FIELD.Error.MinLength                                          Value too short, required at least $minlength characters.
 FLASK.FIELD.Error.MaxLength                                          Value too long, a maximum of $maxlength characters allowed.
@@ -69,6 +75,7 @@ FLASK.FIELD.Chooser.clear                                            clear
 FLASK.FIELD.Chooser.Search.Title                                     Choose
 FLASK.FIELD.Chooser.Search.Placeholder                               Enter search term
 FLASK.FIELD.Chooser.Search.Submit                                    Search
+FLASK.FIELD.Chooser.AddNew.Submit                                    Add new
 FLASK.FIELD.Chooser.Progress                                         Querying data, please wait ...
 FLASK.FIELD.Chooser.Result.NoResults                                 No results found.
 FLASK.FIELD.Chooser.Result.MaxResults                                More than $maxresults results found, please be more specific.
@@ -102,14 +109,11 @@ FLASK.FORM.Msg.Saving                                                Saving data
 FLASK.FORM.Error.CouldNotFindForm                                    Could not find the form.
 FLASK.FORM.Error.Validate                                            The following errors occurred while validating form input
 FLASK.FORM.Error.DuplicateKey                                        A record with the given data already exists, cannot create a duplicate.
-FLASK.FORM.Password.Suggest.FormComment                              Suggest a secure password
-FLASK.FORM.Password.Suggest.Title                                    Password suggestion
-FLASK.FORM.Password.Suggest.Result.1                                 Your password is
-FLASK.FORM.Password.Suggest.Result.2                                 Please write it down and store in a safe place.
 
 FLASK.LIST.Filter.Submit                                             Apply filters
 FLASK.LIST.Filter.Clear                                              Clear filters
 FLASK.LIST.Filter.ShowAll                                            show all
+FLASK.LIST.Progress                                                  Querying data, please wait ...
 FLASK.LIST.Message.FilterRequired                                    Please choose at least one filter criteria.
 FLASK.LIST.Message.NoResults                                         No results found.
 FLASK.LIST.Message.NoResults.Filtered                                No results found matching the filter criteria.
@@ -118,7 +122,14 @@ FLASK.LIST.Return                                                    return
 
 FLASK.TABBEDVIEW.Progress                                            Loading data, one moment ...
 
+FLASK.LOG.Fld.TimeStamp                                              Date/time
+FLASK.LOG.Fld.User                                                   User
+FLASK.LOG.Fld.LogEntry                                               Log entry
+FLASK.LOG.Fld.LogData                                                Log entry details
+FLASK.LOG.Fld.LogData.View                                           View details
+FLASK.LOG.Fld.LogData.Operation                                      Operation
+FLASK.LOG.Fld.LogData.Empty                                          empty
 FLASK.LOG.LogEntry.Action.add                                        added
 FLASK.LOG.LogEntry.Action.edit                                       edited
 FLASK.LOG.LogEntry.Action.delete                                     deleted
-FLASK.LOG.LogEntry.Action.delete                                     order swapped
+FLASK.LOG.LogEntry.Action.swap                                       order swapped

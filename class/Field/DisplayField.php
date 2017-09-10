@@ -55,11 +55,8 @@
 			// Value
 			$value=$this->escapeValue($value);
 
-			// Wrapper
-			$c='<div class="element">';
-
 			// Field
-			$c.='<input';
+			$c='<input';
 				$c.=' type="hidden"';
 				$c.=' id="'.$this->tag.'"';
 				$c.=' name="'.$this->tag.'"';
@@ -81,8 +78,7 @@
 			// Comment
 			$c.=$this->renderComment();
 
-			// Wrapper ends
-			$c.='</div>';
+			// Return
 			return $c;
 		}
 

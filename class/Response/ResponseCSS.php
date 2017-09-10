@@ -49,8 +49,35 @@
 
 
 		/**
+		 *   Response CSS compiler
+		 *   @var string
+		 *   @access public
+		 */
+
+		public $responseCompiler = 'less';
+
+
+		/**
+		 *   Import paths
+		 *   @var array
+		 *   @access private
+		 */
+
+		private $responseImportPath = array();
+
+
+		/**
+		 *   Less parser
+		 *   @var lessc
+		 *   @access private
+		 */
+
+		private $Less = null;
+
+
+		/**
 		 *   SCSS parser
-		 *   @var \Leafo\ScssPhp\Compiler
+		 *   @var \Leafo\ScssPHP\Compiler
 		 *   @access private
 		 */
 
@@ -158,6 +185,28 @@
 
 
 		/**
+		 *   Add Semantic UI
+		 *   @access public
+		 *   @param string $semanticTheme Semantic theme config file
+		 *   @param int $cssPriority Priority (1-9)
+		 *   @param string $cssBundle Bundle
+		 *   @return void
+		 */
+
+		public function addSemantic( string $semanticTheme=null, int $cssPriority=1, string $cssBundle='css' )
+		{
+			// Init bundle
+			$bundleItem=new ResponseCSSItem();
+			$bundleItem->itemType='semantic';
+			$bundleItem->itemFilename=$semanticTheme;
+			$bundleItem->itemPriority=$cssPriority;
+
+			// Add
+			$this->responseCSS[$cssBundle]['semantic']=$bundleItem;
+		}
+
+
+		/**
 		 *   Add a watchlist item
 		 *   @access public
 		 *   @param string $fileName Filename
@@ -168,6 +217,21 @@
 		public function addWatchList( string $fileName, string $cssBundle='css' )
 		{
 			$this->responseWatchList[$cssBundle][$fileName]=$fileName;
+		}
+
+		/**
+		 *   Add import path
+		 *   @access public
+		 *   @param string $importPath
+		 *   @return void
+		 */
+
+		public function addImportPath( string $importPath )
+		{
+			if (!in_array($importPath,$this->responseImportPath))
+			{
+				$this->responseImportPath[]=$importPath;
+			}
 		}
 
 
@@ -200,13 +264,59 @@
 		 *   @throws \Exception
 		 */
 
+		public function initLess()
+		{
+			// Init SCSS compiler
+			$this->Less=new \Less_Parser(array(
+				'compress' => true,
+				'strictMath' => true
+			));
+			$this->addImportPath(Flask()->getAppPath());
+			$this->addImportPath(Flask()->getFlaskPath());
+		}
+
+
+		/**
+		 *   Init SCSS compiler
+		 *   @access public
+		 *   @return string
+		 *   @throws \Exception
+		 */
+
 		public function initSCSS()
 		{
 			// Init SCSS compiler
 			$this->SCSS=new \Leafo\ScssPhp\Compiler();
 			$this->SCSS->setFormatter('Leafo\ScssPhp\Formatter\Expanded');
-			$this->SCSS->addImportPath(Flask()->getAppPath());
-			$this->SCSS->addImportPath(Flask()->getFlaskPath());
+			$this->addImportPath(Flask()->getAppPath());
+			$this->addImportPath(Flask()->getFlaskPath());
+		}
+
+
+		/**
+		 *   Parse Less
+		 *   @access public
+		 *   @return string
+		 *   @throws \Exception
+		 */
+
+		public function parseLess( $CSS )
+		{
+			try
+			{
+				$importPathList=array();
+				foreach ($this->responseImportPath as $importPath)
+				{
+					$importPathList[$importPath]='';
+				}
+				$this->Less->SetImportDirs($importPathList);
+				$this->Less->parse($CSS);
+				return $this->Less->getCss();
+			}
+			catch (\Exception $e)
+			{
+				throw new FlaskPHP\Exception\Exception('Error parsing CSS/Less: '.$e->getMessage());
+			}
 		}
 
 
@@ -221,6 +331,10 @@
 		{
 			try
 			{
+				foreach ($this->responseImportPath as $importPath)
+				{
+					$this->SCSS->addImportPath($importPath);
+				}
 				return $this->minifyCSS($this->SCSS->compile($CSS));
 			}
 			catch (\Exception $e)
@@ -258,7 +372,23 @@
 						$assetArray[$cssID]=$cssID;
 						$filemtime=$cssItem->itemModifiedTimestamp;
 					}
-					elseif ($cssID->itemType=='bootstrap')
+					elseif ($cssItem->itemType=='semantic')
+					{
+						// Bootstrap itself
+						$assetArray['semantic']='semantic';
+
+						// Themed Bootstrap
+						if (!empty($cssItem->itemFilename))
+						{
+							if (!Flask()->resolvePath($cssItem->itemFilename)) throw new FlaskPHP\Exception\Exception('Semantic theme file not readable: '.$cssItem->itemFilename);
+							$filemtime=filemtime(Flask()->resolvePath($cssItem->itemFilename));
+						}
+
+						// Bootstrap file
+						$filemtime=filemtime(Flask()->resolvePath('static/vendor/semantic/semantic.less'));
+						if ($filemtime>$assetTimeStamp) $assetTimeStamp=$filemtime;
+					}
+					elseif ($cssItem->itemType=='bootstrap')
 					{
 						// Bootstrap itself
 						$assetArray['bootstrap']='bootstrap';
@@ -297,7 +427,15 @@
 				// If file does not exist, build it
 				if (!file_exists($assetFileName))
 				{
-					$this->initSCSS();
+					switch (mb_strtolower($this->responseCompiler))
+					{
+						case 'scss':
+							$this->initSCSS();
+							break;
+						default:
+							$this->initLess();
+							break;
+					}
 					$assetFileContents='';
 					foreach ($bundleContents as $cssID => $cssItem)
 					{
@@ -305,24 +443,45 @@
 						{
 							$assetFileContents.=$cssItem->itemSource;
 						}
-						elseif ($cssItem->itemType=='bootstrap')
+						elseif ($cssItem->itemType=='semantic')
 						{
+							if (mb_strtolower($this->responseCompiler)!='less') throw new FlaskPHP\Exception\Exception('Semantic needs Less as the CSS compiler.');
 							if (!empty($cssItem->itemFilename))
 							{
-								$this->SCSS->addImportPath(pathinfo(Flask()->resolvePath($cssItem->itemFilename),PATHINFO_DIRNAME));
+								$this->addImportPath(pathinfo(Flask()->resolvePath($cssItem->itemFilename),PATHINFO_DIRNAME));
+								$assetFileContents.="@semanticThemeConfig: '".$cssItem->itemFilename."';\n";
+							}
+							$semanticFilename='static/vendor/semantic/semantic.less';
+							$this->addImportPath(pathinfo(Flask()->resolvePath($semanticFilename),PATHINFO_DIRNAME));
+							$assetFileContents.=file_get_contents(Flask()->resolvePath($semanticFilename));
+						}
+						elseif ($cssItem->itemType=='bootstrap')
+						{
+							if (mb_strtolower($this->responseCompiler)!='scss') throw new FlaskPHP\Exception\Exception('Bootstrap needs SCSS as the CSS compiler.');
+							if (!empty($cssItem->itemFilename))
+							{
+								$this->addImportPath(pathinfo(Flask()->resolvePath($cssItem->itemFilename),PATHINFO_DIRNAME));
 								$assetFileContents.=file_get_contents(Flask()->resolvePath($cssItem->itemFilename));
 							}
 							$bootStrapFilename='static/vendor/bootstrap/css/bootstrap.scss';
-							$this->SCSS->addImportPath(pathinfo(Flask()->resolvePath($bootStrapFilename),PATHINFO_DIRNAME));
+							$this->addImportPath(pathinfo(Flask()->resolvePath($bootStrapFilename),PATHINFO_DIRNAME));
 							$assetFileContents.=file_get_contents(Flask()->resolvePath($bootStrapFilename));
 						}
 						else
 						{
-							$this->SCSS->addImportPath(pathinfo(Flask()->resolvePath($cssItem->itemFilename),PATHINFO_DIRNAME));
+							$this->addImportPath(pathinfo(Flask()->resolvePath($cssItem->itemFilename),PATHINFO_DIRNAME));
 							$assetFileContents.=file_get_contents(Flask()->resolvePath($cssItem->itemFilename));
 						}
 					}
-					$assetFileContents=$this->parseSCSS($assetFileContents);
+					switch (mb_strtolower($this->responseCompiler))
+					{
+						case 'scss':
+							$assetFileContents=$this->parseSCSS($assetFileContents);
+							break;
+						default:
+							$assetFileContents=$this->parseLess($assetFileContents);
+							break;
+					}
 					file_put_contents($assetFileName,$assetFileContents);
 				}
 

@@ -222,6 +222,25 @@
 
 		/**
 		 *
+		 *   Render form field: beginning block
+		 *   ----------------------------------
+		 *   @access public
+		 *   @param mixed $value Value
+		 *   @param int $row Row (for multi-row fields)
+		 *   @throws \Exception
+		 *   @return string
+		 *
+		 */
+
+		public function renderFormBeginningBlock( $value, int $row=null )
+		{
+			// Default simple wrapper
+			return '<div id="fieldgroup_'.$this->tag.'" class="grouped fields">';
+		}
+
+
+		/**
+		 *
 		 *   Render form field: element
 		 *   --------------------------
 		 *   @access public
@@ -261,85 +280,108 @@
 
 			// Class
 			$class=array();
-			if (!empty($this->getParam('form_autocomplete'))) $class[]='autocomplete';
 			if (!empty($this->getParam('form_fieldclass'))) $class[]=$this->getParam('form_fieldclass');
-
-			// Wrapper
-			$c='<div class="element">';
 
 			// Fields
 			$fieldList=array();
-			$fieldList[$this->tag]=$value;
 			$fieldList[$this->tag.'_city']=$valueCity;
 			if ($this->getParam('state')) $fieldList[$this->tag.'_state']=$valueState;
 			$fieldList[$this->tag.'_zip']=$valueZIP;
-			if ($this->getParam('country')!==false) $fieldList[$this->tag.'_country']=$valueCountry;
 
 			// Placeholders
 			$fieldPlaceholder=array();
-			$fieldPlaceholder[$this->tag]='[[ FLASK.COMMON.Address.Street ]]';
 			$fieldPlaceholder[$this->tag.'_city']='[[ FLASK.COMMON.Address.City ]]';
 			if ($this->getParam('state')) $fieldPlaceholder[$this->tag.'_state']='[[ FLASK.COMMON.Address.State ]]';;
-			$fieldPlaceholder[$this->tag.'_zip']='[[ FLASK.COMMON.Address.ZIP ]]';;
-			if ($this->getParam('country')!==false) $fieldPlaceholder[$this->tag.'_country']='[[ FLASK.COMMON.Address.Country ]]';
+			$fieldPlaceholder[$this->tag.'_zip']='[[ FLASK.COMMON.Address.ZIP ]]';
 
-			// Render
-			foreach ($fieldList as $fieldTag => $fieldValue)
+			// Widths
+			if ($this->getParam('state'))
 			{
-				$c.='<div>';
-				if ($fieldTag==$this->tag.'_country')
-				{
-					$c.='<select';
-				}
-				else
-				{
-					$c.='<input';
-					$c.=' type="text"';
-					$c.=' autocomplete="off"';
-					$c.=' placeholder="'.$fieldPlaceholder[$fieldTag].'"';
-				$c.=' value="'.$fieldValue.'"';
-				}
-				$c.=' id="'.$fieldTag.'"';
-				$c.=' name="'.$fieldTag.'"';
-				$c.=' data-originalvalue="'.$fieldValue.'"';
+				$fieldWidth=array();
+				$fieldWidth[$this->tag.'_city']='eight';
+				$fieldWidth[$this->tag.'_state']='four';
+				$fieldWidth[$this->tag.'_zip']='four';
+			}
+			else
+			{
+				$fieldWidth=array();
+				$fieldWidth[$this->tag.'_city']='twelve';
+				$fieldWidth[$this->tag.'_zip']='four';
+			}
+
+			// Main field
+			$c='<div class="field">';
+
+				$c.='<input';
+				$c.=' type="text"';
+				$c.=' autocomplete="off"';
+				$c.=' placeholder="[[ FLASK.COMMON.Address.Street ]]"';
+				$c.=' value="'.$value.'"';
+				$c.=' id="'.$this->tag.'"';
+				$c.=' name="'.$this->tag.'"';
+				$c.=' data-originalvalue="'.$value.'"';
 				$c.=' class="'.join(' ',$class).'"';
 				if (!empty($style)) $c.=' style="'.join('; ',$style).'"';
 				if ($this->getParam('maxlength')) $c.=' maxlength="'.$this->getParam('maxlength').'"';
 				if ($this->getParam('readonly') || $this->getParam('form_readonly')) $c.=' readonly="readonly"';
 				if ($this->getParam('disabled') || $this->getParam('form_disabled')) $c.=' disabled="disabled"';
 				if ($this->getParam('form_keephiddenvalue')) $c.=' data-keephiddenvalue="1"';
-				if ($fieldTag==$this->tag)
+				if ($this->getParam('form_data'))
 				{
-					if ($this->getParam('form_autocomplete'))
-					{
-						$c.='data-autocomplete-minlength="'.intval($this->getParam("form_autocomplete_minlength")).'"';
-						$c.='data-autocomplete-sourceurl="'.htmlspecialchars($this->getParam("form_autocomplete_sourceurl")).'"';
-						$c.='data-autocomplete-sourcelist="'.htmlspecialchars($this->getParam("form_autocomplete_sourcelist")).'"';
-						$c.='data-autocomplete-keyvalue="'.($this->getParam("form_autocomplete_keyvalue")?'1':'0').'"';
-					}
-					if ($this->getParam('form_data'))
-					{
-						foreach ($this->getParam('form_data') as $dataKey => $dataValue) $c.=' data-'.$dataKey.'="'.htmlspecialchars($dataValue).'"';
-					}
+					foreach ($this->getParam('form_data') as $dataKey => $dataValue) $c.=' data-'.$dataKey.'="'.htmlspecialchars($dataValue).'"';
 				}
 				if ($this->getParam('form_event'))
 				{
 					foreach ($this->getParam('form_event') as $eventType => $eventContent) $c.=' '.$eventType.'="'.$eventContent.'"';
 				}
-				$c.='>';
-				if ($fieldTag==$this->tag.'_country')
+
+			$c.='</div>';
+
+			// Other fields
+			$c.='<div class="fields mb-0">';
+			foreach ($fieldList as $fieldTag => $fieldValue)
+			{
+				$c.='<div class="'.$fieldWidth[$fieldTag].' wide field">';
+				$c.='<input';
+				$c.=' type="text"';
+				$c.=' autocomplete="off"';
+				$c.=' placeholder="'.$fieldPlaceholder[$fieldTag].'"';
+				$c.=' value="'.$fieldValue.'"';
+				$c.=' class="'.join(' ',$class).'"';
+				$c.=' id="'.$fieldTag.'"';
+				$c.=' name="'.$fieldTag.'"';
+				$c.=' data-originalvalue="'.$fieldValue.'"';
+				if ($this->getParam('form_event'))
 				{
-					$c.='<option value="">---</option>';
-					$c.=FlaskPHP\Util::arrayToSelectOptions(oneof($this->getParam('country_list'),FlaskPHP\I18n\CountryData::getCountryList()),$valueCountry);
-					$c.='</select>';
+					foreach ($this->getParam('form_event') as $eventType => $eventContent) $c.=' '.$eventType.'="'.$eventContent.'"';
 				}
+				$c.='>';
 				$c.='</div>';
+			}
+			$c.='</div>';
+
+			// Country field
+			if ($this->getParam('country')!==false)
+			{
+				$c.='<select';
+				$c.=' class="ui dropdown '.join(' ',$class).'"';
+				$c.=' id="'.$this->tag.'_country"';
+				$c.=' name="'.$this->tag.'_country"';
+				$c.=' data-originalvalue="'.$valueCountry.'"';
+				if ($this->getParam('form_event'))
+				{
+					foreach ($this->getParam('form_event') as $eventType => $eventContent) $c.=' '.$eventType.'="'.$eventContent.'"';
+				}
+				$c.='>';
+				$c.='<option value="">--- [[ FLASK.COMMON.Address.Country ]] ---</option>';
+				$c.=FlaskPHP\Util::arrayToSelectOptions(oneof($this->getParam('country_list'),FlaskPHP\I18n\CountryData::getCountryList()),$valueCountry);
+				$c.='</select>';
 			}
 
 			// Comment
 			$c.=$this->renderComment();
 
-			// Wrapper ends
+			// Return
 			$c.='</div>';
 			return $c;
 		}

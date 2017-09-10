@@ -242,7 +242,10 @@
 			$loadListParam=oneof($this->getParam('loadparam'),Flask()->DB->getQueryBuilder());
 
 			// Base columns
-			$loadListParam->addField($this->model->getParam('idfield'));
+			if ($this->model->getParam('idfield'))
+			{
+				$loadListParam->addField($this->model->getParam('idfield'));
+			}
 			if ($this->getParam('nested'))
 			{
 				$loadListParam->addField($this->getParam('nested_parentfield'));
@@ -272,11 +275,11 @@
 				{
 					$sortFieldObject=$this->field[$this->getParam('list_sort_field')];
 					$sortFieldObject->getListSortCriteria(
-						oneof($this->getParam('list_sort_order'),'asc'),
+						oneof($this->getParam('list_sort_dir'),'asc'),
 						$loadListParam
 					);
 				}
-				elseif (empty($loadListParam->queryOrderBy))
+				elseif (empty($loadListParam->queryOrderBy) && sizeof($this->field))
 				{
 					reset($this->field);
 					$sortFieldObject=$this->field[key($this->field)];
@@ -291,7 +294,7 @@
 			$loadListParam->calcFoundRows=true;
 			if ($this->getParam('paging'))
 			{
-				$loadListParam->addLimit($this->getParam('paging_pagesize'),(($this->getParam('paging_currentpage')-1)*$this->getParam('paging_pagesize')));
+				$loadListParam->addLimit($this->getParam('paging_pagesize'),(($this->getParam('paging_page')-1)*$this->getParam('paging_pagesize')));
 			}
 
 			// Load data
@@ -329,7 +332,7 @@
 		 *   -----------
 		 *   @access public
 		 *   @throws \Exception
-		 *   @return FlaskPHP\Response\ResponseInterface
+		 *   @return void
 		 *
 		 */
 
@@ -341,8 +344,10 @@
 				// Clear
 				Flask()->Session->set('list.'.$this->getParam('id').'.filter',null);
 
-				// Reload
-				return new FlaskPHP\Response\RedirectResponse($this->buildURL());
+				// Set to return content
+				$this->setParam('returnfilter',true);
+				$this->setParam('returncontent',true);
+				return;
 			}
 
 			// Set filters
@@ -357,12 +362,13 @@
 					Flask()->Session->set('list.'.$this->getParam('id').'.filter.'.$filterTag,$filterObject->getSubmitValue());
 				}
 
-				// Reload
-				return new FlaskPHP\Response\RedirectResponse($this->buildURL());
+				// Set to return content
+				$this->setParam('returncontent',true);
+				return;
 			}
 
 			// No action
-			return null;
+			return;
 		}
 
 
@@ -372,7 +378,7 @@
 		 *   -----------
 		 *   @access public
 		 *   @throws \Exception
-		 *   @return FlaskPHP\Response\ResponseInterface
+		 *   @return void
 		 *
 		 */
 
@@ -393,8 +399,8 @@
 					}
 				}
 
-				// Reload
-				return new FlaskPHP\Response\RedirectResponse($this->buildURL());
+				// Set to return content
+				$this->setParam('returncontent',true);
 			}
 
 			// Check if we have sorting?
@@ -438,9 +444,6 @@
 					break;
 				}
 			}
-
-			// No action
-			return null;
 		}
 
 
@@ -450,14 +453,14 @@
 		 *   ----------
 		 *   @access public
 		 *   @throws \Exception
-		 *   @return FlaskPHP\Response\ResponseInterface
+		 *   @return void
 		 *
 		 */
 
 		public function applyPaging()
 		{
 			// Set paging
-			if ($this->getParam('list_paging') && Flask()->Request->postVar('action')=='page')
+			if ($this->getParam('paging') && Flask()->Request->postVar('action')=='page')
 			{
 				Flask()->Session->set('list.'.$this->getParam('id').'.page',null);
 				if (intval(Flask()->Request->postVar('page')))
@@ -465,12 +468,17 @@
 					Flask()->Session->set('list.'.$this->getParam('id').'.page',intval(Flask()->Request->postVar('page')));
 				}
 
-				// Reload
-				return new FlaskPHP\Response\RedirectResponse($this->buildURL());
+				// Set to return content
+				$this->setParam('returncontent',true);
+				$this->setParam('returnscrolltop',true);
 			}
 
-			// No action
-			return null;
+			// Set variables
+			if ($this->getParam('paging'))
+			{
+				$currentPage=oneof(Flask()->Session->get('list.'.$this->getParam('id').'.page'),1);
+				$this->setParam('paging_page',$currentPage);
+			}
 		}
 
 
@@ -480,7 +488,7 @@
 		 *   --------------------------
 		 *   @access public
 		 *   @throws \Exception
-		 *   @return FlaskPHP\Response\ResponseInterface
+		 *   @return bool
 		 *
 		 */
 
@@ -498,7 +506,7 @@
 				if ($currentPage>$totalPages)
 				{
 					Flask()->Session->set('list.'.$this->getParam('id').'.page',1);
-					return new FlaskPHP\Response\RedirectResponse($this->buildURL());
+					return false;
 				}
 
 				// Set these as parameters for convenience
@@ -506,8 +514,8 @@
 				$this->setParam('paging_totalpages',$totalPages);
 			}
 
-			// No action
-			return null;
+			// All-OK
+			return true;
 		}
 
 
@@ -698,6 +706,23 @@
 
 		/**
 		 *
+		 *   Set load parameters
+		 *   -------------------
+		 *   @access public
+		 *   @param FlaskPHP\DB\QueryBuilderInterface $loadParam
+		 *   @return \Codelab\FlaskPHP\Action\ListAction
+		 *
+		 */
+
+		public function setLoadParam( FlaskPHP\DB\QueryBuilderInterface $loadParam )
+		{
+			$this->setParam('loadparam',$loadParam);
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Set paging
 		 *   ----------
 		 *   @access public
@@ -753,6 +778,23 @@
 
 		/**
 		 *
+		 *   Set filter width
+		 *   -----------------
+		 *   @access public
+		 *   @param string $filterColumnWidth Filter column width
+		 *   @return \Codelab\FlaskPHP\Action\ListAction
+		 *
+		 */
+
+		public function setFilterColumnWidth( string $filterColumnWidth )
+		{
+			$this->setParam('filtercolumnwidth',$filterColumnWidth);
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Set no results messages
 		 *   -----------------------
 		 *   @access public
@@ -791,6 +833,24 @@
 
 		/**
 		 *
+		 *   Return list HTML instead of full response
+		 *   -----------------------------------------
+		 *   @access public
+		 *   @param string $returnLink Return link
+		 *   @param string $title Link title
+		 *   @return \Codelab\FlaskPHP\Action\ListAction
+		 *
+		 */
+
+		public function setReturnHTML( bool $returnHTML )
+		{
+			$this->setParam('returnhtml',$returnHTML);
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Render list HTML
 		 *   ----------------
 		 *   @access public
@@ -808,9 +868,8 @@
 			$this->renderTitle();
 			$this->renderExtraHeader();
 			$this->renderGlobalActions();
-			$this->renderFilters();
-			$this->renderContent();
-			$this->renderPaging();
+			$this->renderFilters(true);
+			$this->renderContent(true);
 			$this->renderExtraFooter();
 			$this->renderReturnLink();
 			$this->renderJS();
@@ -891,18 +950,16 @@
 			// No actions?
 			if (!sizeof($this->globalAction)) return null;
 
-			$listGlobalActions='<ul class="list-globalactions">';
+			$listGlobalActions='<div class="list-global-actions">';
 			foreach ($this->globalAction as $actionTag => $actionObject)
 			{
-				$listGlobalActions.='<li class="list-globalactions-action">';
+				$listGlobalActions.='<div class="list-global-action ui basic button"  onclick="'.$actionObject->getParam('action').'">';
 				if ($actionObject->hasParam('icon')) $listGlobalActions.='<span class="icon-'.$actionObject->getParam('icon').'">';
-				$listGlobalActions.='<a onclick="'.$actionObject->getParam('action').'">';
 				$listGlobalActions.=$actionObject->getParam('title');
-				$listGlobalActions.='</a>';
 				$listGlobalActions.='</span>';
-				$listGlobalActions.='</li>';
+				$listGlobalActions.='</div>';
 			}
-			$listGlobalActions.='</ul>';
+			$listGlobalActions.='</div>';
 
 			$this->template->set('list_globalaction',$listGlobalActions);
 			return $listGlobalActions;
@@ -914,41 +971,59 @@
 		 *   Render list parts: filters
 		 *   --------------------------
 		 *   @access public
+		 *   @param bool $renderContentWrapper Render content wrapper
 		 *   @throws \Exception
 		 *   @return string
 		 *
 		 */
 
-		public function renderFilters()
+		public function renderFilters( bool $renderContentWrapper=true )
 		{
 			// Check & init
-			if (!sizeof($this->filter)) return null;
+			if (!sizeof($this->filter)) return '';
 			$listFilter='';
 
 			// Wrapper
-			$listFilter.='<div class="list-filter">';
-			$listFilter.='<form method="post" action="'.$this->buildURL().'">';
+			if ($renderContentWrapper)
+			{
+				$listFilter.='<div class="list-filter ui segment">';
+				$listFilter.='<form id="list_'.$this->getParam('id').'_filter" onsubmit="return false">';
+			}
 
 				// Filters
-				$listFilter.='<div class="list-filter-filters">';
+				$listFilter.='<div class="ui form">';
+				$listFilter.='<div class="list-filter-filters ui '.oneof($this->getParam('filtercolumnwidth'),'four').' column grid">';
 				foreach ($this->filter as $filterTag => $filterObject)
 				{
 					$listFilter.=$filterObject->renderFilter();
 				}
 				$listFilter.='</div>';
+				$listFilter.='</div>';
 
 				// Submit
 				$listFilter.='<div class="list-filter-submit">';
-				$listFilter.='<button type="submit" id="filter_submit" name="action" value="filter_submit">[[ FLASK.LIST.Filter.Submit ]]</button>';
-				$listFilter.='<button type="submit" id="filter_clear" name="action" value="filter_clear">[[ FLASK.LIST.Filter.Clear ]]</button>';
+				$listFilter.='<button class="ui button" type="button" onclick="Flask.List.updateFilters(\''.$this->getParam('id').'\',\''.$this->buildURL().'\')"><i class="filter icon"></i> [[ FLASK.LIST.Filter.Submit ]]</button>';
+				$listFilter.='<button class="ui button" type="button" onclick="Flask.List.getContent(\''.$this->getParam('id').'\',\''.$this->buildURL().'\',\'filter_clear\')"><i class="remove icon"></i> [[ FLASK.LIST.Filter.Clear ]]</button>';
 				$listFilter.='</div>';
 
 			// Wrapper ends
-			$listFilter.='</form>';
-			$listFilter.='</div>';
+			if ($renderContentWrapper)
+			{
+				$listFilter.='</form>';
+				$listFilter.='</div>';
+			}
+
+			// Initial JS
+			if ($renderContentWrapper)
+			{
+				$this->js.="Flask.List.initFilters('".$this->getParam('id')."')";
+			}
 
 			// Set and return
-			$this->template->set('list_filter',$listFilter);
+			if (is_object($this->template))
+			{
+				$this->template->set('list_filter',$listFilter);
+			}
 			return $listFilter;
 		}
 
@@ -958,17 +1033,28 @@
 		 *   Render list parts: list content
 		 *   -------------------------------
 		 *   @access public
+		 *   @param bool $renderContentWrapper Render content wrapper
 		 *   @throws \Exception
 		 *   @return string
 		 *
 		 */
 
-		public function renderContent()
+		public function renderContent( bool $renderContentWrapper=true )
 		{
+			// Init
+			$listContent='';
+
+			// Content wrapper
+			if ($renderContentWrapper)
+			{
+				$listContent.='<div id="list_'.$this->getParam('id').'">';
+			}
+
+
 			// No filter?
 			if ($this->getParam('filterrequired') && !$this->filterApplied)
 			{
-				$listContent='<p>'.oneof($this->getParam('filterrequired_message'),'[[ FLASK.LIST.Message.FilterRequired ]]').'</p>';
+				$listContent.='<div class="ui message">'.oneof($this->getParam('filterrequired_message'),'[[ FLASK.LIST.Message.FilterRequired ]]').'</div>';
 			}
 
 			// No results
@@ -976,25 +1062,35 @@
 			{
 				if ($this->filterApplied)
 				{
-					$listContent='<p>'.oneof($this->getParam('noresults_message_filtered'),'[[ FLASK.LIST.Message.NoResults.Filtered ]]').'</p>';
+					$listContent.='<div class="ui warning message">'.oneof($this->getParam('noresults_message_filtered'),'[[ FLASK.LIST.Message.NoResults.Filtered ]]').'</div>';
 				}
 				else
 				{
-					$listContent='<p>'.oneof($this->getParam('noresults_message'),'[[ FLASK.LIST.Message.NoResults ]]').'</p>';
+					$listContent.='<div class="ui message">'.oneof($this->getParam('noresults_message'),'[[ FLASK.LIST.Message.NoResults ]]').'</div>';
 				}
 			}
 
 			// Render content
 			else
 			{
-				$listContent=$this->renderContentTableBegin();
+				$listContent.=$this->renderContentTableBegin();
 				$listContent.=$this->renderContentTableHeader();
 				$listContent.=$this->renderContentTableBody();
 				$listContent.=$this->renderContentTableEnd();
+				$listContent.=$this->renderPaging();
+			}
+
+			// Wrapper
+			if ($renderContentWrapper)
+			{
+				$listContent.='</div>';
 			}
 
 			// Set and return
-			$this->template->set('list_content',$listContent);
+			if (is_object($this->template))
+			{
+				$this->template->set('list_content',$listContent);
+			}
 			return $listContent;
 		}
 
@@ -1012,7 +1108,8 @@
 		public function renderContentTableBegin()
 		{
 			$tableClass=array();
-			$tableClass[]='table';
+			$tableClass[]='ui table';
+			$tableClass[]='list-content';
 			if ($this->hasParam('tableclass')) $tableClass[]=$this->getParam('tableclass');
 
 			$contentTableBegin='<table class="'.join(' ',$tableClass).'">';
@@ -1086,7 +1183,7 @@
 				$contentTableHeader.='>';
 				if ($fieldSortable)
 				{
-					$contentTableHeader.='<a class="'.oneof($this->getParam('list_header_sortclass_link'),'list-table-field-sort').'" onclick="Flask.doPostSubmit(\''.$this->buildURL().'\',{action:\'sort\',sort_field:\''.jsencode($fieldObject->tag).'\',sort_dir:\''.($sortField==$fieldObject->tag?($sortDir=='asc'?'desc':'asc'):oneof($this->getParam('list_sort_defaultorder'),'asc')).'\'})">';
+					$contentTableHeader.='<a class="'.oneof($this->getParam('list_header_sortclass_link'),'list-table-field-sort').'" onclick="Flask.List.getContent(\''.$this->getParam('id').'\',\''.$this->buildURL().'\',\'sort\',{sort_field:\''.jsencode($fieldObject->tag).'\',sort_dir:\''.($sortField==$fieldObject->tag?($sortDir=='asc'?'desc':'asc'):oneof($this->getParam('list_sort_defaultorder'),'asc')).'\'})">';
 				}
 				$contentTableHeader.=htmlspecialchars($fieldObject->getParam('title'));
 				if ($fieldSortable)
@@ -1594,10 +1691,10 @@
 				$listPaging.='<div class="list-paging">';
 
 					// Paging
+					$listPaging.='<div class="list-paging-pages">';
 					if ($this->getParam('paging') && $this->getParam('paging_totalpages')>1)
 					{
-						$listPaging.='<div class="list-paging-pages">';
-						$listPaging.='<ul>';
+						$listPaging.='<div class="list-paging-pagination ui pagination menu">';
 						
 							// Get paging info
 							$totalPages=$this->getParam('paging_totalpages');
@@ -1636,7 +1733,7 @@
 								{
 									if (!$skip1)
 									{
-										$listPaging.='<li class="list-paging-skip">...</li>';
+										$listPaging.='<div class="list-paging-skip disabled item">...</div>';
 										$skip1=true;
 									}
 									continue;
@@ -1647,7 +1744,7 @@
 								{
 									if (!$skip2)
 									{
-										$listPaging.='<li class="list-paging-skip">...</li>';
+										$listPaging.='<div class="list-paging-skip disabled item">...</div>';
 										$skip2=true;
 									}
 									continue;
@@ -1655,31 +1752,30 @@
 			
 								if ($i==$currentPage)
 								{
-									$listPaging.='<li class="list-paging-page list-paging-currentpage"><a>'.intval($i).'</a></li>';
+									$listPaging.='<div class="list-paging-page active item">'.intval($i).'</div>';
 								}
 								else
 								{
-									$listPaging.='<li class="list-paging-page"><a onclick="Flask.doPostSubmit(\''.$this->buildURL().'\',{action:\'page\',page:'.intval($i).'})">'.intval($i).'</a></li>';
+									$listPaging.='<a class="list-paging-page item" onclick="Flask.List.getContent(\''.$this->getParam('id').'\',\''.$this->buildURL().'\',\'page\',{page:'.intval($i).'})">'.intval($i).'</a>';
 								}
 							}
 
-						$listPaging.='</ul>';
 						$listPaging.='</div>';
 					}
+					$listPaging.='</div>';
 
 					// Found rows
+					$listPaging.='<div class="list-paging-foundrows">';
 					if ($this->getParam('showfoundrows'))
 					{
-						$listPaging.='<div class="list-paging-foundrows">';
 						$listPaging.='[[ FLASK.LIST.Message.FoundRows : foundrows='.intval($this->dataFoundRows).' ]]';
-						$listPaging.='</div>';
 					}
+					$listPaging.='</div>';
 
 				$listPaging.='</div>';
 			}
 
 			// Set and return
-			$this->template->set('list_paging',$listPaging);
 			return $listPaging;
 		}
 
@@ -1751,34 +1847,53 @@
 				$this->initActions();
 				$this->setDefaults();
 
+				// Do some checks
+				if (!sizeof($this->field)) throw new FlaskPHP\Exception\Exception('No fields defined.');
+
 				// Set filters
-				$res=$this->applyFilters();
-				if ($res!==null) return $res;
+				$this->applyFilters();
 
 				// Set paging
-				$res=$this->applyPaging();
-				if ($res!==null) return $res;
+				$this->applyPaging();
 
 				// Set sorting
-				$res=$this->applySorting();
-				if ($res!==null) return $res;
+				$this->applySorting();
 
 				// Load data
-				$this->dataLoad();
+				while(true)
+				{
+					$this->dataLoad();
+					if ($this->checkPaging()) break;
+				}
 
-				// Check paging
-				$res=$this->checkPaging();
-				if ($res!==null) return $res;
+				// Render content only
+				if ($this->getParam('returnfilter') || $this->getParam('returncontent'))
+				{
+					$response=new \stdClass();
+					$response->status=1;
+					if ($this->getParam('returnfilter')) $response->filter=$this->renderFilters(false);
+					if ($this->getParam('returncontent')) $response->content=$this->renderContent(false);;
+					if ($this->getParam('returnscrolltop')) $response->scrolltop=1;
+					return new FlaskPHP\Response\JSONResponse($response);
+				}
 
-				// Render list view
-				$response=new FlaskPHP\Response\HTMLResponse();
-				$response->setContent($this->renderListHTML());
-				return $response;
+				// Render full list view
+				$listHTML=$this->renderListHTML();
+				if ($this->getParam('returnhtml'))
+				{
+					return $listHTML;
+				}
+				else
+				{
+					$response=new FlaskPHP\Response\HTMLResponse();
+					$response->setContent($listHTML);
+					return $response;
+				}
 			}
 			catch (\Exception $e)
 			{
 				// Ajax error
-				if (Flask()->Request->isXHR())
+				if (Flask()->Request->isXHR() && !$this->getParam('returnhtml'))
 				{
 					$response=new \stdClass();
 					$response->status=2;
@@ -1789,9 +1904,16 @@
 				// HTML
 				else
 				{
-					$response=new FlaskPHP\Response\HTMLResponse();
-					$response->setContent('<h1>[[ FLASK.COMMON.Error ]]</h1><div class="error">'.htmlspecialchars($e->getMessage()).'</div>');
-					return $response;
+					if ($this->getParam('returnhtml'))
+					{
+						return '<div class="error">'.htmlspecialchars($e->getMessage()).'</div>';
+					}
+					else
+					{
+						$response=new FlaskPHP\Response\HTMLResponse();
+						$response->setContent('<h1>[[ FLASK.COMMON.Error ]]</h1><div class="error">'.htmlspecialchars($e->getMessage()).'</div>');
+						return $response;
+					}
 				}
 			}
 		}

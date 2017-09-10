@@ -2,7 +2,8 @@
 /**
  *
  *	 FlaskPHP
- *	 --------
+ *	 System JavaScript
+ *	 -----------------
  *   2017 (c) Codelab Solutions OÜ <codelab@codelab.ee>
  *   Distributed under the MIT License: https://www.flaskphp.com/LICENSE
  *
@@ -16,9 +17,6 @@ $(function(){
 		dataType: "json"
 	});
 
-	// Init tooltips
-	$('[data-toggle="tooltip"]').tooltip();
-
 	// Tab switch
 	var URL = document.location.toString();
 	if (URL.match(/#/))
@@ -29,6 +27,9 @@ $(function(){
 			Flask.Tab.selectTab(anchor);
 		}
 	}
+
+	// Init elements
+	Flask.initElements();
 
 	// We can remove that
 	$('noscript').remove();
@@ -233,6 +234,7 @@ Flask.reload = function()
 Flask.alert = function( alertMessage, alertTitle, reloadOnClose )
 {
 	var modalTag=Flask.Modal.createModal(alertTitle,alertMessage,null,{
+		modalclass: 'small',
 		reloadonclose: reloadOnClose
 	});
 	Flask.Modal.setButtons(modalTag,{
@@ -263,7 +265,9 @@ Flask.doAjaxAction = function( actionURL, actionData, param, confirmed )
 
 	// Confirm?
 	if (param.confirm!=null && (confirmed==null || !confirmed)) {
-		var modalTag=Flask.Modal.createModal(oneof(param.confirm_title,Locale.get('FLASK.MODAL.Confirm')),param.confirm);
+		var modalTag=Flask.Modal.createModal(oneof(param.confirm_title,Locale.get('FLASK.MODAL.Confirm')),param.confirm,null,{
+			modalclass: 'tiny'
+		});
 		Flask.Modal.setButtons(modalTag,{
 			ok: {
 				title: oneof(param.confirm_submit,Locale.get('FLASK.MODAL.Btn.OK')),
@@ -349,6 +353,38 @@ Flask.doPostSubmit = function( form_url, form_data, confirm_message, new_window 
 
 
 /*
+ *   Init elements
+ *   -------------
+ */
+
+Flask.initElements = function( base )
+{
+	// Base
+	if (base==null || base=='')
+	{
+		base='';
+	}
+	else
+	{
+		base=base+' ';
+	}
+
+	// Init dropdowns
+	$(base+'.ui.dropdown').dropdown({
+		placeholder: false,
+		selectOnKeydown: false,
+		forceSelection: false
+	});
+
+	// Init checkboxes
+	$(base+'.ui.checkbox').checkbox();
+
+	// Init tooltips
+	$(base+'[data-tooltip]').popup();
+}
+
+
+/*
  *   Modal/dialog
  *   ------------
  */
@@ -373,11 +409,6 @@ Flask.Modal = {
 			Flask.Modal.showModal(modalTag);
 		}
 
-		// Close event
-		$('#'+modalTag).on('hidden.bs.modal',function(){
-			Flask.Modal.removeModal(modalTag);
-		});
-
 		// Return tag
 		return modalTag;
 	},
@@ -385,51 +416,109 @@ Flask.Modal = {
 	// Draw modal
 	drawModal: function( modalTag, title, content, buttons )
 	{
-		// This should be implemented in the layout extension.
+		// Param
+		var param=Flask.Modal.param[modalTag];
+		var modalClass='ui modal'+(param.modalclass!=null?' '+param.modalclass:'');
+		var modalStyle='';
+
+		// Create html
+		var modalHTML='<div id="'+modalTag+'" class="'+modalClass+'" tabindex="-1">';
+		modalHTML+='<div class="scrolling content">';
+		modalHTML+='</div>';
+		modalHTML+='</div>';
+		$('body').append(modalHTML);
+
+		// Set content
+		if (title!=null && title!=false) {
+			Flask.Modal.setTitle(modalTag,title);
+		}
+		if (content!=null && content!=false) {
+			Flask.Modal.setContent(modalTag,content);
+		}
+		if (buttons!=null && buttons!=false) {
+			Flask.Modal.setButtons(modalTag,buttons);
+		}
 	},
 
 	// Show modal
 	showModal: function( modalTag )
 	{
-		// This should be implemented in the layout extension.
+		$('#'+modalTag).modal({
+			observeChanges: true,
+			allowMultiple: true,
+			autofocus: false,
+			onVisible: function(){
+				if ($("#"+modalTag+" .content .defaultfocus").length)
+				{
+					$("#"+modalTag+" .content .defaultfocus").focus();
+				}
+				else
+				{
+					if ($("#"+modalTag+" .content .ui.form input:visible").length)
+					{
+						$("#"+modalTag+" .content .ui.form input:visible").first().focus();
+					}
+				}
+			},
+			onHidden: function(){
+				$('#'+modalTag).remove();
+				if ($(".ui.dimmer.modals").length && $(".ui.dimmer.modals div").length==0) {
+					$(".ui.dimmer.modals").remove();
+				}
+			}
+		}).modal('show');
 	},
 
 	// Set title
 	setTitle: function( modalTag, title )
 	{
-		// This should be implemented in the layout extension.
+		// Create header wrapper if needed
+		if ($("#"+modalTag+" .header").length==0) {
+			var modalHeader='<div class="header">';
+			modalHeader+='</div>';
+			$("#"+modalTag).prepend(modalHeader);
+		}
+
+		// Set title
+		$("#"+modalTag+" .header").html(title);
 	},
 
 	// Set content
 	setContent: function( modalTag, content )
 	{
-		// This should be implemented in the layout extension.
+		$("#"+modalTag+" .content").html(content);
 	},
 
 	// Set content
 	setButtons: function( modalTag, buttons )
 	{
-		// This should be implemented in the layout extension.
+		// Create button container if needed
+		if ($("#"+modalTag+" .actions").length==0) {
+			var modalFooter='<div class="actions"></div>';
+			$("#"+modalTag).append(modalFooter);
+		}
+
+		// Add buttons
+		for (var k in buttons) {
+			var btnHTML='<button id="'+modalTag+'_'+k+'" type="button" class="ui button '+oneof(buttons[k].class,'')+'">'+buttons[k].title+'</button>';
+			$("#"+modalTag+" .actions").append(btnHTML);
+			if (buttons[k].onclick!=null) {
+				$("#"+modalTag+"_"+k).on('click',buttons[k].onclick);
+			}
+		}
 	},
 
 	// Close modal
 	closeModal: function( modalTag )
 	{
 		Flask.Modal.hideModal(modalTag);
-		Flask.Modal.removeModal(modalTag);
 	},
 
 	// Hide modal
 	hideModal: function( modalTag )
 	{
-		// This should be implemented in the layout extension.
+		$("#"+modalTag).modal('hide');
 	},
-
-	// De-draw modal
-	removeModal: function( modalTag )
-	{
-		// This should be implemented in the layout extension.
-	}
 
 };
 
@@ -446,7 +535,7 @@ Flask.Form = {
 	{
 		// Init
 		if (param==null) param={};
-		if (param.modal_width==null) param.modal_width=750;
+		if (param.modalclass==null) param.modalclass='tiny';
 
 		// Get content
 		$.ajax({
@@ -492,23 +581,11 @@ Flask.Form = {
 						Flask.Modal.param[modalTag][k]=data[k];
 					}
 					Flask.Form.initElements(modalTag);
-					Flask.Form.initUIElements(modalTag);
 					$("#"+modalTag+" form :input").not('.noautosubmit').keypress(function(e){
 						if (e.which==13) {
-							$("#"+modalTag+" .modal-footer button").first().trigger('click');
+							$("#"+modalTag+" .actions button").first().trigger('click');
 						}
 					});
-					if ($("#"+modalTag+" form .defaultfocus").length)
-					{
-						$("#"+modalTag+" form .defaultfocus").focus();
-					}
-					else
-					{
-						if ($("#"+modalTag+" form :input:visible").length)
-						{
-							$("#"+modalTag+" form :input:visible").first().focus();
-						}
-					}
 				}
 				else {
 					Flask.alert(oneof(data.error,Locale.get('FLASK.COMMON.Error.ErrorOpeningModal')),Locale.get('FLASK.COMMON.Error'));
@@ -694,30 +771,62 @@ Flask.Form = {
 	// Init elements
 	initElements: function( formID )
 	{
-	},
+		// Init UI elements
+		Flask.initElements('#'+formID);
 
-	// Init UI elements
-	initUIElements: function( formID )
-	{
-		// This should be implemented in the layout extension.
+		// Add triggers to remove error message on form element change
+		$("#"+formID+" input[type='text']").on('keypress',function(){
+			$(this).closest('.field').find(".ui.red.label").remove();
+		});
+		$("#"+formID+" input[type='password']").on('keypress',function(){
+			$(this).closest('.field').find(".ui.red.label").remove();
+		});
+		$("#"+formID+" textarea").on('keypress',function(){
+			$(this).closest('.field').find(".ui.red.label").remove();
+		});
+		$("#"+formID+" select").on('change',function(){
+			$(this).closest('.field').find(".ui.red.label").remove();
+		});
+		$("#"+formID+" input[type='checkbox']").on('change',function(){
+			$(this).closest('.field').find(".ui.red.label").remove();
+		});
+		$("#"+formID+" input[type='radio']").on('change',function(){
+			$(this).closest('.field').find(".ui.red.label").remove();
+		});
 	},
 
 	// Clear errors
 	clearErrors: function( formID )
 	{
-		// This should be implemented in the layout extension.
+		$("#"+formID).removeClass('error');
+		$("#"+formID+" .ui.red.label").remove();
+		$("#"+formID+".error.message").remove();
 	},
 
 	// Show errors
 	showErrors: function( formID, error )
 	{
-		// This should be implemented in the layout extension.
+		var html='<div class="ui error message">';
+		for (var e in error) {
+			html+='<div>'+error[e]+'</div>';
+		}
+		html+='</div>';
+		$("#"+formID).addClass('error').append(html);
 	},
 
 	// Show field error
 	showFieldError: function( field, error )
 	{
-		// This should be implemented in the layout extension.
+		$("#"+field).closest('form').addClass('error');
+		if ($("#"+field).parent().is('.ui.input') || $("#"+field).parent().is('.ui.dropdown')) {
+			$("#"+field).parent().parent().append('<div class="ui basic red pointing prompt label transition visible">'+error+'</div>');
+		}
+		else {
+			$("#"+field).parent().append('<div class="ui basic red pointing prompt label transition visible">'+error+'</div>');
+		}
+		if ($(":input.error").length==1) {
+			$("#"+field).focus();
+		}
 	},
 
 	// Progress start trigger
@@ -772,6 +881,137 @@ Flask.Form = {
 
 
 /*
+ *   List
+ */
+
+Flask.List = {
+
+	// Update filters
+	updateFilters: function( listID, listURL, param )
+	{
+		Flask.List.progressStart(Locale.get('FLASK.LIST.Progress'));
+		if (param!=null) {
+			var submitData=param;
+		}
+		else {
+			var submitData={};
+		}
+		submitData.action='filter_submit';
+		$("#list_"+listID+"_filter").ajaxSubmit({
+			type: 'post',
+			url: listURL,
+			data: submitData,
+			success: function( data ) {
+				if (data!=null && data.status=='1') {
+					if (data.reload!=null && data.reload=='1') {
+						Flask.reload();
+					}
+					else if (data.redirect!=null && data.redirect.length>0) {
+						Flask.redirect(data.redirect);
+					}
+					else {
+						Flask.List.progressStop();
+						if (data.filter!=null && data.filter!='') {
+							$("#list_"+listID+"_filter").html(data.filter);
+							Flask.List.initFilters(listID);
+						}
+						if (data.content!=null && data.content!='') {
+							$("#list_"+listID).html(data.content);
+						}
+						if (data.scrolltop!=null && data.scrolltop=='1') {
+							$(window).scrollTop(0);
+						}
+					}
+				}
+				else
+				{
+					Flask.List.progressStop();
+					Flask.alert(oneof(data.error,Locale.get('FLASK.COMMON.Error.ErrorReadingData')),Locale.get('FLASK.COMMON.Error'));
+				}
+			},
+			error: function(xhr, ajaxOptions, thrownError) {
+				Flask.List.progressStop();
+				Flask.alert(Locale.get('FLASK.COMMON.Error.ErrorReadingData')+' - '+thrownError+' - '+xhr.responseText,Locale.get('FLASK.COMMON.Error'));
+			}
+		});
+	},
+
+	// Get content
+	getContent: function( listID, listURL, action, param )
+	{
+		Flask.List.progressStart(Locale.get('FLASK.LIST.Progress'));
+		if (param!=null) {
+			var submitData=param;
+		}
+		else {
+			var submitData={};
+		}
+		submitData.action=action;
+		$.ajax({
+			type: 'post',
+			url: listURL,
+			data: submitData,
+			success: function( data ) {
+				if (data!=null && data.status=='1') {
+					if (data.reload!=null && data.reload=='1') {
+						Flask.reload();
+					}
+					else if (data.redirect!=null && data.redirect.length>0) {
+						Flask.redirect(data.redirect);
+					}
+					else {
+						Flask.List.progressStop();
+						if (data.filter!=null && data.filter!='') {
+							$("#list_"+listID+"_filter").html(data.filter);
+							Flask.List.initFilters(listID);
+						}
+						if (data.content!=null && data.content!='') {
+							$("#list_"+listID).html(data.content);
+						}
+						if (data.scrolltop!=null && data.scrolltop=='1') {
+							$(window).scrollTop(0);
+						}
+					}
+				}
+				else
+				{
+					Flask.List.progressStop();
+					Flask.alert(oneof(data.error,Locale.get('FLASK.COMMON.Error.ErrorReadingData')),Locale.get('FLASK.COMMON.Error'));
+				}
+			},
+			error: function(xhr, ajaxOptions, thrownError) {
+				Flask.List.progressStop();
+				Flask.alert(Locale.get('FLASK.COMMON.Error.ErrorReadingData')+' - '+thrownError+' - '+xhr.responseText,Locale.get('FLASK.COMMON.Error'));
+			}
+		});
+	},
+
+	// Init filters
+	initFilters: function( listID )
+	{
+		$("#list_"+listID+"_filter :input").not('.noautosubmit').keypress(function(e){
+			if (e.which==13) {
+				$("#list_"+listID+"_filter .list-filter-submit button").first().trigger('click');
+			}
+		});
+	},
+
+	// Progress start trigger
+	progressStart: function( progressmessage )
+	{
+		Flask.ProgressDialog.show(progressmessage);
+	},
+
+	// Progress stop trigger
+	progressStop: function()
+	{
+		Flask.ProgressDialog.hide();
+	}
+
+};
+
+
+/*
  *   Progress dialog
  */
 
@@ -779,12 +1019,22 @@ Flask.ProgressDialog = {
 
 	// Show
 	show: function( message ) {
-		// This should be implemented in the layout extension.
+		var progressHTML='<div id="progressdimmer" class="ui page active inverted dimmer"><div class="content"><div class="center"><div class="ui active centered inline large text loader">'+message+'</div></div></div></div>';
+		$('body').append(progressHTML);
+		$("#progressdimmer").dimmer({
+			closable: false
+		}).dimmer('show');
 	},
 
 	// Hide
 	hide: function () {
-		// This should be implemented in the layout extension.
+		if ($("#progressdimmer").length) {
+			$("#progressdimmer").dimmer({
+				onHide: function(){
+					$("#progressdimmer").remove();
+				}
+			}).dimmer('hide');
+		}
 	}
 
 };
@@ -868,11 +1118,10 @@ Flask.Tab = {
 
 	// Show tab
 	showTab: function( tab ) {
-		// This can be overwritten in the layout implementation.
-		$('.tabbedview-tabcontent').hide();
-		$('#content_'+tab).show();
-		$(".tabbedview-tabbar .tabbedview-tab").removeClass('active');
-		$('#tab_'+tab).addClass('active');
+		$(".tabbedview-tabcontent").hide();
+		$("#content_"+tab).show();
+		$(".tabbedview-tabs .item").removeClass('active');
+		$("#tab_"+tab).addClass('active');
 	},
 
 	showError: function( tab, error ) {
@@ -908,13 +1157,43 @@ Flask.Chooser = {
 	// Open search modal
 	openModal: function( fieldTag, param, data )
 	{
-		// This should be implemented in the layout extension.
+		// Generate HTML
+		html='<div class="chooser-modal">';
+		html+='<div class="ui fluid action input">';
+		html+='<input type="text" class="chooser-modal-searchinput" id="'+fieldTag+'_search" placeholder="'+param.search_placeholder+'" autocomplete="off" maxlength="255">';
+		html+='<button class="ui button" id="'+fieldTag+'_submit"><span class="icon-search"></span> '+Locale.get('FLASK.FIELD.Chooser.Search.Submit')+'</button>';
+		if (param.addform!=null && param.addform==1) {
+			html+='<button class="ui basic button ml-2" id="'+fieldTag+'_addform">'+param.chooser_addform_buttontitle+'</button>';
+		}
+		html+='</div>';
+		html+='<div class="chooser-modal-searchresult mt-4" id="'+fieldTag+'_result"></div>';
+		html+='</div>';
+
+		// Open dialog
+		var modalTag=Flask.Modal.createModal(param.search_title,html,null,{
+			modalTag: 'searchmodal_'+fieldTag
+		});
+		Flask.Modal.showModal(modalTag);
+		$("#"+fieldTag+'_search').focus();
+
+		// Attach events
+		$("#"+fieldTag+"_search").on('keypress',function(event){
+			Flask.Chooser.searchKeyPress(event,fieldTag,param,data);
+		});
+		$("#"+fieldTag+"_submit").on('click',function(){
+			Flask.Chooser.searchSubmit(fieldTag,param,data);
+		});
+		if (param.addform!=null && param.addform==1) {
+			$("#"+fieldTag+"_addform").on('click',function(){
+				Flask.Form.openModal(param.addform_url);
+			});
+		}
 	},
 
 	// Close search modal
 	closeModal: function( fieldTag )
 	{
-		// This should be implemented in the layout extension.
+		Flask.Modal.closeModal('searchmodal_'+fieldTag);
 	},
 
 	// Keypress event handler
@@ -965,33 +1244,30 @@ Flask.Chooser = {
 
 	// Progress start trigger
 	progressStart: function( fieldTag ) {
-		// This should be implemented in the layout extension.
+		$("#"+fieldTag+"_result").html('<span class="spinner"></span> '+Locale.get('FLASK.FIELD.Chooser.Progress'));
 	},
 
 	// Progress stop trigger
 	progressStop: function( fieldTag ) {
-		// This should be implemented in the layout extension.
+		$("#"+fieldTag+"_result").html('');
 	},
 
 	// Display search results
 	displaySearchResults: function( fieldTag, content )
 	{
-		// This can be overwritten in the layout class if needed
 		$("#"+fieldTag+"_result").html(content);
 	},
 
 	// Display error
 	displayError: function( fieldTag, error )
 	{
-		// This can be overwritten in the layout class if needed
-		$("#"+fieldTag+"_result").html('<div class="error">'+error+'</div>');
+		$("#"+fieldTag+"_result").html('<div class="p-3 bg-danger text-white">'+error+'</div>');
 	},
 
 	// Clear chooser value
 	clearChooser: function( fieldTag, param )
 	{
-		// This can be overwritten in the layout class if needed
-		$("#field_"+fieldTag+" .chooser-value").html(param.emptyvalue);
+		$("#field_"+fieldTag+" .chooser-value").html('<div class="chooser-emptyvalue text-muted">'+param.emptyvalue+'</div>');
 	},
 
 	// Choose chooser value
@@ -1006,10 +1282,28 @@ Flask.Chooser = {
 	// Clear chooser value
 	addValue: function( fieldTag, value, description )
 	{
-		// This can be overwritten in the layout class if needed
+		// TODO: finish
 	}
 
 };
+
+
+/*
+ *   Log data utilities
+ *   ------------------
+ */
+
+Flask.LogData = {
+
+	// Show log data
+	showLogData: function( logData )
+	{
+		var decodedLogData=Base64.decode(logData);
+		Flask.alert(decodedLogData,Locale.get('FLASK.LOG.Fld.LogData'));
+	}
+
+};
+
 
 
 /*
@@ -1043,7 +1337,7 @@ Flask.Password = {
 		$("#"+fieldTag+"_repeat").val(password);
 
 		// Show
-		Flask.alert(Locale.get('FLASK.FORM.Password.Suggest.Result.1')+': <b>'+password+'</b><br/>'+Locale.get('FLASK.FORM.Password.Suggest.Result.2'),Locale.get('FLASK.FORM.Password.Suggest.Title'));
+		Flask.alert(Locale.get('FLASK.FIELD.Password.Suggest.Result.1')+': <b>'+password+'</b><br/>'+Locale.get('FLASK.FIELD.Password.Suggest.Result.2'),Locale.get('FLASK.FIELD.Password.Suggest.Title'));
 	}
 
 };
@@ -1099,27 +1393,58 @@ Flask.Login = {
 
 	// Clear errors
 	clearErrors: function() {
-		// This should be implemented in the layout extension.
+		$("#login_form").removeClass('error');
+		$("#login_form *").removeClass('error');
+		$("#login_form div.ui.red.label").remove();
+		$("#login_message").html('');
 	},
 
 	// Show errors
 	showErrors: function( error ) {
-		// This should be implemented in the layout extension.
+		if (typeof(error)=='object')
+		{
+			var generalError='';
+			for (var fld in error) {
+				if ($("#field_"+fld).length) {
+					Flask.Login.showFieldError(fld,error[fld]);
+				}
+				else {
+					generalError=generalError+'<div>'+error[fld]+'</div>';
+				}
+			}
+			if (generalError!='') {
+				$("#login_form").addClass('error');
+				$("#login_message").html('<div class="ui error message">'+generalError+'</div>');
+			}
+		}
+		else
+		{
+			$("#login_form").addClass('error');
+			$("#login_message").html('<div class="ui error message">'+error+'</div>');
+		}
 	},
 
 	// Show field error
 	showFieldError: function( field, error ) {
-		// This should be implemented in the layout extension.
+		$("#login_form").addClass('error');
+		$("#field_"+field).addClass('error');
+		$("#"+field).after('<div class="ui basic red pointing prompt label transition visible">'+error+'</div>');
 	},
 
 	// Progress start trigger
 	progressStart: function() {
-		// This should be implemented in the layout extension.
+		$("#login_email").attr('readonly','readonly');
+		$("#login_password").attr('readonly','readonly');
+		$("#login_submit").attr('disabled','disabled');
+		$("#login_submit").html('<div class="ui active inverted mini inline loader"></div>');
 	},
 
 	// Progress stop trigger
 	progressStop: function() {
-		// This should be implemented in the layout extension.
+		$("#login_email").removeAttr('readonly');
+		$("#login_password").removeAttr('readonly');
+		$("#login_submit").removeAttr('disabled');
+		$("#login_submit").html($("#login_submit").attr('data-title'));
 	},
 
 	// Do login

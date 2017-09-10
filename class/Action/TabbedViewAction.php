@@ -157,14 +157,14 @@
 
 		public function renderTabBar()
 		{
-			$tabBar='<div class="tabbedview-tabbar"><ul class="tabbedview-tabs">';
+			$tabBar='<div class="tabbedview-tabs ui tabular menu mb-4">';
 			$t=0;
 			foreach ($this->tab as $tabTag => $tabObject)
 			{
-				$tabBar.='<li id="tab_'.$tabTag.'" class="tabbedview-tab'.($t==0?' active':'').'"><a onclick="Flask.Tab.selectTab(\''.htmlspecialchars($tabTag).'\');">'.$tabObject->getTitle().'</a></li>';
+				$tabBar.='<a id="tab_'.$tabTag.'" class="tabbedview-tab item'.($t==0?' active':'').'" onclick="Flask.Tab.selectTab(\''.htmlspecialchars($tabTag).'\');">'.$tabObject->getTitle().'</a>';
 				$t++;
 			}
-			$tabBar.='</ul></div>';
+			$tabBar.='</div>';
 			return $tabBar;
 		}
 
@@ -182,7 +182,7 @@
 		public function renderTabContent()
 		{
 			$t=0;
-			$tabContent='<div class="tabbedview-content">';
+			$tabContent='<div class="tabbedview-content mt-4">';
 			foreach ($this->tab as $tabTag => $tabObject)
 			{
 				if (!$t)
@@ -217,7 +217,7 @@
 			$returnLink='';
 			if ($this->hasParam('returnlink'))
 			{
-				$returnLink='<div class="returnlink"><a href="'.$this->getParam('returnlink').'"><span class="icon-back"></span> '.oneof($this->getParam('returnlink_title'),'[[ FLASK.LIST.Return ]]').'</a></div>';
+				$returnLink='<div class="returnlink mt-4 text-center"><a href="'.$this->getParam('returnlink').'"><span class="icon-back"></span> '.oneof($this->getParam('returnlink_title'),'[[ FLASK.LIST.Return ]]').'</a></div>';
 			}
 			return $returnLink;
 		}
@@ -259,6 +259,72 @@
 
 		/**
 		 *
+		 *   Standard tabs: log
+		 *   ------------------
+		 *   @access public
+		 *   @param array $param Parameters
+		 *   @throws \Exception
+		 *   @return string
+		 *
+		 */
+
+		public function getLogTab( $param=null )
+		{
+			// Create list
+			$logList=new ListAction();
+			$logList->setReturnHTML(true);
+			$logList->setPaging(true,100);
+
+			// ID
+			if (is_object($this->model))
+			{
+				$logList->setParam('id',$this->model->getParam('table').'_log');
+			}
+			else
+			{
+				$logList->setParam('id',uniqid());
+			}
+
+			// Data
+			$logList->model=new FlaskPHP\Log\Log();
+			$loadParam=Flask()->DB->getQueryBuilder();
+				$loadParam->addTable(Flask()->User->getParam('table'),'flask_log.user_oid='.Flask()->User->getParam('table').'.'.Flask()->User->getParam('idfield'));
+				$loadParam->addWhere('flask_log.ref_oid='.intval($this->model->{$this->model->getParam('idfield')}));
+				$loadParam->addOrderBy('flask_log.log_tstamp desc');
+			$logList->setLoadParam($loadParam);
+
+			// Filters
+			/*
+			$logList->setFilterColumnWidth('two');
+			$f=$logList->addFilter('log_entry',new FlaskPHP\Action\TextListFilter());
+			$f->setTitle('[[ FLASK.LOG.Fld.LogEntry ]]');
+			*/
+
+			// Add fields
+			$f=$logList->addField('log_tstamp',new FlaskPHP\Field\DateField());
+			$f->setTitle('[[ FLASK.LOG.Fld.TimeStamp ]]');
+			$f->setListFieldWidth('15%');
+
+			$f=$logList->addField(Flask()->User->getParam('table').'.'.Flask()->User->getParam('loginfield_name').' as user_name',new FlaskPHP\Field\TextField());
+			$f->setTitle('[[ FLASK.LOG.Fld.User ]]');
+			$f->setListFieldWidth('20%');
+
+			$f=$logList->addField('log_entry',new FlaskPHP\Field\TextField());
+			$f->setTitle('[[ FLASK.LOG.Fld.LogEntry ]]');
+			$f->setListFieldWidth('60%');
+
+			$f=$logList->addField('log_data',new FlaskPHP\Field\LogDetailsField());
+			$f->setTitle('');
+			$f->setListFieldWidth('5%');
+			$f->setListFieldAlign('right');
+
+			// Render list
+			return $logList->runAction();
+		}
+
+
+		/**
+		 *
 		 *   Run action and return response
 		 *   ------------------------------
 		 *   @access public
@@ -290,10 +356,17 @@
 					$tabContent=$this->renderTab(Flask()->Request->uriVar('get'));
 
 					// Compose response
-					$response=new \stdClass();
-					$response->status=1;
-					$response->content=$tabContent;
-					return new FlaskPHP\Response\JSONResponse($response);
+					if (is_object($tabContent) && $tabContent instanceof FlaskPHP\Response\ResponseInterface)
+					{
+						return $tabContent;
+					}
+					else
+					{
+						$response=new \stdClass();
+						$response->status=1;
+						$response->content=$tabContent;
+						return new FlaskPHP\Response\JSONResponse($response);
+					}
 				}
 
 				// Init render

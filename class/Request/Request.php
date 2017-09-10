@@ -201,7 +201,6 @@
 						$this->requestLang=mb_strtolower($uriElement);
 						Flask()->Session->set('LANG',$uriElement);
 						$this->requestLangFromURI=true;
-						$this->requestURI.='/'.$uriElement;
 						continue;
 					}
 					else
@@ -273,9 +272,6 @@
 					'name'  => $varName,
 					'value' => $varValue
 				);
-
-				// Add to URI
-				$this->requestURI.='/'.$uriElement;
 			}
 
 			// Bootstrap request

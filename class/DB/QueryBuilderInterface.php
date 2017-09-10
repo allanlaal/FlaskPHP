@@ -167,14 +167,9 @@
 		public function addTable( string $table, $joinCondition=null, $joinType='LEFT JOIN' )
 		{
 			if (!is_array($this->queryTable)) $this->queryTable=array();
-			if (sizeof($this->queryTable))
+			if ($joinCondition!==null)
 			{
-				if (empty($joinCondition))
-				{
-					throw new FlaskPHP\Exception\DbQueryException('Empty join condition<hr/>'.var_dump_str($this).'<hr>'.$table.'<hr>'.$joinCondition);
-				}
-				$joinCondition=str_array($joinCondition);
-				$this->queryTable[$table]=$joinType.' '.$table.' ON ('.join(' and ',$joinCondition).')';
+				$this->queryTable[$table]=$joinType.' '.$table.' ON ('.(is_array($joinCondition)?join(' and ',$joinCondition):$joinCondition).')';
 			}
 			else
 			{

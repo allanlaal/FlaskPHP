@@ -78,7 +78,7 @@
 			if ($this->getParam('fieldstyle')) $class[]=$this->getParam('fieldstyle');
 
 			// Class
-			$class=array();
+			$class=array('ui dropdown fluid');
 			if (!empty($this->getParam('fieldclass'))) $class[]=$this->getParam('fieldclass');
 
 			// Wrapper

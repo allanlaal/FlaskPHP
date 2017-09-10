@@ -57,8 +57,6 @@
 		public $responseBaseJS = array(
 			'jquery',
 			'tether',
-			'popper',
-			'bootstrap',
 			'flask'
 		);
 
@@ -89,7 +87,7 @@
 		 *   @param int|bool $jsPriority Priority (1-9)
 		 *   @param array $jsExtraParam Extra parameters
 		 *   @param string $jsBundle Bundle ID
-		 *   @return void
+		 *   @return ResponseJS
 		 */
 
 		public function addJS( string $jsFilename, string $jsID=null, int $jsPriority=5, array $jsExtraParam=null, string $jsBundle='js' )
@@ -104,6 +102,9 @@
 			// Add
 			if ($jsID===null) $jsID=md5($bundleItem->itemFilename);
 			$this->responseJS[$jsBundle][$jsID]=$bundleItem;
+
+			// Return self
+			return $this;
 		}
 
 
@@ -114,7 +115,7 @@
 		 *   @param string $jsID ID
 		 *   @param int $jsPriority Priority (1-9)
 		 *   @param array $jsExtraParam Extra parameters
-		 *   @return void
+		 *   @return ResponseJS
 		 */
 
 		public function addExternalJS( string $jsURL, string $jsID=null, int $jsPriority=5, array $jsExtraParam=null )
@@ -129,6 +130,9 @@
 			// Add
 			if ($jsID===null) $jsID=md5($bundleItem->itemURL);
 			$this->responseExternalJS[$jsID]=$bundleItem;
+
+			// Return self
+			return $this;
 		}
 
 
@@ -139,7 +143,7 @@
 		 *   @param string $jsID ID
 		 *   @param int $jsPriority Priority (1-9)
 		 *   @param array $jsExtraParam Extra parameters
-		 *   @return void
+		 *   @return ResponseJS
 		 */
 
 		public function addInlineJS( string $jsSource, string $jsID=null, int $jsPriority=5, array $jsExtraParam=null )
@@ -154,6 +158,9 @@
 			// Add
 			if ($jsID===null) $jsID=md5($bundleItem->itemSource);
 			$this->responseInlineJS[$jsID]=$bundleItem;
+
+			// Return self
+			return $this;
 		}
 
 
@@ -162,13 +169,35 @@
 		 *   @access public
 		 *   @param string $lang Language tag
 		 *   @param bool $shortLocale Output short locale
-		 *   @return void
+		 *   @return ResponseJS
 		 */
 
 		public function addLocale( string $lang, bool $shortLocale=false )
 		{
 			$this->responseLocale=$lang;
 			$this->responseLocaleShort=$shortLocale;
+			return $this;
+		}
+
+
+		/**
+		 *   Add base JS module
+		 *   @access public
+		 *   @param string|array $module Module(s)
+		 *   @return ResponseJS
+		 */
+
+		public function addBaseJS( $module )
+		{
+			$moduleList=str_array($module);
+			foreach ($moduleList as $m)
+			{
+				if (!in_array($m,$this->responseBaseJS))
+				{
+					$this->responseBaseJS[]=$m;
+				}
+			}
+			return $this;
 		}
 
 
@@ -176,25 +205,26 @@
 		 *   Set base JS modules
 		 *   @access public
 		 *   @param array $moduleList Module list
-		 *   @return void
+		 *   @return ResponseJS
 		 */
 
 		public function setBaseJS( array $moduleList )
 		{
 			$this->responseBaseJS=$moduleList;
+			return $this;
 		}
 
 
 		/**
 		 *   Clear base JS module list
 		 *   @access public
-		 *   @param array $moduleList Module list
-		 *   @return void
+		 *   @return ResponseJS
 		 */
 
 		public function clearBaseJS()
 		{
 			$this->responseBaseJS=array();
+			return $this;
 		}
 
 
@@ -258,21 +288,21 @@
 			{
 				$this->addJS('static/vendor/popper/popper.min.js','base_popper',-9970);
 			}
+			if (in_array('semantic',$this->responseBaseJS))
+			{
+				$this->addJS('static/vendor/semantic/semantic.min.js','base_semantic',-9950);
+			}
 			if (in_array('bootstrap',$this->responseBaseJS))
 			{
 				$this->addJS('static/vendor/bootstrap/js/bootstrap.js','base_bootstrap',-9960);
 			}
 			if (in_array('underscore',$this->responseBaseJS))
 			{
-				$this->addJS('static/vendor/underscore/underscore.min.js','base_underscore',-9950);
+				$this->addJS('static/vendor/underscore/underscore.min.js','base_underscore',-9940);
 			}
 			if (in_array('flask',$this->responseBaseJS))
 			{
 				$this->addJS('js/flask.js','base_flask',-9000);
-			}
-			if (in_array('bootstrap',$this->responseBaseJS) && in_array('flask',$this->responseBaseJS))
-			{
-				$this->addJS('js/flask.layout.bootstrap.js','base_flask_layout_bootstrap',-8890);
 			}
 
 

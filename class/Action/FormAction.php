@@ -573,7 +573,7 @@
 		public function displayFormBegin()
 		{
 			// The form begins
-			$form_begin='<form id="flask-form" method="post" action="'.$this->buildURL($this->getParam('url')).'" onsubmit="return false">';
+			$form_begin='<form id="flask-form" class="ui form" method="post" action="'.$this->buildURL($this->getParam('url')).'" onsubmit="return false">';
 
 			// ID field if it's not in the fieldset
 			if ($this->operation=='edit' && !is_object($this->field[$this->model->getParam('idfield')]))

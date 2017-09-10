@@ -1,0 +1,121 @@
+/**
+ *
+ *	 FlaskPHP
+ *	 Standard classes for actions UI
+ *	 -------------------------------
+ *   2017 (c) Codelab Solutions OÜ <codelab@codelab.ee>
+ *   Distributed under the MIT License: https://www.flaskphp.com/LICENSE
+ *
+ */
+
+
+/*
+ *   Login
+ */
+
+.login-wrapper {
+
+	.login-message {
+		margin: 1rem 0;
+	}
+
+	.login-submit {
+		margin-top: 1rem;
+	}
+
+}
+
+
+/*
+ *   Forms
+ */
+
+.form-subtitle {
+	color: #868e96;
+}
+
+
+/*
+ *   Info table
+ */
+
+.info-table {
+  width: 100%;
+	border-collapse: collapse;
+
+	th, td {
+    vertical-align: top;
+		text-align: left;
+		border-top: 1px rgba(34,36,38,0.1) solid;
+	}
+	tr:first-child th, tr:first-child td {
+		border-top: none;
+	}
+
+  th {
+    width: 35%;
+    padding: 8px 20px 8px 0px;
+		font-weight: 700;
+  }
+
+  td {
+    width: 65%;
+    padding: 8px 0px;
+	 }
+
+  th.info-table-header {
+    padding-top: 24px;
+    font-size: 20px;
+    font-weight: normal;
+    color: #868e96;
+  }
+
+  td.info-table-divider {
+    height: 2rem;
+  }
+}
+
+
+/*
+ *   List
+ */
+
+.list {
+
+	.list-global-actions {
+		text-align: right;
+		margin-bottom: 1rem;
+	}
+
+	.list-filter {
+		margin-top: 1rem;
+		margin-bottom: 2rem;
+
+		.list-filter-submit {
+			margin-top: 1rem;
+			text-align: right;
+		}
+	}
+
+	.list-table-field-sortable {
+		color: #d0d1d2;
+	}
+	.list-table-field-sorted {
+		color: #111111;
+	}
+
+	.list-paging {
+		display: flex;
+		justify-content: space-between;
+
+		.list-paging-pages {
+			text-align: left;
+			padding-left: 0.5rem;
+		}
+		.list-paging-foundrows {
+			text-align: right;
+			padding-right: 0.5rem;
+		}
+	}
+
+}
