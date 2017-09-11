@@ -374,7 +374,14 @@
 					}
 					elseif ($cssItem->itemType=='semantic')
 					{
-						// Bootstrap itself
+						// Ugly Hack until LessPHP is fixed
+						$cssItem->filename='static/vendor/semantic/semantic.min.css';
+						if (!Flask()->resolvePath($cssItem->itemFilename)) throw new FlaskPHP\Exception\Exception('CSS file not readable: '.$cssItem->itemFilename);
+						$assetArray[$cssID]=$cssItem->itemFilename;
+						$filemtime=filemtime(Flask()->resolvePath($cssItem->itemFilename));
+
+						/*
+						// Semantic itself
 						$assetArray['semantic']='semantic';
 
 						// Themed Bootstrap
@@ -387,6 +394,7 @@
 						// Bootstrap file
 						$filemtime=filemtime(Flask()->resolvePath('static/vendor/semantic/semantic.less'));
 						if ($filemtime>$assetTimeStamp) $assetTimeStamp=$filemtime;
+						*/
 					}
 					elseif ($cssItem->itemType=='bootstrap')
 					{
@@ -446,6 +454,13 @@
 						elseif ($cssItem->itemType=='semantic')
 						{
 							if (mb_strtolower($this->responseCompiler)!='less') throw new FlaskPHP\Exception\Exception('Semantic needs Less as the CSS compiler.');
+
+							// Ugly Hack until LessPHP is fixed
+							$semanticFilename='static/vendor/semantic/semantic.min.css';
+							$this->addImportPath(pathinfo(Flask()->resolvePath($semanticFilename),PATHINFO_DIRNAME));
+							$assetFileContents.=file_get_contents(Flask()->resolvePath($semanticFilename));
+
+							/*
 							if (!empty($cssItem->itemFilename))
 							{
 								$this->addImportPath(pathinfo(Flask()->resolvePath($cssItem->itemFilename),PATHINFO_DIRNAME));
@@ -454,6 +469,7 @@
 							$semanticFilename='static/vendor/semantic/semantic.less';
 							$this->addImportPath(pathinfo(Flask()->resolvePath($semanticFilename),PATHINFO_DIRNAME));
 							$assetFileContents.=file_get_contents(Flask()->resolvePath($semanticFilename));
+							*/
 						}
 						elseif ($cssItem->itemType=='bootstrap')
 						{
