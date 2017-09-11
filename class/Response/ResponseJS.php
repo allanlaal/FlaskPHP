@@ -341,6 +341,11 @@
 							$assetFileContents.=$this->minifyJS(file_get_contents(Flask()->resolvePath($jsItem->itemFilename)))."\n\n";
 						}
 					}
+
+					// Delete earlier copies of the asset
+					array_map('unlink', glob(oneof(Flask()->Config->get('app.assetcachepath'),Flask()->Config->getTmpPath()).'/'.Flask()->Config->get('app.id').'.asset.'.$bundleID.'.'.$assetHash.'.*.js'));
+
+					// Write file
 					file_put_contents($assetFileName,$assetFileContents);
 				}
 

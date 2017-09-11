@@ -489,6 +489,8 @@
 							$assetFileContents.=file_get_contents(Flask()->resolvePath($cssItem->itemFilename));
 						}
 					}
+
+					// Run parser
 					switch (mb_strtolower($this->responseCompiler))
 					{
 						case 'scss':
@@ -498,6 +500,11 @@
 							$assetFileContents=$this->parseLess($assetFileContents);
 							break;
 					}
+
+					// Delete earlier copies of the asset
+					array_map('unlink', glob(oneof(Flask()->Config->get('app.assetcachepath'),Flask()->Config->getTmpPath()).'/'.Flask()->Config->get('app.id').'.asset.'.$bundleID.'.'.$assetHash.'.*.css'));
+
+					// Write file
 					file_put_contents($assetFileName,$assetFileContents);
 				}
 

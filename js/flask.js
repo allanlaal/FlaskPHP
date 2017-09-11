@@ -1363,7 +1363,7 @@ Flask.Login = {
 	passwordKeypress: function(evt) {
 		if ( evt.which == 13 )
 		{
-			this.doLogin();
+			Flask.Login.doLogin();
 			evt.stopPropagation();
 		}
 	},
@@ -1389,6 +1389,14 @@ Flask.Login = {
 		}
 
 		return true;
+	},
+
+
+	// Init elements
+	initElements: function() {
+		$("#login_form input[type='text'], #login_form input[type='password']").on('keypress',function(){
+			$(this).closest('.field').find(".ui.red.label").remove();
+		});
 	},
 
 	// Clear errors
@@ -1427,7 +1435,6 @@ Flask.Login = {
 	// Show field error
 	showFieldError: function( field, error ) {
 		$("#login_form").addClass('error');
-		$("#field_"+field).addClass('error');
 		$("#"+field).after('<div class="ui basic red pointing prompt label transition visible">'+error+'</div>');
 	},
 

@@ -373,7 +373,14 @@
 			$c.='</div>';
 			$c.='</div>';
 
-			$c.='<script language="JavaScript"> $(function(){ $("#login_email").focus(); }); </script>';
+			$c.='
+				<script language="JavaScript"> 
+					$(function(){
+						Flask.Login.initElements();
+						$("#login_email").focus(); 
+					}); 
+				</script>
+			';
 			return $c;
 		}
 
