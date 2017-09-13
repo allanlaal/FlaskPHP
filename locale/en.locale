@@ -9,6 +9,7 @@
 #
 #
 
+
 FLASK.COMMON.OK                                                      OK
 FLASK.COMMON.Warnings                                                Warnings
 FLASK.COMMON.NotOK                                                   Not OK
@@ -51,6 +52,92 @@ FLASK.COMMON.Error.ErrorOpeningModal                                 Error openi
 FLASK.COMMON.Error.ErrorReadingData                                  Error reading data
 FLASK.COMMON.Error.ErrorSavingData                                   Error saving data
 
+
+#
+#  Date/time stuff
+#
+
+FLASK.COMMON.Date                                                   Date
+FLASK.COMMON.Time                                                   Time
+FLASK.COMMON.DateTime                                               Date/time
+
+FLASK.COMMON.Day                                                    day
+FLASK.COMMON.Days                                                   days
+FLASK.COMMON.DayAbbr                                                D
+FLASK.COMMON.Week                                                   week
+FLASK.COMMON.Weeks                                                  weeks
+FLASK.COMMON.WeekAbbr                                               W
+FLASK.COMMON.Month                                                  month
+FLASK.COMMON.Months                                                 months
+FLASK.COMMON.MonthAbbr                                              M
+FLASK.COMMON.Year                                                   year
+FLASK.COMMON.Years                                                  years
+FLASK.COMMON.YearAbbr                                               Y
+FLASK.COMMON.Hour                                                   hour
+FLASK.COMMON.Hours                                                  hours
+FLASK.COMMON.HourAbbr                                               h
+FLASK.COMMON.Min                                                    minute
+FLASK.COMMON.Mins                                                   minutes
+FLASK.COMMON.MinAbbr                                                m
+
+FLASK.COMMON.Today                                                  Today
+FLASK.COMMON.Now                                                    Now
+
+FLASK.COMMON.Day.1                                                  Monday
+FLASK.COMMON.Day.2                                                  Tuesday
+FLASK.COMMON.Day.3                                                  Wednesday
+FLASK.COMMON.Day.4                                                  Thursday
+FLASK.COMMON.Day.5                                                  Friday
+FLASK.COMMON.Day.6                                                  Saturday
+FLASK.COMMON.Day.7                                                  Sunday
+
+FLASK.COMMON.Day.Short.1                                            Mon
+FLASK.COMMON.Day.Short.2                                            Tue
+FLASK.COMMON.Day.Short.3                                            Wed
+FLASK.COMMON.Day.Short.4                                            Thu
+FLASK.COMMON.Day.Short.5                                            Fri
+FLASK.COMMON.Day.Short.6                                            Sat
+FLASK.COMMON.Day.Short.7                                            Sun
+
+FLASK.COMMON.Day.Abbr.1                                             M
+FLASK.COMMON.Day.Abbr.2                                             T
+FLASK.COMMON.Day.Abbr.3                                             W
+FLASK.COMMON.Day.Abbr.4                                             T
+FLASK.COMMON.Day.Abbr.5                                             F
+FLASK.COMMON.Day.Abbr.6                                             S
+FLASK.COMMON.Day.Abbr.7                                             S
+
+FLASK.COMMON.Month.1                                                January
+FLASK.COMMON.Month.2                                                February
+FLASK.COMMON.Month.3                                                March
+FLASK.COMMON.Month.4                                                April
+FLASK.COMMON.Month.5                                                May
+FLASK.COMMON.Month.6                                                June
+FLASK.COMMON.Month.7                                                July
+FLASK.COMMON.Month.8                                                August
+FLASK.COMMON.Month.9                                                September
+FLASK.COMMON.Month.10                                               October
+FLASK.COMMON.Month.11                                               November
+FLASK.COMMON.Month.12                                               December
+
+FLASK.COMMON.Month.Short.1                                          Jan
+FLASK.COMMON.Month.Short.2                                          Feb
+FLASK.COMMON.Month.Short.3                                          Mar
+FLASK.COMMON.Month.Short.4                                          Apr
+FLASK.COMMON.Month.Short.5                                          May
+FLASK.COMMON.Month.Short.6                                          Jun
+FLASK.COMMON.Month.Short.7                                          Jul
+FLASK.COMMON.Month.Short.8                                          Aug
+FLASK.COMMON.Month.Short.9                                          Sep
+FLASK.COMMON.Month.Short.10                                         Oct
+FLASK.COMMON.Month.Short.11                                         Nov
+FLASK.COMMON.Month.Short.12                                         Dec
+
+
+#
+#  Field stuff
+#
+
 FLASK.FIELD.Select                                                   select from here
 FLASK.FIELD.Password.EnterPassword                                   Enter password
 FLASK.FIELD.Password.RepeatPassword                                  Repeat password
@@ -61,10 +148,15 @@ FLASK.FIELD.Password.Suggest.Result.2                                Please writ
 FLASK.FIELD.Error.RequiredFieldEmpty                                 Required field empty.
 FLASK.FIELD.Error.MinLength                                          Value too short, required at least $minlength characters.
 FLASK.FIELD.Error.MaxLength                                          Value too long, a maximum of $maxlength characters allowed.
+FLASK.FIELD.Error.MinValue                                           Value under allowed minimum value ($minvalue).
+FLASK.FIELD.Error.MaxValue                                           Value over allowed maximum value ($maxvalue).
 FLASK.FIELD.Error.Filter                                             Value contains illegal characters.
 FLASK.FIELD.Error.Unique                                             Value not unique, duplicate value not allowed.
 FLASK.FIELD.Error.InvalidValue                                       Invalid value.
 FLASK.FIELD.Error.InvalidEmail                                       Invalid e-mail address.
+FLASK.FIELD.Error.InvalidDate                                        Invalid date.
+FLASK.FIELD.Error.InvalidTime                                        Invalid time.
+FLASK.FIELD.Error.IncompleteDateTime                                 Incomplete date/time.
 FLASK.FIELD.Error.PasswordWeak1                                      Password too weak (must contain both characters and numbers).
 FLASK.FIELD.Error.PasswordWeak2                                      Password too weak (must contain lower- and uppercase characters, numbers and punctuation).
 FLASK.FIELD.Error.PasswordRepeatEmpty                                Password repeat empty.
@@ -83,6 +175,11 @@ FLASK.FIELD.Chooser.Error                                            Error fetch
 FLASK.FIELD.Chooser.Error.SearchEmpty                                Please enter a search string.
 FLASK.FIELD.Chooser.Error.SearchMinLength                            Search string too short, please enter at least $minlength characters.
 
+
+#
+#  User
+#
+
 FLASK.USER.Login.Login                                               Login
 FLASK.USER.Login.Success                                             Successful login
 FLASK.USER.Login.Error.EmailEmpty                                    E-mail address is empty.
@@ -96,9 +193,19 @@ FLASK.USER.Login.Error.UserDisabled                                  Account dis
 FLASK.USER.Login.Error.UserDisabled                                  Account not active.
 FLASK.USER.Login.Error.UnknownLanguage                               Unknown language.
 
+
+#
+#  Modal
+#
+
 FLASK.MODAL.Btn.OK                                                   OK
 FLASK.MODAL.Confirm                                                  Please confirm
 FLASK.MODAL.Progress                                                 Processing request, please wait ...
+
+
+#
+#  Form
+#
 
 FLASK.FORM.Title.add                                                 Add a new entry
 FLASK.FORM.Title.edit                                                Edit entry
@@ -110,6 +217,11 @@ FLASK.FORM.Error.CouldNotFindForm                                    Could not f
 FLASK.FORM.Error.Validate                                            The following errors occurred while validating form input
 FLASK.FORM.Error.DuplicateKey                                        A record with the given data already exists, cannot create a duplicate.
 
+
+#
+#  List
+#
+
 FLASK.LIST.Filter.Submit                                             Apply filters
 FLASK.LIST.Filter.Clear                                              Clear filters
 FLASK.LIST.Filter.ShowAll                                            show all
@@ -120,7 +232,17 @@ FLASK.LIST.Message.NoResults.Filtered                                No results 
 FLASK.LIST.Message.FoundRows                                         Total of $foundrows record(s).
 FLASK.LIST.Return                                                    return
 
+
+#
+#  Tabbed view
+#
+
 FLASK.TABBEDVIEW.Progress                                            Loading data, one moment ...
+
+
+#
+#  Log
+#
 
 FLASK.LOG.Fld.TimeStamp                                              Date/time
 FLASK.LOG.Fld.User                                                   User

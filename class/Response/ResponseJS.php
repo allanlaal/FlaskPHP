@@ -291,6 +291,8 @@
 			if (in_array('semantic',$this->responseBaseJS))
 			{
 				$this->addJS('static/vendor/semantic/semantic.min.js','base_semantic',-9950);
+				$this->addJS('static/vendor/semantic-calendar/calendar.min.js','base_semantic_calendar',-9949);
+				$this->addJS('static/vendor/moment/moment.min.js','base_moment',-9930);
 			}
 			if (in_array('bootstrap',$this->responseBaseJS))
 			{
@@ -299,6 +301,10 @@
 			if (in_array('underscore',$this->responseBaseJS))
 			{
 				$this->addJS('static/vendor/underscore/underscore.min.js','base_underscore',-9940);
+			}
+			if (in_array('moment',$this->responseBaseJS))
+			{
+				$this->addJS('static/vendor/moment/moment.min.js','base_moment',-9930);
 			}
 			if (in_array('flask',$this->responseBaseJS))
 			{

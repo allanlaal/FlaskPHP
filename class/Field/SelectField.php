@@ -145,14 +145,13 @@
 			// Style
 			$style=array();
 			if ($this->getParam('form_fieldstyle')) $style[]=$this->getParam('form_fieldstyle');
-			if ($this->getParam('form_comment')) $style[]='width: 70%; display: inline-block';
 
 			// Class
 			$class=array('ui fluid dropdown');
 			if ($this->getParam('form_fieldclass')) $class[]=$this->getParam('form_fieldclass');
 
 			// Dropdown
-			$c.='<select';
+			$c='<select';
 			$c.=' id="'.$this->tag.'"';
 			$c.=' name="'.$this->tag.'"';
 			$c.=' class="'.join(' ',$class).'"';

@@ -58,7 +58,6 @@
 			// Style
 			$style=array();
 			if ($this->getParam('form_fieldstyle')) $style[]=$this->getParam('form_fieldstyle');
-			if ($this->getParam('form_comment')) $style[]='width: 70%; display: inline-block';
 
 			// Class
 			$class=array();

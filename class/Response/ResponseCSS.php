@@ -460,6 +460,11 @@
 							$this->addImportPath(pathinfo(Flask()->resolvePath($semanticFilename),PATHINFO_DIRNAME));
 							$assetFileContents.=file_get_contents(Flask()->resolvePath($semanticFilename));
 
+							// Calendar
+							$semanticFilename='static/vendor/semantic-calendar/calendar.min.css';
+							$this->addImportPath(pathinfo(Flask()->resolvePath($semanticFilename),PATHINFO_DIRNAME));
+							$assetFileContents.=file_get_contents(Flask()->resolvePath($semanticFilename));
+
 							/*
 							if (!empty($cssItem->itemFilename))
 							{

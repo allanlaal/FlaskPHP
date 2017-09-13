@@ -296,8 +296,6 @@
 			// Style
 			$style=array();
 			if ($this->getParam('form_fieldstyle')) $style[]=$this->getParam('form_fieldstyle');
-			if ($row==1 && $this->getParam('form_comment')) $style[]='width: 70%; display: inline-block';
-			if ($row==2 && $this->getParam('form_comment_repeat')) $style[]='width: 70%; display: inline-block';
 
 			// Class
 			$class=array();

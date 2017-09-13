@@ -376,12 +376,73 @@ Flask.initElements = function( base )
 		forceSelection: false
 	});
 
+	// Init date fields
+	$(base+'.ui.calendar').calendar({
+	  type: 'date',
+    text: {
+      days: [
+      	Locale.get('FLASK.COMMON.DAY.Abbr.7'),
+				Locale.get('FLASK.COMMON.DAY.Abbr.1'),
+				Locale.get('FLASK.COMMON.DAY.Abbr.2'),
+				Locale.get('FLASK.COMMON.DAY.Abbr.3'),
+				Locale.get('FLASK.COMMON.DAY.Abbr.4'),
+				Locale.get('FLASK.COMMON.DAY.Abbr.5'),
+				Locale.get('FLASK.COMMON.DAY.Abbr.6')
+			],
+      months: [
+      	Locale.get('FLASK.COMMON.Month.1'),
+      	Locale.get('FLASK.COMMON.Month.2'),
+      	Locale.get('FLASK.COMMON.Month.3'),
+      	Locale.get('FLASK.COMMON.Month.4'),
+      	Locale.get('FLASK.COMMON.Month.5'),
+      	Locale.get('FLASK.COMMON.Month.6'),
+      	Locale.get('FLASK.COMMON.Month.7'),
+      	Locale.get('FLASK.COMMON.Month.8'),
+      	Locale.get('FLASK.COMMON.Month.9'),
+      	Locale.get('FLASK.COMMON.Month.10'),
+      	Locale.get('FLASK.COMMON.Month.11'),
+      	Locale.get('FLASK.COMMON.Month.12')
+      ],
+      monthsShort: [
+      	Locale.get('FLASK.COMMON.Month.Short.1'),
+      	Locale.get('FLASK.COMMON.Month.Short.2'),
+      	Locale.get('FLASK.COMMON.Month.Short.3'),
+      	Locale.get('FLASK.COMMON.Month.Short.4'),
+      	Locale.get('FLASK.COMMON.Month.Short.5'),
+      	Locale.get('FLASK.COMMON.Month.Short.6'),
+      	Locale.get('FLASK.COMMON.Month.Short.7'),
+      	Locale.get('FLASK.COMMON.Month.Short.8'),
+      	Locale.get('FLASK.COMMON.Month.Short.9'),
+      	Locale.get('FLASK.COMMON.Month.Short.10'),
+      	Locale.get('FLASK.COMMON.Month.Short.11'),
+      	Locale.get('FLASK.COMMON.Month.Short.12')
+      ],
+      today: Locale.get('FLASK.COMMON.Today'),
+      now: Locale.get('FLASK.COMMON.Now'),
+      am: 'AM',
+      pm: 'PM'
+    },
+		formatter: {
+			date: function (date, settings) {
+				if (!date) return '';
+				return moment(date).format("DD.MM.YYYY");
+			}
+		}
+	});
+
+	// Set masked inputs
+	/*
+	$(base+"input[data-mask!='']").each(function(){
+		$(this).mask($(this).attr('data-mask'));
+	});
+	*/
+
 	// Init checkboxes
 	$(base+'.ui.checkbox').checkbox();
 
 	// Init tooltips
 	$(base+'[data-tooltip]').popup();
-}
+};
 
 
 /*
@@ -423,7 +484,7 @@ Flask.Modal = {
 
 		// Create html
 		var modalHTML='<div id="'+modalTag+'" class="'+modalClass+'" tabindex="-1">';
-		modalHTML+='<div class="scrolling content">';
+		modalHTML+='<div class="content">';
 		modalHTML+='</div>';
 		modalHTML+='</div>';
 		$('body').append(modalHTML);
