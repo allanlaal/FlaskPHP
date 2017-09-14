@@ -427,7 +427,7 @@
 							{
 								$this->setParam('list_sort_field',$sdFieldObject->tag);
 								$this->setParam('list_sort_dir',oneof(
-									$sdFieldObject->getParam('list_sort_default'),
+									$sdFieldObject->getParam('list_sort_defaultorder'),
 									'asc'
 								));
 							}
@@ -435,7 +435,7 @@
 							{
 								$this->setParam('list_sort_field',$sdFieldObject->tag);
 								$this->setParam('list_sort_dir',oneof(
-									$sdFieldObject->getParam('list_sort_default'),
+									$sdFieldObject->getParam('list_sort_defaultorder'),
 									'asc'
 								));
 							}

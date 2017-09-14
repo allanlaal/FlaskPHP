@@ -1050,6 +1050,7 @@ Flask.List = {
 	// Init filters
 	initFilters: function( listID )
 	{
+		Flask.initElements("#list_"+listID+"_filter");
 		$("#list_"+listID+"_filter :input").not('.noautosubmit').keypress(function(e){
 			if (e.which==13) {
 				$("#list_"+listID+"_filter .list-filter-submit button").first().trigger('click');
