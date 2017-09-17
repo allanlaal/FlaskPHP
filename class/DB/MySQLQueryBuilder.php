@@ -132,7 +132,7 @@
 						{
 							if ($r==(sizeof($relationList)-1))
 							{
-								$queryFieldList[]=$this->parseField($relationList[$r],$effectiveModel,$relationList[$r-1].'_');
+								$queryFieldList[]=$this->parseField($relationList[$r],$effectiveModel,$relationList[$r-1],$relationList[$r-1].'_');
 							}
 							else
 							{
@@ -216,11 +216,12 @@
 			$relationModel=new $relationModelClass();
 
 			// Add table if it does not exist
-			if (!array_key_exists($relationModel->getParam('table'),$this->queryTable))
+			$table=$relationModel->getParam('table').' as '.$relation;
+			if (!array_key_exists($table,$this->queryTable))
 			{
 				$this->addTable(
-					$relationModel->getParam('table'),
-					$relationModel->getParam('table').'.'.oneof($model->_rel[$relation]->relationRemoteField,$relationModel->getParam('idfield')).'='.$model->getParam('table').'.'.$model->_rel[$relation]->relationField,
+					$table,
+					$relation.'.'.oneof($model->_rel[$relation]->relationRemoteField,$relationModel->getParam('idfield')).'='.$model->getParam('table').'.'.$model->_rel[$relation]->relationField,
 					'LEFT JOIN'
 				);
 			}
@@ -235,12 +236,13 @@
 		 *   @access private
 		 *   @param string $field Field definition
 		 *   @param FlaskPHP\Model\ModelInterface $model Model
+		 *   @param string $relationAlias Relation alias
 		 *   @param string $fieldPrefix Field prefix
 		 *   @return string
 		 *   @throws \Exception
 		 */
 
-		private function parseField( string $field, FlaskPHP\Model\ModelInterface $model=null, string $fieldPrefix=null )
+		private function parseField( string $field, FlaskPHP\Model\ModelInterface $model=null, string $relationAlias=null, string $fieldPrefix=null )
 		{
 			// Check for alias
 			if (mb_stripos($field,' as ')!==false)
@@ -280,7 +282,14 @@
 				}
 
 				// Add table prefix
-				$field=$model->getParam('table').'.'.$field;
+				if ($relationAlias!==null)
+				{
+					$field=$relationAlias.'.'.$field;
+				}
+				else
+				{
+					$field=$model->getParam('table').'.'.$field;
+				}
 			}
 
 			// Return

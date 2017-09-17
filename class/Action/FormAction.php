@@ -372,6 +372,27 @@
 
 		/**
 		 *
+		 *   Get column/field object
+		 *   -----------------------
+		 *   @access public
+		 *   @param string $field Field ID/name
+		 *   @return FlaskPHP\Field\FieldInterface field object instance
+		 *   @throws \Exception
+		 *
+		 */
+
+		public function getField( string $field )
+		{
+			// Check if the action already exists
+			if (!array_key_exists($field,$this->field)) throw new FlaskPHP\Exception\InvalidParameterException('Field '.$field.' not defined.');
+
+			// Return field
+			return $this->field[$field];
+		}
+
+
+		/**
+		 *
 		 *   Remove a field
 		 *   --------------
 		 *   @access public
@@ -472,6 +493,23 @@
 		public function setProgressMessage( string $progressMessage )
 		{
 			$this->setParam('progressmessage',$progressMessage);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set submit button title
+		 *   -----------------------
+		 *   @access public
+		 *   @param string $submitButtonTitle Submit button title
+		 *   @return \Codelab\FlaskPHP\Action\FormAction
+		 *
+		 */
+
+		public function setSubmitButtonTitle( string $submitButtonTitle )
+		{
+			$this->setParam('submitbuttontitle',$submitButtonTitle);
 			return $this;
 		}
 

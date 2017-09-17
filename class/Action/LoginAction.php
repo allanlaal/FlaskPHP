@@ -309,7 +309,7 @@
 
 		/**
 		 *
-		 *   Remder login form
+		 *   Render login form
 		 *   -----------------
 		 *   @access public
 		 *   @throws \Exception
@@ -319,10 +319,6 @@
 
 		public function renderLoginForm()
 		{
-			// Init
-			$labelWidth=oneof($this->getParam('labelwidth'),3);
-			$fieldWidth=intval(12-$labelWidth);
-
 			// Render
 			$c='<div class="login-wrapper">';
 			if (!empty($this->getParam('banner'))) $c.='<div class="login-banner">'.$this->getParam('banner').'</div>';

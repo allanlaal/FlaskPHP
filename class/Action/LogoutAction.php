@@ -58,7 +58,8 @@
 
 		public function initLogout()
 		{
-			// This can be implemented in the subclass.
+			// This can be implemented in the subclass. By default, we just reload
+			$this->setReload(true);
 		}
 
 

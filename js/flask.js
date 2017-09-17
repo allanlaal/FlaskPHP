@@ -530,6 +530,72 @@ Flask.Modal = {
 		}).modal('show');
 	},
 
+	// Open form modal
+	openModal: function( url, post_data, param )
+	{
+		// Init
+		if (param==null) param={};
+		if (param.modalclass==null) param.modalclass='tiny';
+
+		// Get content
+		$.ajax({
+			url: url,
+			data: post_data,
+			success: function (data) {
+				if (data!=null && data.status=='1') {
+					delete data.status;
+					var modalTag=Flask.Modal.createModal('','','',param);
+					if (data.title!=null) {
+						Flask.Modal.setTitle(modalTag,data.title);
+						delete data.title;
+					}
+					if (data.content!=null) {
+						Flask.Modal.setContent(modalTag,data.content);
+						delete data.content;
+					}
+					if (data.displaytrigger!=null)
+					{
+						eval(data.displaytrigger);
+					}
+					var btns={};
+					if (param.buttons!=null) {
+						btns=param.buttons;
+					}
+					else if (data.buttons!=null) {
+						btns=data.buttons;
+						delete data.buttons;
+					}
+					if ((param.cancelbtn==null || param.cancelbtn==false) && (data.cancelbtn==null || data.cancelbtn==false)) {
+						btns.cancel={
+							title: Locale.get('FLASK.FORM.Btn.Cancel'),
+							onclick: function(){
+								Flask.Modal.closeModal(modalTag);
+							}
+						}
+					}
+					Flask.Modal.setButtons(modalTag,btns);
+					for (var k in data) {
+						Flask.Modal.param[modalTag][k]=data[k];
+					}
+					Flask.Form.initElements(modalTag);
+					$("#"+modalTag+" form :input").not('.noautosubmit').keypress(function(e){
+						if (e.which==13) {
+							$("#"+modalTag+" .actions button").first().trigger('click');
+						}
+					});
+				}
+				else {
+					Flask.alert(oneof(data.error,Locale.get('FLASK.COMMON.Error.ErrorOpeningModal')),Locale.get('FLASK.COMMON.Error'));
+				}
+			},
+			error: function(xhr, ajaxOptions, thrownError) {
+				Flask.alert(Locale.get('FLASK.COMMON.Error.ErrorOpeningModal')+' - '+thrownError+' - '+xhr.responseText,Locale.get('FLASK.COMMON.Error'));
+			}
+		});
+
+
+	},
+
 	// Set title
 	setTitle: function( modalTag, title )
 	{
@@ -613,6 +679,10 @@ Flask.Form = {
 					if (data.content!=null) {
 						Flask.Modal.setContent(modalTag,data.content);
 						delete data.content;
+					}
+					if (data.displaytrigger!=null)
+					{
+						eval(data.displaytrigger);
 					}
 					var btns={};
 					if (data.buttons!=null) {
@@ -829,6 +899,130 @@ Flask.Form = {
 		});
 	},
 
+	// Update fields
+	updateFields: function ( fieldTag, url, param )
+	{
+		// Check
+		if ($("#"+fieldTag).closest("form").length==0) {
+			Flask.alert(Locale.get('FLASK.FORM.Error.CouldNotFindForm'),Locale.get('FLASK.COMMON.Error'));
+			return;
+		}
+		else {
+			var formID=$("#"+fieldTag).closest("form").first().attr('id');
+		}
+		if (url==null) {
+			if ($("#"+fieldTag).attr('data-update-url')!="") {
+				var url=$("#"+fieldTag).attr('data-update-url');
+			}
+			else {
+				Flask.alert('No URL and no data-update-url on update field',Locale.get('FLASK.COMMON.Error'));
+				return;
+			}
+		}
+
+		// Params
+		if (param==null) {
+			var param={};
+		}
+
+		// Progress message
+		if (param.progressmessage!=null && param.progressmessage!='') {
+			this.progressStart(progressmessage);
+		}
+
+		// Submit
+		var submitdata={};
+		submitdata.action='updatefields';
+		submitdata.update_from=fieldTag;
+		$("#"+formID).ajaxSubmit({
+			data: submitdata,
+			url: url,
+			success: function( data ) {
+				Flask.Form.progressStop();
+				if (data!=null && data.status=='1') {
+					if (data.values!=null) {
+						Flask.Form.setValues(data.values);
+					}
+				}
+				else
+				{
+					Flask.Form.progressStop();
+					if (data!=null && data.error!=null) {
+						if (typeof(data.error)=='object') {
+							var globalerror=[];
+							for(var fld_tag in data.error) {
+								if ($("#field_"+fld_tag).length>0) {
+									Flask.Form.showFieldError(fld_tag,data.error[fld_tag]);
+								}
+								else {
+									globalerror.push(data.error[fld_tag]);
+								}
+							}
+							if (globalerror.length) {
+								Flask.Form.showErrors(formID,globalerror);
+							}
+						}
+						else {
+							Flask.alert(oneof(data.error,Locale.get('FLASK.COMMON.Error.ErrorReadingData')),Locale.get('FLASK.COMMON.Error'));
+						}
+					}
+					else {
+						Flask.alert(Locale.get('FLASK.COMMON.Error.ErrorReadingData'),Locale.get('FLASK.COMMON.Error'));
+					}
+				}
+			},
+			error: function(xhr, ajaxOptions, thrownError) {
+				Flask.Form.progressStop();
+				Flask.alert(Locale.get('FLASK.COMMON.Error.ErrorReadingData')+' - '+thrownError+' - '+xhr.responseText,Locale.get('FLASK.COMMON.Error'));
+			}
+		});
+	},
+
+	// Update values
+	setValues: function( values )
+	{
+		for (var fld in values) {
+			if ($("select[name="+fld+"]").length) {
+				var val=$("select[name="+fld+"]").val();
+				if (values[fld]!=null && typeof(values[fld])=='object') {
+					Flask.Form.setSelectOptions("select[name="+fld+"]",values[fld],$("select[name="+fld+"]").val());
+				}
+				else {
+					$("#"+fld).val(values[fld]);
+				}
+				if (val!=values[fld]) {
+					$("#"+fld).trigger('change');
+				}
+			}
+			else if ($("input[name="+fld+"]").attr('type')=='radio') {
+				$("#"+fld+"_"+values[fld]).trigger("click");
+			}
+			else if ($("input[name="+fld+"]").attr('type')=='checkbox') {
+				if (values[fld]=='1') {
+					$("#"+fld).attr('checked','checked');
+				}
+				else {
+					$("#"+fld).removeAttr('checked');
+				}
+			}
+			else {
+				$("#"+fld).val(values[fld]);
+			}
+		}
+	},
+
+	// Load dropdown options
+	setSelectOptions: function( field, options, selectedValue )
+	{
+		var option='';
+		for(var key in options) {
+			var dkey=((key.indexOf("#_") > -1)?key.replace("#_",""):key).trim();
+			option+='<option value="'+dkey+'"'+(dkey==selectedValue?' selected="selected"':'')+'>'+options[key]+'</option>';
+		}
+		$(field+' option').remove();
+		$(field).html(option);
+	},
+
 	// Init elements
 	initElements: function( formID )
 	{
@@ -936,6 +1130,71 @@ Flask.Form = {
 		name=pieces.join("-");
 
 		$(fieldTag).val(name);
+	},
+
+	// Hide/show fields
+	showFields: function( hideFields, showFields, field, paramAttr, init )
+	{
+		if (field!=null && $(field).length==0) return;
+		if (hideFields!='') {
+			$(hideFields).hide();
+		}
+		if (field!=null) {
+			if (paramAttr!=null) {
+				if ($(field).get(0).tagName=='SELECT') {
+					showFields=showFields.replace('$val',$(field+' option:selected').attr(paramAttr));
+					showFields=showFields.replace('$empty',(($(field).val().length==0 || $(field).val()=='0')?'empty':'notempty'));
+				}
+				else {
+					showFields=showFields.replace('$val',$(field).attr(paramAttr));
+					showFields=showFields.replace('$empty',(($(field).attr(paramAttr).length==0)?'empty':'notempty'));
+				}
+			}
+			else 	{
+				if ($(field).attr('type')=='checkbox') {
+					showFields=showFields.replace('$val',($(field).is(':checked')?'1':'0'));
+					showFields=showFields.replace('$empty',($(field).is(':checked')?'notempty':'empty'));
+				}
+				else if ($(field).attr('type')=='radio') {
+					showFields=showFields.replace('$val',$(field+':checked').val());
+					showFields=showFields.replace('$empty',($(field+':checked').length>0?'notempty':'empty'));
+				}
+				else {
+					showFields=showFields.replace('$val',$(field).val());
+					showFields=showFields.replace('$empty',(($(field).val()==null || $(field).val().length==0 || ($(field).get(0).tagName=='SELECT' && $(field).val()=='0'))?'empty':'notempty'));
+				}
+			}
+		}
+		if (showFields!='') {
+			$(showFields).show();
+		}
+		if (hideFields!='') {
+			$(hideFields + " input[type=text]").each(function(){
+				if ($(this).closest("div.field").css('display')=='none' && $(this).attr('data-keephiddenvalue')!='1') {
+					$(this).val($(this).attr('data-emptyformat'));
+				}
+			});
+			$(hideFields + " textarea").each(function(){
+				if ($(this).closest("div.field").css('display')=='none' && $(this).attr('data-keephiddenvalue')!='1') {
+					$(this).val($(this).attr('data-emptyformat'));
+				}
+			});
+			$(hideFields + " select").each(function(){
+				if ($(this).closest("div.field").css('display')=='none' && $(this).attr('data-keephiddenvalue')!='1') {
+					if ($(this).attr('data-emptyformat')!=null && $(this).attr('data-emptyformat')!='') {
+						$(this).val($(this).attr('data-emptyformat'));
+					}
+					else {
+						$(this).val($('option:first',this).attr('value'));
+					}
+				}
+			});
+			$(hideFields + " input[type=checkbox]").each(function(){
+				if ($(this).closest("div.field").css('display')=='none' && $(this).attr('data-keephiddenvalue')!='1') {
+					$(this).removeAttr('checked');
+				}
+			});
+		}
 	}
 
 };

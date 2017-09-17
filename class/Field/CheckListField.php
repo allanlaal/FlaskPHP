@@ -251,7 +251,7 @@
 		public function renderFormBeginningBlock( $value, int $row=null )
 		{
 			// Default simple wrapper
-			return '<div id="field_'.$this->tag.'" class="grouped fields">';
+			return '<div id="field_'.$this->tag.'" class="grouped fields '.$this->getParam('form_wrapperclass').'">';
 		}
 
 

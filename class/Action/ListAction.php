@@ -1388,15 +1388,15 @@
 
 						// Value
 						$fld=oneof($fieldObject->getParam('list_field'),$fieldObject->tag);
-						if (strpos($fld,'->')!==false)
+						if (strpos($fld,' as ')!==false)
+						{
+							$fldArr=preg_split('/\s+as\s+/',$fld);
+							$fld=$fldArr[sizeof($fldArr)-1];
+						}
+						elseif (strpos($fld,'->')!==false)
 						{
 							$fldArr=preg_split('/->/',$fld);
 							$fld=$fldArr[sizeof($fldArr)-2].'_'.$fldArr[sizeof($fldArr)-1];
-						}
-						elseif (strpos($fld,' ')!==false)
-						{
-							$fldArr=preg_split('/ /',$fld);
-							$fld=$fldArr[sizeof($fldArr)-1];
 						}
 						elseif (strpos($fld,'.')!==false)
 						{

@@ -464,9 +464,43 @@
 		 *
 		 */
 
-		public function setFormPlaceholder( $placeHolder )
+		public function setFormPlaceholder( string $placeHolder )
 		{
 			$this->setParam('form_placeholder',$placeHolder);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set form field wrapper class
+		 *   ----------------------------
+		 *   @access public
+		 *   @param string $wrapperClass Wrapper element class
+		 *   @return \Codelab\FlaskPHP\Field\FieldInterface
+		 *
+		 */
+
+		public function setFormWrapperClass( string $wrapperClass )
+		{
+			$this->setParam('form_wrapperclass',$wrapperClass);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set form field class
+		 *   --------------------
+		 *   @access public
+		 *   @param string $fieldClass Field element class
+		 *   @return \Codelab\FlaskPHP\Field\FieldInterface
+		 *
+		 */
+
+		public function setFormFieldClass( string $fieldClass )
+		{
+			$this->setParam('form_fieldclass',$fieldClass);
 			return $this;
 		}
 
@@ -1351,7 +1385,7 @@
 		public function renderFormBeginningBlock( $value, int $row=null )
 		{
 			// Default simple wrapper
-			return '<div id="field_'.$this->tag.'" class="field">';
+			return '<div id="field_'.$this->tag.'" class="field '.$this->getParam('form_wrapperclass').'">';
 		}
 
 

@@ -5,12 +5,12 @@
 @font-face
 {
 	font-family: 'iconation';
-	src: url('/flask/static/iconation/iconation.eot?20607639');
-	src: url('/flask/static/iconation/iconation.eot?20607639#iefix') format('embedded-opentype'),
-	url('/flask/static/iconation/iconation.woff?20607639') format('woff'),
-	url('/flask/static/iconation/iconation.woff2?20607639') format('woff2'),
-	url('/flask/static/iconation/iconation.ttf?20607639') format('truetype'),
-	url('/flask/static/iconation/iconation.svg?20607639#iconation') format('svg');
+	src: url('/flask/static/iconation/iconation.eot?74469528');
+	src: url('/flask/static/iconation/iconation.eot?74469528#iefix') format('embedded-opentype'),
+	url('/flask/static/iconation/iconation.woff?74469528') format('woff'),
+	url('/flask/static/iconation/iconation.woff2?74469528') format('woff2'),
+	url('/flask/static/iconation/iconation.ttf?74469528') format('truetype'),
+	url('/flask/static/iconation/iconation.svg?74469528#iconation') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -289,6 +289,10 @@
 .icon-zoom-out:before { content: '\e8d6'; } /* '' */
 .icon-eye:before { content: '\e8d7'; } /* '' */
 .icon-eye-off:before { content: '\e8d8'; } /* '' */
+.icon-minus:before { content: '\e8d9'; } /* '' */
+.icon-gender-f:before { content: '\e8da'; } /* '' */
+.icon-gender-m:before { content: '\e8db'; } /* '' */
+.icon-questionmark:before { content: '\e8dc'; } /* '' */
 .icon-move:before { content: '\f047'; } /* '' */
 .icon-exchange:before { content: '\f0ec'; } /* '' */
 .icon-download-cloud:before { content: '\f0ed'; } /* '' */
@@ -300,3 +304,4 @@
 .icon-quote-left:before { content: '\f10d'; } /* '' */
 .icon-quote-right:before { content: '\f10e'; } /* '' */
 .icon-code:before { content: '\f121'; } /* '' */
+.icon-gender-o:before { content: '\f527'; } /* '' */

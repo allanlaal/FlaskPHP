@@ -81,6 +81,9 @@
 			$response->status=1;
 			$response->title=$this->template->get('title');
 			$response->content=$this->template->render();
+			if ($this->getParam('displaytrigger')) $response->displaytrigger=$this->getParam('displaytrigger');
+			if ($this->getParam('progressmessage')) $response->progressmessage=$this->getParam('progressmessage');
+			if ($this->getParam('submitbuttontitle')) $response->submitbuttontitle=$this->getParam('submitbuttontitle');
 			return $response;
 		}
 
