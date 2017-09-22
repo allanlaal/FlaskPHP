@@ -170,7 +170,7 @@
 		public function displayValue( bool $encodeContent=true )
 		{
 			$value=$this->getValue();
-			return Flask()->I18n->formatDate($value,$this->getParam('list_showtime'),$this->getParam('list_showtimesec'));
+			return Flask()->I18n->formatDate($value,($this->getParam('list_showtime')?true:false),($this->getParam('list_showtimesec')?true:false));
 		}
 
 

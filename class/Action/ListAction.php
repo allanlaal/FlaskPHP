@@ -619,11 +619,40 @@
 				if (!is_object($this->model)) throw new FlaskPHP\Exception\Exception('No model defined.');
 				if (!($this->model instanceof FlaskPHP\Model\ModelInterface)) throw new Exception('Model not a ModelInterface instance.');
 
-				// Do we have this field?
-				if (!array_key_exists($fieldTag,$this->model->_field)) throw new FlaskPHP\Exception\InvalidParameterException($fieldTag.': no such field defined in model.');
+				// Relation?
+				if (strpos($fieldTag,'->')!==false)
+				{
+					$relationList=preg_split('/\-\>/',$fieldTag);
+					$effectiveModel=$this->model;
+					for ($r=0;$r<sizeof($relationList);++$r)
+					{
+						if ($r==(sizeof($relationList)-1))
+						{
+							// Do we have this field?
+							if (!array_key_exists($relationList[$r],$effectiveModel->_field)) throw new FlaskPHP\Exception\InvalidParameterException($relationList[$r].': no such field defined in model '.get_class($effectiveModel).'.');
 
-				// Link
-				$this->field[$fieldTag]=&$this->model->_field[$fieldTag];
+							// Link
+							$this->field[$fieldTag]=$effectiveModel->_field[$relationList[$r]];
+							$this->field[$fieldTag]->tag=$fieldTag;
+						}
+						else
+						{
+							if (!is_object($effectiveModel->_rel[$relationList[$r]])) throw new FlaskPHP\Exception\InvalidParameterException('Error in parseRelation(): relation '.$relationList[$r].' does not exist in '.get_class($effectiveModel));
+							$relationModelClass=$effectiveModel->_rel[$relationList[$r]]->relationRemoteModel;
+							$effectiveModel=new $relationModelClass();
+						}
+					}
+				}
+
+				// Local field
+				else
+				{
+					// Do we have this field?
+					if (!array_key_exists($fieldTag,$this->model->_field)) throw new FlaskPHP\Exception\InvalidParameterException($fieldTag.': no such field defined in model.');
+
+					// Link
+					$this->field[$fieldTag]=&$this->model->_field[$fieldTag];
+				}
 			}
 
 			// Set tag/column
