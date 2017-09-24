@@ -484,7 +484,7 @@ Flask.Modal = {
 
 		// Create html
 		var modalHTML='<div id="'+modalTag+'" class="'+modalClass+'" tabindex="-1">';
-		modalHTML+='<div class="content">';
+		modalHTML+='<div class="scrolling content">';
 		modalHTML+='</div>';
 		modalHTML+='</div>';
 		$('body').append(modalHTML);
