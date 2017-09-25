@@ -256,6 +256,23 @@
 
 		/**
 		 *
+		 *   Login failure trigger
+		 *   ---------------------
+		 *   @access public
+		 *   @param \Exception $thrownException Exception thrown
+		 *   @throws \Exception
+		 *   @return void
+		 *
+		 */
+
+		public function loginFailTrigger( $thrownException )
+		{
+			// This can be implemented in the subclass.
+		}
+
+
+		/**
+		 *
 		 *   Get language list
 		 *   -----------------
 		 *   @access public
@@ -456,6 +473,9 @@
 						Flask()->User->doLogout();
 					}
 
+					// Run fail trigger
+					$this->loginFailTrigger($e);
+
 					// Return error
 					$response=new \stdClass();
 					$response->status=2;
@@ -469,6 +489,9 @@
 					{
 						Flask()->User->doLogout();
 					}
+
+					// Run fail trigger
+					$this->loginFailTrigger($e);
 
 					// Return error
 					$response=new \stdClass();
