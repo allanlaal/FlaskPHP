@@ -446,6 +446,115 @@
 
 		/**
 		 *
+		 *   Do implicit login (without user/password check)
+		 *   -----------------------------------------------
+		 *   @access public
+		 *   @param int $userOID User OID
+		 *   @param bool $checkStatus Check user status
+		 *   @param bool $throwExceptionOnError Throw exception on error
+		 *   @return bool Success/failure
+		 *   @throws \Exception
+		 *
+		 */
+
+		public function doImplicitLogin( int $userOID, bool $checkStatus=true, $throwExceptionOnError=true )
+		{
+			try
+			{
+				// Load user
+				$User=Flask()->User::getObject($userOID);
+				if ($User===null)
+				{
+					throw new FlaskPHP\Exception\LoginFailedException(Flask()->Locale->get('FLASK.USER.Login.Error.NoSuchUser'));
+				}
+
+				// Check status
+				if ($checkStatus)
+				{
+					if ($User->{$this->getParam('loginfield_status')}=='pending') throw new FlaskPHP\Exception\LoginFailedException(Flask()->Locale->get('FLASK.USER.Login.Error.UserPending'));
+					if ($User->{$this->getParam('loginfield_status')}=='disabled') throw new FlaskPHP\Exception\LoginFailedException(Flask()->Locale->get('FLASK.USER.Login.Error.UserDisabled'));
+					if ($User->{$this->getParam('loginfield_status')}!='active') throw new FlaskPHP\Exception\LoginFailedException(Flask()->Locale->get('FLASK.USER.Login.Error.UserNotActive'));
+				}
+
+				// Set session
+				Flask()->Session->set('login.user_oid',$User->{$this->getParam('idfield')});
+
+				// Load user
+				$this->loadUser(true);
+				$this->triggerLogin();
+
+				// Log success
+				if ($this->getParam('loginlog'))
+				{
+					$cols=array(
+						'user_oid' => $this->{$this->getParam('idfield')},
+						'loginlog_tstamp' => date('Y-m-d H:i:s'),
+						'loginlog_status' => 'success',
+						'loginlog_ip' => Flask()->Request->remoteIP(),
+						'loginlog_hostname' => Flask()->Request->remoteHost(),
+						'loginlog_email' => $this->{$this->getParam('loginfield_email')},
+						'loginlog_entry' => '[[ FLASK.USER.Login.Success ]]'
+					);
+					if (is_array($this->getParam('loginlog_data')))
+					{
+						foreach ($this->getParam('loginlog_data') as $k => $v)
+						{
+							$cols[$k]=$v;
+						}
+					}
+					Flask()->DB->queryInsert(oneof($this->getParam('loginlog_table'),'flask_loginlog'),$cols);
+				}
+
+				// Success
+				return true;
+			}
+			catch (FlaskPHP\Exception\LoginFailedException $e)
+			{
+				// Log failure
+				if ($this->getParam('loginlog'))
+				{
+					$cols=array(
+						'user_oid' => intval($this->{$this->getParam('idfield')}),
+						'loginlog_tstamp' => date('Y-m-d H:i:s'),
+						'loginlog_status' => 'failure',
+						'loginlog_ip' => Flask()->Request->remoteIP(),
+						'loginlog_hostname' => Flask()->Request->remoteHost(),
+						'loginlog_email' => $email,
+						'loginlog_entry' => $e->getMessage()
+					);
+					if (is_array($this->getParam('loginlog_data')))
+					{
+						foreach ($this->getParam('loginlog_data') as $k => $v)
+						{
+							$cols[$k]=$v;
+						}
+					}
+					Flask()->DB->queryInsert(oneof($this->getParam('loginlog_table'),'flask_loginlog'),$cols);
+				}
+
+				// Handle error
+				if ($throwExceptionOnError)
+				{
+					if (Flask()->Debug->devEnvironment) throw $e;
+					throw new FlaskPHP\Exception\LoginFailedException(Flask()->Locale->get('FLASK.USER.Login.Error.Unsuccessful'));
+				}
+				return false;
+			}
+			catch (\Exception $e)
+			{
+				// Handle error
+				if ($throwExceptionOnError)
+				{
+					if (Flask()->Debug->devEnvironment) throw $e;
+					throw new FlaskPHP\Exception\LoginFailedException(Flask()->Locale->get('FLASK.USER.Login.Error.Unsuccessful'));
+				}
+				return false;
+			}
+		}
+
+
+		/**
+		 *
 		 *   Do logout
 		 *   ---------
 		 *   @access public
