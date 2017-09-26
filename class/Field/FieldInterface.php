@@ -1134,7 +1134,7 @@
 			// Default
 			if ($this->hasParam('default'))
 			{
-				return $this->zeroHack($this->hasParam('default'),'add');
+				return $this->zeroHack($this->getParam('default'),'add');
 			}
 
 			// Nothing
