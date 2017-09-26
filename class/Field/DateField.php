@@ -176,6 +176,28 @@
 
 		/**
 		 *
+		 *   Get list value
+		 *   --------------
+		 *   @access public
+		 *   @param mixed $value Value
+		 *   @param array $row Row
+		 *   @throws \Exception
+		 *   @return mixed
+		 *
+		 */
+
+		public function listValue( $value, array &$row )
+		{
+			// Format value
+			$value=Flask()->I18n->formatDate($value,($this->getParam('list_showtime')?true:false),($this->getParam('list_showtimesec')?true:false));
+
+			// Return
+			return parent::listValue($value,$row);
+		}
+
+
+		/**
+		 *
 		 *   Render form field: element
 		 *   --------------------------
 		 *   @access public

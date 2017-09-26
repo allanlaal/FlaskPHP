@@ -173,23 +173,23 @@
 		 *   ----------------------
 		 *   @access public
 		 *   @param bool $unique Should be unique?
-		 *   @param FlaskPHP\DB\QueryBuilderInterface $uniqueParam Unique query parameters
+		 *   @param string $uniqueCondition Unique condition
 		 *   @param string $uniqueMessage Error message on constraint violation
 		 *   @return \Codelab\FlaskPHP\Field\FieldInterface
 		 */
 
-		public function setUnique( bool $unique, FlaskPHP\DB\QueryBuilderInterface $uniqueParam=null, string $uniqueMessage=null )
+		public function setUnique( bool $unique, string $uniqueCondition=null, string $uniqueMessage=null )
 		{
 			if ($unique)
 			{
 				$this->setParam('unique',true);
-				$this->setParam('unique_param',$uniqueParam);
+				$this->setParam('unique_cond',$uniqueCondition);
 				$this->setParam('unique_message',$uniqueMessage);
 			}
 			else
 			{
 				$this->unsetParam('unique');
-				$this->unsetParam('unique_param');
+				$this->unsetParam('unique_cond');
 				$this->unsetParam('unique_message');
 			}
 			return $this;
@@ -880,8 +880,34 @@
 			if ($this->getParam('unique'))
 			{
 				$model=oneof($this->formObject->model,$this->modelObject);
-				$param=oneof($this->getParam('unique_param'),Flask()->DB->getQueryBuilder());
+				$param=Flask()->DB->getQueryBuilder();
 				$param->setModel($model);
+				if ($this->getParam('unique_cond'))
+				{
+					$uniqueCond=$this->getParam('unique_cond');
+					if (is_object($this->formObject))
+					{
+						$fieldSet=$this->formObject->field;
+					}
+					else
+					{
+						$fieldSet=$model->_field;
+					}
+					$keys=array_map('strlen', array_keys($fieldSet));
+					array_multisort($keys, SORT_DESC, $fieldSet);
+					foreach ($fieldSet as $fieldTag => $fieldObject)
+					{
+						if (is_object($this->formObject))
+						{
+							$uniqueCond=str_replace('$'.$fieldTag,$fieldObject->getValue(),$uniqueCond);
+						}
+						else
+						{
+							$uniqueCond=str_replace('$'.$fieldTag,$model->{$fieldTag},$uniqueCond);
+						}
+					}
+					$param->addWhere($uniqueCond);
+				}
 				if (!$model->isUnique($this->tag,$value,$param))
 				{
 					throw new FlaskPHP\Exception\ValidateException([

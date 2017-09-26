@@ -1302,6 +1302,7 @@
 			// Init query
 			$query=oneof($param,Flask()->DB->getQueryBuilder());
 			$query->setModel($this);
+			$query->addField([$this->getParam('idfield')]);
 			$query->addWhere($fieldName.'='.$query::colValue($fieldValue));
 			if ($this->_loaded) $query->addWhere($this->getParam('idfield').'!='.$query::colValue($this->{$this->getParam('idfield')}));
 			$query->addLimit(1);
