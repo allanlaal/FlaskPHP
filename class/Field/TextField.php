@@ -46,8 +46,32 @@
 			$class=array();
 			if (!empty($this->getParam('form_fieldclass'))) $class[]=$this->getParam('form_fieldclass');
 
+			// Init
+			$c='';
+			$fieldWrapper=null;
+
+			// Wrapper if needed
+			if ($this->getParam('form_suffixlabel'))
+			{
+				$c.='<div class="ui right labeled input">';
+				$fieldWrapper=true;
+			}
+			elseif ($this->getParam('form_prefixlabel'))
+			{
+				$c.='<div class="ui labeled input">';
+				$fieldWrapper=true;
+			}
+
+			// Prefix label
+			if ($this->getParam('form_prefixlabel'))
+			{
+				$c.='<div class="ui label'.($this->getParam('form_prefixlabel_type')?' '.$this->getParam('form_prefixlabel_type'):'').'">';
+				$c.=$this->getParam('form_prefixlabel');
+				$c.='</div>';
+			}
+
 			// Field
-			$c='<input';
+			$c.='<input';
 				$c.=' type="text"';
 				$c.=' id="'.$this->tag.'"';
 				$c.=' name="'.$this->tag.'"';
@@ -73,6 +97,20 @@
 					foreach ($this->getParam('form_data') as $dataKey => $dataValue) $c.=' data-'.$dataKey.'="'.htmlspecialchars($dataValue).'"';
 				}
 			$c.='>';
+
+			// Suffix label
+			if ($this->getParam('form_suffixlabel'))
+			{
+				$c.='<div class="ui label'.($this->getParam('form_suffixlabel_type')?' '.$this->getParam('form_suffixlabel_type'):'').'">';
+				$c.=$this->getParam('form_suffixlabel');
+				$c.='</div>';
+			}
+
+			// Wrapper
+			if ($fieldWrapper)
+			{
+				$c.='</div>';
+			}
 
 			// Comment
 			$c.=$this->renderComment();

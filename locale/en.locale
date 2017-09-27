@@ -152,6 +152,8 @@ FLASK.FIELD.Error.MinValue                                           Value under
 FLASK.FIELD.Error.MaxValue                                           Value over allowed maximum value ($maxvalue).
 FLASK.FIELD.Error.Filter                                             Value contains illegal characters.
 FLASK.FIELD.Error.Unique                                             Value not unique, duplicate value not allowed.
+FLASK.FIELD.Error.NumberFld.Format                                   Field value is not a valid number.
+FLASK.FIELD.Error.NumberFld.Format.Negative                          Field value is not a valid positive number.
 FLASK.FIELD.Error.InvalidValue                                       Invalid value.
 FLASK.FIELD.Error.InvalidEmail                                       Invalid e-mail address.
 FLASK.FIELD.Error.InvalidDate                                        Invalid date.

@@ -507,6 +507,44 @@
 
 		/**
 		 *
+		 *   Set form field prefix label
+		 *   ---------------------------
+		 *   @access public
+		 *   @param string $formPrefixLabel Prefix label
+		 *   @param string $formPrefixLabelType Prefix label type
+		 *   @return \Codelab\FlaskPHP\Field\FieldInterface
+		 *
+		 */
+
+		public function setFormPrefixLabel( string $formPrefixLabel, string $formPrefixLabelType=null )
+		{
+			$this->setParam('form_prefixlabel',$formPrefixLabel);
+			$this->setParam('form_prefixlabel_type',$formPrefixLabelType);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set form field suffix label
+		 *   ---------------------------
+		 *   @access public
+		 *   @param string $formSuffixLabel Suffix label
+		 *   @param string $formSuffixLabelType Suffix label type
+		 *   @return \Codelab\FlaskPHP\Field\FieldInterface
+		 *
+		 */
+
+		public function setFormSuffixLabel( string $formSuffixLabel, string $formSuffixLabelType=null )
+		{
+			$this->setParam('form_suffixlabel',$formSuffixLabel);
+			$this->setParam('form_suffixlabel_type',$formSuffixLabelType);
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Add form event
 		 *   --------------
 		 *   @access public
