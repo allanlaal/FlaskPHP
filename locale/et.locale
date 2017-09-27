@@ -9,58 +9,251 @@
 #
 #
 
-FLASK.COMMON.Email                                                   E-mailiaadress
-FLASK.COMMON.Email.Short                                             E-mail
 
-FLASK.COMMON.Password                                                Salasõna
+FLASK.COMMON.OK                                           OK
+FLASK.COMMON.Warnings                                     Hoiatused
+FLASK.COMMON.NotOK                                        Ei ole OK
+FLASK.COMMON.Missing                                      puudub
+FLASK.COMMON.NotSet                                       määramata
+FLASK.COMMON.NotEntered                                   sisestamata
+FLASK.COMMON.NotConnected                                 ühendamata
+FLASK.COMMON.None                                         puudub
+FLASK.COMMON.Empty                                        tühi
+FLASK.COMMON.Unknown                                      teadmata
+FLASK.COMMON.All                                          kõik
+FLASK.COMMON.SelectAll                                    vali kõik
+FLASK.COMMON.Selected                                     valitud
+FLASK.COMMON.Other                                        muu
+FLASK.COMMON.OtherEnter                                   muu, sisesta
+FLASK.COMMON.BackToList                                   tagasi nimekirja
 
-FLASK.COMMON.Language                                                Keel
+FLASK.COMMON.Email                                        E-mailiaadress
+FLASK.COMMON.Email.Short                                  E-mail
 
-FLASK.COMMON.Error                                                   Viga
-FLASK.COMMON.Error.ErrorOpeningModal                                 Viga dialoogi avamisel
-FLASK.COMMON.Error.ErrorSavingData                                   Viga andmete salvestamisel
+FLASK.COMMON.Name                                         Nimi
+FLASK.COMMON.Name.First                                   Eesnimi
+FLASK.COMMON.Name.Middle                                  Täiendavad eesnimed
+FLASK.COMMON.Name.Last                                    Perekonnanimi
+FLASK.COMMON.Name.Title                                   Tiitel
 
-FLASK.FIELD.Error.RequiredFieldEmpty                                 Nõutud väli on tühi.
-FLASK.FIELD.Error.MinLength                                          Väärtus liiga lühike, nõutud vähemalt $minlength tähemärki.
-FLASK.FIELD.Error.MaxLength                                          Väärtus liiga pikk, lubatud kuni $maxlength tähemärki.
-FLASK.FIELD.Error.Filter                                             Väärtus sisaldab lubamatuid tähemärke.
-FLASK.FIELD.Error.Unique                                             Väärtus pole unikaalne, duplikaadid pole lubatud.
-FLASK.FIELD.Error.InvalidValue                                       Vigane väärtus.
-FLASK.FIELD.Error.InvalidEmail                                       Vigane e-mailiaadrss.
+FLASK.COMMON.Password                                     Salasõna
+FLASK.COMMON.Language                                     Keel
 
-FLASK.USER.LOGIN.Login                                               Logi sisse
-FLASK.USER.Login.Success                                             Õnnestunud sisselogimine
-FLASK.USER.Login.Error.EmailEmpty                                    E-mailiaadress on tühi.
-FLASK.USER.Login.Error.EmailInvalid                                  Vigane e-mailiaadress.
-FLASK.USER.Login.Error.PasswordEmpty                                 Salasõna on tühi.
-FLASK.USER.Login.Error.Unsuccessful                                  Ebaõnnestunud sisselogimine.
-FLASK.USER.Login.Error.NoSuchUser                                    Sellist kasutajat ei eksisteeri.
-FLASK.USER.Login.Error.WrongPassword                                 Vale salasõna.
-FLASK.USER.Login.Error.UserPending                                   Kasutajakonto on aktiveerimisel.
-FLASK.USER.Login.Error.UserDisabled                                  Kasutajakonto on suletud.
-FLASK.USER.Login.Error.UserDisabled                                  Kasutajakonto pole aktiivne.
-FLASK.USER.Login.Error.UnknownLanguage                               Tundmatu keel.
+FLASK.COMMON.Address                                      Aadress
+FLASK.COMMON.Address.Street                               Tänav/maja/korter
+FLASK.COMMON.Address.City                                 Linn
+FLASK.COMMON.Address.State                                Osariik
+FLASK.COMMON.Address.ZIP                                  Postiindeks
+FLASK.COMMON.Address.Country                              Riik
 
-FLASK.MODAL.Btn.OK                                                   OK
+FLASK.COMMON.Error                                        Viga
+FLASK.COMMON.Error.InvalidRequest                         Vigane päring.
+FLASK.COMMON.Error.ErrorOpeningModal                      Viga dialoogi avamisel
+FLASK.COMMON.Error.ErrorReadingData                       Viga andmete lugemisel
+FLASK.COMMON.Error.ErrorSavingData                        Viga andmete salvestamisel
 
-FLASK.FORM.Title.add                                                 Lisa uus kirje
-FLASK.FORM.Title.edit                                                Muuda kirjet
-FLASK.FORM.Btn.add                                                   Lisa
-FLASK.FORM.Btn.edit                                                  Salvesta
-FLASK.FORM.Btn.Cancel                                                Tühista
-FLASK.FORM.Msg.Saving                                                Andmete salvestamine, üks hetk ...
-FLASK.FORM.Error.CouldNotFindForm                                    Ei leidnud vormi.
-FLASK.FORM.Error.Validate                                            Vormi andmete kontrollimisel ilmnesid järgnevad vead
-FLASK.FORM.Error.DuplicateKey                                        Selliste andmetega kirje juba eksisteerib, duplikaati ei saa luua.
 
-FLASK.LIST.Filter.Submit                                             Filtreeri
-FLASK.LIST.Filter.Clear                                              Tühjenda filtrid
-FLASK.LIST.Message.FilterRequired                                    Palun sisesta või vali vähemalt üks filtreerimiskriteerium.
-FLASK.LIST.Message.NoResults                                         Ei leidnud midagi.
-FLASK.LIST.Message.NoResults.Filtered                                Ei leidnud ühtegi filtreerimiskriteeriumitele vastavat kirjet.
-FLASK.LIST.Message.FoundRows                                         Kokku $foundrows kirje(t).
-FLASK.LIST.Return                                                    tagasi
+#
+#  Date/time stuff
+#
 
-FLASK.LOG.LogEntry.Action.add                                        lisatud
-FLASK.LOG.LogEntry.Action.edit                                       muudetud
-FLASK.LOG.LogEntry.Action.delete                                     kustutatud
+FLASK.COMMON.Date                                         Kuupäev
+FLASK.COMMON.Time                                         Kellaaeg
+FLASK.COMMON.DateTime                                     Kpv/kellaaeg
+
+FLASK.COMMON.Day                                          päev
+FLASK.COMMON.Days                                         päeva
+FLASK.COMMON.DayAbbr                                      P
+FLASK.COMMON.Week                                         nädal
+FLASK.COMMON.Weeks                                        nädalat
+FLASK.COMMON.WeekAbbr                                     N
+FLASK.COMMON.Month                                        kuu
+FLASK.COMMON.Months                                       kuud
+FLASK.COMMON.MonthAbbr                                    M
+FLASK.COMMON.Year                                         aasta
+FLASK.COMMON.Years                                        aastat
+FLASK.COMMON.YearAbbr                                     A
+FLASK.COMMON.Hour                                         tund
+FLASK.COMMON.Hours                                        tundi
+FLASK.COMMON.HourAbbr                                     h
+FLASK.COMMON.Min                                          minut
+FLASK.COMMON.Mins                                         minutit
+FLASK.COMMON.MinAbbr                                      m
+
+FLASK.COMMON.Today                                        Täna
+FLASK.COMMON.Now                                          Praegu
+
+FLASK.COMMON.Day.1                                        Esmaspäev
+FLASK.COMMON.Day.2                                        Teisipäev
+FLASK.COMMON.Day.3                                        Kolmapäev
+FLASK.COMMON.Day.4                                        Neljapäev
+FLASK.COMMON.Day.5                                        Reede
+FLASK.COMMON.Day.6                                        Laupäev
+FLASK.COMMON.Day.7                                        Pühapäev
+
+FLASK.COMMON.Day.Short.1                                  E
+FLASK.COMMON.Day.Short.2                                  T
+FLASK.COMMON.Day.Short.3                                  K
+FLASK.COMMON.Day.Short.4                                  N
+FLASK.COMMON.Day.Short.5                                  R
+FLASK.COMMON.Day.Short.6                                  L
+FLASK.COMMON.Day.Short.7                                  P
+
+FLASK.COMMON.Day.Abbr.1                                   E
+FLASK.COMMON.Day.Abbr.2                                   T
+FLASK.COMMON.Day.Abbr.3                                   K
+FLASK.COMMON.Day.Abbr.4                                   N
+FLASK.COMMON.Day.Abbr.5                                   R
+FLASK.COMMON.Day.Abbr.6                                   L
+FLASK.COMMON.Day.Abbr.7                                   P
+
+FLASK.COMMON.Month.1                                      Jaanuar
+FLASK.COMMON.Month.2                                      Veebruar
+FLASK.COMMON.Month.3                                      Märts
+FLASK.COMMON.Month.4                                      Aprill
+FLASK.COMMON.Month.5                                      Mai
+FLASK.COMMON.Month.6                                      Juuni
+FLASK.COMMON.Month.7                                      Juuli
+FLASK.COMMON.Month.8                                      August
+FLASK.COMMON.Month.9                                      September
+FLASK.COMMON.Month.10                                     Oktoober
+FLASK.COMMON.Month.11                                     November
+FLASK.COMMON.Month.12                                     Detsember
+
+FLASK.COMMON.Month.Short.1                                Jaan
+FLASK.COMMON.Month.Short.2                                Veebr
+FLASK.COMMON.Month.Short.3                                Märts
+FLASK.COMMON.Month.Short.4                                Apr
+FLASK.COMMON.Month.Short.5                                Mai
+FLASK.COMMON.Month.Short.6                                Juuni
+FLASK.COMMON.Month.Short.7                                Juuli
+FLASK.COMMON.Month.Short.8                                Aug
+FLASK.COMMON.Month.Short.9                                Sept
+FLASK.COMMON.Month.Short.10                               Okt
+FLASK.COMMON.Month.Short.11                               Nov
+FLASK.COMMON.Month.Short.12                               Dets
+
+
+#
+#  Field stuff
+#
+
+FLASK.FIELD.Select                                        vali siit
+FLASK.FIELD.Password.EnterPassword                        Sisesta salasõna
+FLASK.FIELD.Password.RepeatPassword                       Korda salasõna
+FLASK.FIELD.Password.Suggest.FormComment                  Soovita turvalist salasõna
+FLASK.FIELD.Password.Suggest.Title                        Salasõna soovitus
+FLASK.FIELD.Password.Suggest.Result.1                     Sinu salasõna on
+FLASK.FIELD.Password.Suggest.Result.2                     Säilita see turvalises kohas.
+FLASK.FIELD.Error.RequiredFieldEmpty                      Nõutud väli on tühi.
+FLASK.FIELD.Error.MinLength                               Väärtus liiga lühike, nõutud vähemalt $minlength tähemärki.
+FLASK.FIELD.Error.MaxLength                               Väärtus liiga pikk, lubatud kuni $maxlength tähemärki.
+FLASK.FIELD.Error.MinValue                                Väärtus alla lubatud miinimumväärtuse ($minvalue).
+FLASK.FIELD.Error.MaxValue                                Väärtus üle lubatud maksimumväärtuse ($maxvalue).
+FLASK.FIELD.Error.Filter                                  Väärtus sisaldab lubamatuid tähemärke.
+FLASK.FIELD.Error.Unique                                  Väärtus pole unikaalne, duplikaadid pole lubatud.
+FLASK.FIELD.Error.NumberFld.Format                        Väärtus ei ole korrektne number.
+FLASK.FIELD.Error.NumberFld.Format.Negative               Väärtus ei ole korrektne positiivne number.
+FLASK.FIELD.Error.InvalidValue                            Vigane väärtus.
+FLASK.FIELD.Error.InvalidEmail                            Vigane e-mailiaadrss.
+FLASK.FIELD.Error.InvalidDate                             Vigane kuupäev.
+FLASK.FIELD.Error.InvalidTime                             Vigane kellaaeg.
+FLASK.FIELD.Error.IncompleteDateTime                      Puudulik kuupäev/kellaaeg.
+FLASK.FIELD.Error.PasswordWeak1                           Salasõna on liiga nõrk (peab sisaldama tähti ja numbreid).
+FLASK.FIELD.Error.PasswordWeak2                           Salasõna on liiga nõrk (peab sisaldama suur- ja väiketähti, numbreid ja kirjavahemärke).
+FLASK.FIELD.Error.PasswordRepeatEmpty                     Salasõna kordus on tühi.
+FLASK.FIELD.Error.PasswordRepeatMismatch                  Salasõna kordus ei klapi.
+
+FLASK.FIELD.Chooser.choose                                vali
+FLASK.FIELD.Chooser.clear                                 tühista
+FLASK.FIELD.Chooser.Search.Title                          Vali
+FLASK.FIELD.Chooser.Search.Placeholder                    Sisesta otsingutermin
+FLASK.FIELD.Chooser.Search.Submit                         Otsi
+FLASK.FIELD.Chooser.AddNew.Submit                         Lisa uus
+FLASK.FIELD.Chooser.Progress                              Andmete pärimine, üks hetk ...
+FLASK.FIELD.Chooser.Result.NoResults                      Ei leidnud midagi.
+FLASK.FIELD.Chooser.Result.MaxResults                     Leiti rohkem kui $maxresults vastet, palun täpsusta otsingukriteeriumit.
+FLASK.FIELD.Chooser.Error                                 Viga otsingutulemuste laadimisel.
+FLASK.FIELD.Chooser.Error.SearchEmpty                     Palun sisesta otsingutermin.
+FLASK.FIELD.Chooser.Error.SearchMinLength                 Otsingutermin liiga lühike, palun sisesta vähemalt $minlength tähemärki.
+
+
+#
+#  User
+#
+
+FLASK.USER.Login.Login                                    Login
+FLASK.USER.Login.Success                                  Õnnestunud sisselogimine
+FLASK.USER.Login.Error.EmailEmpty                         E-mailiaadress on tühi.
+FLASK.USER.Login.Error.EmailInvalid                       Vigane e-mailiaadress.
+FLASK.USER.Login.Error.PasswordEmpty                      Salasõna on tühi.
+FLASK.USER.Login.Error.Unsuccessful                       Ebaõnnestunud sisselogimine.
+FLASK.USER.Login.Error.NoSuchUser                         Sellist kasutajat ei eksisteeri.
+FLASK.USER.Login.Error.WrongPassword                      Vale salasõna.
+FLASK.USER.Login.Error.UserPending                        Kasutajakonto on aktiveerimisel.
+FLASK.USER.Login.Error.UserDisabled                       Kasutajakonto pole aktiivne.
+FLASK.USER.Login.Error.UserDisabled                       Kasutajakonto pole aktiivne.
+FLASK.USER.Login.Error.UnknownLanguage                    Tundmatu keel.
+
+
+#
+#  Modal
+#
+
+FLASK.MODAL.Btn.OK                                        OK
+FLASK.MODAL.Confirm                                       Kinnita
+FLASK.MODAL.Progress                                      Päringu teostamine, üks hetk  ...
+
+
+#
+#  Form
+#
+
+FLASK.FORM.Title.add                                      Lisa uus kirje
+FLASK.FORM.Title.edit                                     Muuda kirjet
+FLASK.FORM.Btn.add                                        Lisa
+FLASK.FORM.Btn.edit                                       Salvesta
+FLASK.FORM.Btn.Cancel                                     Tühista
+FLASK.FORM.Msg.Saving                                     Andmete salvestamine, üks hetk ...
+FLASK.FORM.Error.CouldNotFindForm                         Ei leidnud vormi.
+FLASK.FORM.Error.Validate                                 Vormi andmete kontrollimisel ilmnesid järgnevad vead
+FLASK.FORM.Error.DuplicateKey                             Selliste andmetega kirje juba eksisteerib, duplikaati ei saa luua.
+
+
+#
+#  List
+#
+
+FLASK.LIST.Filter.Submit                                  Filtreeri
+FLASK.LIST.Filter.Clear                                   Tühjenda filtrid
+FLASK.LIST.Filter.ShowAll                                 näita kõik
+FLASK.LIST.Progress                                       Andmete pärimine, üks hetk ...
+FLASK.LIST.Message.FilterRequired                         Palun sisesta või vali vähemalt üks filtreerimiskriteerium.
+FLASK.LIST.Message.NoResults                              Ei leidnud midagi.
+FLASK.LIST.Message.NoResults.Filtered                     Ei leidnud ühtegi filtreerimiskriteeriumitele vastavat kirjet.
+FLASK.LIST.Message.FoundRows                              Kokku $foundrows kirje(t).
+FLASK.LIST.Return                                         tagasi
+
+
+#
+#  Tabbed view
+#
+
+FLASK.TABBEDVIEW.Progress                                 Andmete laadimine, üks hetk ...
+
+
+#
+#  Log
+#
+
+FLASK.LOG.Fld.TimeStamp                                   Kpv/kellaaeg
+FLASK.LOG.Fld.User                                        Kasutaja
+FLASK.LOG.Fld.LogEntry                                    Logikirje
+FLASK.LOG.Fld.LogData                                     Täpsem info
+FLASK.LOG.Fld.LogData.View                                Kuva täpsem info
+FLASK.LOG.Fld.LogData.Operation                           Operatsioon
+FLASK.LOG.Fld.LogData.Empty                               tühi
+FLASK.LOG.LogEntry.Action.add                             lisatud
+FLASK.LOG.LogEntry.Action.edit                            muudetud
+FLASK.LOG.LogEntry.Action.delete                          kustutatud
+FLASK.LOG.LogEntry.Action.swap                            järjekord muudetud
