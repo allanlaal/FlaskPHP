@@ -34,7 +34,7 @@
 
 		public static function dbStorage()
 		{
-			return (Flask()->Config->get('site.filepath')?false:true);
+			return (Flask()->Config->get('app.filepath')?false:true);
 		}
 
 
@@ -45,7 +45,7 @@
 
 		public static function fileStorage()
 		{
-			return (Flask()->Config->get('site.filepath')?true:false);
+			return (Flask()->Config->get('app.filepath')?true:false);
 		}
 
 
@@ -65,7 +65,7 @@
 		public static function getFileDataDir( int $OID=null )
 		{
 			// Check
-			$fileDataDir=Flask()->Config->get('site.filepath');
+			$fileDataDir=Flask()->Config->get('app.filepath');
 			if (!mb_strlen($fileDataDir)) throw new FlaskPHP\Exception\Exception('File storage not enabled.');
 
 			// Init
@@ -106,12 +106,12 @@
 			global $LAB;
 
 			// Check
-			$fileDataDir=Flask()->Config->get('site.cachepath');
+			$fileDataDir=Flask()->Config->get('app.cachepath');
 			if (!mb_strlen($fileDataDir)) throw new FlaskPHP\Exception\Exception('File storage not enabled.');
 
 			// Init
 			umask(0);
-			$fileDataDir=$LAB->CONFIG->get('site.cachepath');
+			$fileDataDir=$LAB->CONFIG->get('app.cachepath');
 			if (!file_exists($fileDataDir)) throw new FlaskPHP\Exception\Exception('Cache path ('.$fileDataDir.') does not exist.');
 			if (!is_writable($fileDataDir)) throw new FlaskPHP\Exception\Exception('Cache path ('.$fileDataDir.') not writable by web server.');
 
@@ -224,9 +224,9 @@
 		 *   @return string
 		 */
 
-		public static function getFileName( int $OID, string $type, string $subType=null )
+		public static function getFileName( int $OID, string $type=null, string $subType=null )
 		{
-			return static::getFileDataDir($OID).'/'.$OID.'.'.$type.($subType?'.'.$subType:'');
+			return static::getFileDataDir($OID).'/'.$OID.($type?'.'.$type:'').($subType?'.'.$subType:'');
 		}
 
 
@@ -262,7 +262,7 @@
 		 *   @return void
 		 */
 
-		public static function deleteFile( int $OID, string $type, string $subType=null )
+		public static function deleteFile( int $OID, string $type=null, string $subType=null )
 		{
 			if ($subType)
 			{
@@ -270,7 +270,14 @@
 			}
 			else
 			{
-				$fileList=glob(static::getFileName($OID,$type).'*');
+				if ($type)
+				{
+					$fileList=glob(static::getFileName($OID).'*');
+				}
+				else
+				{
+					$fileList=glob(static::getFileName($OID,$type).'*');
+				}
 				foreach ($fileList as $file)
 				{
 					unlink($file);

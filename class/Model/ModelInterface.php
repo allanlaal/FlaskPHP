@@ -903,10 +903,13 @@
 				// Start transaction
 				Flask()->DB->startTransaction();
 
+				// Get OID
+				$oid=$this->_oid;
+
 				// Delete main entry
 				$query=Flask()->DB->getQueryBuilder('DELETE');
 				$query->setModel($this);
-				$query->addWhere($this->getParam('idfield').'='.$query::colValue($this->_oid));
+				$query->addWhere($this->getParam('idfield').'='.$query::colValue($oid));
 				Flask()->DB->queryDelete($query);
 
 				// Delete props
@@ -914,7 +917,7 @@
 				{
 					$query=Flask()->DB->getQueryBuilder('DELETE');
 					$query->addTable($this->getParam('prop_table'));
-					$query->addWhere($this->getParam('prop_referencefield').'='.$query::colValue($this->_oid));
+					$query->addWhere($this->getParam('prop_referencefield').'='.$query::colValue($oid));
 					Flask()->DB->queryDelete($query);
 				}
 
@@ -952,6 +955,12 @@
 
 				// Commit
 				Flask()->DB->doCommit();
+
+				// Delete model files
+				if (FlaskPHP\File\File::fileStorage())
+				{
+					FlaskPHP\File\File::deleteFile($oid);
+				}
 
 				// Reset self
 				$this->_oid=null;

@@ -288,9 +288,9 @@
 			$this->_loadLocaleFile(Flask()->getFlaskPath().'/locale/'.$localeTag.'.locale');
 
 			// Load locales in site include path
-			if (!empty(Flask()->Config->get('site.includepath')))
+			if (!empty(Flask()->Config->get('app.includepath')))
 			{
-				foreach (Flask()->Config->get('site.includepath') as $includePath)
+				foreach (Flask()->Config->get('app.includepath') as $includePath)
 				{
 					if ($localeTag!='en') $this->_loadLocaleFile($includePath.'/locale/en.locale');
 					$this->_loadLocaleFile($includePath.'/locale/'.$localeTag.'.locale');

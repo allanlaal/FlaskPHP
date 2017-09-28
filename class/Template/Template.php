@@ -353,17 +353,18 @@
 		 *   @access public
 		 *   @static
 		 *   @param string $string Input string
-		 *   @param array $variables Variables
+		 *   @param array|object $variables Variables
 		 *   @return string parsed string
 		 */
 
-		public static function parseSimpleVariables( string $string, array $variables )
+		public static function parseSimpleVariables( string $string, $variables )
 		{
 			uksort($localeTagParamList,function($a,$b){
 				return (strlen($b)-strlen($a));
 			});
 			foreach ($variables as $k => $v)
 			{
+				if ($k[0]=='_') continue;
 				$string=str_replace('$'.$k,$v,$string);
 			}
 			return $string;

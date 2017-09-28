@@ -430,6 +430,38 @@ Flask.initElements = function( base )
 		}
 	});
 
+	// Init file upload fields
+	$(base+'.ui.fileupload').each(function(){
+		var id=$("input[type=file]",this).attr('id');
+		$("button",this).on('click',function(){
+			$("#"+id).trigger('click');
+		});
+		$("input[type=text]",this).on('click',function(){
+			$("#"+id).trigger('click');
+		});
+		$("#"+id).on('change',function(evt){
+			var target=evt.currentTarget;
+			var files=evt.currentTarget.files;
+			if (files.length>0) {
+				var filelist='';
+				for (var i=0;i<files.length;++i) {
+					filelist+=(filelist!=''?', ':'')+files[i].name;
+				}
+				$("#"+id+"_fdisp").val(filelist);
+			}
+			else {
+				$("#"+id+"_fdisp").val('');
+			}
+		});
+	});
+	$(base+'.ui.fileupload-view').each(function(){
+		$("input[type=hidden]").siblings('button').on('click',function(){
+			$(this).siblings("input[type=hidden]").val('1');
+			$(this).closest('.fileupload-view').find('.fileupload-fileinfo').html('<span class="text-muted">'+Locale.get('FLASK.FIELD.File.FileRemoved')+'</span>');
+			$(this).closest('.fileupload-view').find('.fileupload-view-displayimage').remove();
+		});
+	});
+
 	// Set masked inputs
 	/*
 	$(base+"input[data-mask!='']").each(function(){

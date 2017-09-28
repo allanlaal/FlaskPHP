@@ -1232,34 +1232,8 @@
 			$listValue='';
 
 			// Link
-			$listLink=$this->getParam('list_link');
-			if ($listLink && $this->getParam('list_link_enabledif'))
-			{
-				eval('$listLinkEnabled=('.$this->getParam('list_link_enabledif').')?true:false;');
-				if (!$listLinkEnabled) $listLink=null;
-			}
-			if ($listLink)
-			{
-				$listLink=FlaskPHP\Template\Template::parseSimpleVariables($listLink,$row);
-			}
-			if ($listLink || $this->getParam('list_event'))
-			{
-				$listValue.='<a';
-				if ($listLink)
-				{
-					if ($this->hasParam('list_link_target')) $listValue.=' target="'.$this->getParam('list_link_target').'"';
-					$listValue.=' href="'.$listLink.'"';
-				}
-				if ($this->getParam('list_event'))
-				{
-					foreach ($this->getParam('list_event') as $eventType => $eventAction)
-					{
-						$eventAction=FlaskPHP\Template\Template::parseSimpleVariables($eventAction,$row);
-						$listValue.=' '.$eventType.'="'.$eventAction.'"';
-					}
-				}
-				$listValue.='>';
-			}
+			$listLink=$this->listValueLink($value,$row);
+			if ($listLink) $listValue.=$listLink;
 
 			// Value
 			if (!mb_strlen($value) && $this->hasParam('list_emptyvalue'))
@@ -1273,13 +1247,63 @@
 			$listValue.=htmlspecialchars($value);
 
 			// Link ends
-			if ($listLink || $this->getParam('list_event'))
-			{
-				$listValue.='</a>';
-			}
+			if ($listLink) $listValue.='</a>';
 
 			// Return value
 			return $listValue;
+		}
+
+
+		/**
+		 *
+		 *   Get list value link
+		 *   -------------------
+		 *   @access public
+		 *   @param mixed $value Value
+		 *   @param array $row Row
+		 *   @throws \Exception
+		 *   @return mixed
+		 *
+		 */
+
+		public function listValueLink( $value, array &$row )
+		{
+			if ($this->getParam('list_link') || $this->getParam('list_event'))
+			{
+				$listLink=$this->getParam('list_link');
+				if ($listLink && $this->getParam('list_link_enabledif'))
+				{
+					eval('$listLinkEnabled=('.$this->getParam('list_link_enabledif').')?true:false;');
+					if (!$listLinkEnabled) $listLink=null;
+				}
+				if ($listLink)
+				{
+					$listLink=FlaskPHP\Template\Template::parseSimpleVariables($listLink,$row);
+				}
+				if ($listLink || $this->getParam('list_event'))
+				{
+					$listValueLink='<a';
+					if ($listLink)
+					{
+						if ($this->hasParam('list_link_target')) $listValueLink.=' target="'.$this->getParam('list_link_target').'"';
+						$listValueLink.=' href="'.$listLink.'"';
+					}
+					if ($this->getParam('list_event'))
+					{
+						foreach ($this->getParam('list_event') as $eventType => $eventAction)
+						{
+							$eventAction=FlaskPHP\Template\Template::parseSimpleVariables($eventAction,$row);
+							$listValueLink.=' '.$eventType.'="'.$eventAction.'"';
+						}
+					}
+					$listValueLink.='>';
+					return $listValueLink;
+				}
+			}
+			else
+			{
+				return null;
+			}
 		}
 
 
