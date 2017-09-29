@@ -27,6 +27,9 @@ FLASK.COMMON.Other                                                   other
 FLASK.COMMON.OtherEnter                                              other, enter
 FLASK.COMMON.BackToList                                              back to list
 
+FLASK.COMMON.Yes                                                     Yes
+FLASK.COMMON.No                                                      No
+
 FLASK.COMMON.Email                                                   E-mail address
 FLASK.COMMON.Email.Short                                             E-mail
 
