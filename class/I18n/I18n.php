@@ -363,6 +363,75 @@
 
 
 		/**
+		 *   Format period
+		 *   @access public
+		 *   @static
+		 *   @param int $period Period in seconds
+		 *   @param bool $showSeconds Show seconds if period is over a minute
+		 *   @param string $separator Period separator
+		 *   @return string
+		 *   @throws \Exception
+		 */
+
+		public function formatPeriod( int $period, bool $showSeconds=true, string $separator=' ' )
+		{
+			// Init
+			$remainingPeriod=$period;
+			$displayPeriod=array();
+
+			// Years
+			$years=floor($remainingPeriod/(60*60*24*365));
+			if ($years)
+			{
+				$displayPeriod[]=intval($years).' [[ FLASK.COMMON.Year'.($years==1?'':'s').' ]]';
+				$remainingPeriod-=round($years*(60*60*24*365));
+			}
+
+			// Months
+			$months=floor($remainingPeriod/(60*60*24*30));
+			if ($months)
+			{
+				$displayPeriod[]=intval($months).' [[ FLASK.COMMON.Month'.($months==1?'':'s').' ]]';
+				$remainingPeriod-=round($months*(60*60*24*30));
+			}
+
+			// Days
+			$days=floor($remainingPeriod/(60*60*24));
+			if ($days)
+			{
+				$displayPeriod[]=intval($days).' [[ FLASK.COMMON.Day'.($days==1?'':'s').' ]]';
+				$remainingPeriod-=round($days*(60*60*24));
+			}
+
+			// Hours
+			$hours=floor($remainingPeriod/(60*60));
+			if ($hours)
+			{
+				$displayPeriod[]=intval($hours).' [[ FLASK.COMMON.Hour'.($hours==1?'':'s').' ]]';
+				$remainingPeriod-=round($hours*(60*60));
+			}
+
+			// Minutes
+			$minutes=floor($remainingPeriod/60);
+			if ($minutes)
+			{
+				$displayPeriod[]=intval($minutes).' [[ FLASK.COMMON.Min'.($minutes==1?'':'s').' ]]';
+				$remainingPeriod-=round($minutes*60);
+			}
+
+			// Seconds
+			if (!sizeof($displayPeriod) || ($showSeconds && $remainingPeriod>0))
+			{
+				$displayPeriod[]=intval($remainingPeriod).' [[ FLASK.COMMON.Second'.($remainingPeriod==1?'':'s').' ]]';
+			}
+
+			// Return
+			return join($separator,$displayPeriod);
+		}
+
+
+
+		/**
 		 *   Convert display format to YYYY-MM-DD (HH:II:SS)
 		 *   @access public
 		 *   @static

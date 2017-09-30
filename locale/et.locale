@@ -79,6 +79,9 @@ FLASK.COMMON.HourAbbr                                     h
 FLASK.COMMON.Min                                          minut
 FLASK.COMMON.Mins                                         minutit
 FLASK.COMMON.MinAbbr                                      m
+FLASK.COMMON.Second                                       sekund
+FLASK.COMMON.Seconds                                      sekundit
+FLASK.COMMON.SecondAbbr                                   s
 
 FLASK.COMMON.Today                                        Täna
 FLASK.COMMON.Now                                          Praegu
