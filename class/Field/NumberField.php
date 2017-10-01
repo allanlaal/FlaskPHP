@@ -121,27 +121,30 @@
 			$value=trim(preg_replace("/\s+/",'',str_replace(',','.',$value)));
 
 			// Check for format
-			if ($this->getParam('allownegative') && $this->getParam('precision')>0)
+			if (mb_strlen($value))
 			{
-				$filter='/^([\-]){0,1}[0-9]+(\.([0-9]){1,'.intval($this->getParam('precision')).'}){0,1}$/';
-			}
-			elseif ($this->getParam('allownegative'))
-			{
-				$filter='/^([\-]){0,1}[0-9]+$/';
-			}
-			elseif ($this->getParam('precision')>0)
-			{
-				$filter='/^[0-9]+(\.([0-9]){1,'.intval($this->getParam('precision')).'}){0,1}$/';
-			}
-			else
-			{
-				$filter='/^[0-9]+$/';
-			}
-			if (!preg_match($filter,$value))
-			{
-				throw new FlaskPHP\Exception\ValidateException([
-					$this->tag => '[[ FLASK.FIELD.Error.NumberFld.Format ]]'
-				]);
+				if ($this->getParam('allownegative') && $this->getParam('precision')>0)
+				{
+					$filter='/^([\-]){0,1}[0-9]+(\.([0-9]){1,'.intval($this->getParam('precision')).'}){0,1}$/';
+				}
+				elseif ($this->getParam('allownegative'))
+				{
+					$filter='/^([\-]){0,1}[0-9]+$/';
+				}
+				elseif ($this->getParam('precision')>0)
+				{
+					$filter='/^[0-9]+(\.([0-9]){1,'.intval($this->getParam('precision')).'}){0,1}$/';
+				}
+				else
+				{
+					$filter='/^[0-9]+$/';
+				}
+				if (!preg_match($filter,$value))
+				{
+					throw new FlaskPHP\Exception\ValidateException([
+						$this->tag => '[[ FLASK.FIELD.Error.NumberFld.Format ]]'
+					]);
+				}
 			}
 
 			// Required and empty?
