@@ -201,6 +201,10 @@
 						$this->requestLang=mb_strtolower($uriElement);
 						Flask()->Session->set('LANG',$uriElement);
 						$this->requestLangFromURI=true;
+						if (!sizeof($uriArray))
+						{
+							$uriArray=array('index');
+						}
 						continue;
 					}
 					else
