@@ -36,7 +36,7 @@
 		 *   @access public
 		 */
 
-		public $configFilename = 'config/config.php';
+		public $configFilename = 'config.php';
 
 
 		/**
