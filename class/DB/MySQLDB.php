@@ -90,7 +90,7 @@
 			}
 
 			// Set connection charset/collation (or default to UTF8)
-			$this->dbConnection->query("SET NAMES ".oneof(Flask()->Config->get('locale.charset'),'utf8')." COLLATE ".oneof(Flask()->Config->get('locale.collation'),'utf8_estonian_ci'));
+			$this->dbConnection->query("SET NAMES ".oneof(Flask()->Config->get('db.mysql.charset'),'utf8')." COLLATE ".oneof(Flask()->Config->get('db.mysql.collation'),'utf8_estonian_ci'));
 		}
 
 
