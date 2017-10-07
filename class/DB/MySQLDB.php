@@ -89,8 +89,8 @@
 				throw new FlaskPHP\Exception\DbException('Could not connect to database: '.oneof($this->dbConnection->error,'unknown error'));
 			}
 
-			// Set database charset to UTF8
-			$this->dbConnection->query("SET NAMES utf8 COLLATE ".oneof(Flask()->Config->get('locale.collation'),'utf8_estonian_ci'));
+			// Set connection charset/collation (or default to UTF8)
+			$this->dbConnection->query("SET NAMES ".oneof(Flask()->Config->get('locale.charset'),'utf8')." COLLATE ".oneof(Flask()->Config->get('locale.collation'),'utf8_estonian_ci'));
 		}
 
 
