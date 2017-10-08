@@ -1193,8 +1193,14 @@
 
 		public function displayValue( bool $encodeContent=true )
 		{
-			if ($encodeContent) htmlspecialchars($this->getValue());
-			return $this->getValue();
+			$value=$this->getValue();
+
+			if (is_string($value))
+			{
+				if ($encodeContent) $value=htmlspecialchars($value);
+				$value=nl2br($value);
+			}
+			return $value;
 		}
 
 
