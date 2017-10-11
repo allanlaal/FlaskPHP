@@ -26,13 +26,29 @@
 		 *   Set checkbox value
 		 *   ------------------
 		 *   @access public
-		 *   @param mixed $checkboxValue
+		 *   @param mixed $checkboxValue Save value for selected checkbox
 		 *   @return \Codelab\FlaskPHP\Field\CheckboxField
 		 */
 
 		public function setCheckboxValue( $checkboxValue )
 		{
 			$this->setParam('checkboxvalue',$checkboxValue);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set checkbox empty value
+		 *   ------------------------
+		 *   @access public
+		 *   @param mixed $checkboxEmptyValue Save value for non-selected checkbox
+		 *   @return \Codelab\FlaskPHP\Field\CheckboxField
+		 */
+
+		public function setCheckboxEmptyValue( $checkboxEmptyValue )
+		{
+			$this->setParam('checkboxemptyvalue',$checkboxEmptyValue);
 			return $this;
 		}
 
@@ -94,6 +110,31 @@
 						$this->tag => '[[ FLASK.FIELD.Error.RequiredFieldEmpty ]]'
 					]);
 				}
+			}
+		}
+
+
+		/**
+		 *
+		 *   Get field form save value
+		 *   -------------------------
+		 *   @access public
+		 *   @throws \Exception
+		 *   @return mixed
+		 *
+		 */
+
+		public function saveValue()
+		{
+			$value=$this->getValue();
+			$checkboxValue=($this->hasParam('checkboxvalue')?$this->getParam('checkboxvalue'):1);
+			if ($value==$checkboxValue)
+			{
+				return $checkboxValue;
+			}
+			else
+			{
+				return ($this->hasParam('checkboxemptyvalue')?$this->getParam('checkboxemptyvalue'):0);
 			}
 		}
 
