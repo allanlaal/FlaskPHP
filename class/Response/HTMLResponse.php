@@ -22,15 +22,6 @@
 
 
 		/**
-		 *   Meta tags
-		 *   @var array
-		 *   @access public
-		 */
-
-		public $responseMeta = array();
-
-
-		/**
 		 *   Response template
 		 *   @var string
 		 *   @access public
@@ -46,6 +37,24 @@
 		 */
 
 		public $responseVar = array();
+
+
+		/**
+		 *   Meta tags
+		 *   @var array
+		 *   @access public
+		 */
+
+		public $responseMeta = array();
+
+
+		/**
+		 *   Additional <head> tags
+		 *   @var array
+		 *   @access public
+		 */
+
+		public $responseHeadTag = array();
 
 
 		/**
@@ -112,7 +121,7 @@
 		 *   @access public
 		 *   @param string|array $paramName Parameter name (or array of names)
 		 *   @param string $paramValue Value
-		 *   @return void
+		 *   @return HTMLResponse
 		 */
 
 		function setMeta( $paramName, $paramValue )
@@ -128,6 +137,35 @@
 			{
 				$this->responseMeta[$paramName]=$paramValue;
 			}
+			return $this;
+		}
+
+
+		/**
+		 *   Add additional <head> tag
+		 *   @access public
+		 *   @param string $headTag Head tag
+		 *   @return HTMLResponse
+		 */
+
+		function addHeadTag( string $headTag )
+		{
+			$this->responseHeadTag[$headTag]=$headTag;
+			return $this;
+		}
+
+
+		/**
+		 *   Add additional <head> tag
+		 *   @access public
+		 *   @param string $headTag Head tag
+		 *   @return HTMLResponse
+		 */
+
+		function addAlternateLang( string $alternateLang, string $alternateURL )
+		{
+			$this->responseHeadTag['link_alternate_'.$alternateLang]='<link rel="alternate" hreflang="'.$alternateLang.'" href="'.$alternateURL.'">';
+			return $this;
 		}
 
 
@@ -135,12 +173,13 @@
 		 *   Set template
 		 *   @access public
 		 *   @param string $responseTemplate Template
-		 *   @return void
+		 *   @return HTMLResponse
 		 */
 
 		function setTemplate( string $responseTemplate )
 		{
 			$this->responseTemplate=$responseTemplate;
+			return $this;
 		}
 
 
@@ -149,13 +188,14 @@
 		 *   @access public
 		 *   @param string|array $attributeName Parameter name (or array of names)
 		 *   @param string $attributeValue Value
-		 *   @return void
+		 *   @return HTMLResponse
 		 */
 
 		function setBodyAttribute( $attributeName, $attributeValue )
 		{
 			if (!is_array($this->responseBodyAttr)) $this->responseBodyAttr=array();
 			$this->responseBodyAttr[$attributeName]=$attributeValue;
+			return $this;
 		}
 
 
@@ -165,7 +205,7 @@
 		 *   @param string $title Page title
 		 *   @param boolean|int $append Append (true or 1) or prepend (2 or -1) to current title
 		 *   @param string $titleSeparator Title separator
-		 *   @return void
+		 *   @return HTMLResponse
 		 */
 
 		function setPageTitle( $title, $append=true, $titleSeparator='»' )
@@ -185,6 +225,7 @@
 			{
 				$this->responsePageTitle=$title;
 			}
+			return $this;
 		}
 
 
@@ -345,6 +386,12 @@
 				{
 					echo '<meta name="msapplication-TileColor" content="#ffffff">';
 					echo '<meta name="msapplication-TileImage" content="'.$iconPath.'/ms-icon-144x144.png">';
+				}
+
+				// Additional head tags
+				foreach ($this->responseHeadTag as $headTag)
+				{
+					echo $headTag;
 				}
 
 				// CSS
