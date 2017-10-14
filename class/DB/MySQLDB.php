@@ -253,6 +253,13 @@
 				$f=0;
 				foreach ($row as $k => $v)
 				{
+					// Skip null values
+					if ($v===null)
+					{
+						$f++;
+						continue;
+					}
+
 					// Integer types
 					if (in_array($fieldMetaData[$f]->type,array(0,1,2,3,8,9,13,16)))
 					{
