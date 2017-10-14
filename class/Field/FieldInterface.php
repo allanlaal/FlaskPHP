@@ -1610,7 +1610,26 @@
 
 		public function getListSortCriteria( string $sortOrder, FlaskPHP\DB\QueryBuilderInterface $loadListParam )
 		{
-			// TODO: finish
+			// Alias?
+			if (mb_strpos($this->tag,' ')!==false)
+			{
+				$tagArray=str_array($this->tag,"/\s+/");
+				$fieldAlias=$tagArray[sizeof($tagArray)-1];
+				$loadListParam->addOrderBy($fieldAlias.' '.$sortOrder);
+				return;
+			}
+
+			// Relation?
+			if (mb_strpos($this->tag,'->')!==false)
+			{
+				$relationList=preg_split('/\-\>/',$this->tag);
+				$fieldName=$relationList[sizeof($relationList)-1];
+				$relationTable=$relationList[sizeof($relationList)-2];
+				$loadListParam->addOrderBy($relationTable.'_'.$fieldName.' '.$sortOrder);
+				return;
+			}
+
+			// Regular field
 			$loadListParam->addOrderBy($this->tag.' '.$sortOrder);
 		}
 
