@@ -1193,13 +1193,23 @@
 
 		public function displayValue( bool $encodeContent=true )
 		{
+			// Get value
 			$value=$this->getValue();
 
+			// Use list value format if it exists
+			if ($this->hasParam('list_format'))
+			{
+				$value=sprintf($this->getParam('list_format'),$value);
+			}
+
+			// Encode if necessary
 			if (is_string($value))
 			{
 				if ($encodeContent) $value=htmlspecialchars($value);
 				$value=nl2br($value);
 			}
+
+			// Value
 			return $value;
 		}
 

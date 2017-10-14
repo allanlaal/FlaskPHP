@@ -192,9 +192,18 @@
 
 		public function displayValue( bool $encodeContent=true )
 		{
+			// Init
 			$value=$this->getValue();
 			if (!floatval($value) && !$this->getParam('showzerovalue')) return '';
-			if ($this->getParam('precision'))
+
+			// Use list value format if it exists
+			if ($this->hasParam('list_format'))
+			{
+				return sprintf($this->getParam('list_format'),$value);
+			}
+
+			// Format number value
+			elseif ($this->getParam('precision'))
 			{
 				return sprintf("%.0".$this->getParam('precision')."f",$value);
 			}
