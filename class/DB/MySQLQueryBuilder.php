@@ -22,7 +22,10 @@
 
 
 		/**
+		 *
 		 *   Get column value
+		 *   ----------------
+		 *
 		 */
 
 		public static function colValue( $value, $cast=null )
@@ -72,7 +75,10 @@
 
 
 		/**
+		 *
 		 *   Create IN() statement from array
+		 *   --------------------------------
+		 *
 		 */
 
 		public static function inValues( $options )
@@ -87,7 +93,10 @@
 
 
 		/**
+		 *
 		 *   Build and return SQL
+		 *   --------------------
+		 *
 		 */
 
 		public function getSQL( string $queryType=null )
@@ -197,12 +206,15 @@
 
 
 		/**
+		 *
 		 *   Parse relation and add necessary tables
+		 *   ---------------------------------------
 		 *   @access private
 		 *   @param string $relation Relation definition
 		 *   @param FlaskPHP\Model\ModelInterface $model Model
 		 *   @return string
 		 *   @throws \Exception
+		 *
 		 */
 
 		private function parseRelation( string $relation, FlaskPHP\Model\ModelInterface $model )
@@ -232,7 +244,9 @@
 
 
 		/**
+		 *
 		 *   Parse field
+		 *   -----------
 		 *   @access private
 		 *   @param string $field Field definition
 		 *   @param FlaskPHP\Model\ModelInterface $model Model
@@ -240,6 +254,7 @@
 		 *   @param string $fieldPrefix Field prefix
 		 *   @return string
 		 *   @throws \Exception
+		 *
 		 */
 
 		private function parseField( string $field, FlaskPHP\Model\ModelInterface $model=null, string $relationAlias=null, string $fieldPrefix=null )

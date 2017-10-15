@@ -130,9 +130,12 @@
 
 
 		/**
+		 *
 		 *   Constructor
+		 *   -----------
 		 *   @param string $queryType Query type
 		 *   @return QueryBuilderInterface
+		 *
 		 */
 
 		public function __construct( string $queryType=null )
@@ -142,9 +145,12 @@
 
 
 		/**
+		 *
 		 *   Set model
+		 *   ---------
 		 *   @param FlaskPHP\Model\ModelInterface $model Model
 		 *   @return QueryBuilderInterface
+		 *
 		 */
 
 		public function setModel( FlaskPHP\Model\ModelInterface $model )
@@ -155,13 +161,16 @@
 
 
 		/**
+		 *
 		 *   Add table(s)
+		 *   ------------
 		 *   @access public
 		 *   @param string $table Table
 		 *   @param string|array $joinCondition JOIN condition
 		 *   @param string $joinType JOIN type
 		 *   @throws \Exception
 		 *   @return QueryBuilderInterface
+		 *
 		 */
 
 		public function addTable( string $table, $joinCondition=null, $joinType='LEFT JOIN' )
@@ -180,9 +189,12 @@
 
 
 		/**
+		 *
 		 *   Add fields
+		 *   ----------
 		 *   @param string|array $field Field(s)
 		 *   @return QueryBuilderInterface
+		 *
 		 */
 
 		public function addField( $field )
@@ -198,9 +210,12 @@
 
 
 		/**
+		 *
 		 *   Add WHERE clause
+		 *   ----------------
 		 *   @param string $where Where claus
 		 *   @return QueryBuilderInterface
+		 *
 		 */
 
 		public function addWhere( string $where )
@@ -212,11 +227,14 @@
 
 
 		/**
+		 *
 		 *   Set WHERE type
+		 *   --------------
 		 *   @access public
 		 *   @param string $whereType WHERE type (and|or)
 		 *   @throws \Exception
 		 *   @return QueryBuilderInterface
+		 *
 		 */
 
 		public function setWhereType( string $whereType )
@@ -235,10 +253,13 @@
 
 
 		/**
+		 *
 		 *   Add GROUP BY clause(s)
+		 *   ----------------------
 		 *   @access public
 		 *   @param string|array $groupBy GROUP BY clause(s)
 		 *   @return QueryBuilderInterface
+		 *
 		 */
 
 		public function addGroupBy( $groupBy )
@@ -254,10 +275,13 @@
 
 
 		/**
+		 *
 		 *   Add HAVING clause(s)
+		 *   --------------------
 		 *   @access public
 		 *   @param string|array $having HAVING clause(s)
 		 *   @return QueryBuilderInterface
+		 *
 		 */
 
 		public function addHaving( $having )
@@ -273,10 +297,13 @@
 
 
 		/**
+		 *
 		 *   Add ORDER BY clause(s)
+		 *   ----------------------
 		 *   @access public
 		 *   @param string|array $orderBy ORDER BY clause(s)
 		 *   @return QueryBuilderInterface
+		 *
 		 */
 
 		public function addOrderBy( $orderBy )
@@ -292,14 +319,17 @@
 
 
 		/**
+		 *
 		 *   Add LIMIT
+		 *   ---------
 		 *   @access public
 		 *   @param int $limit Limit
 		 *   @param int $offset Offset
 		 *   @return QueryBuilderInterface
+		 *
 		 */
 
-		public function addLimit ( $limit, $offset=null )
+		public function addLimit( $limit, $offset=null )
 		{
 			$this->queryLimit=$limit;
 			$this->queryLimitOffset=$offset;
@@ -308,13 +338,33 @@
 
 
 		/**
+		 *
+		 *   Calculate found rows
+		 *   --------------------
+		 *   @access public
+		 *   @param bool $calcFoundRows Calculate found rows
+		 *   @return QueryBuilderInterface
+		 *
+		 */
+
+		public function setCalcFoundRows( bool $calcFoundRows )
+		{
+			$this->calcFoundRows=$calcFoundRows;
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Get column value
+		 *   ----------------
 		 *   @static
 		 *   @access public
 		 *   @param mixed $value Value
 		 *   @param string $cast Cast value as
 		 *   @return string
 		 *   @throws \Exception
+		 *
 		 */
 
 		public static function colValue( $value, $cast=null )
@@ -324,12 +374,15 @@
 
 
 		/**
+		 *
 		 *   Create IN() statement from array
+		 *   --------------------------------
 		 *   @static
 		 *   @access public
 		 *   @param array $options options
 		 *   @return string
 		 *   @throws \Exception
+		 *
 		 */
 
 		public static function inValues( $options )
@@ -339,10 +392,13 @@
 
 
 		/**
+		 *
 		 *   Build and return SQL
+		 *   --------------------
 		 *   @param string $queryType Query type
 		 *   @return string
 		 *   @throws \Exception
+		 *
 		 */
 
 		public function getSQL( string $queryType=null )
