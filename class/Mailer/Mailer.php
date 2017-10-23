@@ -25,6 +25,7 @@
 		 *
 		 *   Constructor
 		 *   -----------
+		 *   @access public
 		 *   @param bool $exceptions Throw exceptions (in FlaskPHP, we always do that)
 		 *   @return Mailer
 		 *
@@ -55,6 +56,25 @@
 			{
 				$this->Port=Flask()->Config->get('smtp.port');
 			}
+
+			// Init mailer
+			$this->initMailer();
+		}
+
+
+		/**
+		 *
+		 *   Init mailer
+		 *   -----------
+		 *   @access public
+		 *   @throws \Exception
+		 *   @return void
+		 *
+		 */
+
+		public function initMailer()
+		{
+			// This can be implemented in the subclass if necessary.
 		}
 
 
@@ -62,6 +82,7 @@
 		 *
 		 *   Add recipient
 		 *   -------------
+		 *   @access public
 		 *   @param string $address E-mail address
 		 *   @param string $name Name (optional)
 		 *   @throws \Exception
@@ -88,6 +109,7 @@
 		 *
 		 *   Add BCC recipient
 		 *   -----------------
+		 *   @access public
 		 *   @param string $address E-mail address
 		 *   @param string $name Name (optional)
 		 *   @throws \Exception
@@ -114,6 +136,7 @@
 		 *
 		 *   Set message subject
 		 *   -------------------
+		 *   @access public
 		 *   @param string $subject Subject
 		 *   @return void
 		 *
@@ -129,6 +152,7 @@
 		 *
 		 *   Add an attachment
 		 *   -----------------
+		 *   @access public
 		 *   @param string $attachmentContent Attachment content
 		 *   @param string $attachmentFilename File name
 		 *   @return void

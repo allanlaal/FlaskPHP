@@ -45,7 +45,7 @@
 		 *   @access public
 		 */
 
-		public $templateContents = '';
+		public $templateContent = '';
 
 
 		/**
@@ -116,7 +116,7 @@
 			$templateFilename=Flask()->resolvePath($templateFilename);
 			if (!empty($templateFilename))
 			{
-				$this->templateContents=file_get_contents($templateFilename);
+				$this->templateContent=file_get_contents($templateFilename);
 			}
 			else
 			{
@@ -183,7 +183,7 @@
 			// Get source
 			if ($src===null)
 			{
-				$src=$this->templateContents;
+				$src=$this->templateContent;
 			}
 
 			// Parse variables
