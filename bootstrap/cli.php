@@ -139,8 +139,15 @@
 	//  Init user
 	//
 
-	$userHandler=oneof($FLASK->Config->get('user.handler'),'\Codelab\FlaskPHP\User\UserInterface');
-	$FLASK->User=new $userHandler;
+	if ($FLASK->Config->get('user.handler'))
+	{
+		if (!($FLASK->Config->get('user.handler') instanceof FlaskPHP\User\UserInterface)) throw new FlaskPHP\Exception\FatalException('User handler not an instance of UserInterface.');
+		$FLASK->User=$FLASK->Config->get('user.handler');
+	}
+	else
+	{
+		$FLASK->User=new FlaskPHP\User\UserInterface();
+	}
 
 
 	//

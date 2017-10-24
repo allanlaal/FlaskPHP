@@ -100,8 +100,8 @@
 
 	if (!empty($FLASK->Config->get('db.handler')))
 	{
-		$dbHandler=$FLASK->Config->get('db.handler');
-		$FLASK->DB=new $dbHandler();
+		if (!($FLASK->Config->get('db.handler') instanceof FlaskPHP\DB\DBInterface)) throw new FlaskPHP\Exception\FatalException('User handler not an instance of DBInterface.');
+		$FLASK->DB=$FLASK->Config->get('db.handler');
 		$FLASK->DB->connect();
 	}
 	elseif (!empty($FLASK->Config->get('db.type')))
@@ -131,8 +131,15 @@
 	//  Init session
 	//
 
-	$sessionHandler=oneof($FLASK->Config->get('session.handler'),'\Codelab\FlaskPHP\Session\Session');
-	$FLASK->Session=new $sessionHandler();
+	if ($FLASK->Config->get('session.handler'))
+	{
+		if (!($FLASK->Config->get('session.handler') instanceof FlaskPHP\Session\SessionInterface)) throw new FlaskPHP\Exception\FatalException('User handler not an instance of SessionInterface.');
+		$FLASK->Session=$FLASK->Config->get('session.handler');
+	}
+	else
+	{
+		$FLASK->Session=new FlaskPHP\Session\Session();
+	}
 	$FLASK->Session->loadSession();
 
 
@@ -140,8 +147,15 @@
 	//  Init user
 	//
 
-	$userHandler=oneof($FLASK->Config->get('user.handler'),'\Codelab\FlaskPHP\User\UserInterface');
-	$FLASK->User=new $userHandler;
+	if ($FLASK->Config->get('user.handler'))
+	{
+		if (!($FLASK->Config->get('user.handler') instanceof FlaskPHP\User\UserInterface)) throw new FlaskPHP\Exception\FatalException('User handler not an instance of UserInterface.');
+		$FLASK->User=$FLASK->Config->get('user.handler');
+	}
+	else
+	{
+		$FLASK->User=new FlaskPHP\User\UserInterface();
+	}
 	$FLASK->User->loadUser();
 
 
