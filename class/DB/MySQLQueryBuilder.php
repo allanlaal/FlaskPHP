@@ -86,7 +86,7 @@
 			$optionSet=array();
 			foreach ($options as $o)
 			{
-				$optionSet=static::colValue($o);
+				$optionSet[]=static::colValue($o);
 			}
 			return join(',',$optionSet);
 		}
