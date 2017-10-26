@@ -49,6 +49,23 @@
 
 		/**
 		 *
+		 *   Set form field searchable
+		 *   -------------------------
+		 *   @access public
+		 *   @param bool $grouping Grouping enabled
+		 *   @return \Codelab\FlaskPHP\Field\SelectField
+		 *
+		 */
+
+		public function setFormSearchable( bool $formSearchable )
+		{
+			$this->setParam('form_searchable',$formSearchable);
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Set empty select value
 		 *   ----------------------
 		 *   @access public
@@ -148,6 +165,7 @@
 
 			// Class
 			$class=array('ui fluid dropdown');
+			if ($this->getParam('form_searchable')) $class[]='search selection';
 			if ($this->getParam('form_fieldclass')) $class[]=$this->getParam('form_fieldclass');
 
 			// Dropdown
