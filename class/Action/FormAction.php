@@ -136,6 +136,40 @@
 
 		/**
 		 *
+		 *   Set return URL
+		 *   --------------
+		 *   @access public
+		 *   @param string $returnURL Return redirect URL
+		 *   @return FlaskPHP\Action\FormAction
+		 *
+		 */
+
+		public function setReturnURL( string $returnURL )
+		{
+			$this->setParam('url_return',$returnURL);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set cancel URL
+		 *   --------------
+		 *   @access public
+		 *   @param string $cancelURL Cancel redirect URL
+		 *   @return FlaskPHP\Action\FormAction
+		 *
+		 */
+
+		public function setCancelURL( string $cancelURL )
+		{
+			$this->setParam('url_cancel',$cancelURL);
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Load data
 		 *   ---------
 		 *   @access public
@@ -676,7 +710,7 @@
 		public function displayFormSubmit()
 		{
 			// Start
-			$form_submit='<div class="submit">';
+			$form_submit='<div class="ui secondary segment text-center mt-4 form-submit">';
 
 			// Submit param
 			$submitParam=new \stdClass();
@@ -689,7 +723,7 @@
 				// Traverse
 				foreach ($this->submit as $submitTag => $submitTitle)
 				{
-					$submit='<button type="button" id="submit_'.$submitTag.'" name="submit_'.$submitTag.'" onclick="Flask.Form.submit(\''.$submitTag.'\','.$submitParam.')">'.$submitTitle.'</button>';
+					$submit='<button type="button" class="ui primary button mx-2 form-button form-button-submit" id="submit_'.$submitTag.'" name="submit_'.$submitTag.'" onclick="Flask.Form.submit(\''.$submitTag.'\','.$submitParam.')">'.$submitTitle.'</button>';
 					$this->template->set('submit_'.$submitTag,$submit);
 					$form_submit.=$submit;
 				}
@@ -698,7 +732,7 @@
 			// Standard submit
 			else
 			{
-				$submit='<button type="button" id="submit_save" name="submit_save" onclick="Flask.Form.submit(\'submit_save\','.$submitParam.')">'.oneof($this->getParam('submitbuttontitle'),'[[ FLASK.FORM.Btn.'.$this->operation.' ]]').'</button>';
+				$submit='<button type="button" class="ui primary button mx-2 form-button form-button-submit" id="submit_save" name="submit_save" onclick="Flask.Form.submit(\'submit_save\','.$submitParam.')">'.oneof($this->getParam('submitbuttontitle'),'[[ FLASK.FORM.Btn.'.$this->operation.' ]]').'</button>';
 				$this->template->set('submit_'.$this->operation,$submit);
 				$form_submit.=$submit;
 			}
@@ -707,7 +741,7 @@
 			$cancelParam=new \stdClass();
 			if ($this->getParam('progressmessage')) $cancelParam->progressmessage=$this->getParam('progressmessage');
 			$cancelParam=FlaskPHP\Util::htmlJSON($cancelParam);
-			$submit='<button type="button" id="submit_cancel" name="submit_cancel" onclick="Flask.Form.submit(\'submit_cancel\','.$cancelParam.')">[[ FLASK.FORM.Btn.Cancel ]]</button>';
+			$submit='<button type="button" class="ui secondary button mx-2 form-button form-button-cancel" id="submit_cancel" name="submit_cancel" onclick="Flask.Form.submit(\'submit_cancel\','.$cancelParam.')">[[ FLASK.FORM.Btn.Cancel ]]</button>';
 			$this->template->set('submit_cancel',$submit);
 			$form_submit.=$submit;
 
@@ -805,17 +839,17 @@
 				// Set defaults
 				$this->setDefaults();
 
+				// Init form
+				$this->initForm();
+
 				// Cancel?
 				if (Flask()->Request->postVar('submit_cancel')!==null)
 				{
 					$response=new \stdClass();
 					$response->status=1;
-					$response->redirect=$this->buildURL(oneof($this->getParam('url_cancel'),$this->getParam('url_return')));
+					$response->redirect=$this->buildURL(oneof($this->getParam('url_cancel'),$this->getParam('url_return'),$this->buildURL()));
 					return new FlaskPHP\Response\JSONResponse($response);
 				}
-
-				// Init form
-				$this->initForm();
 
 				// Check
 				if (!is_object($this->model)) throw new FlaskPHP\Exception\InvalidParameterException('No model defined.');
