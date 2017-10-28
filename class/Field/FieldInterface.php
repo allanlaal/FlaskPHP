@@ -303,6 +303,23 @@
 
 		/**
 		 *
+		 *   Set allow HTML
+		 *   --------------
+		 *   @access public
+		 *   @param bool $allowHTML Allow HTML?
+		 *   @return \Codelab\FlaskPHP\Field\TextAreaField
+		 *
+		 */
+
+		public function setFormAllowHTML( bool $allowHTML )
+		{
+			$this->setParam('form_allowhtml',$allowHTML);
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Set additional option data
 		 *   --------------------------
 		 *   @access public
@@ -1156,7 +1173,7 @@
 			// Submitting?
 			if (is_object($this->formObject) && $this->formObject->doSubmit)
 			{
-				return Flask()->Request->postVar($this->tag);
+				return Flask()->Request->postVar($this->tag,($this->getParam('form_allowhtml')?false:true));
 			}
 
 			// Loaded data
