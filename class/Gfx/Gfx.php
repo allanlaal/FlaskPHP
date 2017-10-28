@@ -196,6 +196,7 @@
 					$newW=$width;
 					$newH=$height;
 					$img=$src;
+					if ($outputFormat=='png') imagesavealpha($img,true);
 				}
 				else
 				{
@@ -216,6 +217,7 @@
 			else
 			{
 				$img=$src;
+				if ($outputFormat=='png') imagesavealpha($img,true);
 				$newW=$width;
 				$newH=$height;
 			}
