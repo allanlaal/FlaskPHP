@@ -610,7 +610,7 @@ Flask.Modal = {
 						Flask.Modal.param[modalTag][k]=data[k];
 					}
 					Flask.Form.initElements(modalTag);
-					$("#"+modalTag+" form :input").not('.noautosubmit').keypress(function(e){
+					$("#"+modalTag+" form :input").not('textarea').not('.noautosubmit').keypress(function(e){
 						if (e.which==13) {
 							$("#"+modalTag+" .actions button").first().trigger('click');
 						}
@@ -744,7 +744,7 @@ Flask.Form = {
 						Flask.Modal.param[modalTag][k]=data[k];
 					}
 					Flask.Form.initElements(modalTag);
-					$("#"+modalTag+" form :input").not('.noautosubmit').keypress(function(e){
+					$("#"+modalTag+" form :input").not('textarea').not('.noautosubmit').keypress(function(e){
 						if (e.which==13) {
 							$("#"+modalTag+" .actions button").first().trigger('click');
 						}
@@ -1342,7 +1342,7 @@ Flask.List = {
 	initFilters: function( listID )
 	{
 		Flask.initElements("#list_"+listID+"_filter");
-		$("#list_"+listID+"_filter :input").not('.noautosubmit').keypress(function(e){
+		$("#list_"+listID+"_filter :input").not('textarea').not('.noautosubmit').keypress(function(e){
 			if (e.which==13) {
 				$("#list_"+listID+"_filter .list-filter-submit button").first().trigger('click');
 			}
