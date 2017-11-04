@@ -377,57 +377,69 @@ Flask.initElements = function( base )
 	});
 
 	// Init date fields
-	$(base+'.ui.calendar').calendar({
-	  type: 'date',
-    text: {
-      days: [
-      	Locale.get('FLASK.COMMON.DAY.Abbr.7'),
-				Locale.get('FLASK.COMMON.DAY.Abbr.1'),
-				Locale.get('FLASK.COMMON.DAY.Abbr.2'),
-				Locale.get('FLASK.COMMON.DAY.Abbr.3'),
-				Locale.get('FLASK.COMMON.DAY.Abbr.4'),
-				Locale.get('FLASK.COMMON.DAY.Abbr.5'),
-				Locale.get('FLASK.COMMON.DAY.Abbr.6')
-			],
-      months: [
-      	Locale.get('FLASK.COMMON.Month.1'),
-      	Locale.get('FLASK.COMMON.Month.2'),
-      	Locale.get('FLASK.COMMON.Month.3'),
-      	Locale.get('FLASK.COMMON.Month.4'),
-      	Locale.get('FLASK.COMMON.Month.5'),
-      	Locale.get('FLASK.COMMON.Month.6'),
-      	Locale.get('FLASK.COMMON.Month.7'),
-      	Locale.get('FLASK.COMMON.Month.8'),
-      	Locale.get('FLASK.COMMON.Month.9'),
-      	Locale.get('FLASK.COMMON.Month.10'),
-      	Locale.get('FLASK.COMMON.Month.11'),
-      	Locale.get('FLASK.COMMON.Month.12')
-      ],
-      monthsShort: [
-      	Locale.get('FLASK.COMMON.Month.Short.1'),
-      	Locale.get('FLASK.COMMON.Month.Short.2'),
-      	Locale.get('FLASK.COMMON.Month.Short.3'),
-      	Locale.get('FLASK.COMMON.Month.Short.4'),
-      	Locale.get('FLASK.COMMON.Month.Short.5'),
-      	Locale.get('FLASK.COMMON.Month.Short.6'),
-      	Locale.get('FLASK.COMMON.Month.Short.7'),
-      	Locale.get('FLASK.COMMON.Month.Short.8'),
-      	Locale.get('FLASK.COMMON.Month.Short.9'),
-      	Locale.get('FLASK.COMMON.Month.Short.10'),
-      	Locale.get('FLASK.COMMON.Month.Short.11'),
-      	Locale.get('FLASK.COMMON.Month.Short.12')
-      ],
-      today: Locale.get('FLASK.COMMON.Today'),
-      now: Locale.get('FLASK.COMMON.Now'),
-      am: 'AM',
-      pm: 'PM'
-    },
-		formatter: {
-			date: function (date, settings) {
-				if (!date) return '';
-				return moment(date).format("DD.MM.YYYY");
+	$(base+'.ui.calendar').each(function(){
+		var dateFormat=$('input',this).attr('data-date-format');
+		$(this).calendar({
+			type: 'date',
+			text: {
+				days: [
+					Locale.get('FLASK.COMMON.DAY.Abbr.7'),
+					Locale.get('FLASK.COMMON.DAY.Abbr.1'),
+					Locale.get('FLASK.COMMON.DAY.Abbr.2'),
+					Locale.get('FLASK.COMMON.DAY.Abbr.3'),
+					Locale.get('FLASK.COMMON.DAY.Abbr.4'),
+					Locale.get('FLASK.COMMON.DAY.Abbr.5'),
+					Locale.get('FLASK.COMMON.DAY.Abbr.6')
+				],
+				months: [
+					Locale.get('FLASK.COMMON.Month.1'),
+					Locale.get('FLASK.COMMON.Month.2'),
+					Locale.get('FLASK.COMMON.Month.3'),
+					Locale.get('FLASK.COMMON.Month.4'),
+					Locale.get('FLASK.COMMON.Month.5'),
+					Locale.get('FLASK.COMMON.Month.6'),
+					Locale.get('FLASK.COMMON.Month.7'),
+					Locale.get('FLASK.COMMON.Month.8'),
+					Locale.get('FLASK.COMMON.Month.9'),
+					Locale.get('FLASK.COMMON.Month.10'),
+					Locale.get('FLASK.COMMON.Month.11'),
+					Locale.get('FLASK.COMMON.Month.12')
+				],
+				monthsShort: [
+					Locale.get('FLASK.COMMON.Month.Short.1'),
+					Locale.get('FLASK.COMMON.Month.Short.2'),
+					Locale.get('FLASK.COMMON.Month.Short.3'),
+					Locale.get('FLASK.COMMON.Month.Short.4'),
+					Locale.get('FLASK.COMMON.Month.Short.5'),
+					Locale.get('FLASK.COMMON.Month.Short.6'),
+					Locale.get('FLASK.COMMON.Month.Short.7'),
+					Locale.get('FLASK.COMMON.Month.Short.8'),
+					Locale.get('FLASK.COMMON.Month.Short.9'),
+					Locale.get('FLASK.COMMON.Month.Short.10'),
+					Locale.get('FLASK.COMMON.Month.Short.11'),
+					Locale.get('FLASK.COMMON.Month.Short.12')
+				],
+				today: Locale.get('FLASK.COMMON.Today'),
+				now: Locale.get('FLASK.COMMON.Now'),
+				am: 'AM',
+				pm: 'PM'
+			},
+			parser: {
+				date: function (date, settings) {
+					if (!date || date=='') return null;
+					if (date.match(/^([0-9]+)$/)) {
+						return moment.unix(parseInt(date)).toDate();
+					}
+					return moment(date,[dateFormat]).toDate();
+				}
+			},
+			formatter: {
+				date: function (date, settings) {
+					if (!date) return '';
+					return moment(date).format(dateFormat);
+				}
 			}
-		}
+		});
 	});
 
 	// Init file upload fields
