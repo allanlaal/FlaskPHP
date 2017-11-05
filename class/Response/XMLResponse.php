@@ -70,7 +70,7 @@
 			// Output headers
 			if (!array_key_exists('Content-type',$this->responseHeader))
 			{
-				$this->setHeader('Content-type','application/json; charset=UTF-8');
+				$this->setHeader('Content-type','text/xml; charset=UTF-8');
 			}
 			$this->outputHttpHeaders();
 
@@ -90,12 +90,13 @@
 			// Output
 			if ($this->responseParseLocale)
 			{
-				echo FlaskPHP\Template\Template::parseContent($this->responseContent);
+				$this->responseContent=FlaskPHP\Template\Template::parseContent($this->responseContent);
 			}
-			else
+			if (strncmp($this->responseContent,'<?xml',5))
 			{
-				echo $this->responseContent;
+				echo '<?xml version="1.0" encoding="UTF-8"?>'."\n";
 			}
+			echo $this->responseContent;
 		}
 
 
