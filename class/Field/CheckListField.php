@@ -341,6 +341,7 @@
 					$c.='>';
 					$c.='<label for="'.$checkboxID.'">'.htmlspecialchars($optionDescription).'</label>';
 					$c.='</div>';
+					$c.='</div>';
 				}
 			}
 
