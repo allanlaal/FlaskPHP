@@ -92,7 +92,7 @@
 		 *
 		 */
 
-		public static function resizeImage( string $imgData, int $size=0, string $outputFormat='jpg', string $watermark=null, int $setWidth=null, int $setHeight=null, int $canvasWidth=null, int $canvasHeight=null )
+		public static function resizeImage( string $imgData, int $size=null, string $outputFormat='jpg', string $watermark=null, int $setWidth=null, int $setHeight=null, int $canvasWidth=null, int $canvasHeight=null )
 		{
 			// Check
 			if (!function_exists('imagecreatefromstring')) throw new FlaskPHP\Exception\FatalException('GD functions are not available.');
