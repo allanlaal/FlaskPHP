@@ -1,0 +1,273 @@
+#
+#
+#   FlaskPHP
+#   --------
+#   System locale - English
+#
+#   (c) Codelab Solutions OÜ <codelab@codelab.ee>
+#   Distributed under the MIT License: https://www.flaskphp.com/LICENSE
+#
+#
+
+
+FLASK.COMMON.OK                                           OK
+FLASK.COMMON.Warnings                                     Varoitukset
+FLASK.COMMON.NotOK                                        Ei ole kunnossa
+FLASK.COMMON.Missing                                      puuttuu
+FLASK.COMMON.NotSet                                       määrittämättä
+FLASK.COMMON.NotEntered                                   syöttämättä
+FLASK.COMMON.NotConnected                                 sitomatta
+FLASK.COMMON.None                                         puuttuu
+FLASK.COMMON.Empty                                        tyhjä
+FLASK.COMMON.Unknown                                      puuttuu
+FLASK.COMMON.All                                          kaikki
+FLASK.COMMON.SelectAll                                    valitse kaikki
+FLASK.COMMON.Selected                                     valittu
+FLASK.COMMON.Other                                        muu
+FLASK.COMMON.OtherEnter                                   muu, syötä
+FLASK.COMMON.BackToList                                   takaisin luetteloon
+
+FLASK.COMMON.Yes                                          Kyllä
+FLASK.COMMON.No                                           Ei
+
+FLASK.COMMON.Email                                        Sähköpostiosoite
+FLASK.COMMON.Email.Short                                  Sähköposti
+
+FLASK.COMMON.Name                                         Nimi
+FLASK.COMMON.Name.First                                   Etunimi
+FLASK.COMMON.Name.Middle                                  Toinen nimi
+FLASK.COMMON.Name.Last                                    Sukunimi
+FLASK.COMMON.Name.Title                                   Arvonimi
+
+FLASK.COMMON.Password                                     Salasana
+FLASK.COMMON.Language                                     Kieli
+
+FLASK.COMMON.Address                                      Osoite
+FLASK.COMMON.Address.Street                               Katuosoite
+FLASK.COMMON.Address.City                                 Kaupunki
+FLASK.COMMON.Address.State                                Osavaltio
+FLASK.COMMON.Address.ZIP                                  Postinro
+FLASK.COMMON.Address.Country                              Maa
+
+FLASK.COMMON.Error                                        VIRHE
+FLASK.COMMON.Error.InvalidRequest                         Virheellinen pyyntö.
+FLASK.COMMON.Error.ErrorOpeningModal                      Virhe yritettäessä avata valintaikkuna
+FLASK.COMMON.Error.ErrorReadingData                       Virhe yritettäessä lukea tietoja
+FLASK.COMMON.Error.ErrorSavingData                        Virhe yrittäessäsi tallentaa tietoja
+
+
+#
+#  Date/time stuff
+#
+
+FLASK.COMMON.Date                                         Päivä
+FLASK.COMMON.Time                                         Kellonaika
+FLASK.COMMON.DateTime                                     Päivä/aika
+
+FLASK.COMMON.Day                                          päivä
+FLASK.COMMON.Days                                         päivää
+FLASK.COMMON.DayAbbr                                      P
+FLASK.COMMON.Week                                         viikko
+FLASK.COMMON.Weeks                                        viikkoa
+FLASK.COMMON.WeekAbbr                                     VK
+FLASK.COMMON.Month                                        kuukausi
+FLASK.COMMON.Months                                       kuukautta
+FLASK.COMMON.MonthAbbr                                    K
+FLASK.COMMON.Year                                         vuosi
+FLASK.COMMON.Years                                        vuotta
+FLASK.COMMON.YearAbbr                                     V
+FLASK.COMMON.Hour                                         tunti
+FLASK.COMMON.Hours                                        tuntia
+FLASK.COMMON.HourAbbr                                     t
+FLASK.COMMON.Min                                          minuutti
+FLASK.COMMON.Mins                                         minuuttia
+FLASK.COMMON.MinAbbr                                      m
+FLASK.COMMON.Second                                       sekunti
+FLASK.COMMON.Seconds                                      sekuntia
+FLASK.COMMON.SecondAbbr                                   s
+
+FLASK.COMMON.Today                                        Tänään
+FLASK.COMMON.Now                                          Nyt
+
+FLASK.COMMON.Day.1                                        Maanantai
+FLASK.COMMON.Day.2                                        Tiistai
+FLASK.COMMON.Day.3                                        Keskiviikko
+FLASK.COMMON.Day.4                                        Torstai
+FLASK.COMMON.Day.5                                        Perjantai
+FLASK.COMMON.Day.6                                        Lauantai
+FLASK.COMMON.Day.7                                        Sunnuntai
+
+FLASK.COMMON.Day.Short.1                                  Ma
+FLASK.COMMON.Day.Short.2                                  Ti
+FLASK.COMMON.Day.Short.3                                  Ke
+FLASK.COMMON.Day.Short.4                                  To
+FLASK.COMMON.Day.Short.5                                  Pe
+FLASK.COMMON.Day.Short.6                                  La
+FLASK.COMMON.Day.Short.7                                  Su
+
+FLASK.COMMON.Day.Abbr.1                                   Ma
+FLASK.COMMON.Day.Abbr.2                                   Ti
+FLASK.COMMON.Day.Abbr.3                                   Ke
+FLASK.COMMON.Day.Abbr.4                                   To
+FLASK.COMMON.Day.Abbr.5                                   Pe
+FLASK.COMMON.Day.Abbr.6                                   La
+FLASK.COMMON.Day.Abbr.7                                   Su
+
+FLASK.COMMON.Month.1                                      Tammikuu
+FLASK.COMMON.Month.2                                      Helmikuu
+FLASK.COMMON.Month.3                                      Maaliskuu
+FLASK.COMMON.Month.4                                      Huhtikuu
+FLASK.COMMON.Month.5                                      Toukokuu
+FLASK.COMMON.Month.6                                      Kesäkuu
+FLASK.COMMON.Month.7                                      Heinäkuu
+FLASK.COMMON.Month.8                                      Elokuu
+FLASK.COMMON.Month.9                                      Syyskuu
+FLASK.COMMON.Month.10                                     Lokakuu
+FLASK.COMMON.Month.11                                     Marraskuu
+FLASK.COMMON.Month.12                                     Joulukuu
+
+FLASK.COMMON.Month.Short.1                                tammi
+FLASK.COMMON.Month.Short.2                                helmi
+FLASK.COMMON.Month.Short.3                                maalis
+FLASK.COMMON.Month.Short.4                                huhti
+FLASK.COMMON.Month.Short.5                                touko
+FLASK.COMMON.Month.Short.6                                kesä
+FLASK.COMMON.Month.Short.7                                heinä
+FLASK.COMMON.Month.Short.8                                elo
+FLASK.COMMON.Month.Short.9                                syys
+FLASK.COMMON.Month.Short.10                               loka
+FLASK.COMMON.Month.Short.11                               marras
+FLASK.COMMON.Month.Short.12                               joulu
+
+
+#
+#  Field stuff
+#
+
+FLASK.FIELD.Select                                        valitse tästä
+
+FLASK.FIELD.Password.EnterPassword                        Syötä salasana
+FLASK.FIELD.Password.RepeatPassword                       Syötä salasana uudelleen
+FLASK.FIELD.Password.Suggest.FormComment                  Ehdota turvallista salasanaa
+FLASK.FIELD.Password.Suggest.Title                        Salasanaehdotus
+FLASK.FIELD.Password.Suggest.Result.1                     Sinun sanasalani on
+FLASK.FIELD.Password.Suggest.Result.2                     Kirjoita se alas ja säilytä turvallisessa paikassa.
+
+FLASK.FIELD.File.NoFile                                   Ei valittua tiedostoa
+FLASK.FIELD.File.Browse                                   Selaa
+FLASK.FIELD.File.FileRemoved                              Tiedosto poistettu
+FLASK.FIELD.File.Remove                                   Poista
+FLASK.FIELD.File.Remove.Confirm                           Poista tämä tiedosto?
+
+FLASK.FIELD.Chooser.choose                                valitse
+FLASK.FIELD.Chooser.clear                                 tyhjennä
+FLASK.FIELD.Chooser.Search.Title                          Valitse
+FLASK.FIELD.Chooser.Search.Placeholder                    Syötä hakusana
+FLASK.FIELD.Chooser.Search.Submit                         Etsi
+FLASK.FIELD.Chooser.AddNew.Submit                         Lisää uusi
+FLASK.FIELD.Chooser.Progress                              Tiedustelu, odota hetki ...
+FLASK.FIELD.Chooser.Result.NoResults                      Ei tuloksia.
+FLASK.FIELD.Chooser.Result.MaxResults                     Löytyi yli $maxresult tulosta, tarkenna haku.
+FLASK.FIELD.Chooser.Error                                 Virhe haun tulosten hakemisessa.
+FLASK.FIELD.Chooser.Error.SearchEmpty                     Syötä hakusana.
+FLASK.FIELD.Chooser.Error.SearchMinLength                 Hakusana liian lyhyt, syotä vähintään $minlength merkkia.
+
+FLASK.FIELD.Error.RequiredFieldEmpty                      Vaadittu kenttä on tyhjä.
+FLASK.FIELD.Error.MinLength                               Arvo on liian lyhyt (vaaditaan vähintään $minlength merkkiä).
+FLASK.FIELD.Error.MaxLength                               Arvo on liian pitkä (sallittu enintään $maxlength merkkiä).
+FLASK.FIELD.Error.MinValue                                Arvo on alle vaaditun vähimmäisarvon ($minvalue).
+FLASK.FIELD.Error.MaxValue                                Arvo on yli sallitun enimmäisarvon ($maxvalue).
+FLASK.FIELD.Error.Filter                                  Kenttä sisältää kiellettyjä merkkejä.
+FLASK.FIELD.Error.Unique                                  Kentän arvo ei ole yksilöllinen.
+FLASK.FIELD.Error.NumberFld.Format                        Kentän arvo ei ole kelvollinen luku.
+FLASK.FIELD.Error.NumberFld.Format.Negative               Kentän arvo ei ole kelvollinen positiivinen luku.
+FLASK.FIELD.Error.InvalidValue                            Väärä arvo.
+FLASK.FIELD.Error.InvalidEmail                            Sähköpostiosoite on virheellinen.
+FLASK.FIELD.Error.InvalidDate                             Väärä päivämäärä.
+FLASK.FIELD.Error.InvalidTime                             Väärä kellonaika.
+FLASK.FIELD.Error.IncompleteDateTime                      Keskeneräinen päivämäärä/kellonaika.
+FLASK.FIELD.Error.FileTypeNotAllowed                      Tämäntyyppinen tiedosto ei ole luvallinen.
+FLASK.FIELD.Error.PasswordWeak1                           Salasana on liian heikko (pitää sisältää sekä kirjaimia että numeroita).
+FLASK.FIELD.Error.PasswordWeak2                           Salasana on liian heikko (pitää sisältää suuria ja pieniä kirjaimia, numeroita ja välimerkkejä).
+FLASK.FIELD.Error.PasswordRepeatEmpty                     Salasanan toisto on tyhjä.
+FLASK.FIELD.Error.PasswordRepeatMismatch                  Salasanan toisto ei täsmää.
+
+
+#
+#  User
+#
+
+FLASK.USER.Login.Login                                    Kirjautuminen
+FLASK.USER.Login.Success                                  Onnistunut kirjautuminen
+FLASK.USER.Login.Error.EmailEmpty                         Sähköpostiosoite on tyhjä.
+FLASK.USER.Login.Error.EmailInvalid                       Virheellinen sähköpostiosoite.
+FLASK.USER.Login.Error.PasswordEmpty                      Salasana on tyhjä.
+FLASK.USER.Login.Error.Unsuccessful                       Kirjautuminen epäonnistui.
+FLASK.USER.Login.Error.NoSuchUser                         Ei tällaista käyttäjää.
+FLASK.USER.Login.Error.WrongPassword                      Väärä salasana.
+FLASK.USER.Login.Error.UserPending                        Tili on vireillä.
+FLASK.USER.Login.Error.UserDisabled                       Tili on käytöstä poistettu.
+FLASK.USER.Login.Error.UnknownLanguage                    Tuntematon kieli.
+
+
+#
+#  Modal
+#
+
+FLASK.MODAL.Btn.OK                                        OK
+FLASK.MODAL.Confirm                                       Vahvista
+FLASK.MODAL.Progress                                      Pyyntöä käsitellään, odota hetki ...
+
+
+#
+#  Form
+#
+
+FLASK.FORM.Title.add                                      Lisää uusi merkintä
+FLASK.FORM.Title.edit                                     Muokkaa merkintää
+FLASK.FORM.Btn.add                                        Lisää
+FLASK.FORM.Btn.edit                                       Tallenna
+FLASK.FORM.Btn.Cancel                                     Takaisin
+FLASK.FORM.Msg.Saving                                     Tietojen tallentaminen, odota hetki ...
+FLASK.FORM.Error.CouldNotFindForm                         Lomake ei löytynyt.
+FLASK.FORM.Error.Validate                                 Seuraavat virheet ilmenivät lomakkea vahvistaessa
+FLASK.FORM.Error.DuplicateKey                             Tieto tietueella on jo olemassa, ei voi luoda kaksoiskappaletta.
+
+
+#
+#  List
+#
+
+FLASK.LIST.Filter.Submit                                  Aseta suodattimet
+FLASK.LIST.Filter.Clear                                   Tyhjennä suodattimet
+FLASK.LIST.Filter.ShowAll                                 näytä kaikki
+FLASK.LIST.Progress                                       Tietojen kysely, odota hetki ...
+FLASK.LIST.Message.FilterRequired                         Valitse vähintään yksi suodatuskriteeria.
+FLASK.LIST.Message.NoResults                              Ei tuloksia.
+FLASK.LIST.Message.NoResults.Filtered                     Hakutuloksia ei löydy niillä suodatinkriteerieillä.
+FLASK.LIST.Message.FoundRows                              Yhteensä $foundrows löydettyä kirjaa.
+FLASK.LIST.Return                                         takaisin
+
+
+#
+#  Tabbed view
+#
+
+FLASK.TABBEDVIEW.Progress                                 Tietojen kysely, odota hetki ...
+
+
+#
+#  Log
+#
+
+FLASK.LOG.Fld.TimeStamp                                   Päivä/aika
+FLASK.LOG.Fld.User                                        Käyttäjä
+FLASK.LOG.Fld.LogEntry                                    Lokitietue
+FLASK.LOG.Fld.LogData                                     Yksityiskohtaiset tiedot
+FLASK.LOG.Fld.LogData.View                                Tarkastele tietoja
+FLASK.LOG.Fld.LogData.Operation                           Toiminta
+FLASK.LOG.Fld.LogData.Empty                               tyhjä
+FLASK.LOG.LogEntry.Action.add                             lisätty
+FLASK.LOG.LogEntry.Action.edit                            muokattu
+FLASK.LOG.LogEntry.Action.delete                          poistettu
+FLASK.LOG.LogEntry.Action.swap                            järjestys muokattu

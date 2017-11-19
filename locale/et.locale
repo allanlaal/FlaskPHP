@@ -195,7 +195,6 @@ FLASK.USER.Login.Error.NoSuchUser                         Sellist kasutajat ei e
 FLASK.USER.Login.Error.WrongPassword                      Vale salasõna.
 FLASK.USER.Login.Error.UserPending                        Kasutajakonto on aktiveerimisel.
 FLASK.USER.Login.Error.UserDisabled                       Kasutajakonto pole aktiivne.
-FLASK.USER.Login.Error.UserDisabled                       Kasutajakonto pole aktiivne.
 FLASK.USER.Login.Error.UnknownLanguage                    Tundmatu keel.
 
 

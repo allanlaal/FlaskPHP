@@ -207,7 +207,6 @@ FLASK.USER.Login.Error.NoSuchUser                                    No such use
 FLASK.USER.Login.Error.WrongPassword                                 Wrong password.
 FLASK.USER.Login.Error.UserPending                                   Account is pending.
 FLASK.USER.Login.Error.UserDisabled                                  Account disabled.
-FLASK.USER.Login.Error.UserDisabled                                  Account not active.
 FLASK.USER.Login.Error.UnknownLanguage                               Unknown language.
 
 
