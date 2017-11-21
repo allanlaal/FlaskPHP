@@ -289,7 +289,7 @@
 			echo '<head>';
 
 				// Title
-				echo '<title>'.$this->getPageTitle().'</title>';
+				echo '<title>'.FlaskPHP\Template\Template::parseContent($this->getPageTitle()).'</title>';
 
 				// For our dear friends at Microsoft
 				echo '<meta charset="utf-8">';
