@@ -244,6 +244,15 @@
 					$fieldObject->triggerFormSave();
 				}
 			}
+			catch (FlaskPHP\Exception\ValidateException $e)
+			{
+				$errors=array();
+				foreach ($e->getErrors() as $fld => $error)
+				{
+					$errors[]='<b>'.htmlspecialchars($fld).':</b> '.$error;
+				}
+				throw new FlaskPHP\Exception\Exception('[[ FLASK.COMMON.Error.ErrorSavingData ]]: '.join(' / ',$errors));
+			}
 			catch (\Exception $e)
 			{
 				// Get error
