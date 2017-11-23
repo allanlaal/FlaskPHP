@@ -572,6 +572,12 @@ Flask.Modal = {
 				}
 			}
 		}).modal('show');
+		$("#"+modalTag).on('keypress',function(evt){
+			if (evt.which==27) {
+				Flask.Modal.closeModal(modalTag);
+				evt.stopPropagation()
+			}
+		});
 	},
 
 	// Open form modal
@@ -645,13 +651,20 @@ Flask.Modal = {
 	{
 		// Create header wrapper if needed
 		if ($("#"+modalTag+" .header").length==0) {
-			var modalHeader='<div class="header">';
+			var modalHeader='<div class="header d-flex justify-content-between">';
+			modalHeader+='<div class="title text-left"></div>';
+			modalHeader+='<a class="close-btn text-right ml-4"><i class="remove icon"></i></a>';
 			modalHeader+='</div>';
 			$("#"+modalTag).prepend(modalHeader);
 		}
 
 		// Set title
-		$("#"+modalTag+" .header").html(title);
+		$("#"+modalTag+" .header .title").html(title);
+
+		// Set close button action
+		$("#"+modalTag+" .header .close-btn").on("click",function(){
+			Flask.Modal.closeModal(modalTag);
+		});
 	},
 
 	// Set content
