@@ -33,6 +33,15 @@
 
 
 		/**
+		 *   Error message
+		 *   @var string
+		 *   @access public
+		 */
+
+		public $error = null;
+
+
+		/**
 		 *   First name
 		 *   @var string
 		 *   @access public

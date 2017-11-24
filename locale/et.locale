@@ -259,3 +259,18 @@ FLASK.LOG.LogEntry.Action.add                             lisatud
 FLASK.LOG.LogEntry.Action.edit                            muudetud
 FLASK.LOG.LogEntry.Action.delete                          kustutatud
 FLASK.LOG.LogEntry.Action.swap                            järjekord muudetud
+
+
+#
+#  Auth providers
+#
+
+FLASK.AUTH.EEMobileID.Error.NotActivated                             Mobiil-ID ei ole aktiveeritud.
+FLASK.AUTH.EEMobileID.Error.NotReady                                 Mobiil-ID ei ole veel valmis, proovi mõne hetke pärast uuesti.
+FLASK.AUTH.EEMobileID.Error.RequestFailed                            Päringu saatmine telefonile ebaõnnestus.
+FLASK.AUTH.EEMobileID.Error.UserCancelled                            Kasutaja katkestas autentimise.
+FLASK.AUTH.EEMobileID.Error.TechnicalError                           Teenuse tehniline viga.
+FLASK.AUTH.EEMobileID.Error.SIMError                                 SIM-aplikatsiooni viga.
+FLASK.AUTH.EEMobileID.Error.PhoneAbsent                              Telefon ei ole levialas.
+FLASK.AUTH.EEMobileID.Error.CertificateRevoked                       Mobiil-ID sertifikaadid on tühistatud või suletud.
+FLASK.AUTH.EEMobileID.Error.UnknownError                             Tundmatu Mobiil-ID viga.

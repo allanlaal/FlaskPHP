@@ -295,7 +295,10 @@
 							Flask()->Session->set('auth.eemobileid.response','');
 							Flask()->Session->set('auth.eemobileid.sesscode','');
 							$response=new EEMobileIDAuthResponse();
-							$response->status='pending';
+							$response->status='success';
+							$response->firstName=$midResponse['UserGivenname'];
+							$response->lastName=$midResponse['UserSurname'];
+							$response->idCode=$midResponse['UserIDCode'];
 							break;
 
 						// Error
@@ -303,10 +306,31 @@
 							Flask()->Session->set('auth.eemobileid.response','');
 							Flask()->Session->set('auth.eemobileid.sesscode','');
 							$response=new EEMobileIDAuthResponse();
-							$response->status='success';
-							$response->firstName=$midResponse['UserGivenname'];
-							$response->lastName=$midResponse['UserSurname'];
-							$response->idCode=$midResponse['UserIDCode'];
+							$response->status='error';
+							switch (strval($soapResponse['Status']))
+							{
+								case 'MID_NOT_READY':
+									$response->error=FlaskPHP\Template\Template::parseContent('[[ FLASK.AUTH.EEMobileID.Error.NotReady ]]');
+									break;
+								case 'SENDING_ERROR':
+									$response->error=FlaskPHP\Template\Template::parseContent('[[ FLASK.AUTH.EEMobileID.Error.RequestFailed ]]');
+									break;
+								case 'USER_CANCEL':
+									$response->error=FlaskPHP\Template\Template::parseContent('[[ FLASK.AUTH.EEMobileID.Error.UserCancelled ]]');
+									break;
+								case 'INTERNAL_ERROR':
+									$response->error=FlaskPHP\Template\Template::parseContent('[[ FLASK.AUTH.EEMobileID.Error.TechnicalError ]]');
+									break;
+								case 'SIM_ERROR':
+									$response->error=FlaskPHP\Template\Template::parseContent('[[ FLASK.AUTH.EEMobileID.Error.SIMError ]]');
+									break;
+								case 'PHONE_ABSENT':
+									$response->error=FlaskPHP\Template\Template::parseContent('[[ FLASK.AUTH.EEMobileID.Error.PhoneAbsent ]]');
+									break;
+								default:
+									$response->error=FlaskPHP\Template\Template::parseContent('[[ FLASK.AUTH.EEMobileID.Error.UnknownError ]]');
+									break;
+							}
 							break;
 					}
 					return $response;

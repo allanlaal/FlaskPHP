@@ -271,3 +271,18 @@ FLASK.LOG.LogEntry.Action.add                                        added
 FLASK.LOG.LogEntry.Action.edit                                       edited
 FLASK.LOG.LogEntry.Action.delete                                     deleted
 FLASK.LOG.LogEntry.Action.swap                                       order swapped
+
+
+#
+#  Auth providers
+#
+
+FLASK.AUTH.EEMobileID.Error.NotActivated                             Mobile-ID is not activated.
+FLASK.AUTH.EEMobileID.Error.NotReady                                 Mobile-ID functionality is not ready yet, try again after awhile.
+FLASK.AUTH.EEMobileID.Error.RequestFailed                            Sending authentication request to phone failed.
+FLASK.AUTH.EEMobileID.Error.UserCancelled                            User canceled authentication.
+FLASK.AUTH.EEMobileID.Error.TechnicalError                           Service technical error.
+FLASK.AUTH.EEMobileID.Error.SIMError                                 SIM application error.
+FLASK.AUTH.EEMobileID.Error.PhoneAbsent                              Phone is not in coverage area.
+FLASK.AUTH.EEMobileID.Error.CertificateRevoked                       Mobile-ID user certificates are revoked or suspended.
+FLASK.AUTH.EEMobileID.Error.UnknownError                             Other/unknown Mobile-ID error.
