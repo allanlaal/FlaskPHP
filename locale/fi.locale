@@ -197,7 +197,7 @@ FLASK.FIELD.Error.PasswordRepeatMismatch                  Salasanan toisto ei t�
 #  User
 #
 
-FLASK.USER.Login.Login                                    Kirjautuminen
+FLASK.USER.Login.Login                                    Kirjaudu sisään
 FLASK.USER.Login.Success                                  Onnistunut kirjautuminen
 FLASK.USER.Login.Error.EmailEmpty                         Sähköpostiosoite on tyhjä.
 FLASK.USER.Login.Error.EmailInvalid                       Virheellinen sähköpostiosoite.
