@@ -208,7 +208,7 @@
 			// Parse localized strings
 			if (($src===false && $this->templateParseVars) || ($src!==false && $parseLocale))
 			{
-				$tmplContent=preg_replace_callback("/\[\[\s*(.+?)\s\]\]/",array($this,'_parse_locale'),$tmplContent);
+				$tmplContent=preg_replace_callback("/\[\[\s*(.+?)\s*\]\]/",array($this,'_parse_locale'),$tmplContent);
 			}
 
 			return $tmplContent;
