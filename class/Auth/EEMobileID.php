@@ -112,7 +112,7 @@
 			{
 				$this->serviceName=Flask()->Config->get('eemobileid.servicename');
 			}
-			else
+			elseif (!$this->devMode)
 			{
 				throw new FlaskPHP\Exception\InvalidParameterException('Missing eemobileid.service configuration directive');
 			}
@@ -172,7 +172,7 @@
 				$this->spChallenge='00000010000002000040';
 			}
 
-			$soapClient=new SoapClient($WSDL, $soapOptions);
+			$soapClient=new \SoapClient($WSDL, $soapOptions);
 			return $soapClient;
 		}
 
