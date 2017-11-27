@@ -89,7 +89,7 @@
 				$certificateData->idCode=$idCode;
 
 				// Return
-				return $idCode;
+				return $certificateData;
 			}
 			catch (\Exception $e)
 			{
