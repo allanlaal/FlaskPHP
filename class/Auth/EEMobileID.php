@@ -162,7 +162,7 @@
 			// Init SOAP client
 			if ($this->devMode)
 			{
-				$WSDL='https://www.openxades.org:8443/?wsdl';
+				$WSDL='https://tsp.demo.sk.ee/dds.wsdl';
 				$this->spChallenge='00000000000000000000';
 				$this->serviceName='Testimine';
 			}
