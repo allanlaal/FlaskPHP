@@ -768,6 +768,7 @@ Flask.Form = {
 					for (var k in data) {
 						Flask.Modal.param[modalTag][k]=data[k];
 					}
+					$("#"+modalTag+" form").first().attr('id','form_'+modalTag);
 					Flask.Form.initElements(modalTag);
 					$("#"+modalTag+" form :input").not('textarea').not('.noautosubmit').keypress(function(e){
 						if (e.which==13) {
@@ -1134,7 +1135,7 @@ Flask.Form = {
 			$("#"+field).parent().parent().append('<div class="ui basic red pointing prompt label transition visible">'+error+'</div>');
 		}
 		else {
-			$("#"+field).parent().append('<div class="ui basic red pointing prompt label transition visible">'+error+'</div>');
+			$("#"+field).closest('.field').append('<div class="ui basic red pointing prompt label transition visible">'+error+'</div>');
 		}
 		if ($(":input.error").length==1) {
 			$("#"+field).focus();
