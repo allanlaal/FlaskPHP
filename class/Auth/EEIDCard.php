@@ -71,16 +71,17 @@
 			try
 			{
 				// Check
-				if (!mb_strlen($_SERVER['SSL_CLIENT_S_DN_CN'])) throw new FlaskPHP\Exception\Exception('ID card not detected.');
+				$CN=oneof($_SERVER['SSL_CLIENT_S_DN_CN'],$_SERVER['REDIRECT_SSL_CLIENT_S_DN_CN'],$_SERVER['HTTP_SSL_CLIENT_S_DN_CN']);
+				if (!mb_strlen($CN)) throw new FlaskPHP\Exception\Exception('ID card not detected.');
 
 				// Init object
 				$certificateData=new EEIDCardData();
 
 				// CN
-				$certificateData->CN=$_SERVER['SSL_CLIENT_S_DN_CN'];
+				$certificateData->CN=$CN;
 
 				// Parse CN
-				list($lastName,$firstName,$idCode)=str_array($_SERVER['SSL_CLIENT_S_DN_CN']);
+				list($lastName,$firstName,$idCode)=str_array($CN);
 				if (empty($lastName) || empty($firstName) || empty($idCode)) throw new FlaskPHP\Exception\Exception('Error parsing CN.');
 
 				// Set parsed data
