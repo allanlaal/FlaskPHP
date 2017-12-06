@@ -300,7 +300,12 @@ Flask.doAjaxAction = function( actionURL, actionData, param, confirmed )
 			if (data!=null && data.status=='1') {
 				if (data.redirect!=null)
 				{
-					Flask.redirect(data.redirect);
+					if (data.redirect_data!=null) {
+						Flask.doPostSubmit(data.redirect,data.redirect_data);
+					}
+					else {
+						Flask.redirect(data.redirect);
+					}
 				}
 				else if ((data.reload!=null && data.reload=='1') || (param.reload_on_success!=null && param.reload_on_success==true))
 				{
@@ -833,7 +838,12 @@ Flask.Form = {
 						Flask.reload();
 					}
 					else if (data.redirect!=null && data.redirect.length>0) {
-						Flask.redirect(data.redirect);
+						if (data.redirect_data!=null) {
+							Flask.doPostSubmit(data.redirect,data.redirect_data);
+						}
+						else {
+							Flask.redirect(data.redirect);
+						}
 					}
 					else {
 						Flask.Form.progressStop();
@@ -916,7 +926,12 @@ Flask.Form = {
 						Flask.reload();
 					}
 					else if (data.redirect!=null && data.redirect.length>0) {
-						Flask.redirect(data.redirect);
+						if (data.redirect_data!=null) {
+							Flask.doPostSubmit(data.redirect,data.redirect_data);
+						}
+						else {
+							Flask.redirect(data.redirect);
+						}
 					}
 					else {
 						Flask.Form.progressStop();
@@ -1285,7 +1300,12 @@ Flask.List = {
 						Flask.reload();
 					}
 					else if (data.redirect!=null && data.redirect.length>0) {
-						Flask.redirect(data.redirect);
+						if (data.redirect_data!=null) {
+							Flask.doPostSubmit(data.redirect,data.redirect_data);
+						}
+						else {
+							Flask.redirect(data.redirect);
+						}
 					}
 					else {
 						Flask.List.progressStop();
@@ -1335,7 +1355,12 @@ Flask.List = {
 						Flask.reload();
 					}
 					else if (data.redirect!=null && data.redirect.length>0) {
-						Flask.redirect(data.redirect);
+						if (data.redirect_data!=null) {
+							Flask.doPostSubmit(data.redirect,data.redirect_data);
+						}
+						else {
+							Flask.redirect(data.redirect);
+						}
 					}
 					else {
 						Flask.List.progressStop();
@@ -1846,7 +1871,12 @@ Flask.Login = {
 				Flask.Login.progressStop();
 				if (data!=null && data.status=='1') {
 					if (data.redirect!=null && data.redirect!='') {
-						Flask.redirect(data.redirect);
+						if (data.redirect_data!=null) {
+							Flask.doPostSubmit(data.redirect,data.redirect_data);
+						}
+						else {
+							Flask.redirect(data.redirect);
+						}
 					}
 					else if (data.reload!=null && data.reload=='1') {
 						Flask.reload();
