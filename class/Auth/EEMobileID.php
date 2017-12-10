@@ -89,7 +89,7 @@
 		 *   Init the provider
 		 *   -----------------
 		 *   @access public
-		 *   @param bool $forceDev Force dev environment
+		 *   @param bool $devMode Force dev environment
 		 *   @throws \Exception
 		 *   @return void
 		 *
