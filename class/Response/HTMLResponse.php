@@ -101,11 +101,14 @@
 
 
 		/**
+		 *
 		 *   Constructor
+		 *   -----------
 		 *   @access public
 		 *   @param string $responseContent Response content
 		 *   @throws \Exception
 		 *   @return \Codelab\FlaskPHP\Response\HTMLResponse
+		 *
 		 */
 
 		public function __construct( $responseContent=null )
@@ -117,11 +120,14 @@
 
 
 		/**
+		 *
 		 *   Set meta header
+		 *   ---------------
 		 *   @access public
 		 *   @param string|array $paramName Parameter name (or array of names)
 		 *   @param string $paramValue Value
 		 *   @return HTMLResponse
+		 *
 		 */
 
 		function setMeta( $paramName, $paramValue )
@@ -142,10 +148,13 @@
 
 
 		/**
+		 *
 		 *   Add additional <head> tag
+		 *   -------------------------
 		 *   @access public
 		 *   @param string $headTag Head tag
 		 *   @return HTMLResponse
+		 *
 		 */
 
 		function addHeadTag( string $headTag )
@@ -156,10 +165,13 @@
 
 
 		/**
-		 *   Add additional <head> tag
+		 *
+		 *   Add alternate language ref
+		 *   --------------------------
 		 *   @access public
 		 *   @param string $headTag Head tag
 		 *   @return HTMLResponse
+		 *
 		 */
 
 		function addAlternateLang( string $alternateLang, string $alternateURL )
@@ -170,10 +182,13 @@
 
 
 		/**
+		 *
 		 *   Set template
+		 *   ------------
 		 *   @access public
 		 *   @param string $responseTemplate Template
 		 *   @return HTMLResponse
+		 *
 		 */
 
 		function setTemplate( string $responseTemplate )
@@ -184,11 +199,14 @@
 
 
 		/**
+		 *
 		 *   Set body attribute
+		 *   ------------------
 		 *   @access public
 		 *   @param string|array $attributeName Parameter name (or array of names)
 		 *   @param string $attributeValue Value
 		 *   @return HTMLResponse
+		 *
 		 */
 
 		function setBodyAttribute( $attributeName, $attributeValue )
@@ -200,12 +218,15 @@
 
 
 		/**
+		 *
 		 *   Set page title
+		 *   --------------
 		 *   @access public
 		 *   @param string $title Page title
 		 *   @param boolean|int $append Append (true or 1) or prepend (2 or -1) to current title
 		 *   @param string $titleSeparator Title separator
 		 *   @return HTMLResponse
+		 *
 		 */
 
 		function setPageTitle( $title, $append=true, $titleSeparator='»' )
@@ -230,10 +251,13 @@
 
 
 		/**
+		 *
 		 *   Get page title
+		 *   --------------
 		 *   @access public
 		 *   @throws \Exception
 		 *   @return string
+		 *
 		 */
 
 		public function getPageTitle()
@@ -243,10 +267,88 @@
 
 
 		/**
+		 *
+		 *   Set response variable
+		 *   ---------------------
+		 *   @access public
+		 *   @param string $variable Variable name
+		 *   @param mixed $value Variable value
+		 *   @throws \Exception
+		 *   @return HTMLResponse
+		 *
+		 */
+
+		public function setVariable( string $variable, $value )
+		{
+			// Remove
+			if ($value===null && array_key_exists($variable,$this->responseVar))
+			{
+				unset($this->responseVar[$variable]);
+			}
+
+			// Set
+			else
+			{
+				$this->responseVar[$variable]=$value;
+			}
+
+			// Return self
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set response variables
+		 *   ----------------------
+		 *   @access public
+		 *   @param array $variables Variables
+		 *   @throws \Exception
+		 *   @return HTMLResponse
+		 *
+		 */
+
+		public function setVariables( array $variables )
+		{
+			// Set variables
+			foreach ($variables as $k => $v)
+			{
+				$this->setVariable($k,$v);
+			}
+
+			// Return self
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Get response variable
+		 *   ---------------------
+		 *   @access public
+		 *   @param string $variable Variable name
+		 *   @return mixed
+		 *
+		 */
+
+		public function getVar( string $variable )
+		{
+			if (array_key_exists($variable,$this->responseVar))
+			{
+				return $this->responseVar[$variable];
+			}
+			return null;
+		}
+
+
+		/**
+		 *
 		 *   Output extra content
+		 *   --------------------
 		 *   @access public
 		 *   @throws \Exception
 		 *   @return void
+		 *
 		 */
 
 		public function outputExtraContent()
@@ -257,10 +359,13 @@
 
 
 		/**
+		 *
 		 *   Render response
+		 *   ---------------
 		 *   @access public
 		 *   @throws \Exception
 		 *   @return void
+		 *
 		 */
 
 		public function renderResponse()
