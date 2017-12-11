@@ -51,19 +51,28 @@
 			$fieldWrapper=null;
 
 			// Wrapper if needed
-			if ($this->getParam('form_suffixlabel'))
+			if ($this->getParam('form_suffixlabel') || $this->getParam('form_suffixdropdown'))
 			{
 				$c.='<div class="ui right labeled input">';
 				$fieldWrapper=true;
 			}
-			elseif ($this->getParam('form_prefixlabel'))
+			elseif ($this->getParam('form_prefixlabel') || $this->getParam('form_prefixdropdown'))
 			{
 				$c.='<div class="ui labeled input">';
 				$fieldWrapper=true;
 			}
 
+			// Prefix dropdown
+			if ($this->getParam('form_prefixdropdown'))
+			{
+				$prefixDropdownValue=$this->model->{$this->getParam('form_prefixdropdown_field')};
+				$c.='<select id="'.$this->getParam('form_prefixdropdown_field').'" name="'.$this->getParam('form_prefixdropdown_field').'" class="ui compact dropdown label'.($this->getParam('form_prefixdropdown_type')?' '.$this->getParam('form_prefixdropdown_type'):'').'">';
+				$c.=FlaskPHP\Util::arrayToSelectOptions($this->getParam('form_prefixdropdown'),$prefixDropdownValue);
+				$c.='</select>';
+			}
+
 			// Prefix label
-			if ($this->getParam('form_prefixlabel'))
+			elseif ($this->getParam('form_prefixlabel'))
 			{
 				$c.='<div class="ui label'.($this->getParam('form_prefixlabel_type')?' '.$this->getParam('form_prefixlabel_type'):'').'">';
 				$c.=$this->getParam('form_prefixlabel');
@@ -98,8 +107,17 @@
 				}
 			$c.='>';
 
+			// Suffix dropdown
+			if ($this->getParam('form_suffixdropdown'))
+			{
+				$suffixDropdownValue=$this->model->{$this->getParam('form_suffixdropdown_field')};
+				$c.='<select id="'.$this->getParam('form_suffixdropdown_field').'" name="'.$this->getParam('form_suffixdropdown_field').'" class="ui compact dropdown label'.($this->getParam('form_suffixdropdown_type')?' '.$this->getParam('form_suffixdropdown_type'):'').'">';
+				$c.=FlaskPHP\Util::arrayToSelectOptions($this->getParam('form_suffixdropdown'),$suffixDropdownValue);
+				$c.='</select>';
+			}
+
 			// Suffix label
-			if ($this->getParam('form_suffixlabel'))
+			elseif ($this->getParam('form_suffixlabel'))
 			{
 				$c.='<div class="ui label'.($this->getParam('form_suffixlabel_type')?' '.$this->getParam('form_suffixlabel_type'):'').'">';
 				$c.=$this->getParam('form_suffixlabel');

@@ -543,6 +543,27 @@
 
 		/**
 		 *
+		 *   Set form field prefix dropdown
+		 *   ------------------------------
+		 *   @access public
+		 *   @param string $formPrefixDropdownField Prefix dropdown field name
+		 *   @param array $formPrefixDropdownSourceList Prefix dropdown field options
+		 *   @param string $formPrefixDropdownType Prefix dropdown field type
+		 *   @return \Codelab\FlaskPHP\Field\FieldInterface
+		 *
+		 */
+
+		public function setFormPrefixDropdown( string $formPrefixDropdownField, array $formPrefixDropdownSourceList, string $formPrefixDropdownType=null )
+		{
+			$this->setParam('form_prefixdropdown',$formPrefixDropdownSourceList);
+			$this->setParam('form_prefixdropdown_field',$formPrefixDropdownField);
+			$this->setParam('form_prefixdropdown_type',$formPrefixDropdownType);
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Set form field suffix label
 		 *   ---------------------------
 		 *   @access public
@@ -556,6 +577,27 @@
 		{
 			$this->setParam('form_suffixlabel',$formSuffixLabel);
 			$this->setParam('form_suffixlabel_type',$formSuffixLabelType);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set form field suffix dropdown
+		 *   ------------------------------
+		 *   @access public
+		 *   @param string $formSuffixDropdownField Suffix dropdown field name
+		 *   @param array $formSuffixDropdownSourceList Suffix dropdown field options
+		 *   @param string $formSuffixDropdownType Suffix dropdown field type
+		 *   @return \Codelab\FlaskPHP\Field\FieldInterface
+		 *
+		 */
+
+		public function setFormSuffixDropdown( string $formSuffixDropdownField, array $formSuffixDropdownSourceList, string $formSuffixDropdownType=null )
+		{
+			$this->setParam('form_suffixdropdown',$formSuffixDropdownSourceList);
+			$this->setParam('form_suffixdropdown_field',$formSuffixDropdownField);
+			$this->setParam('form_suffixdropdown_type',$formSuffixDropdownType);
 			return $this;
 		}
 
@@ -1243,7 +1285,21 @@
 
 		public function saveValue()
 		{
-			return $this->zeroHack($this->getValue(),'remove');
+			// Prefix or suffix dropdowns?
+			if ($this->getParam('form_prefixdropdown') || $this->getParam('form_suffixdropdown'))
+			{
+				$retval=array();
+				$retval[$this->tag]=$this->zeroHack($this->getValue(),'remove');
+				if ($this->getParam('form_prefixdropdown')) $retval[$this->getParam('form_prefixdropdown_field')]=Flask()->Request->postVar($this->getParam('form_prefixdropdown_field'));
+				if ($this->getParam('form_suffixdropdown')) $retval[$this->getParam('form_suffixdropdown_field')]=Flask()->Request->postVar($this->getParam('form_suffixdropdown_field'));
+				return $retval;
+			}
+
+			// Regular field
+			else
+			{
+				return $this->zeroHack($this->getValue(),'remove');
+			}
 		}
 
 
