@@ -1214,7 +1214,7 @@
 				{
 					$contentTableHeader.='<a class="'.oneof($this->getParam('list_header_sortclass_link'),'list-table-field-sort').'" onclick="Flask.List.getContent(\''.$this->getParam('id').'\',\''.$this->buildURL().'\',\'sort\',{sort_field:\''.jsencode($fieldObject->tag).'\',sort_dir:\''.($sortField==$fieldObject->tag?($sortDir=='asc'?'desc':'asc'):oneof($this->getParam('list_sort_defaultorder'),'asc')).'\'})">';
 				}
-				$contentTableHeader.=htmlspecialchars($fieldObject->getParam('title'));
+				$contentTableHeader.=$fieldObject->getParam('title');
 				if ($fieldSortable)
 				{
 					$contentTableHeader.=' ';
