@@ -151,7 +151,7 @@
 				{
 					foreach ($optGroup as $optVal => $optDesc)
 					{
-						$retval[$optVal]=Flask()->Request->postVar($optVal);
+						$retval[$optVal]=(Flask()->Request->postVar($optVal)?1:0);
 					}
 				}
 				return $retval;
