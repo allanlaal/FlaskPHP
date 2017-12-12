@@ -29,16 +29,101 @@
 		 *   @param string|FlaskPHP\ContentPartial\ContentPartialInterface $content Content
 		 *   @param string $title Title
 		 *   @param array $actions Actions
+		 *   @param string $blockID Block ID
+		 *   @param string $blockClass Block class
 		 *   @throws \Exception
 		 *   @return BlockContent
 		 *
 		 */
 
-		public function __construct( $content=null, string $title=null, array $actions=null )
+		public function __construct( $content=null, string $title=null, array $actions=null, string $blockID=null, string $blockClass=null )
 		{
 			$this->setParam('content',$content);
 			$this->setParam('title',$title);
 			$this->setParam('actions',$actions);
+			$this->setParam('id',$blockID);
+			$this->setParam('class',$blockClass);
+			parent::__construct();
+		}
+
+
+		/**
+		 *
+		 *   Set content
+		 *   -----------
+		 *   @param string|FlaskPHP\ContentPartial\ContentPartialInterface $content Content
+		 *   @return BlockContent
+		 *
+		 */
+
+		public function setContent( $content )
+		{
+			$this->setParam('content',$content);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set title
+		 *   ---------
+		 *   @param string $title Title
+		 *   @return BlockContent
+		 *
+		 */
+
+		public function setTitle( string $title )
+		{
+			$this->setParam('title',$title);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set actions
+		 *   -----------
+		 *   @param array $actions Actions
+		 *   @return BlockContent
+		 *
+		 */
+
+		public function setActions( array $actions )
+		{
+			$this->setParam('actions',$actions);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set block ID
+		 *   ------------
+		 *   @param string $blockID Block ID
+		 *   @return BlockContent
+		 *
+		 */
+
+		public function setBlockID( string $blockID )
+		{
+			$this->setParam('id',$blockID);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set block class
+		 *   ---------------
+		 *   @param string $blockClass Block class
+		 *   @return BlockContent
+		 *
+		 */
+
+		public function setBlockClass( string $blockClass )
+		{
+			$this->setParam('class',$blockClass);
+			return $this;
 		}
 
 
@@ -60,7 +145,7 @@
 				// Title
 				if ($this->getParam('title') || $this->getParam('actions'))
 				{
-					$blockContent.='<div class="ui top attached padded header">';
+					$blockContent.='<div class="ui top attached padded header'.($this->getParam('class')?' '.$this->getParam('class'):'').'"'.($this->getParam('id')?' id="'.$this->getParam('id').'_title"':'').'>';
 					$blockContent.='<div class="d-flex justify-content-between">';
 					if ($this->getParam('title'))
 					{
@@ -83,7 +168,7 @@
 
 				// Content
 				$contentBody=$this->getParam('content');
-				$blockContent.='<div class="ui bottom attached padded segment">';
+				$blockContent.='<div class="ui bottom attached padded segment'.($this->getParam('class')?' '.$this->getParam('class'):'').'"'.($this->getParam('id')?' id="'.$this->getParam('id').'_content"':'').'>';
 				if (is_object($contentBody))
 				{
 					if ($contentBody instanceof FlaskPHP\ContentPartial\ContentPartialInterface)
