@@ -236,7 +236,7 @@
 				$logMessage=($this->hasParam('logmessage')?$this->getParam('logmessage'):null);
 				$logData=null;
 				$refOID=($this->hasParam('logrefoid')?(preg_match("/^[0-9]+$/",$this->getParam('logrefoid'))?$this->getParam('logrefoid'):$this->field[$this->getParam('logrefoid')]->saveValue()):null);
-				$this->model->save($param,$logMessage,$logData,$refOID,$this->operation,$this);
+				$this->model->save($param,$logMessage,$logData,$refOID,$this->operation,true,$this);
 
 				// Fire save triggers
 				foreach ($this->field as $fieldTag => $fieldObject)
