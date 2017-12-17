@@ -834,6 +834,10 @@ Flask.Form = {
 						Flask.Form.progressStop();
 						param.success_callback(data);
 					}
+					else if (data.successaction!=null && data.successaction!='') {
+						Flask.Form.progressStop();
+						eval(data.successaction);
+					}
 					else if (data.reload!=null && data.reload=='1') {
 						Flask.reload();
 					}
@@ -935,6 +939,9 @@ Flask.Form = {
 					}
 					else {
 						Flask.Form.progressStop();
+						if (data.successaction!=null && data.successaction!='') {
+							eval(data.successaction);
+						}
 						Flask.Modal.closeModal(modalTag);
 					}
 				}
@@ -1567,7 +1574,7 @@ Flask.Chooser = {
 		html+='<input type="text" class="chooser-modal-searchinput" id="'+fieldTag+'_search" placeholder="'+param.search_placeholder+'" autocomplete="off" maxlength="255">';
 		html+='<button class="ui button" id="'+fieldTag+'_submit"><span class="icon-search"></span> '+Locale.get('FLASK.FIELD.Chooser.Search.Submit')+'</button>';
 		if (param.addform!=null && param.addform==1) {
-			html+='<button class="ui basic button ml-2" id="'+fieldTag+'_addform">'+param.chooser_addform_buttontitle+'</button>';
+			html+='<button class="ui basic button ml-2" id="'+fieldTag+'_addform">'+param.addform_buttontitle+'</button>';
 		}
 		html+='</div>';
 		html+='<div class="chooser-modal-searchresult mt-4" id="'+fieldTag+'_result"></div>';
@@ -1671,7 +1678,9 @@ Flask.Chooser = {
 	// Clear chooser value
 	clearChooser: function( fieldTag, param )
 	{
+		$("#"+fieldTag).val('');
 		$("#field_"+fieldTag+" .chooser-value").html('<div class="chooser-emptyvalue text-muted">'+param.emptyvalue+'</div>');
+		$("#field_"+fieldTag+" .chooser-clearbtn").hide();
 	},
 
 	// Choose chooser value
@@ -1680,6 +1689,7 @@ Flask.Chooser = {
 		// This can be overwritten in the layout class if needed
 		$("#"+fieldTag).val(value).trigger('change');
 		$("#field_"+fieldTag+" .chooser-value").html(description);
+		$("#field_"+fieldTag+" .chooser-clearbtn").show();
 		Flask.Chooser.closeModal(fieldTag);
 	},
 

@@ -255,7 +255,7 @@
 					$param=new \stdClass();
 					$param->emptyvalue=oneof($this->getParam('chooser_emptyvalue'),'[[ FLASK.COMMON.NotSet ]]');
 					$param=FlaskPHP\Util::htmlJSON($param);
-					$c.='<button type="button" class="ui basic button" onclick="Flask.Chooser.clearChooser(\''.$this->tag.'\','.$param.')">'.$this->getParam('chooser_clear').'</button>';
+					$c.='<button type="button" class="ui basic button chooser-clearbtn" style="'.(empty($value)?'display: none':'').'" onclick="Flask.Chooser.clearChooser(\''.$this->tag.'\','.$param.')">'.$this->getParam('chooser_clear').'</button>';
 				}
 
 				// Search
@@ -268,7 +268,7 @@
 				{
 					$param->addform=1;
 					$param->addform_url=$this->getParam('chooser_addform_url');
-					$param->addform_buttontitlre=oneof($this->getParam('chooser_addform_buttontitle'),'<span class="icon-add"></span> [[ FLASK.FIELD.Chooser.AddNew.Submit ]]');
+					$param->addform_buttontitle=oneof($this->getParam('chooser_addform_buttontitle'),'<span class="icon-add"></span> [[ FLASK.FIELD.Chooser.AddNew.Submit ]]');
 				}
 				$param=FlaskPHP\Util::htmlJSON($param);
 				if ($this->getParam('chooser_data'))
