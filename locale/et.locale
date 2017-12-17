@@ -158,7 +158,7 @@ FLASK.FIELD.Error.Unique                                  Väärtus pole unikaal
 FLASK.FIELD.Error.NumberFld.Format                        Väärtus ei ole korrektne number.
 FLASK.FIELD.Error.NumberFld.Format.Negative               Väärtus ei ole korrektne positiivne number.
 FLASK.FIELD.Error.InvalidValue                            Vigane väärtus.
-FLASK.FIELD.Error.InvalidEmail                            Vigane e-mailiaadrss.
+FLASK.FIELD.Error.InvalidEmail                            Vigane e-mailiaadress.
 FLASK.FIELD.Error.InvalidDate                             Vigane kuupäev.
 FLASK.FIELD.Error.InvalidTime                             Vigane kellaaeg.
 FLASK.FIELD.Error.IncompleteDateTime                      Puudulik kuupäev/kellaaeg.
