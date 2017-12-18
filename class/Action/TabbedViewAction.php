@@ -294,15 +294,23 @@
 			$logList->setLoadParam($loadParam);
 
 			// Filters
-			/*
-			$logList->setFilterColumnWidth('two');
+			$logList->setFilterColumnWidth('three');
+
+			$f=$logList->addFilter('log_tstamp',new FlaskPHP\Action\DateRangeListFilter());
+			$f->setTitle('[[ FLASK.COMMON.Date ]]');
+			$f->setDateTimeField(true);
+
+			$f=$logList->addFilter('user_name',new FlaskPHP\Action\TextListFilter());
+			$f->setTitle('[[ FLASK.LOG.Fld.User ]]');
+			$f->setField(Flask()->User->getParam('table').'.'.Flask()->User->getParam('loginfield_name'));
+
 			$f=$logList->addFilter('log_entry',new FlaskPHP\Action\TextListFilter());
 			$f->setTitle('[[ FLASK.LOG.Fld.LogEntry ]]');
-			*/
 
 			// Add fields
 			$f=$logList->addField('log_tstamp',new FlaskPHP\Field\DateField());
 			$f->setTitle('[[ FLASK.LOG.Fld.TimeStamp ]]');
+			$f->setListShowTime(true);
 			$f->setListFieldWidth('15%');
 
 			$f=$logList->addField(Flask()->User->getParam('table').'.'.Flask()->User->getParam('loginfield_name').' as user_name',new FlaskPHP\Field\TextField());
