@@ -441,11 +441,11 @@
 			{
 				if ($this->getParam('exact') || !is_string($value))
 				{
-					$whereList[]=$this->listObject->model->getParam('table').'.'.$field."=".$loadListParam::colValue($value);
+					$whereList[]=(mb_strpos($field,'.')===false?$this->listObject->model->getParam('table').'.':'').$field."=".$loadListParam::colValue($value);
 				}
 				else
 				{
-					$whereList[]=$this->listObject->model->getParam('table').'.'.$field." like ".$loadListParam::colValue('%'.strval($value).'%');
+					$whereList[]=(mb_strpos($field,'.')===false?$this->listObject->model->getParam('table').'.':'').$field." like ".$loadListParam::colValue('%'.strval($value).'%');
 				}
 			}
 			$loadListParam->addWhere('('.join(') or (',$whereList).')');
