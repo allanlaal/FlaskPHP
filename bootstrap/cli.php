@@ -74,6 +74,7 @@
 	//  Load default locale
 	//
 
+	$FLASK->Locale->initLocale();
 	$FLASK->Locale->loadLocale($FLASK->Locale->getDefaultLanguage());
 
 

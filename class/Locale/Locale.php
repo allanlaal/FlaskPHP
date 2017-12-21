@@ -49,6 +49,15 @@
 
 
 		/**
+		 *   Additional locale paths
+		 *   @var array
+		 *   @access public
+		 */
+
+		public $localePath = array();
+
+
+		/**
 		 *   Locale data
 		 *   @var array
 		 *   @access public
@@ -187,12 +196,71 @@
 
 		/**
 		 *
+		 *   Init the locale system
+		 *   ----------------------
+		 *   @access public
+		 *   @var string $lang Language
+		 *   @throws FlaskPHP\Exception\FatalException
+		 *   @return void
+		 *
+		 */
+
+		public function initLocale()
+		{
+			// Get additional locale paths
+			if (!empty(Flask()->Config->get('locale.localepath')))
+			{
+				foreach (Flask()->Config->get('locale.localepath') as $localePath)
+				{
+					$this->addLocalePath($localePath,false);
+				}
+			}
+		}
+
+
+		/**
+		 *
+		 *   Add locale path
+		 *   ---------------
+		 *   @access public
+		 *   @var string $localePath Locale path
+		 *   @var bool $reloadLocale Reload locale
+		 *   @throws FlaskPHP\Exception\FatalException
+		 *   @return Locale
+		 *
+		 */
+
+		public function addLocalePath( string $localePath, bool $reloadLocale=true )
+		{
+			// Already exists?
+			if (in_array($localePath,$this->localePath)) return;
+
+			// Is readable?
+			if (!is_readable($localePath)) throw new FlaskPHP\Exception\FatalException('Locale path '.$localePath.' not readable.');
+
+			// Add to paths
+			$this->localePath[]=$localePath;
+
+			// Reload?
+			if ($reloadLocale)
+			{
+				$this->loadLocale($this->localeLanguage,true);
+			}
+
+			// Return self
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Add available language
 		 *   ----------------------
 		 *   @access public
 		 *   @var string $lang Language
 		 *   @throws FlaskPHP\Exception\FatalException
 		 *   @return Locale
+		 *
 		 */
 
 		public function addLanguage( string $lang )
@@ -271,14 +339,15 @@
 		 *   -----------
 		 *   @access public
 		 *   @param string $localeTag Locale tag
+		 *   @param bool $forceReload Force reload even if current language
 		 *   @return void
 		 *
 		 */
 
-		public function loadLocale( string $localeTag )
+		public function loadLocale( string $localeTag, bool $forceReload=false )
 		{
 			// Already loaded?
-			if ($this->localeLanguage==$localeTag) return;
+			if ($this->localeLanguage==$localeTag && !$forceReload) return;
 
 			// Init
 			$this->localeData=array();
@@ -298,13 +367,10 @@
 			}
 
 			// Load locales in locale path
-			if (!empty(Flask()->Config->get('locale.localepath')))
+			foreach ($this->localePath as $localePath)
 			{
-				foreach (Flask()->Config->get('locale.localepath') as $localePath)
-				{
-					if ($localeTag!='en') $this->_loadLocaleFile($localePath.'/en.locale');
-					$this->_loadLocaleFile($localePath.'/'.$localeTag.'.locale');
-				}
+				if ($localeTag!='en') $this->_loadLocaleFile($localePath.'/en.locale');
+				$this->_loadLocaleFile($localePath.'/'.$localeTag.'.locale');
 			}
 
 			// Load site locale
