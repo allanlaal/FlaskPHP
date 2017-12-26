@@ -428,11 +428,11 @@
 
 			// Execute query and get results
 			$timeStart=microtime_float();
-			list($res,$fieldMetaData)=$this->query($sql,true);
+			list($res,$fieldMetaData)=$this->query($sql,$convertFieldTypes);
 			$timeEnd=microtime_float();
 			$queryTime=$timeEnd-$timeStart;
 			if ($res===false || $res->num_rows==0) return array();
-			while($row=$this->fetchRow($res,$fieldMetaData))
+			while ($row=$this->fetchRow($res,$fieldMetaData))
 			{
 				if ($key)
 				{
