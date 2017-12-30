@@ -28,7 +28,7 @@
 		 *   @access public
 		 *   @param string|FlaskPHP\ContentPartial\ContentPartialInterface $content Content
 		 *   @param string $title Title
-		 *   @param array $actions Actions
+		 *   @param array $items Header items/actions
 		 *   @param string $blockID Block ID
 		 *   @param string $blockClass Block class
 		 *   @throws \Exception
@@ -36,11 +36,11 @@
 		 *
 		 */
 
-		public function __construct( $content=null, string $title=null, array $actions=null, string $blockID=null, string $blockClass=null )
+		public function __construct( $content=null, string $title=null, array $items=null, string $blockID=null, string $blockClass=null )
 		{
 			$this->setParam('content',$content);
 			$this->setParam('title',$title);
-			$this->setParam('actions',$actions);
+			$this->setParam('headeritems',$items);
 			$this->setParam('id',$blockID);
 			$this->setParam('class',$blockClass);
 			parent::__construct();
@@ -81,16 +81,44 @@
 
 		/**
 		 *
-		 *   Set actions
-		 *   -----------
-		 *   @param array $actions Actions
+		 *   Add an action
+		 *   -------------
+		 *   @param BlockContentHeaderItem $item
 		 *   @return BlockContent
 		 *
 		 */
 
-		public function setActions( array $actions )
+		public function addHeaderItem( BlockContentHeaderItem $item )
 		{
-			$this->setParam('actions',$actions);
+			if (!is_array($this->getParam('headeritems')))
+			{
+				$this->setParam('headeritems',array());
+			}
+			$this->_param['headeritems'][]=$item;
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set header items
+		 *   ----------------
+		 *   @param array $items Header items
+		 *   @throws \Exception
+		 *   @return BlockContent
+		 *
+		 */
+
+		public function setHeaderItems( array $items )
+		{
+			foreach ($items as $k => $item)
+			{
+				if (!($item instanceof BlockContentHeaderItem))
+				{
+					throw new FlaskPHP\Exception\InvalidParameterException('Member '.$k.' of $actions is not an instance of BlockContentHeaderItem.');
+				}
+			}
+			$this->setParam('headeritems',$items);
 			return $this;
 		}
 
@@ -142,27 +170,29 @@
 			// Card begins
 			$blockContent='';
 
-				// Title
-				if ($this->getParam('title') || $this->getParam('actions'))
+				// Header
+				if ($this->getParam('headeritems'))
 				{
-					$blockContent.='<div class="ui top attached padded header'.($this->getParam('class')?' '.$this->getParam('class'):'').'"'.($this->getParam('id')?' id="'.$this->getParam('id').'_title"':'').'>';
-					$blockContent.='<div class="d-flex justify-content-between">';
+					$blockContent.='<div class="ui top attached menu'.($this->getParam('class')?' '.$this->getParam('class'):'').'"'.($this->getParam('id')?' id="'.$this->getParam('id').'_title"':'').'>';
 					if ($this->getParam('title'))
 					{
-						if ($this->getParam('actions')) $blockContent.='<div class="float-left">';
+						$blockContent.='<h4 class="borderless header item">';
 						$blockContent.=$this->getParam('title');
-						if ($this->getParam('actions')) $blockContent.='</div>';
+						$blockContent.='</h4>';
 					}
-					if ($this->getParam('actions'))
+					$blockContent.='<div class="right menu">';
+					foreach ($this->getParam('headeritems') as $k => $actionItem)
 					{
-						if ($this->getParam('title')) $blockContent.='<div class="float-right"">';
-						foreach ($this->getParam('actions') as $action)
-						{
-							$blockContent.='<small class="block action margin-l-1">'.$action.'</small>';
-						}
-						if ($this->getParam('title')) $blockContent.='</div>';
+						if (!($actionItem instanceof BlockContentHeaderItem)) throw new FlaskPHP\Exception\InvalidParameterException('Member '.$k.' of $actions is not an instance of BlockContentHeaderItem.');
+						$blockContent.=$actionItem->renderItem();
 					}
 					$blockContent.='</div>';
+					$blockContent.='</div>';
+				}
+				elseif ($this->getParam('title'))
+				{
+					$blockContent.='<div class="ui top attached padded header'.($this->getParam('class')?' '.$this->getParam('class'):'').'"'.($this->getParam('id')?' id="'.$this->getParam('id').'_title"':'').'>';
+					$blockContent.=$this->getParam('title');
 					$blockContent.='</div>';
 				}
 
