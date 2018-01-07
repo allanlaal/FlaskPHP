@@ -114,15 +114,19 @@
 		 *   Init the model object
 		 *   ---------------------
 		 *   @access public
+		 *   @param bool $initModel Init model?
 		 *   @return \Codelab\FlaskPHP\Model\ModelInterface
 		 *
 		 */
 
-		public function __construct()
+		public function __construct( bool $initModel=true )
 		{
-			$this->initModel();
-			$this->initFields();
-			$this->setDefaults();
+			if ($initModel)
+			{
+				$this->initModel();
+				$this->initFields();
+				$this->setDefaults();
+			}
 		}
 
 
