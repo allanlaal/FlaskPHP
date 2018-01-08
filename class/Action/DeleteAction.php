@@ -98,6 +98,38 @@
 
 		/**
 		 *
+		 *   Trigger: pre-delete
+		 *   -------------------
+		 *   @access public
+		 *   @throws \Exception
+		 *   @return void
+		 *
+		 */
+
+		public function triggerPreDelete()
+		{
+			// This can be implemented in the subclass.
+		}
+
+
+		/**
+		 *
+		 *   Trigger: post-delete
+		 *   --------------------
+		 *   @access public
+		 *   @throws \Exception
+		 *   @return void
+		 *
+		 */
+
+		public function triggerPostDelete()
+		{
+			// This can be implemented in the subclass.
+		}
+
+
+		/**
+		 *
 		 *   Run action and return response
 		 *   ------------------------------
 		 *   @access public
@@ -122,6 +154,9 @@
 			// Load
 			$Object=$this->model::getObject(intval(Flask()->Request->postVar($this->model->getParam('idfield'))));
 
+			// Pre-delete trigger
+			$this->triggerPreDelete();
+
 			// Delete
 			$Object->delete(
 				$this->getParam('log_message'),
@@ -130,6 +165,9 @@
 				$this->getParam('log_op'),
 				($this->getParam('skipvalidation')?true:false)
 			);
+
+			// Post-delete trigger
+			$this->triggerPostDelete();
 
 			// Response
 			$response=new \stdClass();
