@@ -121,10 +121,13 @@
 
 
 		/**
+		 *
 		 *   Init controller mapper handlers
+		 *   -------------------------------
 		 *   @access public
 		 *   @throws \Exception
 		 *   @return void
+		 *
 		 */
 
 		public function initControllerMappers()
@@ -161,10 +164,13 @@
 
 
 		/**
+		 *
 		 *   Handle request
+		 *   --------------
 		 *   @access public
 		 *   @throws \Exception
 		 *   @return void
+		 *
 		 */
 
 		public function handleRequest()
@@ -296,10 +302,13 @@
 
 
 		/**
+		 *
 		 *   Run controller
+		 *   --------------
 		 *   @access public
 		 *   @throws \Exception
 		 *   @return void
+		 *
 		 */
 
 		public function runController()
@@ -313,11 +322,14 @@
 
 
 		/**
-		 *  Sanitize input
-		 *  @access public
-		 *  @static
-		 *  @param mixed $value Value
-		 *  @return mixed Sanitized value
+		 *
+		 *   Sanitize input
+		 *   --------------
+		 *   @access public
+		 *   @static
+		 *   @param mixed $value Value
+		 *   @return mixed Sanitized value
+		 *
 		 */
 
 		public static function sanitizeInput( $value )
@@ -338,12 +350,15 @@
 
 
 		/**
+		 *
 		 *   Get GET variable
+		 *   ----------------
 		 *   @access public
 		 *   @param string $var Variable name
 		 *   @param bool $sanitize Sanitize input
 		 *   @throws \Exception
 		 *   @return mixed
+		 *
 		 */
 
 		public function getVar( string $var, bool $sanitize=true )
@@ -358,12 +373,15 @@
 
 
 		/**
+		 *
 		 *   Get POST variable
+		 *   -----------------
 		 *   @access public
 		 *   @param string $var Variable name
 		 *   @param bool $sanitize Sanitize input
 		 *   @throws \Exception
 		 *   @return mixed
+		 *
 		 */
 
 		public function postVar( string $var, bool $sanitize=true )
@@ -378,12 +396,15 @@
 
 
 		/**
+		 *
 		 *   Get URI variable
+		 *   ----------------
 		 *   @access public
 		 *   @param string $var Variable name
 		 *   @param bool $sanitize Sanitize input
 		 *   @throws \Exception
 		 *   @return mixed
+		 *
 		 */
 
 		public function uriVar( string $var, bool $sanitize=true )
@@ -398,12 +419,15 @@
 
 
 		/**
+		 *
 		 *   Get URI variable by position
+		 *   ----------------------------
 		 *   @access public
 		 *   @param string $var Variable name
 		 *   @param bool $sanitize Sanitize input
 		 *   @throws \Exception
 		 *   @return mixed
+		 *
 		 */
 
 		public function uriVarByPos( int $pos, bool $sanitize=true )
@@ -419,9 +443,12 @@
 
 
 		/**
+		 *
 		 *   Is user using Internet Explorer?
+		 *   --------------------------------
 		 *   @access public
 		 *   @return boolean
+		 *
 		 */
 
 		public function isIE()
@@ -434,9 +461,12 @@
 
 
 		/**
+		 *
 		 *   Are we handling an XHR?
+		 *   -----------------------
 		 *   @access public
 		 *   @return boolean
+		 *
 		 */
 
 		public function isXHR()
@@ -446,9 +476,12 @@
 
 
 		/**
+		 *
 		 *   Get user's IP
+		 *   -------------
 		 *   @access public
 		 *   @return string IP
+		 *
 		 */
 
 		public function remoteIP()
@@ -469,9 +502,12 @@
 
 
 		/**
+		 *
 		 *   Get user's hostname
+		 *   -------------------
 		 *   @access public
 		 *   @return string hostname/IP
+		 *
 		 */
 
 		public function remoteHost()
@@ -492,9 +528,12 @@
 
 
 		/**
+		 *
 		 *   Get request method
+		 *   ------------------
 		 *   @access public
 		 *   @return string Request method
+		 *
 		 */
 
 		public function getRequestMethod()
@@ -504,9 +543,12 @@
 
 
 		/**
-		 *  Get request URI
-		 *  @access public
-		 *  @return string Request URI
+		 *
+		 *   Get request URI
+		 *   ---------------
+		 *   @access public
+		 *   @return string Request URI
+		 *
 		 */
 
 		public function getRequestURI()
@@ -516,14 +558,40 @@
 
 
 		/**
-		 *  Get request URL
-		 *  @access public
-		 *  @return string Request URL
+		 *
+		 *   Get request URL
+		 *   ---------------
+		 *   @access public
+		 *   @return string Request URL
+		 *
 		 */
 
 		public function getRequestURL()
 		{
 			return $this->requestURL;
+		}
+
+
+		/**
+		 *
+		 *   Get request header
+		 *   ------------------
+		 *   @access public
+		 *   @param string $headerName Header name
+		 *   @param bool $sanitize Sanitize input
+		 *   @throws \Exception
+		 *   @return mixed
+		 *
+		 */
+
+		public function getRequestHeader( string $headerName, bool $sanitize=true )
+		{
+			if (array_key_exists($headerName,$this->requestHeader))
+			{
+				if ($sanitize) return static::sanitizeInput($_POST[$this->requestHeader]);
+				return $_POST[$this->requestHeader];
+			}
+			return null;
 		}
 
 
