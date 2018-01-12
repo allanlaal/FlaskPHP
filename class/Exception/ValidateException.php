@@ -48,6 +48,26 @@
 
 		/**
 		 *
+		 *   Format for display
+		 *   ------------------
+		 *   @access public
+		 *   @return string
+		 *
+		 */
+
+		public function __toString()
+		{
+			$retval=array();
+			foreach ($this->validateErrors as $k => $v)
+			{
+				$retval[]=$k.': '.$v;
+			}
+			return join(' / ',$retval);
+		}
+
+
+		/**
+		 *
 		 *   Get errors
 		 *   ----------
 		 *   @access public
