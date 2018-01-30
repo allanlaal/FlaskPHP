@@ -387,6 +387,7 @@
 			Flask()->Cache->modelCache[mb_strtolower(get_called_class())][$this->_oid]=&$this;
 
 			// Relations
+			/*
 			if (sizeof($this->_rel))
 			{
 				foreach ($this->_rel as $relID => $relObject)
@@ -396,6 +397,7 @@
 					$this->{$relID}=$relObject->relationRemoteModel::getObject($this->{$relObject->relationField});
 				}
 			}
+			*/
 
 			// Loaded
 			$this->_oid=$oid;
@@ -404,6 +406,59 @@
 
 			// Post-load trigger
 			$this->triggerPostLoad();
+		}
+
+
+		/**
+		 *
+		 *   Get trigger - lazy-load relations
+		 *   ---------------------------------
+		 *   @access public
+		 *   @param string $var Variable
+		 *   @return mixed
+		 */
+
+		public function __get( $var )
+		{
+			if (sizeof($this->_rel) && array_key_exists($var,$this->_rel))
+			{
+				$relObject=$this->_rel[$var];
+				if (empty($this->{$relObject->relationField})) return null;
+				if (intval($this->{$relObject->relationField})<1000000) return null;
+				if (!$relObject->relationLoaded)
+				{
+					$this->{$var}=$relObject->relationRemoteModel::getObject($this->{$relObject->relationField});
+					$relObject->relationLoaded=true;
+				}
+				return $this->{$var};
+			}
+			return null;
+		}
+
+
+		/**
+		 *
+		 *   Isset trigger - lazy-load relations
+		 *   -----------------------------------
+		 *   @access public
+		 *   @param string $var Variable
+		 *   @return boolean
+		 */
+
+		public function __isset( $var )
+		{
+			if (sizeof($this->_rel) && array_key_exists($var,$this->_rel))
+			{
+				$relObject=$this->_rel[$var];
+				if (empty($this->{$relObject->relationField})) return null;
+				if (intval($this->{$relObject->relationField})<1000000) return null;
+				if (!$relObject->relationLoaded)
+				{
+					$this->{$var}=$relObject->relationRemoteModel::getObject($this->{$relObject->relationField});
+					$relObject->relationLoaded=true;
+				}
+			}
+			return ($this->{$var}!==null?true:false);
 		}
 
 

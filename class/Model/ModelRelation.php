@@ -94,6 +94,15 @@
 
 
 		/**
+		 *   Is relation loaded?
+		 *   @var bool
+		 *   @access public
+		 */
+
+		public $relationLoaded = false;
+
+
+		/**
 		 *   The constructor function
 		 *   @access public
 		 *   @param string $id Relation ID
