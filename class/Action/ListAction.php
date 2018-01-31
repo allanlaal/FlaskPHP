@@ -983,9 +983,8 @@
 			foreach ($this->globalAction as $actionTag => $actionObject)
 			{
 				$listGlobalActions.='<div class="list-global-action ui basic button"  onclick="'.$actionObject->getParam('action').'">';
-				if ($actionObject->hasParam('icon')) $listGlobalActions.='<span class="icon-'.$actionObject->getParam('icon').'">';
+				if ($actionObject->hasParam('icon')) $listGlobalActions.='<i class="'.$actionObject->getParam('icon').' icon"></i> ';
 				$listGlobalActions.=$actionObject->getParam('title');
-				$listGlobalActions.='</span>';
 				$listGlobalActions.='</div>';
 			}
 			$listGlobalActions.='</div>';
@@ -1824,7 +1823,7 @@
 			$returnLink=null;
 			if ($this->hasParam('returnlink'))
 			{
-				$returnLink='<div class="returnlink"><a href="'.$this->getParam('returnlink').'"><span class="icon-back"></span> '.oneof($this->getParam('returnlink_title'),'[[ FLASK.LIST.Return ]]').'</a></div>';
+				$returnLink='<div class="returnlink"><a href="'.$this->getParam('returnlink').'"><i class="reply icon"></i>'.oneof($this->getParam('returnlink_title'),'[[ FLASK.LIST.Return ]]').'</a></div>';
 				$this->template->set('list_returnlink',$returnLink);
 			}
 			return $returnLink;

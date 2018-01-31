@@ -193,7 +193,7 @@
 				$displayValue=oneof(
 					$this->getParam('list_checkboxtitle'),
 					$this->getParam('checkboxtitle'),
-					'<span class="icon-check-1"></span>'
+					'<i class="check square icon"></i>'
 				);
 				return $displayValue;
 			}

@@ -1572,7 +1572,7 @@ Flask.Chooser = {
 		html='<div class="chooser-modal">';
 		html+='<div class="ui fluid action input">';
 		html+='<input type="text" class="chooser-modal-searchinput" id="'+fieldTag+'_search" placeholder="'+param.search_placeholder+'" autocomplete="off" maxlength="255">';
-		html+='<button class="ui button" id="'+fieldTag+'_submit"><span class="icon-search"></span> '+Locale.get('FLASK.FIELD.Chooser.Search.Submit')+'</button>';
+		html+='<button class="ui button" id="'+fieldTag+'_submit"><i class="search icon"></i> '+Locale.get('FLASK.FIELD.Chooser.Search.Submit')+'</button>';
 		if (param.addform!=null && param.addform==1) {
 			html+='<button class="ui basic button ml-2" id="'+fieldTag+'_addform">'+param.addform_buttontitle+'</button>';
 		}

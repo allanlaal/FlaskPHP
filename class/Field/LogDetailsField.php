@@ -112,7 +112,7 @@
 			$logData=base64_encode(FlaskPHP\Template\Template::parseContent($logData));
 
 			// Link
-			$link='<a onclick="Flask.LogData.showLogData(\''.$logData.'\')" data-tooltip="[[ FLASK.LOG.Fld.LogData.View ]]" data-inverted=""><span class="icon-log"></span></a>';
+			$link='<a onclick="Flask.LogData.showLogData(\''.$logData.'\')" data-tooltip="[[ FLASK.LOG.Fld.LogData.View ]]" data-inverted=""><i class="book icon"></i></a>';
 			return $link;
 		}
 

@@ -268,7 +268,7 @@
 				{
 					$param->addform=1;
 					$param->addform_url=$this->getParam('chooser_addform_url');
-					$param->addform_buttontitle=oneof($this->getParam('chooser_addform_buttontitle'),'<span class="icon-add"></span> [[ FLASK.FIELD.Chooser.AddNew.Submit ]]');
+					$param->addform_buttontitle=oneof($this->getParam('chooser_addform_buttontitle'),'<i class="add icon"></i> [[ FLASK.FIELD.Chooser.AddNew.Submit ]]');
 				}
 				$param=FlaskPHP\Util::htmlJSON($param);
 				if ($this->getParam('chooser_data'))
@@ -279,7 +279,7 @@
 				{
 					$data='{}';
 				}
-				$c.='<button type="button" class="ui button" onclick="Flask.Chooser.openModal(\''.$this->tag.'\','.$param.','.$data.')">'.oneof($this->getParam('chooser_choosebuttontitle'),'<span class="icon-search"></span>').'</button>';
+				$c.='<button type="button" class="ui button" onclick="Flask.Chooser.openModal(\''.$this->tag.'\','.$param.','.$data.')">'.oneof($this->getParam('chooser_choosebuttontitle'),'<i class="search icon"></i>').'</button>';
 
 			$c.='</div>';
 

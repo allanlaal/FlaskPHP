@@ -336,7 +336,7 @@
 			// Password suggest
 			if ($this->getParam('form_suggest'))
 			{
-				$c.='<a class="ui tag label" onclick="Flask.Password.suggestPassword(\''.$this->tag.'\')"><span class="icon-bulb"></span></a>';
+				$c.='<a class="ui tag label" onclick="Flask.Password.suggestPassword(\''.$this->tag.'\')"><i class="idea icon"></i></a>';
 				$c.='</div>';
 			}
 

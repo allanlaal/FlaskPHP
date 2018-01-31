@@ -200,7 +200,7 @@
 					foreach ($this->getParam('data') as $dataKey => $dataValue) $filterElement.=' data-'.$dataKey.'="'.htmlspecialchars($dataValue).'"';
 				}
 			$filterElement.='>';
-			$filterElement.='<a class="ui tag label" onclick="$(this).parent(\'.ui.calendar\').calendar(\'popup\',\'show\')"><span class="icon-calendar"></span></a>';
+			$filterElement.='<a class="ui tag label" onclick="$(this).parent(\'.ui.calendar\').calendar(\'popup\',\'show\')"><i class="fitted calendar icon"></i></a>';
 			$filterElement.='</div>';
 			$filterElement.='</div>';
 
@@ -233,7 +233,7 @@
 					foreach ($this->getParam('data') as $dataKey => $dataValue) $filterElement.=' data-'.$dataKey.'="'.htmlspecialchars($dataValue).'"';
 				}
 			$filterElement.='>';
-			$filterElement.='<a class="ui tag label" onclick="$(this).parent(\'.ui.calendar\').calendar(\'popup\',\'show\')"><span class="icon-calendar"></span></a>';
+			$filterElement.='<a class="ui tag label" onclick="$(this).parent(\'.ui.calendar\').calendar(\'popup\',\'show\')"><i class="fitted calendar icon"></i></a>';
 			$filterElement.='</div>';
 			$filterElement.='</div>';
 

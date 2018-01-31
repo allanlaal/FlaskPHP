@@ -256,7 +256,7 @@
 			$c.='>';
 
 			// Activator
-			$c.='<a class="ui tag label" onclick="$(this).parent(\'.ui.calendar\').calendar(\'popup\',\'show\')"><span class="icon-calendar"></span></a>';
+			$c.='<a class="ui tag label" onclick="$(this).parent(\'.ui.calendar\').calendar(\'popup\',\'show\')"><i class="fitted calendar icon"></i></a>';
 
 			// Wrapper ends
 			$c.='</div>';

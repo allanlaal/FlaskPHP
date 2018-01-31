@@ -217,7 +217,7 @@
 			$returnLink='';
 			if ($this->hasParam('returnlink'))
 			{
-				$returnLink='<div class="returnlink mt-4 text-center"><a href="'.$this->getParam('returnlink').'"><span class="icon-back"></span> '.oneof($this->getParam('returnlink_title'),'[[ FLASK.LIST.Return ]]').'</a></div>';
+				$returnLink='<div class="returnlink mt-4 text-center"><a href="'.$this->getParam('returnlink').'"><i class="reply icon"></i>'.oneof($this->getParam('returnlink_title'),'[[ FLASK.LIST.Return ]]').'</a></div>';
 			}
 			return $returnLink;
 		}
