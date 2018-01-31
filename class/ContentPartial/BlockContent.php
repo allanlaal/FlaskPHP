@@ -171,6 +171,36 @@
 			$blockContent='';
 
 				// Header
+				if ($this->getParam('title') || $this->getParam('headeritems'))
+				{
+					$blockContent.='<div class="ui top attached secondary segment">';
+
+						if ($this->getParam('headeritems'))
+						{
+							$blockContent.='<div class="flask blockcontent header wrapper">';
+						}
+
+						if ($this->getParam('title'))
+						{
+							$blockContent.='<div class="title"><h4>'.$this->getParam('title').'</h4></div>';
+						}
+
+						if ($this->getParam('headeritems'))
+						{
+							$blockContent.='<div class="headeritems">';
+							foreach ($this->getParam('headeritems') as $k => $actionItem)
+							{
+								if (!($actionItem instanceof BlockContentHeaderItem)) throw new FlaskPHP\Exception\InvalidParameterException('Member '.$k.' of $actions is not an instance of BlockContentHeaderItem.');
+								$blockContent.=$actionItem->renderItem();
+							}
+							$blockContent.='</div>';
+							$blockContent.='</div>';
+						}
+
+					$blockContent.='</div>';
+				}
+
+				/*
 				if ($this->getParam('headeritems'))
 				{
 					$blockContent.='<div class="ui top attached menu'.($this->getParam('class')?' '.$this->getParam('class'):'').'"'.($this->getParam('id')?' id="'.$this->getParam('id').'_title"':'').'>';
@@ -181,11 +211,6 @@
 						$blockContent.='</h4>';
 					}
 					$blockContent.='<div class="right menu">';
-					foreach ($this->getParam('headeritems') as $k => $actionItem)
-					{
-						if (!($actionItem instanceof BlockContentHeaderItem)) throw new FlaskPHP\Exception\InvalidParameterException('Member '.$k.' of $actions is not an instance of BlockContentHeaderItem.');
-						$blockContent.=$actionItem->renderItem();
-					}
 					$blockContent.='</div>';
 					$blockContent.='</div>';
 				}
@@ -195,6 +220,7 @@
 					$blockContent.=$this->getParam('title');
 					$blockContent.='</div>';
 				}
+				*/
 
 				// Content
 				$contentBody=$this->getParam('content');

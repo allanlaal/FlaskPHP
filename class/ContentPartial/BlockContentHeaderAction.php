@@ -125,6 +125,7 @@
 				$this->setParam('subitems',array());
 			}
 			$this->_param['subitems'][]=$item;
+			$item->setParam('parent',$this);
 			return $this;
 		}
 
@@ -166,22 +167,30 @@
 		public function renderItem()
 		{
 			// Class
-			$itemClass=oneof($this->getParam('class'),array());
-			$itemClass[]='ui dropdown item';
-			if ($this->getParam('icon')) $itemClass[]='icon';
+			if ($this->getParam('parent'))
+			{
+				$itemClass[]='item';
+			}
+			else
+			{
+				$itemClass=oneof(str_array($this->getParam('class')),array());
+				$itemClass[]='ui mini button';
+				if ($this->getParam('icon')) $itemClass[]='icon';
+				if ($this->getParam('subitems')) $itemClass[]='dropdown';
+			}
 
 			// Content
 			$itemContent='';
 			if ($this->getParam('link'))
 			{
-				$itemContent.='<a href="'.$this->getParam('link').'" class="'.join(' ',$itemClass).'" '.($this->getParam('id')?' id="'.$this->getParam('id').'"':'').'>';
+				$itemContent.='<a href="'.$this->getParam('link').'" class="'.join(' ',$itemClass).'" '.(($this->getParam('icon') && $this->getParam('title'))?' data-tooltip="'.$this->getParam('title').'" data-inverted=""':'').($this->getParam('id')?' id="'.$this->getParam('id').'"':'').'>';
 				if ($this->getParam('icon')) $itemContent.=$this->getParam('icon');
 				elseif ($this->getParam('title')) $itemContent.=$this->getParam('title');
 				$itemContent.='</a>';
 			}
 			else
 			{
-				$itemContent.='<div onclick="'.$this->getParam('action').'" class="'.join(' ',$itemClass).'" '.($this->getParam('id')?' id="'.$this->getParam('id').'"':'').'>';
+				$itemContent.='<div onclick="'.$this->getParam('action').'" class="'.join(' ',$itemClass).'" '.(($this->getParam('icon') && $this->getParam('title'))?' data-tooltip="'.$this->getParam('title').'" data-inverted=""':'').($this->getParam('id')?' id="'.$this->getParam('id').'"':'').'>';
 				if ($this->getParam('icon')) $itemContent.=$this->getParam('icon');
 				elseif ($this->getParam('title')) $itemContent.=$this->getParam('title');
 				if ($this->getParam('subitems'))
@@ -189,12 +198,13 @@
 					$itemContent.='<div class="menu">';
 					foreach ($this->getParam('subitems') as $subItem)
 					{
-						$itemContent.=$subItem->renderItem();
+						$itemContent.='<div class="item">'.$subItem->renderItem().'</div>';
 					}
 					$itemContent.='</div>';
 				}
 				$itemContent.='</div>';
 			}
+
 			return $itemContent;
 		}
 
