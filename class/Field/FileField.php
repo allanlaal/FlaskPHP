@@ -548,7 +548,7 @@
 				$c.='<input';
 					$c.=' type="file"';
 					$c.=' id="'.$this->tag.'"';
-					$c.=' name="'.$this->tag.'"';
+					$c.=' name="'.$this->tag.($this->getParam('multiple')?'[]':'').'"';
 					if ($this->getParam('multiple')) $c.=' multiple';
 					if ($this->getParam('form_keephiddenvalue')) $c.=' data-keephiddenvalue="1"';
 					if ($this->getParam('form_event'))
