@@ -944,6 +944,10 @@
 						{
 							$response->reload=1;
 						}
+						elseif ($this->getParam('successaction'))
+						{
+							$response->successaction=$this->getParam('successaction');
+						}
 						else
 						{
 							$response->redirect=$this->buildURL(oneof($this->getParam('url_cancel'),$this->getParam('url_return'),$this->buildURL()));
