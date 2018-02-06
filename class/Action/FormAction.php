@@ -22,6 +22,13 @@
 
 
 		/**
+		 *   Include standard Ajax action parameters
+		 */
+
+		use FlaskPHP\Traits\AjaxActionParameters;
+
+
+		/**
 		 *   Operation
 		 *   @var string
 		 *   @access public
