@@ -241,6 +241,8 @@
 				// Fire save triggers
 				foreach ($this->field as $fieldTag => $fieldObject)
 				{
+					if ($fieldObject->getParam('nosave')) continue;
+					if ($fieldObject->noSave()) continue;
 					$fieldObject->triggerFormSave();
 				}
 			}
