@@ -159,6 +159,23 @@
 
 		/**
 		 *
+		 *   Set chooser query data function
+		 *   -------------------------------
+		 *   @access public
+		 *   @param array $chooserData Search query data
+		 *   @return \Codelab\FlaskPHP\Field\ChooserField
+		 *
+		 */
+
+		public function setChooserDataFunction( string $chooserDataFunction )
+		{
+			$this->setParam('chooser_datafunction',$chooserDataFunction);
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Set choose button title
 		 *   -----------------------
 		 *   @access public
@@ -271,7 +288,11 @@
 					$param->addform_buttontitle=oneof($this->getParam('chooser_addform_buttontitle'),'<i class="add icon"></i> [[ FLASK.FIELD.Chooser.AddNew.Submit ]]');
 				}
 				$param=FlaskPHP\Util::htmlJSON($param);
-				if ($this->getParam('chooser_data'))
+				if ($this->getParam('chooser_datafunction'))
+				{
+					$data=$this->getParam('chooser_datafunction');
+				}
+				elseif ($this->getParam('chooser_data'))
 				{
 					$data=FlaskPHP\Util::htmlJSON($this->getParam('chooser_data'));
 				}
