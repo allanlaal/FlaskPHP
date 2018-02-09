@@ -168,6 +168,40 @@
 
 		/**
 		 *
+		 *   Set filter wrapper class
+		 *   ----------------------------
+		 *   @access public
+		 *   @param string $wrapperClass Wrapper element class
+		 *   @return \Codelab\FlaskPHP\Action\ListFilterInterface
+		 *
+		 */
+
+		public function setWrapperClass( string $wrapperClass )
+		{
+			$this->setParam('wrapperclass',$wrapperClass);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set form field class
+		 *   --------------------
+		 *   @access public
+		 *   @param string $fieldClass Field element class
+		 *   @return \Codelab\FlaskPHP\Action\ListFilterInterface
+		 *
+		 */
+
+		public function setFieldClass( string $fieldClass )
+		{
+			$this->setParam('fieldclass',$fieldClass);
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Get options
 		 *   -----------
 		 *   @access public
@@ -309,7 +343,7 @@
 
 		public function renderFilterBeginningBlock()
 		{
-			$filterBeginningBlock='<div class="filter-item column" id="filter_'.$this->tag.'">';
+			$filterBeginningBlock='<div class="filter-item '.($this->getParam('wrapperclass')).' column" id="filter_'.$this->tag.'">';
 			$filterBeginningBlock.='<div class="field">';
 			return $filterBeginningBlock;
 		}
