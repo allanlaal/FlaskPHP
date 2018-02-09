@@ -335,10 +335,31 @@ Flask.doAjaxAction = function( actionURL, actionData, param, confirmed )
 
 Flask.doPostSubmit = function( form_url, form_data, confirm_message, new_window )
 {
-	if (confirm_message!=null)
-	{
-		if (!confirm(confirm_message)) return;
+	// Confirm?
+	if (confirm_message!=null) {
+		var modalTag=Flask.Modal.createModal(Locale.get('FLASK.MODAL.Confirm'),confirm_message,null,{
+			modalclass: 'tiny'
+		});
+		Flask.Modal.setButtons(modalTag,{
+			ok: {
+				title: Locale.get('FLASK.MODAL.Btn.OK'),
+				class: 'primary',
+				onclick: function(){
+					Flask.Modal.closeModal(modalTag);
+					Flask.doPostSubmit(form_url,form_data,null,new_window);
+				}
+			},
+			cancel: {
+				title: Locale.get('FLASK.FORM.Btn.Cancel'),
+				onclick: function(){
+					Flask.Modal.closeModal(modalTag);
+				}
+			}
+		});
+		return;
 	}
+
+	// Post
 	var form_tag=Math.floor(Math.random()*100000+1);
 	if (new_window!=null && new_window=='1')
 	{
