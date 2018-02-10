@@ -843,6 +843,42 @@
 
 		/**
 		 *
+		 *   Set row numbering
+		 *   -----------------
+		 *   @access public
+		 *   @param bool $showRowNumbers Show row numbers
+		 *   @param bool $rowNumbersReversed Reversed row numbers?
+		 *   @param string $rowNumberColumnTitle Row number column title
+		 *   @param string $rowNumberColumnWidth Row number column width
+		 *   @param string $rowNumberColumnAlign Row number column align
+		 *   @return \Codelab\FlaskPHP\Action\ListAction
+		 *
+		 */
+
+		public function setRowNumbers( bool $showRowNumbers, bool $rowNumbersReversed=false, string $rowNumberColumnTitle='#', string $rowNumberColumnWidth=null, $rowNumberColumnAlign=null )
+		{
+			if ($showRowNumbers)
+			{
+				$this->setParam('rownumbers',true);
+				$this->setParam('rownumbers_reverse',$rowNumbersReversed);
+				$this->setParam('rownumbers_title',$rowNumberColumnTitle);
+				$this->setParam('rownumbers_fieldwidth',$rowNumberColumnWidth);
+				$this->setParam('rownumbers_fieldalign',$rowNumberColumnAlign);
+			}
+			else
+			{
+				$this->setParam('rownumbers',null);
+				$this->setParam('rownumbers_reverse',null);
+				$this->setParam('rownumbers_title',null);
+				$this->setParam('rownumbers_fieldwidth',null);
+				$this->setParam('rownumbers_fieldalign',null);
+			}
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Set return link
 		 *   ---------------
 		 *   @access public
@@ -1166,17 +1202,28 @@
 			$contentTableHeader.=$this->renderContentTableRowBeginningBlock('head');
 
 			// Row number
-			if ($this->getParam('rownum'))
+			if ($this->getParam('rownumbers'))
 			{
 				// Class
 				$fieldClass=array();
 				$fieldClass[]='list-table-header';
 				$fieldClass[]='list-rownum';
-				if ($this->getParam('headerclass_rownum')) $fieldClass[]=$this->getParam('headerclass_rownum');
-				if ($this->getParam('fieldclass_rownum')) $fieldClass[]=$this->getParam('fieldclass_rownum');
+				if ($this->getParam('rownumbers_headerclass')) $fieldClass[]=$this->getParam('rownumbers_headerclass');
+				if ($this->getParam('rownumbers_fieldclass')) $fieldClass[]=$this->getParam('rownumbers_fieldclass');
+
+				// Style
+				$fieldStyle=array();
+				if ($this->getParam('rownumbers_fieldstyle')) $fieldStyle[]=$this->getParam('rownumbers_fieldstyle');
+				if ($this->getParam('rownumbers_fieldwidth')) $fieldStyle[]='width: '.$this->getParam('rownumbers_fieldwidth');
+				if ($this->getParam('rownumbers_fieldalign')) $fieldStyle[]='text-align: '.$this->getParam('rownumbers_fieldalign');
 
 				// Cell
-				$contentTableHeader.='<th class="'.join(' ',$fieldClass).'"></th>';
+				$contentTableHeader.='<th';
+					if (sizeof($fieldClass)) $contentTableHeader.='  class="'.join(' ',$fieldClass).'"';
+					if (sizeof($fieldStyle)) $contentTableHeader.='  style="'.join(';',$fieldStyle).'"';
+				$contentTableHeader.='">';
+				$contentTableHeader.=$this->getParam('rownumbers_title');
+				$contentTableHeader.='</th>';
 			}
 
 			// Fields
@@ -1353,7 +1400,7 @@
 				$contentTableRows.=$this->renderContentTableRowBeginningBlock('body',$row);
 
 				// Row number
-				if ($this->getParam('rownum'))
+				if ($this->getParam('rownumbers'))
 				{
 					// Increment
 					$rowNum++;
@@ -1361,11 +1408,27 @@
 					// Class
 					$fieldClass=array();
 					$fieldClass[]='list-rownum';
-					if ($this->getParam('fieldclass_rownum')) $fieldClass[]=$this->getParam('fieldclass_rownum');
+					if ($this->getParam('rownumbers_fieldclass')) $fieldClass[]=$this->getParam('rownumbers_fieldclass');
+
+					// Style
+					$fieldStyle=array();
+					if ($this->getParam('rownumbers_fieldstyle')) $fieldStyle[]=$this->getParam('rownumbers_fieldstyle');
+					if ($this->getParam('rownumbers_fieldwidth')) $fieldStyle[]='width: '.$this->getParam('rownumbers_fieldwidth');
+					if ($this->getParam('rownumbers_fieldalign')) $fieldStyle[]='text-align: '.$this->getParam('rownumbers_fieldalign');
 
 					// Cell
-					$contentTableRows.='<td class="'.join(' ',$fieldClass).'">';
-					$contentTableRows.=intval($rowNum);
+					$contentTableRows.='<td';
+						if (!empty($fieldClass)) $contentTableRows.=' class="'.join(' ',$fieldClass).'"';
+						if (!empty($fieldStyle)) $contentTableRows.=' style="'.join(';',$fieldStyle).'"';
+					$contentTableRows.='>';
+					if ($this->getParam('rownumbers_reverse'))
+					{
+						$contentTableRows.=intval($this->dataFoundRows-$rowNum+1);
+					}
+					else
+					{
+						$contentTableRows.=intval($rowNum);
+					}
 					$contentTableRows.='</td>';
 				}
 
