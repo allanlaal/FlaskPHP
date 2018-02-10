@@ -473,13 +473,16 @@
 			$whereList=array();
 			foreach ($fieldList as $field)
 			{
+				$tablePrefix=true;
+				if (mb_strpos($field,'.')!==false) $tablePrefix=false;
+				if (mb_strpos($field,'(')!==false) $tablePrefix=false;
 				if ($this->getParam('exact') || !is_string($value))
 				{
-					$whereList[]=(mb_strpos($field,'.')===false?$this->listObject->model->getParam('table').'.':'').$field."=".$loadListParam::colValue($value);
+					$whereList[]=($tablePrefix?$this->listObject->model->getParam('table').'.':'').$field."=".$loadListParam::colValue($value);
 				}
 				else
 				{
-					$whereList[]=(mb_strpos($field,'.')===false?$this->listObject->model->getParam('table').'.':'').$field." like ".$loadListParam::colValue('%'.strval($value).'%');
+					$whereList[]=($tablePrefix?$this->listObject->model->getParam('table').'.':'').$field." like ".$loadListParam::colValue('%'.strval($value).'%');
 				}
 			}
 			$loadListParam->addWhere('('.join(') or (',$whereList).')');
