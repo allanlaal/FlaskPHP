@@ -233,20 +233,11 @@
 					// Cycle through mappers
 					foreach ($this->requestControllerMapper as $controllerMapper)
 					{
-						try
+						$requestController=$controllerMapper['mapper']->runControllerMapper($uriElement,$uriArray);
+						if (is_object($requestController))
 						{
-							$requestController=$controllerMapper['mapper']->runControllerMapper($uriElement,$uriArray);
-							if (is_object($requestController))
-							{
-								$this->requestControllerObject=$requestController;
-								continue 2;
-							}
-						}
-						catch (FlaskPHP\Exception\ControllerMapperException $e)
-						{
-							Flask()->Response->responseStatus=oneof($e->getCode(),404);
-							Flask()->Response->responseContent=$e->getMessage();
-							return;
+							$this->requestControllerObject=$requestController;
+							continue 2;
 						}
 					}
 
