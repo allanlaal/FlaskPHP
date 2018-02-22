@@ -813,16 +813,21 @@
 					{
 						if (!empty($this->getParam('log_refoid')))
 						{
-							// Numeric: konkreetne väärtus
-							if (is_numeric($this->getParam('log_refoid')))
+							$refOID=str_array($this->getParam('log_refoid'),',');
+							foreach ($refOID as $k => $v)
 							{
-								$refOID=$this->getParam('log_refoid');
+								// Numeric: specific value
+								if (is_numeric($v))
+								{
+									$refOID[$k]=$v;
+								}
+								// Otherwise: value of given field
+								else
+								{
+									$refOID[$k]=$this->{$v};
+								}
 							}
-							// Otherwise: antud välja väärtus
-							else
-							{
-								$refOID=$this->{$this->getParam('log_refoid')};
-							}
+							$refOID=join(',',$refOID);
 						}
 						else
 						{
@@ -988,16 +993,22 @@
 					{
 						if (!empty($this->getParam('log_refoid')))
 						{
-							// Numeric: a specific value
-							if (is_numeric($this->getParam('log_refoid')))
+							$refOID=str_array($this->getParam('log_refoid'),',');
+							foreach ($refOID as $k => $v)
 							{
-								$refOID=$this->getParam('log_refoid');
+								// Numeric: specific value
+								if (is_numeric($v))
+								{
+									$refOID[$k]=$v;
+								}
+
+								// Otherwise: value of given field
+								else
+								{
+									$refOID[$k]=$this->{$v};
+								}
 							}
-							// Otherwise: value of the given field
-							else
-							{
-								$refOID=$this->{$this->getParam('log_refoid')};
-							}
+							$refOID=join(',',$refOID);
 						}
 						else
 						{
