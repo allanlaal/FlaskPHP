@@ -1581,11 +1581,12 @@
 										$contentTableRows.=' href="'.$actionURL.'"';
 									}
 									$contentTableRows.='>';
-								}
-								$contentTableRows.=$actionObject->getParam('title');
-								if ($actionEnabled)
-								{
+									$contentTableRows.=$actionObject->getParam('title');
 									$contentTableRows.='</a>';
+								}
+								else
+								{
+									$contentTableRows.=oneof($actionObject->getParam('title_disabled'),$actionObject->getParam('title'));
 								}
 
 							// Action ends

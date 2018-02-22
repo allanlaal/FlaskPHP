@@ -99,6 +99,23 @@
 
 		/**
 		 *
+		 *   Set disabled title
+		 *   ------------------
+		 *   @access public
+		 *   @param string $disabledTitle Disabled title
+		 *   @return \Codelab\FlaskPHP\Action\ListActionInterface
+		 *
+		 */
+
+		public function setDisabledTitle( string $disabledTitle )
+		{
+			$this->setParam('title_disabled',$disabledTitle);
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Set URL
 		 *   -------
 		 *   @access public
