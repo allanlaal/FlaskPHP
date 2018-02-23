@@ -301,7 +301,7 @@
 				{
 					$field=$relationAlias.'.'.$field;
 				}
-				else
+				elseif (mb_strpos($field,'(')===false)
 				{
 					$field=$model->getParam('table').'.'.$field;
 				}
