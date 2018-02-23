@@ -1605,15 +1605,15 @@
 			// Init query
 			$query=oneof($param,Flask()->DB->getQueryBuilder());
 			$query->setModel($model);
-			$query->addField(oneof($keyField,$model->getParam('idfield')));
-			$query->addField($valueField);
+			$query->addField([oneof($keyField,$model->getParam('idfield')).' as keyfield']);
+			$query->addField([$valueField.' as valuefield']);
 			if ($model->getParam('setord'))
 			{
 				$query->addOrderBy('ord');
 			}
 			else
 			{
-				$query->addOrderBy(oneof($orderBy,$valueField));
+				$query->addOrderBy(oneof($orderBy,'valuefield'));
 			}
 
 			// Run query
@@ -1623,7 +1623,7 @@
 			$optionsList=array();
 			foreach ($dataset as $row)
 			{
-				$optionsList[$row[oneof($keyField,$model->getParam('idfield'))]]=$row[$valueField];
+				$optionsList[$row['keyfield']]=$row['valuefield'];
 			}
 			return $optionsList;
 		}
