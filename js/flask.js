@@ -512,6 +512,7 @@ Flask.initElements = function( base )
 
 	// Init tooltips
 	$(base+'[data-tooltip]').popup();
+	$(base+'[data-html]').popup();
 };
 
 
@@ -535,9 +536,9 @@ Flask.Modal = {
 		Flask.Modal.param[modalTag]=param;
 
 		// Draw
-		Flask.Modal.drawModal(modalTag,title,content,buttons);
+		Flask.Modal.drawModal(modalTag,title,content,buttons,param);
 		if (!(param.showoncreate!=null && param.showoncreate==false)) {
-			Flask.Modal.showModal(modalTag);
+			Flask.Modal.showModal(modalTag,param);
 		}
 
 		// Return tag
@@ -545,7 +546,7 @@ Flask.Modal = {
 	},
 
 	// Draw modal
-	drawModal: function( modalTag, title, content, buttons )
+	drawModal: function( modalTag, title, content, buttons, param )
 	{
 		// Param
 		var param=Flask.Modal.param[modalTag];
@@ -561,7 +562,7 @@ Flask.Modal = {
 
 		// Set content
 		if (title!=null && title!=false) {
-			Flask.Modal.setTitle(modalTag,title);
+			Flask.Modal.setTitle(modalTag,title,param.noclosebtn);
 		}
 		if (content!=null && content!=false) {
 			Flask.Modal.setContent(modalTag,content);
@@ -572,12 +573,13 @@ Flask.Modal = {
 	},
 
 	// Show modal
-	showModal: function( modalTag )
+	showModal: function( modalTag, param )
 	{
 		$('#'+modalTag).modal({
 			observeChanges: true,
 			allowMultiple: true,
 			autofocus: false,
+			closable: ((param.noclosebtn!=null && param.noclosebtn==true)?false:true),
 			onVisible: function(){
 				if ($("#"+modalTag+" .content .defaultfocus").length)
 				{
@@ -598,12 +600,14 @@ Flask.Modal = {
 				}
 			}
 		}).modal('show');
-		$("#"+modalTag).on('keypress',function(evt){
-			if (evt.which==27) {
-				Flask.Modal.closeModal(modalTag);
-				evt.stopPropagation()
-			}
-		});
+		if (param.noclosebtn==null) {
+			$("#"+modalTag).on('keypress',function(evt){
+				if (evt.which==27) {
+					Flask.Modal.closeModal(modalTag);
+					evt.stopPropagation()
+				}
+			});
+		}
 	},
 
 	// Open form modal
@@ -673,13 +677,15 @@ Flask.Modal = {
 	},
 
 	// Set title
-	setTitle: function( modalTag, title )
+	setTitle: function( modalTag, title, noclosebtn )
 	{
 		// Create header wrapper if needed
 		if ($("#"+modalTag+" .header").length==0) {
 			var modalHeader='<div class="header d-flex justify-content-between">';
 			modalHeader+='<div class="title text-left"></div>';
-			modalHeader+='<a class="close-btn text-right ml-4"><i class="remove icon"></i></a>';
+			if (noclosebtn==null || !noclosebtn) {
+				modalHeader+='<a class="close-btn text-right ml-4"><i class="remove icon"></i></a>';
+			}
 			modalHeader+='</div>';
 			$("#"+modalTag).prepend(modalHeader);
 		}
@@ -688,9 +694,11 @@ Flask.Modal = {
 		$("#"+modalTag+" .header .title").html(title);
 
 		// Set close button action
-		$("#"+modalTag+" .header .close-btn").on("click",function(){
-			Flask.Modal.closeModal(modalTag);
-		});
+		if (noclosebtn==null || !noclosebtn) {
+			$("#"+modalTag+" .header .close-btn").on("click",function(){
+				Flask.Modal.closeModal(modalTag);
+			});
+		}
 	},
 
 	// Set content
@@ -1450,9 +1458,15 @@ Flask.List = {
 Flask.ProgressDialog = {
 
 	// Show
-	show: function( message ) {
-		var progressHTML='<div id="progressdimmer" class="ui page active inverted dimmer"><div class="content"><div class="center"><div class="ui active centered inline large text loader">'+message+'</div></div></div></div>';
-		$('body').append(progressHTML);
+	show: function( message, container ) {
+		if (container!=null) {
+			var progressHTML='<div id="progressdimmer" class="ui active inverted dimmer"><div class="content"><div class="center"><div class="ui active centered inline large text loader">'+message+'</div></div></div></div>';
+			$(container).append(progressHTML);
+		}
+		else {
+			var progressHTML='<div id="progressdimmer" class="ui page active inverted dimmer"><div class="content"><div class="center"><div class="ui active centered inline large text loader">'+message+'</div></div></div></div>';
+			$('body').append(progressHTML);
+		}
 		$("#progressdimmer").dimmer({
 			closable: false
 		}).dimmer('show');
@@ -1605,7 +1619,7 @@ Flask.Chooser = {
 		var modalTag=Flask.Modal.createModal(param.search_title,html,null,{
 			modalTag: 'searchmodal_'+fieldTag
 		});
-		Flask.Modal.showModal(modalTag);
+		Flask.Modal.showModal(modalTag,param);
 		$("#"+fieldTag+'_search').focus();
 
 		// Attach events
