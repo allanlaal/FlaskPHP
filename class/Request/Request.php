@@ -283,7 +283,12 @@
 				{
 					$resolvedRequestBootstrapFile=Flask()->resolvePath($requestBootstrapFile);
 					if (!$resolvedRequestBootstrapFile) throw new FlaskPHP\Exception\FatalException('Request bootstrap file '.$requestBootstrapFile.' not found.');
-					require $resolvedRequestBootstrapFile;
+					$bootstrapRetVal=require($resolvedRequestBootstrapFile);
+					if (is_object($bootstrapRetVal) && ($bootstrapRetVal instanceof FlaskPHP\Response\ResponseInterface))
+					{
+						Flask()->Response->responseObject=$bootstrapRetVal;
+						return;
+					}
 				}
 			}
 
