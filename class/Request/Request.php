@@ -236,6 +236,7 @@
 						$requestController=$controllerMapper['mapper']->runControllerMapper($uriElement,$uriArray);
 						if (is_object($requestController))
 						{
+							$this->requestController=$uriElement;
 							$this->requestControllerObject=$requestController;
 							continue 2;
 						}
