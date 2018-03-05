@@ -66,6 +66,40 @@
 
 		/**
 		 *
+		 *   Set multiple select
+		 *   -------------------
+		 *   @access public
+		 *   @param bool $grouping Grouping enabled
+		 *   @return \Codelab\FlaskPHP\Field\SelectField
+		 *
+		 */
+
+		public function setMultiple( bool $multiple )
+		{
+			$this->setParam('multiple',$multiple);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set HTML values
+		 *   ---------------
+		 *   @access public
+		 *   @param bool $htmlValues HTML values?
+		 *   @return \Codelab\FlaskPHP\Field\SelectField
+		 *
+		 */
+
+		public function setHTMLValues( bool $htmlValues )
+		{
+			$this->setParam('htmlvalues',$htmlValues);
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Set empty select value
 		 *   ----------------------
 		 *   @access public
@@ -159,87 +193,170 @@
 			// Options
 			$options=$this->getOptions();
 
+			// Selected value
+			if (strval($value)=='' && !$this->getParam('select'))
+			{
+				if ($this->getParam('optgroup'))
+				{
+					foreach ($options as $optGroupName => $optGroupOptions)
+					{
+						$value=key($optGroupOptions);
+						break;
+					}
+				}
+				else
+				{
+					$value=key($options);
+				}
+			}
+
 			// Style
 			$style=array();
 			if ($this->getParam('form_fieldstyle')) $style[]=$this->getParam('form_fieldstyle');
 
 			// Class
-			$class=array('ui fluid dropdown');
-			if ($this->getParam('form_searchable')) $class[]='search selection';
+			$class=array('ui fluid selection dropdown');
+			if ($this->getParam('form_searchable')) $class[]='search';
 			if ($this->getParam('form_fieldclass')) $class[]=$this->getParam('form_fieldclass');
 
-			// Dropdown
-			$c='<select';
-			$c.=' id="'.$this->tag.'"';
-			$c.=' name="'.$this->tag.'"';
-			$c.=' class="'.join(' ',$class).'"';
-			if (!empty($style)) $c.=' style="'.join('; ',$style).'"';
-			$c.=' data-originalvalue="'.htmlspecialchars($value).'"';
-			if ($this->getParam('readonly') || $this->getParam('form_readonly')) $c.=' readonly="readonly"';
-			if ($this->getParam('disabled') || $this->getParam('form_disabled')) $c.=' disabled="disabled"';
-			if ($this->getParam('form_keephiddenvalue')) $c.=' data-keephiddenvalue="1"';
-			if ($this->getParam('form_event'))
-			{
-				foreach ($this->getParam('form_event') as $eventType => $eventContent) $c.=' '.$eventType.'="'.$eventContent.'"';
-			}
-			if ($this->getParam('form_data'))
-			{
-				foreach ($this->getParam('form_data') as $dataKey => $dataValue) $c.=' data-'.$dataKey.'="'.htmlspecialchars($dataValue).'"';
-			}
-			$c.='>';
+			// Wrapper
+			$c='<div class="'.join(' ',$class).'">';
 
-				// Select
-				if ($this->getParam('select')) $c.='<option value="">--- '.$this->getParam('select').' ---</option>';
-
-				// Options
-				if ($this->getParam('optgroup'))
+				// Input element
+				$c.='<input';
+				$c.=' type="hidden"';
+				$c.=' id="'.$this->tag.'"';
+				$c.=' name="'.$this->tag.'"';
+				$c.=' class="'.join(' ',$class).'"';
+				if (!empty($style)) $c.=' style="'.join('; ',$style).'"';
+				$c.=' value="'.htmlspecialchars($value).'"';
+				$c.=' data-originalvalue="'.htmlspecialchars($value).'"';
+				if ($this->getParam('readonly') || $this->getParam('form_readonly')) $c.=' readonly="readonly"';
+				if ($this->getParam('disabled') || $this->getParam('form_disabled')) $c.=' disabled="disabled"';
+				if ($this->getParam('form_keephiddenvalue')) $c.=' data-keephiddenvalue="1"';
+				if ($this->getParam('form_event'))
 				{
-					foreach ($options as $optGroupName => $optGroupOptions)
-					{
-						$c.='<optgroup label="'.htmlspecialchars($optGroupName).'">';
-						foreach ($optGroupOptions as $val => $description)
-						{
-							$c.='<option';
-							$c.=' value="'.htmlspecialchars($val).'"';
-							$c.=($val==$value?' selected="selected"':'');
-							if ($this->hasParam('form_optiondata') && is_array($this->getParam('form_optiondata')[$val]))
-							{
-								foreach ($this->getParam('form_optiondata')[$val] as $k => $v)
-								{
-									$c.=' data-'.$k.'="'.htmlspecialchars($v).'"';
-								}
-							}
-							$c.='>';
-							$c.=htmlspecialchars($description);
-							$c.='</option>';
-						}
-						$c.='</optgroup>';
-					}
+					foreach ($this->getParam('form_event') as $eventType => $eventContent) $c.=' '.$eventType.'="'.$eventContent.'"';
 				}
-				else
+				if ($this->getParam('form_data'))
 				{
-					foreach ($options as $val => $description)
+					foreach ($this->getParam('form_data') as $dataKey => $dataValue) $c.=' data-'.$dataKey.'="'.htmlspecialchars($dataValue).'"';
+				}
+				$c.='>';
+
+				// Selected item
+				$c.='<div class="text">';
+				if (!empty($value))
+				{
+					if ($this->getParam('optgroup'))
 					{
-						$c.='<option';
-						$c.=' value="'.htmlspecialchars($val).'"';
-						$c.=($val==$value?' selected="selected"':'');
-						if ($this->hasParam('form_optiondata') && is_array($this->getParam('form_optiondata')[$val]))
+						foreach ($options as $optGroupName=>$optGroupOptions)
 						{
-							foreach ($this->getParam('form_optiondata')[$val] as $k => $v)
+							if (array_key_exists($value,$optGroupOptions))
 							{
-								$c.=' data-'.$k.'="'.htmlspecialchars($v).'"';
+								$c.=$this->renderItem($value,$optGroupOptions[$value],false);
+								break;
 							}
 						}
-						$c.='>';
-						$c.=htmlspecialchars($description);
-						$c.='</option>';
+					}
+					else
+					{
+						$c.=$this->renderItem($value,strval($options[$value]),false);
 					}
 				}
+				$c.='</div>';
+
+				// Dropdown icon
+				$c.='<i class="dropdown icon"></i>';
+
+				// Options wrapper
+				$c.='<div class="menu">';
+
+					// Select
+					if ($this->getParam('select'))
+					{
+						$c.=$this->renderItem('',$this->getParam('select'));
+					}
+
+					// Options
+					if ($this->getParam('optgroup'))
+					{
+						$o=0;
+						foreach ($options as $optGroupName => $optGroupOptions)
+						{
+							if (!sizeof($optGroupOptions)) continue;
+							if ($o)
+							{
+								$c.='<div class="divider"></div>';
+							}
+							$c.='<div class="header">'.$optGroupName.'</div>';
+							$o++;
+							foreach ($optGroupOptions as $val => $description)
+							{
+								$c.=$this->renderItem($val,$description);
+							}
+						}
+					}
+					else
+					{
+						foreach ($options as $val => $description)
+						{
+							$c.=$this->renderItem($val,$description);
+						}
+					}
+
+				// Options wrapper
+				$c.='</div>';
 
 			// Dropdown ends
-			$c.='</select>';
+			$c.='</div>';
 
 			// Field ends
+			return $c;
+		}
+
+
+		/**
+		 *
+		 *   Render item
+		 *   -----------
+		 *   @access private
+		 *   @param mixed $value Value
+		 *   @param string $description Description
+		 *   @param bool $wrapper Render wrapper div
+		 *   @throws \Exception
+		 *   @return string
+		 *
+		 */
+
+		private function renderItem( $value, string $description, bool $wrapper=true )
+		{
+			$c='';
+			if ($wrapper)
+			{
+				$c.='<div class="item"';
+				$c.=' data-value="'.htmlspecialchars(strval($value)).'"';
+				if (!empty($value) && $this->hasParam('form_optiondata') && is_array($this->getParam('form_optiondata')[$value]))
+				{
+					foreach ($this->getParam('form_optiondata')[$value] as $k => $v)
+					{
+						$c.=' data-'.$k.'="'.htmlspecialchars($v).'"';
+					}
+				}
+				$c.='>';
+			}
+			if ($this->getParam('htmlvalues'))
+			{
+				$c.=$description;
+			}
+			else
+			{
+				$c.=htmlspecialchars($description);
+			}
+			if ($wrapper)
+			{
+				$c.='</div>';
+			}
 			return $c;
 		}
 
