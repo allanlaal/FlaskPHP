@@ -264,6 +264,10 @@
 						$c.=$this->renderItem($value,strval($options[$value]),false);
 					}
 				}
+				elseif ($this->getParam('select'))
+				{
+					$c.=$this->renderItem('',$this->getParam('select'),false);
+				}
 				$c.='</div>';
 
 				// Dropdown icon
