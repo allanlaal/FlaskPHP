@@ -266,7 +266,7 @@
 				}
 				elseif ($this->getParam('select'))
 				{
-					$c.=$this->renderItem('',$this->getParam('select'),false);
+					$c.=$this->renderItem('','--- '.$this->getParam('select').' ---',false);
 				}
 				$c.='</div>';
 
@@ -279,7 +279,7 @@
 					// Select
 					if ($this->getParam('select'))
 					{
-						$c.=$this->renderItem('',$this->getParam('select'));
+						$c.=$this->renderItem('','--- '.$this->getParam('select').' ---');
 					}
 
 					// Options
