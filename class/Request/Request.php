@@ -585,8 +585,8 @@
 		{
 			if (array_key_exists($headerName,$this->requestHeader))
 			{
-				if ($sanitize) return static::sanitizeInput($_POST[$this->requestHeader]);
-				return $_POST[$this->requestHeader];
+				if ($sanitize) return static::sanitizeInput($this->requestHeader[$headerName]);
+				return $this->requestHeader[$headerName];
 			}
 			return null;
 		}
