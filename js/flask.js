@@ -1185,6 +1185,9 @@ Flask.Form = {
 		if ($("#"+field).parent().is('.ui.input') || $("#"+field).parent().is('.ui.dropdown')) {
 			$("#"+field).parent().parent().append('<div class="ui basic red pointing prompt label transition visible">'+error+'</div>');
 		}
+		else if ($("#field_"+field+" .ui.radiochecklist.segment").length) {
+			$("#field_"+field).append('<div class="ui basic red pointing prompt label transition visible">'+error+'</div>');
+		}
 		else {
 			$("#"+field).closest('.field').append('<div class="ui basic red pointing prompt label transition visible">'+error+'</div>');
 		}

@@ -169,7 +169,7 @@
 			if ($this->getParam('form_fieldclass')) $class[]=$this->getParam('form_fieldclass');
 
 			// Display options
-			$c='';
+			$c='<div class="ui radiochecklist segment">';
 			foreach ($options as $val => $description)
 			{
 
@@ -198,7 +198,7 @@
 				$c.='</div>';
 				$c.='</div>';
 			}
-
+			$c.='</div>';
 
 			// Field ends
 			return $c;

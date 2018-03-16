@@ -291,7 +291,7 @@
 			}
 
 			// Iterate through groups
-			$c='';
+			$c='<div class="ui radiochecklist segment">';
 			foreach ($options as $optGroupName => $optGroupOptions)
 			{
 				// Title
@@ -344,6 +344,7 @@
 					$c.='</div>';
 				}
 			}
+			$c.='</div>';
 
 			// Comment
 			$c.=$this->renderComment();
