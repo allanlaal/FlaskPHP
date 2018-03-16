@@ -173,7 +173,7 @@
 			foreach ($options as $val => $description)
 			{
 
-				$c.='<div class="field" style="'.$style.'">';
+				$c.='<div class="field" style="'.join('; ',$style).'">';
 				$c.='<div class="ui radio checkbox">';
 				$c.='<input';
 				$c.=' type="radio"';
