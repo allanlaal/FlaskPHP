@@ -126,55 +126,88 @@
 
 
 		/**
+		 *
 		 *   Set base URL
+		 *   ------------
 		 *   @access public
 		 *   @param string $baseURL Base URL
-		 *   @return void
 		 *   @throws \Exception
+		 *   @return ActionInterface
+		 *
 		 */
 
 		public function setBaseURL( string $baseURL )
 		{
 			$this->setParam('baseurl',$baseURL);
+			return $this;
 		}
 
 
 		/**
-		 *  Set template
-		 *  @access public
-		 *  @param string $template Template tag
-		 *  @return void
+		 *
+		 *   Set template
+		 *   ------------
+		 *   @access public
+		 *   @param string $template Template tag
+		 *   @return ActionInterface
+		 *
 		 */
 
 		public function setTemplate( string $template )
 		{
 			$this->setParam('template',$template);
+			return $this;
 		}
 
 
 		/**
+		 *
+		 *   Set response template
+		 *   ---------------------
+		 *   @access public
+		 *   @param string $responseTemplate Response template
+		 *   @return ActionInterface
+		 *
+		 */
+
+		public function setResponseTemplate( string $responseTemplate )
+		{
+			$this->setParam('responsetemplate',$responseTemplate);
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Set log message
+		 *   ---------------
 		 *   @access public
 		 *   @param string|bool $logMessage Log message
-		 *   @return void
+		 *   @return ActionInterface
+		 *
 		 */
 
 		public function setLogMessage( $logMessage )
 		{
 			$this->setParam('logmessage',$logMessage);
+			return $this;
 		}
 
 
 		/**
-		 *  Set log ref OID
-		 *  @access public
-		 *  @param integer|string $logRefOID Log ref OID (value or field name)
-		 *  @return void
+		 *
+		 *   Set log ref OID
+		 *   ---------------
+		 *   @access public
+		 *   @param integer|string $logRefOID Log ref OID (value or field name)
+		 *   @return ActionInterface
+		 *
 		 */
 
 		public function setLogRefOID ( $logRefOID )
 		{
 			$this->setParam('logrefoid',$logRefOID);
+			return $this;
 		}
 
 

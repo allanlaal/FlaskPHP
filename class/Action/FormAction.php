@@ -972,6 +972,7 @@
 
 				// Display form
 				$response=new FlaskPHP\Response\HTMLResponse();
+				if ($this->getParam('responsetemplate')) $response->setTemplate($this->getParam('responsetemplate'));
 				$response->setContent($this->displayForm());
 				return $response;
 			}
@@ -990,6 +991,7 @@
 				else
 				{
 					$response=new FlaskPHP\Response\HTMLResponse();
+					if ($this->getParam('responsetemplate')) $response->setTemplate($this->getParam('responsetemplate'));
 					$response->setContent('<h1>[[ FLASK.COMMON.Error ]]</h1><div class="error">'.htmlspecialchars($e->getMessage()).'</div>');
 					return $response;
 				}
