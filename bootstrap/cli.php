@@ -117,13 +117,25 @@
 	//  Init environment
 	//
 
-	if (is_array($FLASK->Config->get('app.bootstrap')))
+	if (is_array($FLASK->Config->get('bootstrap')))
 	{
-		foreach ($FLASK->Config->get('app.bootstrap') as $appBootstrapFile)
+		if (is_array($FLASK->Config->get('bootstrap.all')))
 		{
-			$resolvedAppBootstrapFile=Flask()->resolvePath($appBootstrapFile);
-			if (!$resolvedAppBootstrapFile) throw new FlaskPHP\Exception\FatalException('App bootstrap file '.$appBootstrapFile.' not found.');
-			require $resolvedAppBootstrapFile;
+			foreach ($FLASK->Config->get('bootstrap.all') as $bootstrapFile)
+			{
+				$resolvedBootstrapFile=Flask()->resolvePath($bootstrapFile);
+				if (!$resolvedBootstrapFile) throw new FlaskPHP\Exception\FatalException('General bootstrap file '.$bootstrapFile.' not found.');
+				require $resolvedBootstrapFile;
+			}
+		}
+		if (is_array($FLASK->Config->get('bootstrap.cli')))
+		{
+			foreach ($FLASK->Config->get('bootstrap.cli') as $bootstrapFile)
+			{
+				$resolvedBootstrapFile=Flask()->resolvePath($bootstrapFile);
+				if (!$resolvedBootstrapFile) throw new FlaskPHP\Exception\FatalException('HTTP bootstrap file '.$bootstrapFile.' not found.');
+				require $resolvedBootstrapFile;
+			}
 		}
 	}
 
