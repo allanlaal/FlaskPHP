@@ -445,15 +445,33 @@
 			// Get file contents
 			if (!file_exists($localeFile)) return;
 			if (!is_readable($localeFile)) return;
-			$fileContents=file($localeFile,FILE_IGNORE_NEW_LINES);
+			$fileContents=file_get_contents($localeFile);
 
-			// Parse
-			foreach ($fileContents as $line)
+			// JSON file?
+			if (mb_substr($fileContents,0,1)=='{')
 			{
-				$line=trim($line);
-				if ($line[0]=='/' || $line[0]=='#') continue;
-				list($key,$val)=preg_split("/\s+/", $line,2);
-				if (strlen($key) && strlen($val)) $this->set(trim($key),trim($val));
+				$fileContents=json_decode($fileContents,true);
+				if ($fileContents===null)
+				{
+					throw new FlaskPHP\Exception\Exception('Failed to parse locale file '.$localeFile.' as JSON.');
+				}
+				foreach ($fileContents as $key => $val)
+				{
+					$this->set($key,$val);
+				}
+			}
+
+			// Regular old-style file
+			else
+			{
+				$fileContents=str_array($fileContents,"\n");
+				foreach ($fileContents as $line)
+				{
+					$line=trim($line);
+					if ($line[0]=='/' || $line[0]=='#') continue;
+					list($key,$val)=preg_split("/\s+/", $line,2);
+					if (strlen($key) && strlen($val)) $this->set(trim($key),trim($val));
+				}
 			}
 		}
 
