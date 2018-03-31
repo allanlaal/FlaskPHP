@@ -48,6 +48,7 @@
 		 *   @param string $logData Detailed log data
 		 *   @param int $affectedOID Affected element OID (null=none)
 		 *   @param int $userOID User OID (null=current user)
+		 *   @param int $timestamp Timestamp (null=current time)
 		 *   @return void
 		 *
 		 */
@@ -61,7 +62,7 @@
 				{
 					$cols=array();
 					$cols['ref_oid']=$r;
-					$cols['affected_oid']=($affectedOID===null?$refOID:$affectedOID);
+					$cols['affected_oid']=($affectedOID===null?$r:$affectedOID);
 					$cols['user_oid']=($userOID!==null?$userOID:(Flask()->User->isLoggedIn()?Flask()->User->{Flask()->User->getParam('idfield')}:0));
 					$cols['log_tstamp']=($timestamp!==null?$timestamp:date('Y-m-d H:i:s'));
 					$cols['log_entry']=$logEntry;

@@ -836,7 +836,7 @@
 					}
 					$logData=($this->getParam('log')!=='simple'?oneof($logData,$this->getLogData(oneof($logOp,$op),$formObject,$refOID)):'');
 					$affectedOID=($refOID!=$this->{$this->getParam('idfield')}?$this->{$this->getParam('idfield')}:null);
-					FlaskPHP\Log\Log::logEntry($refOID,$logMessage,$logData,$affectedOID,($this->_add_user_oid?$this->_add_user_oid:null),($this->_add_tstamp?$this->_add_tstamp:null));
+					$this->addLogEntry($refOID,$logMessage,$logData,$affectedOID,($this->_add_user_oid?$this->_add_user_oid:null),($this->_add_tstamp?$this->_add_tstamp:null));
 				}
 
 				// Set $_in to current values
@@ -1017,7 +1017,7 @@
 					}
 					$logData=($this->getParam('log')!=='simple'?oneof($logData,$this->getLogData(oneof($logOp,'delete'),$formObject,$refOID)):'');
 					$affectedOID=($refOID!=$this->{$this->getParam('idfield')}?$this->{$this->getParam('idfield')}:null);
-					FlaskPHP\Log\Log::logEntry($refOID,$logMessage,$logData,$affectedOID);
+					$this->addLogEntry($refOID,$logMessage,$logData,$affectedOID);
 				}
 
 				// Post-save trigger
@@ -1360,6 +1360,35 @@
 
 			// Return
 			return $logData->getLogJSON();
+		}
+
+
+		/**
+		 *
+		 *   Add a log entry
+		 *   ----------------------------------
+		 *   @access public
+		 *   @param int $refOID Reference OID
+		 *   @param string $logEntry Log entry
+		 *   @param string $logData Detailed log data
+		 *   @param int $affectedOID Affected element OID (null=none)
+		 *   @param int $userOID User OID (null=current user)
+		 *   @param int $timestamp Timestamp (null=current time)
+		 *   @return void
+		 *
+		 */
+
+		public function addLogEntry( $refOID, $logEntry, $logData='', $affectedOID=null, $userOID=null, $timestamp=null )
+		{
+			try
+			{
+				FlaskPHP\Log\Log::logEntry($refOID,$logEntry,$logData,$affectedOID,$userOID,$timestamp);
+			}
+			catch (\Exception $e)
+			{
+throw $e;
+				return;
+			}
 		}
 
 
