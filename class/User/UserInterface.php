@@ -236,8 +236,8 @@
 
 				// Delete existing roles
 				$query=Flask()->DB->getQueryBuilder('DELETE');
-				$query->addTable('flask_user_role');
-				$query->addWhere('user_oid='.intval($this->{$this->getParam('idfield')}));
+				$query->addTable(oneof($this->getParam('roletable'),'flask_user_role'));
+				$query->addWhere($this->getParam('idfield').'='.intval($this->{$this->getParam('idfield')}));
 				Flask()->DB->queryDelete($query);
 
 				// Add new ones
@@ -257,9 +257,9 @@
 					foreach ($roleList as $role)
 					{
 						$cols=array();
-						$cols['user_oid']=$this->{$this->getParam('idfield')};
-						$cols['user_role']=$role;
-						Flask()->DB->queryInsert('flask_user_role',$cols);
+						$cols[$this->getParam('idfield')]=$this->{$this->getParam('idfield')};
+						$cols[oneof($this->getParam('roletable_rolefield'),'user_role')]=$role;
+						Flask()->DB->queryInsert(oneof($this->getParam('roletable'),'flask_user_role'),$cols);
 					}
 				}
 
