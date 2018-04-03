@@ -302,11 +302,11 @@
 		{
 			if (is_object($d))
 			{
-				$sortarr[$k]=$d->{$key};
+				$sortarr['s_'.$k]=$d->{$key};
 			}
 			elseif (is_array($d))
 			{
-				$sortarr[$k]=$d[$key];
+				$sortarr['s_'.$k]=$d[$key];
 			}
 			else
 			{
@@ -316,7 +316,7 @@
 		asort($sortarr,$sortFlags);
 		if ($reverse) $sortarr=array_reverse($sortarr);
 		$res=array();
-		foreach (array_keys($sortarr) as $k) $res[$k]=$dataset[$k];
+		foreach (array_keys($sortarr) as $k) $res[preg_replace("/^s_/","",$k)]=$dataset[preg_replace("/^s_/","",$k)];
 		return $res;
 	}
 	
