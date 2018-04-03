@@ -228,6 +228,7 @@ FLASK.FORM.Title.edit                                     Muokkaa merkintää
 FLASK.FORM.Btn.add                                        Lisää
 FLASK.FORM.Btn.edit                                       Tallenna
 FLASK.FORM.Btn.Cancel                                     Takaisin
+FLASK.FORM.Btn.Close                                      Sulje
 FLASK.FORM.Msg.Saving                                     Tietojen tallentaminen, odota hetki ...
 FLASK.FORM.Error.CouldNotFindForm                         Lomake ei löytynyt.
 FLASK.FORM.Error.Validate                                 Seuraavat virheet ilmenivät lomakkea vahvistaessa

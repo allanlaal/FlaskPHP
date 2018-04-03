@@ -228,6 +228,7 @@ FLASK.FORM.Title.edit                                                Edit entry
 FLASK.FORM.Btn.add                                                   Add
 FLASK.FORM.Btn.edit                                                  Save
 FLASK.FORM.Btn.Cancel                                                Cancel
+FLASK.FORM.Btn.Close                                                 Close
 FLASK.FORM.Msg.Saving                                                Saving data, please wait ...
 FLASK.FORM.Error.CouldNotFindForm                                    Could not find the form.
 FLASK.FORM.Error.Validate                                            The following errors occurred while validating form input

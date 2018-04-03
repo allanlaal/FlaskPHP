@@ -647,7 +647,7 @@ Flask.Modal = {
 					}
 					if ((param.cancelbtn==null || param.cancelbtn==false) && (data.cancelbtn==null || data.cancelbtn==false)) {
 						btns.cancel={
-							title: Locale.get('FLASK.FORM.Btn.Cancel'),
+							title: (btns.length?Locale.get('FLASK.FORM.Btn.Cancel'):Locale.get('FLASK.FORM.Btn.Close')),
 							onclick: function(){
 								Flask.Modal.closeModal(modalTag);
 							}

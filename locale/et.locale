@@ -216,6 +216,7 @@ FLASK.FORM.Title.edit                                     Muuda kirjet
 FLASK.FORM.Btn.add                                        Lisa
 FLASK.FORM.Btn.edit                                       Salvesta
 FLASK.FORM.Btn.Cancel                                     Tühista
+FLASK.FORM.Btn.Close                                      Sulge
 FLASK.FORM.Msg.Saving                                     Andmete salvestamine, üks hetk ...
 FLASK.FORM.Error.CouldNotFindForm                         Ei leidnud vormi.
 FLASK.FORM.Error.Validate                                 Vormi andmete kontrollimisel ilmnesid järgnevad vead
