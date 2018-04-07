@@ -130,6 +130,30 @@
 				'dateformat_check'  => '(\d\d)\.(\d\d)\.(\d\d\d\d)'
 			),
 
+			'fi' => array
+			 (
+				'tag'               => 'FI',
+				'name'              => 'Suomen kieli',
+				'name_short'        => 'Suomi',
+				'name_sel'          => 'Suomeksi',
+				'name_eng'          => 'Finnish',
+				'phplocale'         => 'fi_FI',
+				'dateformat_disp'   => 'd.m.Y',
+				'dateformat_check'  => '(\d\d)\.(\d\d)\.(\d\d\d\d)'
+			 ),
+
+			'sv' => array
+			 (
+				'tag'               => 'SV',
+				'name'              => 'Svenska',
+				'name_short'        => 'Svenska',
+				'name_sel'          => 'På svenska',
+				'name_eng'          => 'Swedish',
+				'phplocale'         => 'sv_SE',
+				'dateformat_disp'   => 'd.m.Y',
+				'dateformat_check'  => '(\d\d)\.(\d\d)\.(\d\d\d\d)'
+			 ),
+
 			'de' => array(
 				'tag'               => 'DE',
 				'name'              => 'Deutsch',
@@ -152,29 +176,28 @@
 				'dateformat_check'  => '(\d\d)\/(\d\d)\/(\d\d\d\d)'
 			),
 
-			'fi' => array
-			 (
-				'tag'        => 'FI',
-				'name'       => 'Suomen kieli',
-				'name_short' => 'Suomi',
-				'name_sel'   => 'Suomeksi',
-				'name_eng'   => 'Finnish',
-				'phplocale'  => 'fi_FI',
+			'fr' => array
+			(
+				'tag'               => 'FR',
+				'name'              => 'Français',
+				'name_short'        => 'Français',
+				'name_sel'          => 'En français',
+				'name_eng'          => 'French',
+				'phplocale'         => 'fr_FR',
 				'dateformat_disp'   => 'd.m.Y',
 				'dateformat_check'  => '(\d\d)\.(\d\d)\.(\d\d\d\d)'
-			 ),
+			),
 
-			'sv' => array
-			 (
-				'tag'        => 'SV',
-				'name'       => 'Svenska',
-				'name_short' => 'Svenska',
-				'name_sel'   => 'På svenska',
-				'name_eng'   => 'Swedish',
-				'phplocale'  => 'sv_SE',
+			'it' => array(
+				'tag'               => 'IT',
+				'name'              => 'Italiano',
+				'name_short'        => 'Italiano',
+				'name_sel'          => 'In italiano',
+				'name_eng'          => 'Italian',
+				'phplocale'         => 'it_IT',
 				'dateformat_disp'   => 'd.m.Y',
 				'dateformat_check'  => '(\d\d)\.(\d\d)\.(\d\d\d\d)'
-			 )
+			)
 
 		);
 
