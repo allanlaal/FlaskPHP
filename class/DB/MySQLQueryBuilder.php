@@ -49,7 +49,7 @@
 			}
 			elseif (is_string($value))
 			{
-				if (preg_match("/^([A-Za-z]+)\(.*?\)$/",trim($value)))
+				if (preg_match("/^([A-Z]+)\(.*?\)$/",trim($value)))
 				{
 					$retval=trim($value);
 				}
