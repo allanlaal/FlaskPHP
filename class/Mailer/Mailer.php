@@ -107,6 +107,33 @@
 
 		/**
 		 *
+		 *   Add CC recipient
+		 *   ----------------
+		 *   @access public
+		 *   @param string $address E-mail address
+		 *   @param string $name Name (optional)
+		 *   @throws \Exception
+		 *   @return void
+		 *
+		 */
+
+		public function AddCC( $address, $name='' )
+		{
+			if (Flask()->Debug->devEnvironment)
+			{
+				if (!Flask()->Config->get('dev.email')) throw new FlaskPHP\Exception\Exception('Cannot send e-mail: dev mode enabled, but dev.email not configured.');
+				parent::AddAddress(Flask()->Config->get('dev.email'),$name);
+			}
+			else
+			{
+				$recipients=str_array($address,',;');
+				foreach ($recipients as $email) parent::AddCC($email,$name);
+			}
+		}
+
+
+		/**
+		 *
 		 *   Add BCC recipient
 		 *   -----------------
 		 *   @access public
@@ -117,7 +144,7 @@
 		 *
 		 */
 
-		public function AddBCC ( $address, $name='' )
+		public function AddBCC( $address, $name='' )
 		{
 			if (Flask()->Debug->devEnvironment)
 			{
