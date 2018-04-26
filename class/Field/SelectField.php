@@ -152,7 +152,18 @@
 		public function listValue( $value, array &$row )
 		{
 			$options=$this->getOptions();
-			return htmlspecialchars($options[$value]);
+			if (mb_strlen($options[$value]))
+			{
+				return htmlspecialchars($options[$value]);
+			}
+			else
+			{
+				if (empty($value) && $this->hasParam('list_emptyvalue'))
+				{
+					return $this->getParam('list_emptyvalue');
+				}
+				return '';
+			}
 		}
 
 
