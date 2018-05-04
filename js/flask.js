@@ -1164,7 +1164,7 @@ Flask.Form = {
 	{
 		$("#"+formID).removeClass('error');
 		$("#"+formID+" .ui.red.label").remove();
-		$("#"+formID+".error.message").remove();
+		$("#"+formID+" .error.message").remove();
 	},
 
 	// Show errors
