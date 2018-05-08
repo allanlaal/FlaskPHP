@@ -27,13 +27,15 @@
 		 *   ------------------------
 		 *   @access public
 		 *   @param string $minDate Minimum allowed date
+		 *   @param string $minDateMessage Message to display in case of validation error
 		 *   @return \Codelab\FlaskPHP\Field\DateField
 		 *
 		 */
 
-		public function setMinDate( string $minDate )
+		public function setMinDate( string $minDate, string $minDateMessage=null )
 		{
 			$this->setParam('mindate',$minDate);
+			$this->setParam('mindate_message',$minDateMessage);
 			return $this;
 		}
 
@@ -44,13 +46,15 @@
 		 *   ------------------------
 		 *   @access public
 		 *   @param string $maxDate Maximum allowed date
+		 *   @param string $maxDateMessage Message to display in case of validation error
 		 *   @return \Codelab\FlaskPHP\Field\DateField
 		 *
 		 */
 
-		public function setMaxDate( string $maxDate )
+		public function setMaxDate( string $maxDate, string $maxDateMessage=null )
 		{
 			$this->setParam('maxdate',$maxDate);
+			$this->setParam('maxdate_message',$maxDateMessage);
 			return $this;
 		}
 
@@ -116,8 +120,16 @@
 			{
 				if (Flask()->I18n->toTimestamp($value)<strtotime($this->getParam('mindate').' midnight'))
 				{
+					if ($this->getParam('mindate_message'))
+					{
+						$validateError=str_replace('$mindate',Flask()->I18n->formatDate($this->getParam('mindate')),$this->getParam('mindate_message'));
+					}
+					else
+					{
+						$validateError='[[ FLASK.FIELD.Error.MinValue : minvalue='.Flask()->I18n->formatDate($this->getParam('mindate')).' ]]';
+					}
 					throw new FlaskPHP\Exception\ValidateException([
-						$this->tag => '[[ FLASK.FIELD.Error.MinValue : minvalue='.Flask()->I18n->formatDate($this->getParam('mindate')).' ]]'
+						$this->tag => $validateError
 					]);
 				}
 			}
@@ -125,8 +137,16 @@
 			{
 				if (Flask()->I18n->toTimestamp($value)>strtotime($this->getParam('maxdate').' midnight'))
 				{
+					if ($this->getParam('maxdate_message'))
+					{
+						$validateError=str_replace('$maxdate',Flask()->I18n->formatDate($this->getParam('maxdate')),$this->getParam('maxdate_message'));
+					}
+					else
+					{
+						$validateError='[[ FLASK.FIELD.Error.MaxValue : maxvalue='.Flask()->I18n->formatDate($this->getParam('maxdate')).' ]]';
+					}
 					throw new FlaskPHP\Exception\ValidateException([
-						$this->tag => '[[ FLASK.FIELD.Error.MaxValue : maxvalue='.Flask()->I18n->formatDate($this->getParam('maxdate')).' ]]'
+						$this->tag => $validateError
 					]);
 				}
 			}
