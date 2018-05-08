@@ -27,13 +27,15 @@
 		 *   -----------------------
 		 *   @access public
 		 *   @param int $minValue Minimum value
+		 *   @param string $minValueMessage Validation error message
 		 *   @return \Codelab\FlaskPHP\Field\NumberField
 		 *
 		 */
 
-		public function setMinimumLength( int $minValue )
+		public function setMinimumLength( int $minValue, string $minValueMessage=null )
 		{
 			$this->setParam('minvalue',$minValue);
+			$this->setParam('minvalue_message',$minValueMessage);
 			return $this;
 		}
 
@@ -44,12 +46,14 @@
 		 *   ------------------------
 		 *   @access public
 		 *   @param int $maxValue Maximum value
+		 *   @param string $maxValueMessage Validation error message
 		 *   @return \Codelab\FlaskPHP\Field\NumberField
 		 */
 
-		public function setMaximumValue( int $maxValue )
+		public function setMaximumValue( int $maxValue, string $maxValueMessage=null )
 		{
 			$this->setParam('maxvalue',$maxValue);
+			$this->setParam('maxvalue_message',$maxValueMessage);
 			return $this;
 		}
 
@@ -164,16 +168,32 @@
 			// Under minimum value
 			if ($this->getParam('minvalue') && round($value,intval($this->getParam('precision')))<round($this->getParam('minvalue'),intval($this->getParam('precision'))))
 			{
+				if ($this->getParam('minvalue_message'))
+				{
+					$validateError=str_replace('$minvalue',intval($this->getParam('minvalue')));
+				}
+				else
+				{
+					$validateError='[[ FLASK.FIELD.Error.MinValue : minvalue='.intval($this->getParam('minvalue')).' ]]';
+				}
 				throw new FlaskPHP\Exception\ValidateException([
-					$this->tag => '[[ FLASK.FIELD.Error.MinValue : minvalue='.intval($this->getParam('minvalue')).' ]]'
+					$this->tag => $validateError
 				]);
 			}
 
 			// Over maximum value
 			if ($this->getParam('maxvalue') && round($value,intval($this->getParam('precision')))>round($this->getParam('maxvalue'),intval($this->getParam('precision'))))
 			{
+				if ($this->getParam('maxvalue_message'))
+				{
+					$validateError=str_replace('$maxvalue',intval($this->getParam('maxvalue')));
+				}
+				else
+				{
+					$validateError='[[ FLASK.FIELD.Error.MaxValue: maxvalue='.intval($this->getParam('maxvalue')).' ]]';
+				}
 				throw new FlaskPHP\Exception\ValidateException([
-					$this->tag => '[[ FLASK.FIELD.Error.MaxValue: maxvalue='.intval($this->getParam('maxvalue')).' ]]'
+					$this->tag => $validateError
 				]);
 			}
 		}

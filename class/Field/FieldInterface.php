@@ -104,28 +104,32 @@
 		 *   @access public
 		 *   @param string $required Required (no, always, add, edit, if)
 		 *   @param string $requiredCondition Required condition
+		 *   @param string $requiredMessage Required validation error message
 		 *   @throws FlaskPHP\Exception\InvalidParameterException
 		 *   @return \Codelab\FlaskPHP\Field\FieldInterface
 		 */
 
-		public function setRequired( string $required, string $requiredCondition=null )
+		public function setRequired( string $required, string $requiredCondition=null, string $requiredMessage=null )
 		{
 			switch($required)
 			{
 				case 'no':
 					$this->unsetParam('required');
 					$this->unsetParam('required_cond');
+					$this->unsetParam('required_message');
 					break;
 				case 'always':
 				case 'add':
 				case 'edit':
 					$this->setParam('required',$required);
 					$this->unsetParam('required_cond');
+					$this->setParam('required_message',$requiredMessage);
 					break;
 				case 'if':
 					if (empty($requiredCondition)) throw new FlaskPHP\Exception\InvalidParameterException('Condition required if type is "if"');
 					$this->setParam('required',$required);
 					$this->setParam('required_cond',$requiredCondition);
+					$this->setParam('required_message',$requiredMessage);
 					break;
 				default:
 					throw new FlaskPHP\Exception\InvalidParameterException('Unknown required value: '.$required);
@@ -140,13 +144,15 @@
 		 *   ------------------------
 		 *   @access public
 		 *   @param int $minLength Minimum length
+		 *   @param string $minLengthMessage Validation error message
 		 *   @return \Codelab\FlaskPHP\Field\FieldInterface
 		 *
 		 */
 
-		public function setMinimumLength( int $minLength )
+		public function setMinimumLength( int $minLength, string $minLengthMessage=null )
 		{
 			$this->setParam('minlength',$minLength);
+			$this->setParam('minlength_message',$minLengthMessage);
 			return $this;
 		}
 
@@ -157,12 +163,14 @@
 		 *   ------------------------
 		 *   @access public
 		 *   @param int $maxLength Maximum length
+		 *   @param string $maxLengthMessage Validation error message
 		 *   @return \Codelab\FlaskPHP\Field\FieldInterface
 		 */
 
-		public function setMaximumLength( int $maxLength )
+		public function setMaximumLength( int $maxLength, string $maxLengthMessage=null )
 		{
 			$this->setParam('maxlength',$maxLength);
+			$this->setParam('maxlength_message',$maxLengthMessage);
 			return $this;
 		}
 
@@ -935,13 +943,13 @@
 				if (!mb_strlen($value))
 				{
 					throw new FlaskPHP\Exception\ValidateException([
-						$this->tag => '[[ FLASK.FIELD.Error.RequiredFieldEmpty ]]'
+						$this->tag => oneof($this->getParam('required_message'),'[[ FLASK.FIELD.Error.RequiredFieldEmpty ]]')
 					]);
 				}
 				if ((is_int($value) || is_float($value) || is_numeric($value)) && empty($value))
 				{
 					throw new FlaskPHP\Exception\ValidateException([
-						$this->tag => '[[ FLASK.FIELD.Error.RequiredFieldEmpty ]]'
+						$this->tag => oneof($this->getParam('required_message'),'[[ FLASK.FIELD.Error.RequiredFieldEmpty ]]')
 					]);
 				}
 			}
@@ -952,16 +960,32 @@
 			// Minimum length not met
 			if ($this->getParam('minlength') && mb_strlen($value)<$this->getParam('minlength'))
 			{
+				if ($this->getParam('minlength_message'))
+				{
+					$validateError=str_replace('$minlength',intval($this->getParam('minlength')));
+				}
+				else
+				{
+					$validateError='[[ FLASK.FIELD.Error.MinLength : minlength='.intval($this->getParam('minlength')).' ]]';
+				}
 				throw new FlaskPHP\Exception\ValidateException([
-					$this->tag => '[[ FLASK.FIELD.Error.MinLength : minlength='.intval($this->getParam('minlength')).' ]]'
+					$this->tag => $validateError
 				]);
 			}
 
 			// Over maximum length
 			if ($this->getParam('maxlength') && mb_strlen($value)>$this->getParam('maxlength'))
 			{
+				if ($this->getParam('maxlength_message'))
+				{
+					$validateError=str_replace('$maxlength',intval($this->getParam('maxlength')));
+				}
+				else
+				{
+					$validateError='[[ FLASK.FIELD.Error.MaxLength : maxlength='.intval($this->getParam('maxlength')).' ]]';
+				}
 				throw new FlaskPHP\Exception\ValidateException([
-					$this->tag => '[[ FLASK.FIELD.Error.MaxLength : maxlength='.intval($this->getParam('maxlength')).' ]]'
+					$this->tag => $validateError
 				]);
 			}
 
