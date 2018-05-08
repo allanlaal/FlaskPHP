@@ -69,7 +69,7 @@ FLASK.COMMON.Weeks                                        nädalat
 FLASK.COMMON.WeekAbbr                                     N
 FLASK.COMMON.Month                                        kuu
 FLASK.COMMON.Months                                       kuud
-FLASK.COMMON.MonthAbbr                                    M
+FLASK.COMMON.MonthAbbr                                    K
 FLASK.COMMON.Year                                         aasta
 FLASK.COMMON.Years                                        aastat
 FLASK.COMMON.YearAbbr                                     A
@@ -160,6 +160,7 @@ FLASK.FIELD.Error.NumberFld.Format.Negative               Väärtus ei ole korre
 FLASK.FIELD.Error.InvalidValue                            Vigane väärtus.
 FLASK.FIELD.Error.InvalidEmail                            Vigane e-mailiaadress.
 FLASK.FIELD.Error.InvalidDate                             Vigane kuupäev.
+FLASK.FIELD.Error.InvalidDate.Fmt                         Vigane kuupäev (pole $format formaadis).
 FLASK.FIELD.Error.InvalidTime                             Vigane kellaaeg.
 FLASK.FIELD.Error.IncompleteDateTime                      Puudulik kuupäev/kellaaeg.
 FLASK.FIELD.Error.PasswordWeak1                           Salasõna on liiga nõrk (peab sisaldama tähti ja numbreid).

@@ -464,7 +464,7 @@
 			}
 			else
 			{
-				throw new FlaskPHP\Exception\InvalidParameterException('[[ FLASK.COMMON.Error.Date.Invalid: '.FlaskPHP\Template\Template::parseContent($this->getDateFormat('disp_user')).' ]]');
+				throw new FlaskPHP\Exception\InvalidParameterException('[[ FLASK.FIELD.Error.InvalidDate.Fmt : format='.FlaskPHP\Template\Template::parseContent($this->getDateFormat('disp_user')).' ]]');
 			}
 
 			// Check
@@ -486,7 +486,7 @@
 			}
 			catch (\Exception $e)
 			{
-				throw new FlaskPHP\Exception\InvalidParameterException('[[ FLASK.COMMON.Error.Date.Invalid: '.FlaskPHP\Template\Template::parseContent($this->getDateFormat('disp_user')).' ]]');
+				throw new FlaskPHP\Exception\InvalidParameterException('[[ FLASK.FIELD.Error.InvalidDate.Fmt : format='.FlaskPHP\Template\Template::parseContent($this->getDateFormat('disp_user')).' ]]');
 			}
 
 			// Compile

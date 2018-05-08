@@ -184,6 +184,7 @@ FLASK.FIELD.Error.NumberFld.Format.Negative                          Field value
 FLASK.FIELD.Error.InvalidValue                                       Invalid value.
 FLASK.FIELD.Error.InvalidEmail                                       Invalid e-mail address.
 FLASK.FIELD.Error.InvalidDate                                        Invalid date.
+FLASK.FIELD.Error.InvalidDate.Fmt                                    Invalid date (not in $format format).
 FLASK.FIELD.Error.InvalidTime                                        Invalid time.
 FLASK.FIELD.Error.IncompleteDateTime                                 Incomplete date/time.
 FLASK.FIELD.Error.FileTypeNotAllowed                                 This type of file is not allowed.
