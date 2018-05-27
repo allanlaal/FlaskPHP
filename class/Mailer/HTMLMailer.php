@@ -155,7 +155,7 @@
 			}
 			else
 			{
-				$templateFilename=Flask()->getAppPath().'/template/mail.'.$this->template.'.tpl';
+				$templateFilename=Flask()->resolvePath('template/mail.'.$this->template.'.tpl');
 			}
 			if (!is_readable($templateFilename)) throw new FlaskPHP\Exception\Exception('Template not found or not readable.');
 
