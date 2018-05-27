@@ -121,7 +121,7 @@
 
 		public function addHeader( $label )
 		{
-			$this->tableRow[]='</tbody><tbody><tr><th colspan="2" class="info-table-header">'.htmlspecialchars($label).'</td></tr></tbody><tbody>';
+			$this->tableRow[]=(sizeof($this->tableRow)?'</tbody><tbody>':'').'<tr><th colspan="2" class="info-table-header">'.htmlspecialchars($label).'</td></tr></tbody><tbody>';
 			return $this;
 		}
 
