@@ -32,7 +32,7 @@
 		 *
 		 */
 
-		public function setMinimumLength( int $minValue, string $minValueMessage=null )
+		public function setMinimumValue( int $minValue, string $minValueMessage=null )
 		{
 			$this->setParam('minvalue',$minValue);
 			$this->setParam('minvalue_message',$minValueMessage);
