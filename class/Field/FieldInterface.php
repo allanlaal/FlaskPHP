@@ -498,6 +498,23 @@
 
 		/**
 		 *
+		 *   Keep form value when hidden
+		 *   ---------------------------
+		 *   @access public
+		 *   @param bool $keepHiddenValue Keep hidden value
+		 *   @return \Codelab\FlaskPHP\Field\FieldInterface
+		 *
+		 */
+
+		public function setFormKeepHiddenValue( bool $keepHiddenValue )
+		{
+			$this->setParam('form_keephiddenvalue',$keepHiddenValue);
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Set form field wrapper class
 		 *   ----------------------------
 		 *   @access public
