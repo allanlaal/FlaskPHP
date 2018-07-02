@@ -1504,12 +1504,13 @@
 		 *   @static
 		 *   @param FlaskPHP\DB\QueryBuilderInterface $param Additional parameters
 		 *   @param bool $throwExceptionOnError Throw exception on error
+		 *   @param bool $forceReload Force reload from DB
 		 *   @return ModelInterface
 		 *   @throws \Exception
 		 *
 		 */
 
-		public static function getObjectByQuery( FlaskPHP\DB\QueryBuilderInterface $param=null, $throwExceptionOnError=true )
+		public static function getObjectByQuery( FlaskPHP\DB\QueryBuilderInterface $param=null, $throwExceptionOnError=true, bool $forceReload=false )
 		{
 			// Check
 			if ($param===null) throw new FlaskPHP\Exception\InvalidParameterException('The $param parameter cannot be empty.');
@@ -1531,7 +1532,7 @@
 				if (sizeof($dataset)>1) throw new FlaskPHP\Exception\Exception('Multiple results found to query.');
 
 				// Return
-				return static::getObject($dataset[0][$model->getParam('idfield')]);
+				return static::getObject($dataset[0][$model->getParam('idfield')],$forceReload);
 			}
 			catch (\Exception $e)
 			{
@@ -1549,12 +1550,13 @@
 		 *   @static
 		 *   @param FlaskPHP\DB\QueryBuilderInterface $param Additional parameters
 		 *   @param string $keyField Key field
+		 *   @param bool $forceReload Force reload from DB
 		 *   @return array
 		 *   @throws \Exception
 		 *
 		 */
 
-		public static function getObjectList( FlaskPHP\DB\QueryBuilderInterface $param=null, string $keyField=null )
+		public static function getObjectList( FlaskPHP\DB\QueryBuilderInterface $param=null, string $keyField=null, bool $forceReload=false )
 		{
 			// Init class
 			$modelClassName=get_called_class();
@@ -1573,7 +1575,7 @@
 			$retval=array();
 			foreach ($dataset as $row)
 			{
-				$retval[$row[oneof($keyField,$model->getParam('idfield'))]]=static::getObject($row[$model->getParam('idfield')]);
+				$retval[$row[oneof($keyField,$model->getParam('idfield'))]]=static::getObject($row[$model->getParam('idfield')],$forceReload);
 			}
 
 			// Return
