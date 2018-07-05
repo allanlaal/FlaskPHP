@@ -197,6 +197,7 @@
 
 		public function renderResponse()
 		{
+			$this->outputHttpHeaders();
 			header('Content-type: '.$this->responseContentType.((!strncmp($this->responseContentType,'text/',5) && strpos($this->responseContentType,'charset=')===FALSE)?'; charset=UTF-8':''));
 			if (!array_key_exists('Content-length',$this->responseHeader))
 			{
