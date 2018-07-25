@@ -29,6 +29,14 @@
 
 
 		/**
+		 *   The object swapped with
+		 *   @var FlaskPHP\Model\ModelInterface
+		 */
+
+		var $swapWith = null;
+
+
+		/**
 		 *
 		 *   Init swap action
 		 *   ----------------
@@ -82,6 +90,38 @@
 
 		/**
 		 *
+		 *   Trigger: pre-swap
+		 *   -----------------
+		 *   @access public
+		 *   @throws \Exception
+		 *   @return void
+		 *
+		 */
+
+		public function triggerPreSwap()
+		{
+			// This can be implemented in the subclass.
+		}
+
+
+		/**
+		 *
+		 *   Trigger: post-swap
+		 *   ------------------
+		 *   @access public
+		 *   @throws \Exception
+		 *   @return void
+		 *
+		 */
+
+		public function triggerPostSwap()
+		{
+			// This can be implemented in the subclass.
+		}
+
+
+		/**
+		 *
 		 *   Run action and return response
 		 *   ------------------------------
 		 *   @access public
@@ -106,12 +146,15 @@
 			if (!intval(Flask()->Request->postVar('with'))) throw new FlaskPHP\Exception\InvalidParameterException('[[ FLASK.COMMON.Error.InvalidRequest ]]');
 
 			// Load
-			$Object=$this->model::getObject(intval(Flask()->Request->postVar($this->model->getParam('idfield'))));
-			$SwapWith=$this->model::getObject(intval(Flask()->Request->postVar('with')));
+			$Object=$this->model=$this->model::getObject(intval(Flask()->Request->postVar($this->model->getParam('idfield'))));
+			$SwapWith=$this->swapWith=$this->model::getObject(intval(Flask()->Request->postVar('with')));
 
 			// Some more checks
 			if (get_class($Object)!=get_class($SwapWith)) throw new FlaskPHP\Exception\InvalidParameterException('[[ FLASK.COMMON.Error.InvalidRequest ]]');
 			if (!$Object->getParam('setord')) throw new FlaskPHP\Exception\InvalidParameterException('[[ FLASK.COMMON.Error.InvalidRequest ]]');
+
+			// Pre-swap trigger
+			$this->triggerPreSwap();
 
 			// Swap
 			try
@@ -154,6 +197,9 @@
 				Flask()->DB->doRollback();
 				throw $e;
 			}
+
+			// Post-swap trigger
+			$this->triggerPostSwap();
 
 			// Response
 			$response=new \stdClass();

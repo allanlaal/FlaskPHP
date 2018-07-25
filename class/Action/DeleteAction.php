@@ -152,7 +152,7 @@
 			if (!intval(Flask()->Request->postVar($this->model->getParam('idfield')))) throw new FlaskPHP\Exception\InvalidParameterException('[[ FLASK.COMMON.Error.InvalidRequest ]]');
 
 			// Load
-			$Object=$this->model::getObject(intval(Flask()->Request->postVar($this->model->getParam('idfield'))));
+			$Object=$this->model=$this->model::getObject(intval(Flask()->Request->postVar($this->model->getParam('idfield'))));
 
 			// Pre-delete trigger
 			$this->triggerPreDelete();
