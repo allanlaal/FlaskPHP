@@ -260,20 +260,32 @@
 						continue;
 					}
 
+					// Find metadata
+					$metaData=null;
+					foreach ($fieldMetaData as $fmd)
+					{
+						if ($fmd->name==$k)
+						{
+							$metaData=$fmd;
+							break;
+						}
+					}
+					if ($metaData===null) continue;
+
 					// Integer types
-					if (in_array($fieldMetaData[$f]->type,array(0,1,2,3,8,9,13,16)))
+					if (in_array($metaData->type,array(0,1,2,3,8,9,13,16)))
 					{
 						$row[$k]=intval($v);
 					}
 
 					// Decimal types
-					elseif (in_array($fieldMetaData[$f]->type,array(246)))
+					elseif (in_array($metaData->type,array(246)))
 					{
-						$row[$k]=round(floatval($v),$fieldMetaData[$f]->decimals);
+						$row[$k]=round(floatval($v),$metaData->decimals);
 					}
 
 					// Float types
-					elseif (in_array($fieldMetaData[$f]->type,array(4,5)))
+					elseif (in_array($metaData->type,array(4,5)))
 					{
 						$row[$k]=floatval($v);
 					}
