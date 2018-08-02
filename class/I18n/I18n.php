@@ -227,10 +227,32 @@
 			$this->i18nDateFormat=oneof(Flask()->Config->get('locale.dateformat'),null);
 			$this->i18nTimeFormat=oneof(Flask()->Config->get('locale.timeformat'),null);
 
+			// Set timezone
+			if ($this->i18nTimeZone)
+			{
+				date_default_timezone_set($this->i18nTimeZone);
+			}
+
 			// Set regional settings
 			if (Flask()->Config->get('locale.decimalseparator')!==null) $this->setDecimalSeparator(Flask()->Config->get('locale.decimalseparator'));
 			if (Flask()->Config->get('locale.thousandseparator')!==null) $this->setThousandSeparator(Flask()->Config->get('locale.thousandseparator'));
 			if (Flask()->Config->get('locale.currencyplacement')!==null) $this->setCurrencyPlacement(Flask()->Config->get('locale.currencyplacement'));
+		}
+
+
+		/**
+		 *   Set timezone
+		 *   @access public
+		 *   @param string $timeZone Timezone
+		 *   @throws \Exception
+		 *   @return I18n
+		 */
+
+		public function setTimeZone( string $timeZone )
+		{
+			$this->i18nTimeZone=$timeZone;
+			date_default_timezone_set($this->i18nTimeZone);
+			return $this;
 		}
 
 
