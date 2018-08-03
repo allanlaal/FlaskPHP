@@ -1455,11 +1455,6 @@
 					if ($fieldObject->getParam('list_fieldwidth')) $fieldStyle[]='width: '.$fieldObject->getParam('list_fieldwidth');
 					if ($fieldObject->getParam('list_fieldalign')) $fieldStyle[]='text-align: '.$fieldObject->getParam('list_fieldalign');
 					if ($fieldObject->getParam('list_nowrap')) $fieldStyle[]='white-space: nowrap';
-					if ($this->getParam('nested'))
-					{
-						$nestedPadding=oneof($this->getParam('nested_padding'),'25px');
-						$fieldStyle='padding-left: '.$nestedPadding;
-					}
 
 					// Cell begins
 					$contentTableRows.='<td';
