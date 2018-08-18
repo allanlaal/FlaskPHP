@@ -1307,6 +1307,7 @@ Flask.Form = {
 				}
 			});
 		}
+		$(window).trigger('resize');
 	}
 
 };
