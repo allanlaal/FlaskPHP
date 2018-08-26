@@ -214,10 +214,13 @@
 
 
 		/**
+		 *
 		 *   Init I18n framework
+		 *   -------------------
 		 *   @access public
-		 *   @return void
 		 *   @throws \Exception
+		 *   @return void
+		 *
 		 */
 
 		public function initI18n()
@@ -241,11 +244,14 @@
 
 
 		/**
+		 *
 		 *   Set timezone
+		 *   ------------
 		 *   @access public
 		 *   @param string $timeZone Timezone
 		 *   @throws \Exception
 		 *   @return I18n
+		 *
 		 */
 
 		public function setTimeZone( string $timeZone )
@@ -257,11 +263,14 @@
 
 
 		/**
+		 *
 		 *   Set date format
+		 *   ---------------
 		 *   @access public
 		 *   @param string $dateFormat Date format identifier
 		 *   @throws \Exception
 		 *   @return I18n
+		 *
 		 */
 
 		public function setDateFormat( string $dateFormat )
@@ -273,11 +282,14 @@
 
 
 		/**
+		 *
 		 *   Set time format
+		 *   ---------------
 		 *   @access public
 		 *   @param string $timeFormat Time format identified
 		 *   @throws \Exception
 		 *   @return I18n
+		 *
 		 */
 
 		public function setTimeFormat( string $timeFormat )
@@ -289,11 +301,14 @@
 
 
 		/**
+		 *
 		 *   Set decimal separator
+		 *   ---------------------
 		 *   @access public
 		 *   @param string $decimalSeparator Decimal separator
 		 *   @throws \Exception
 		 *   @return I18n
+		 *
 		 */
 
 		public function setDecimalSeparator( string $decimalSeparator )
@@ -305,11 +320,14 @@
 
 
 		/**
+		 *
 		 *   Set thousand separator
+		 *   ----------------------
 		 *   @access public
 		 *   @param string $thousandSeparator Thousand separator
 		 *   @throws \Exception
 		 *   @return I18n
+		 *
 		 */
 
 		public function setThousandSeparator( string $thousandSeparator )
@@ -321,11 +339,14 @@
 
 
 		/**
+		 *
 		 *   Set decimal separator
+		 *   ---------------------
 		 *   @access public
 		 *   @param string $currencyPlacement Currency placement
 		 *   @throws \Exception
 		 *   @return I18n
+		 *
 		 */
 
 		public function setCurrencyPlacement( string $currencyPlacement )
@@ -337,11 +358,14 @@
 
 
 		/**
+		 *
 		 *   Get date format
+		 *   ---------------
 		 *   @param string $formatType Format type
 		 *   @access public
-		 *   @return string
 		 *   @throws \Exception
+		 *   @return string
+		 *
 		 */
 
 		public function getDateFormat( string $formatType )
@@ -353,15 +377,17 @@
 
 
 		/**
+		 *
 		 *   Format date
+		 *   -----------
 		 *   @access public
-		 *   @static
 		 *   @param string|int Date value (YYYY-MM-DD or Unix timestamp)
 		 *   @param bool $showTime Show time (hh:mm)
 		 *   @param bool $showTimeSeconds Show seconds as well
 		 *   @param bool $showEmptyDate Show empty date
-		 *   @return string
 		 *   @throws \Exception
+		 *   @return string
+		 *
 		 */
 
 		public function formatDate( $dateValue, bool $showTime=false, bool $showTimeSeconds=false, bool $showEmptyDate=false )
@@ -385,14 +411,16 @@
 
 
 		/**
+		 *
 		 *   Format period
+		 *   -------------
 		 *   @access public
-		 *   @static
 		 *   @param int $period Period in seconds
 		 *   @param bool $showSeconds Show seconds if period is over a minute
 		 *   @param string $separator Period separator
-		 *   @return string
 		 *   @throws \Exception
+		 *   @return string
+		 *
 		 */
 
 		public function formatPeriod( int $period, bool $showSeconds=true, string $separator=' ' )
@@ -454,18 +482,30 @@
 
 
 		/**
+		 *
 		 *   Convert display format to YYYY-MM-DD (HH:II:SS)
+		 *   -----------------------------------------------
 		 *   @access public
-		 *   @static
 		 *   @param string $dateString Date value in display format
-		 *   @return string
+		 *   @param bool $acceptYMD Accept if the input is already in YYYY-MM-DD format
 		 *   @throws \Exception
+		 *   @return string
+		 *
 		 */
 
-		public function toYMD( $dateString )
+		public function toYMD( string $dateString, bool $acceptYMD=true )
 		{
 			// Sanity checks
 			if (empty($this->i18nDateFormat)) throw new FlaskPHP\Exception\Exception('Date format not set.');
+
+			// Already in YMD?
+			if ($acceptYMD)
+			{
+				if (preg_match("/^\d\d\d\d\-\d\d\-\d\d$/",$dateString) || preg_match("/^\d\d\d\d\-\d\d\-\d\d \d\d\:\d\d\:\d\d$/"))
+				{
+					return $dateString;
+				}
+			}
 
 			// Parse
 			$time=$seconds=false;
@@ -521,30 +561,37 @@
 
 
 		/**
+		 *
 		 *   Convert display format to timestamp
+		 *   -----------------------------------
 		 *   @access public
 		 *   @param string $dateString Date value in display format
-		 *   @return int
+		 *   @param bool $acceptYMD Accept input in YYYY-MM-DD format
 		 *   @throws \Exception
+		 *   @return int
+		 *
 		 */
 
-		public function toTimestamp( $dateString )
+		public function toTimestamp( $dateString, bool $acceptYMD=true )
 		{
 			// Sanity checks
 			if (empty($this->i18nDateFormat)) throw new FlaskPHP\Exception\Exception('Date format not set.');
 
 			// Convert and return
-			return strtotime($this->toYMD($dateString));
+			return strtotime($this->toYMD($dateString,$acceptYMD));
 		}
 
 
 		/**
+		 *
 		 *   Validate date input
+		 *   -------------------
 		 *   @access public
 		 *   @param string $dateString Date value in display format
 		 *   @param bool $throwException Throw exception on failure
-		 *   @return bool
 		 *   @throws \Exception
+		 *   @return bool
+		 *
 		 */
 
 		public function validateDateInput( string $dateString, bool $throwException=false )
@@ -563,13 +610,16 @@
 
 
 		/**
+		 *
 		 *   Format decimal value
+		 *   --------------------
 		 *   @access public
 		 *   @param float $value Value
 		 *   @param int $precision Max precision
 		 *   @param bool $trim Trim decimal value if there is none
-		 *   @return string
 		 *   @throws \Exception
+		 *   @return string
+		 *
 		 */
 
 		public function formatDecimalValue( $value, int $precision=2, bool $trim=false )
@@ -589,13 +639,16 @@
 
 
 		/**
+		 *
 		 *   Format currency value
+		 *   ---------------------
 		 *   @access public
 		 *   @param float $value Value
 		 *   @param string $currency Currency
 		 *   @param bool $useCurrencySymbol Use currency symbol if exists
-		 *   @return string
 		 *   @throws \Exception
+		 *   @return string
+		 *
 		 */
 
 		public function formatCurrency( $value, string $currency, bool $useCurrencySymbol=false )
