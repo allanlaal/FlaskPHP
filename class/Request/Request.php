@@ -277,6 +277,12 @@
 				);
 			}
 
+			// Load language if not set from URI
+			if (!$this->requestLangFromURI && mb_strlen(Flask()->Session->get('LANG')))
+			{
+				Flask()->Locale->loadLocale(Flask()->Session->get('LANG'));
+			}
+
 			// Bootstrap request
 			if (is_array(Flask()->Config->get('request.bootstrap')))
 			{
