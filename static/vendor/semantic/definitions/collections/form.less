@@ -136,7 +136,6 @@
   tap-highlight-color:  rgba(255, 255, 255, 0);
 
   padding: @textAreaPadding;
-  font-size: @textAreaFontSize;
   background: @textAreaBackground;
   border: @textAreaBorder;
   outline: none;
@@ -145,6 +144,7 @@
   box-shadow: @inputBoxShadow;
   transition: @textAreaTransition;
   font-size: @textAreaFontSize;
+  font-family: @inputFont;
   line-height: @textAreaLineHeight;
   resize: @textAreaResize;
 }
@@ -157,6 +157,19 @@
 .ui.form textarea,
 .ui.form input[type="checkbox"] {
   vertical-align: @checkboxVerticalAlign;
+}
+
+/*--------------------
+      Transparent
+---------------------*/
+
+
+.ui.form .field textarea.transparent {
+  border-color: transparent !important;
+  background-color: transparent !important;
+  padding: 0em !important;
+  box-shadow: none !important;
+  border-radius: 0px !important;
 }
 
 /*--------------------------
@@ -323,7 +336,7 @@
   color: @inputPlaceholderColor;
 }
 .ui.form :-ms-input-placeholder {
-  color: @inputPlaceholderColor;
+  color: @inputPlaceholderColor !important;
 }
 .ui.form ::-moz-placeholder {
   color: @inputPlaceholderColor;
@@ -333,7 +346,7 @@
   color: @inputPlaceholderFocusColor;
 }
 .ui.form :focus:-ms-input-placeholder {
-  color: @inputPlaceholderFocusColor;
+  color: @inputPlaceholderFocusColor !important;
 }
 .ui.form :focus::-moz-placeholder {
   color: @inputPlaceholderFocusColor;
@@ -670,7 +683,8 @@
 .ui.form .required.fields.grouped > label:after,
 .ui.form .required.field > label:after,
 .ui.form .required.fields:not(.grouped) > .field > .checkbox:after,
-.ui.form .required.field > .checkbox:after {
+.ui.form .required.field > .checkbox:after,
+.ui.form label.required:after {
   margin: @requiredMargin;
   content: @requiredContent;
   color: @requiredColor;
@@ -678,7 +692,8 @@
 
 .ui.form .required.fields:not(.grouped) > .field > label:after,
 .ui.form .required.fields.grouped > label:after,
-.ui.form .required.field > label:after {
+.ui.form .required.field > label:after,
+.ui.form label.required:after {
   display: inline-block;
   vertical-align: top;
 }
@@ -1047,6 +1062,58 @@
   font-size: @huge;
 }
 .ui.massive.form {
+  font-size: @massive;
+}
+
+/* Dropdown */
+.ui.mini.form .field .dropdown {
+  font-size: @mini;
+}
+.ui.tiny.form .field .dropdown {
+  font-size: @tiny;
+}
+.ui.small.form .field .dropdown {
+  font-size: @small;
+}
+.ui.form .field .dropdown {
+  font-size: @medium;
+}
+.ui.large.form .field .dropdown {
+  font-size: @large;
+}
+.ui.big.form .field .dropdown {
+  font-size: @big;
+}
+.ui.huge.form .field .dropdown {
+  font-size: @huge;
+}
+.ui.massive.form .field .dropdown {
+  font-size: @massive;
+}
+
+/* Dropdown Items */
+.ui.mini.form .field .dropdown .menu > .item {
+  font-size: @mini;
+}
+.ui.tiny.form .field .dropdown .menu > .item {
+  font-size: @tiny;
+}
+.ui.small.form .field .dropdown .menu > .item {
+  font-size: @small;
+}
+.ui.form .field .dropdown .menu > .item {
+  font-size: @medium;
+}
+.ui.large.form .field .dropdown .menu > .item {
+  font-size: @large;
+}
+.ui.big.form .field .dropdown .menu > .item {
+  font-size: @big;
+}
+.ui.huge.form .field .dropdown .menu > .item {
+  font-size: @huge;
+}
+.ui.massive.form .field .dropdown .menu > .item {
   font-size: @massive;
 }
 

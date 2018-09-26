@@ -6,8 +6,8 @@
         Paths
 --------------------*/
 
-@imagePath : "../../themes/default/assets/images";
-@fontPath  : "../../themes/default/assets/fonts";
+@imagePath : "/flask/static/vendor/semantic/themes/default/assets/images";
+@fontPath  : "/flask/static/vendor/semantic/themes/default/assets/fonts";
 
 /*-------------------
        Fonts

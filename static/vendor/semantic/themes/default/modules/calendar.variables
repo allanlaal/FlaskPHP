@@ -1,5 +1,5 @@
 /*******************************
-            Calendar
+           Calendar
 *******************************/
 
 @focusBoxShadow: inset 0 0 0 1px @focusedFormBorderColor;

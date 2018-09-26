@@ -291,7 +291,6 @@
 			if (in_array('semantic',$this->responseBaseJS))
 			{
 				$this->addJS('static/vendor/semantic/semantic.min.js','base_semantic',-9950);
-				$this->addJS('static/vendor/semantic-calendar/calendar.min.js','base_semantic_calendar',-9949);
 				$this->addJS('static/vendor/moment/moment.min.js','base_moment',-9930);
 			}
 			if (in_array('bootstrap',$this->responseBaseJS))
