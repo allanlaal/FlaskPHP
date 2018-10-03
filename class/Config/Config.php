@@ -67,7 +67,11 @@
 		public function loadConfig()
 		{
 			// Config file name overrides
-			if (isset($_SERVER['FLASK_CONFIG']))
+			if (getenv('FLASK_CONFIG')!==false)
+			{
+				$this->configFilename=getenv('FLASK_CONFIG');
+			}
+			elseif (isset($_SERVER['FLASK_CONFIG']))
 			{
 				$this->configFilename=$_SERVER['FLASK_CONFIG'];
 			}
@@ -86,7 +90,11 @@
 			{
 				if (!isset($this->configData['app']['url']) || empty($this->configData['app']['url']))
 				{
-					if (isset($_SERVER['FLASK_BASEURL']))
+					if (getenv('FLASK_BASEURL')!==false)
+					{
+						$this->configData['app']['url']=$_SERVER['FLASK_BASEURL'];
+					}
+					elseif (isset($_SERVER['FLASK_BASEURL']))
 					{
 						$this->configData['app']['url']=$_SERVER['FLASK_BASEURL'];
 					}
