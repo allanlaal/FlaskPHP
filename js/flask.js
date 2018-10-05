@@ -400,7 +400,8 @@ Flask.initElements = function( base )
 		placeholder: false,
 		selectOnKeydown: false,
 		forceSelection: false,
-		fullTextSearch: true
+		fullTextSearch: true,
+		match: 'text'
 	});
 
 	// Init date fields
