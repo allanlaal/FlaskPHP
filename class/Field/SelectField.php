@@ -238,7 +238,6 @@
 				$c.=' type="hidden"';
 				$c.=' id="'.$this->tag.'"';
 				$c.=' name="'.$this->tag.'"';
-				$c.=' class="'.join(' ',$class).'"';
 				if (!empty($style)) $c.=' style="'.join('; ',$style).'"';
 				$c.=' value="'.htmlspecialchars($value).'"';
 				$c.=' data-originalvalue="'.htmlspecialchars($value).'"';
