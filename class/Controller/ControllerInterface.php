@@ -249,6 +249,7 @@
 				{
 					if (!Flask()->User->isLoggedIn())
 					{
+						Flask()->Session->set('login.redirect',$_SERVER['REQUEST_URI']);
 						return new FlaskPHP\Response\RedirectResponse(oneof($actionObject->actionLoginURL,$this->controllerLoginURL,'/login'));
 					}
 					if ($actionObject->actionRoleRequired!==null)
@@ -269,6 +270,7 @@
 				{
 					if (!Flask()->User->isLoggedIn())
 					{
+						Flask()->Session->set('login.redirect',$_SERVER['REQUEST_URI']);
 						return new FlaskPHP\Response\RedirectResponse(oneof($this->controllerLoginURL,'/login'));
 					}
 					if ($this->controllerRoleRequired!==null)
