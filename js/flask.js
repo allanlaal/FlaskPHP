@@ -399,7 +399,8 @@ Flask.initElements = function( base )
 	$(base+'.ui.dropdown').dropdown({
 		placeholder: false,
 		selectOnKeydown: false,
-		forceSelection: false
+		forceSelection: false,
+		fullTextSearch: true
 	});
 
 	// Init date fields
