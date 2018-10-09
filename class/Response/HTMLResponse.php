@@ -89,7 +89,7 @@
 		 *   @var \Codelab\FlaskPHP\Response\ResponseJS
 		 */
 
-		public $reponseJS = null;
+		public $responseJS = null;
 
 
 		/**

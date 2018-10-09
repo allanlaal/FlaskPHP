@@ -30,7 +30,7 @@
 		public function loadSession()
 		{
 			// Hack: make sure gc_maxlifetime is not smaller than cookie lifetime
-			if (intval(Flask()->Config->get('session.gc_maxlifetime')))
+			if (intval(Flask()->Config->get('session.cookie_lifetime')))
 			{
 				if (ini_get('session.gc_maxlifetime')<intval(Flask()->Config->get('session.cookie_lifetime')))
 				{
