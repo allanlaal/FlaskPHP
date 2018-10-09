@@ -705,6 +705,11 @@
 				$fld=$fieldObject->renderFormField();
 				$formField.=$fld;
 				$this->template->set('field_'.$fieldTag,$fld);
+				if ($fieldObject->getParam('form_fieldgroup'))
+				{
+					$fieldGroup=$fieldObject->getParam('form_fieldgroup');
+					$this->template->set('fieldgroup_'.$fieldGroup,$this->template->get('fieldgroup_'.$fieldGroup).$fld);
+				}
 			}
 			$this->template->set('form_field',$formField);
 			$this->template->set('form_fieldset',$formFieldSet);
@@ -957,7 +962,7 @@
 						}
 						else
 						{
-							$response->redirect=$this->buildURL(oneof($this->getParam('url_cancel'),$this->getParam('url_return'),$this->buildURL()));
+							$response->redirect=$this->buildURL(oneof($this->getParam('url_return'),$this->buildURL()));
 						}
 						return new FlaskPHP\Response\JSONResponse($response);
 					}

@@ -464,6 +464,23 @@
 
 		/**
 		 *
+		 *   Set form field group
+		 *   --------------------
+		 *   @access public
+		 *   @param string $fieldGroup Field group
+		 *   @return \Codelab\FlaskPHP\Field\FieldInterface
+		 *
+		 */
+
+		public function setFormFieldGroup( string $fieldGroup )
+		{
+			$this->setParam('form_fieldgroup',$fieldGroup);
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Set form comment
 		 *   ----------------
 		 *   @access public
