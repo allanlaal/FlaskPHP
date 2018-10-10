@@ -589,10 +589,13 @@
 
 		public function getRequestHeader( string $headerName, bool $sanitize=true )
 		{
-			if (array_key_exists($headerName,$this->requestHeader))
+			foreach ($this->requestHeader as $rhName => $rhValue)
 			{
-				if ($sanitize) return static::sanitizeInput($this->requestHeader[$headerName]);
-				return $this->requestHeader[$headerName];
+				if (mb_strtolower($headerName)==mb_strtolower($rhName))
+				{
+					if ($sanitize) return static::sanitizeInput($rhValue);
+					return $rhValue;
+				}
 			}
 			return null;
 		}
