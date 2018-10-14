@@ -744,6 +744,221 @@ Flask.Modal = {
 
 
 /*
+ *   Drawer
+ *   ------
+ */
+
+Flask.Drawer = {
+
+	// Drawer parameters
+	param: [],
+
+	// Create drawer
+	createDrawer: function( title, content, buttons, param )
+	{
+		// Init
+		if (param==null) param={};
+		var drawerTag=oneof(param.drawerTag,'drawer_'+Math.floor(Math.random()*100000+1));
+		if (param.drawer_width!=null) param.drawer_width=parseInt(param.drawer_width);
+		Flask.Drawer.param[drawerTag]=param;
+
+		// Draw
+		Flask.Drawer.drawDrawer(drawerTag,title,content,buttons,param);
+		if (!(param.showoncreate!=null && param.showoncreate==false)) {
+			Flask.Drawer.showDrawer(drawerTag,param);
+		}
+
+		// Return tag
+		return drawerTag;
+	},
+
+	// Draw drawer
+	drawDrawer: function( drawerTag, title, content, buttons, param )
+	{
+		// Param
+		var param=Flask.Drawer.param[drawerTag];
+		var drawerClass=(param.drawerclass!=null?param.drawerclass+' ':'')+'flask-drawer';
+		var drawerStyle='';
+
+		// Create html
+		var drawerHTML='<div id="'+drawerTag+'" class="'+drawerClass+'" tabindex="-1">';
+		drawerHTML+='<div class="flask-drawer-container">';
+		drawerHTML+='<div class="flask-drawer-content">';
+		drawerHTML+='</div>';
+		drawerHTML+='</div>';
+		drawerHTML+='<div class="flask-drawer-dimmer"></div>';
+		drawerHTML+='</div>';
+		$('body').append(drawerHTML);
+
+		// Set content
+		if (title!=null && title!=false) {
+			Flask.Drawer.setTitle(drawerTag,title);
+		}
+		if (content!=null && content!=false) {
+			Flask.Drawer.setContent(drawerTag,content);
+		}
+		if (buttons!=null && buttons!=false) {
+			Flask.Drawer.setButtons(drawerTag,buttons);
+		}
+	},
+
+	// Show drawer
+	showDrawer: function( drawerTag, param )
+	{
+		$('body').addClass('overflow-hidden');
+		$('#'+drawerTag).addClass('visible');
+		$('#'+drawerTag+' .flask-drawer-dimmer').on('click',function(){
+			Flask.Drawer.hideDrawer(drawerTag);
+		});
+		if ($("#"+drawerTag+" .flask-drawer-content .defaultfocus").length)
+		{
+			$("#"+drawerTag+" .flask-drawer-content .defaultfocus").focus();
+		}
+		else
+		{
+			if ($("#"+drawerTag+" .flask-drawer-content .ui.form input:visible").length)
+			{
+				$("#"+drawerTag+" .flask-drawer-content .ui.form input:visible").first().focus();
+			}
+		}
+		$("#"+drawerTag).on('keypress',function(evt){
+			if (evt.which==27) {
+				Flask.Drawer.closeDrawer(drawerTag);
+				evt.stopPropagation()
+			}
+		});
+	},
+
+	// Open drawer with Ajax content
+	openDrawer: function( url, post_data, param )
+	{
+		// Init
+		if (param==null) param={};
+		if (param.drawerclass==null) param.drawerclass='normal';
+		param.showoncreate=false;
+
+		// Get content
+		$.ajax({
+			url: url,
+			data: post_data,
+			success: function (data) {
+				if (data!=null && data.status=='1') {
+					delete data.status;
+					var drawerTag=Flask.Drawer.createDrawer('','','',param);
+					if (data.title!=null) {
+						Flask.Drawer.setTitle(drawerTag,data.title);
+						delete data.title;
+					}
+					if (data.content!=null) {
+						Flask.Drawer.setContent(drawerTag,data.content);
+						delete data.content;
+					}
+					if (data.displaytrigger!=null)
+					{
+						eval(data.displaytrigger);
+					}
+					var btns={};
+					if (param.buttons!=null) {
+						btns=param.buttons;
+					}
+					else if (data.buttons!=null) {
+						btns=data.buttons;
+						delete data.buttons;
+					}
+					if ((param.cancelbtn==null || param.cancelbtn==false) && (data.cancelbtn==null || data.cancelbtn==false)) {
+						btns.cancel={
+							title: (btns.length?Locale.get('FLASK.FORM.Btn.Cancel'):Locale.get('FLASK.FORM.Btn.Close')),
+							onclick: function(){
+								Flask.Drawer.closeDrawer(drawerTag);
+							}
+						}
+					}
+					Flask.Drawer.setButtons(drawerTag,btns);
+					for (var k in data) {
+						Flask.Drawer.param[drawerTag][k]=data[k];
+					}
+					Flask.Form.initElements(drawerTag);
+					$("#"+drawerTag+" form :input").not('textarea').not('.noautosubmit').keypress(function(e){
+						if (e.which==13) {
+							$("#"+drawerTag+" .actions button").first().trigger('click');
+						}
+					});
+					setTimeout(function(){
+						Flask.Drawer.showDrawer(drawerTag,param);
+					},25);
+				}
+				else {
+					Flask.alert(oneof(data.error,Locale.get('FLASK.COMMON.Error.ErrorOpeningModal')),Locale.get('FLASK.COMMON.Error'));
+				}
+			},
+			error: function(xhr, ajaxOptions, thrownError) {
+				Flask.alert(Locale.get('FLASK.COMMON.Error.ErrorOpeningModal')+' - '+thrownError+' - '+xhr.responseText,Locale.get('FLASK.COMMON.Error'));
+			}
+		});
+
+
+	},
+
+	// Set title
+	setTitle: function( drawerTag, title, noclosebtn )
+	{
+		// Create header wrapper if needed
+		if ($("#"+drawerTag+" .flask-drawer-header").length==0) {
+			var drawerHeader='<div class="flask-drawer-header">';
+			drawerHeader+='<div class="title text-left"></div>';
+			drawerHeader+='</div>';
+			$("#"+drawerTag+" .flask-drawer-container").prepend(drawerHeader);
+		}
+
+		// Set title
+		$("#"+drawerTag+" .flask-drawer-header .title").html(title);
+	},
+
+	// Set content
+	setContent: function( drawerTag, content )
+	{
+		$("#"+drawerTag+" .flask-drawer-content").html(content);
+	},
+
+	// Set content
+	setButtons: function( drawerTag, buttons )
+	{
+		// Create button container if needed
+		if ($("#"+drawerTag+" .flask-drawer-actions").length==0) {
+			var drawerFooter='<div class="flask-drawer-actions"></div>';
+			$("#"+drawerTag+" .flask-drawer-container").append(drawerFooter);
+		}
+
+		// Add buttons
+		for (var k in buttons) {
+			var btnHTML='<button id="'+drawerTag+'_'+k+'" type="button" class="ui button '+oneof(buttons[k].class,'')+'">'+buttons[k].title+'</button>';
+			$("#"+drawerTag+" .flask-drawer-actions").append(btnHTML);
+			if (buttons[k].onclick!=null) {
+				$("#"+drawerTag+"_"+k).on('click',buttons[k].onclick);
+			}
+		}
+	},
+
+	// Close drawer
+	closeDrawer: function( drawerTag )
+	{
+		Flask.Drawer.hideDrawer(drawerTag);
+	},
+
+	// Hide modal
+	hideDrawer: function( drawerTag )
+	{
+		$('body').removeClass('overflow-hidden');
+		$('#'+drawerTag).removeClass('visible');
+		setTimeout(function(){
+			 $('#'+drawerTag).remove();
+		},400);
+	}
+
+};
+
+
+/*
  *   Form handler
  *   ------------
  */
@@ -820,8 +1035,82 @@ Flask.Form = {
 				Flask.alert(Locale.get('FLASK.COMMON.Error.ErrorOpeningModal')+' - '+thrownError+' - '+xhr.responseText,Locale.get('FLASK.COMMON.Error'));
 			}
 		});
+	},
 
+	// Open form drawer
+	openDrawer: function( url, post_data, param )
+	{
+		// Init
+		if (param==null) param={};
+		if (param.drawerclass==null) param.drawerclass='normal';
+		param.showoncreate=false;
 
+		// Get content
+		$.ajax({
+			url: url,
+			data: post_data,
+			success: function (data) {
+				if (data!=null && data.status=='1') {
+					delete data.status;
+					var drawerTag=Flask.Drawer.createDrawer('','','',param);
+					if (data.title!=null) {
+						Flask.Drawer.setTitle(drawerTag,data.title);
+						delete data.title;
+					}
+					if (data.content!=null) {
+						Flask.Drawer.setContent(drawerTag,data.content);
+						delete data.content;
+					}
+					if (data.displaytrigger!=null)
+					{
+						eval(data.displaytrigger);
+					}
+					var btns={};
+					if (data.buttons!=null) {
+						btns=data.buttons;
+						delete data.buttons;
+					}
+					else {
+						btns.save={
+							title: oneof(data.submitbuttontitle,Locale.get('FLASK.FORM.Btn.edit')),
+							onclick: function(){
+								Flask.Form.submitDrawer(drawerTag,'submit_save');
+							},
+							class: 'primary'
+						};
+						if (data.submitbuttontitle!=null) {
+							delete data.submitbuttontitle;
+						}
+					}
+					btns.cancel={
+						title: Locale.get('FLASK.FORM.Btn.Cancel'),
+						onclick: function(){
+							Flask.Drawer.closeDrawer(drawerTag);
+						}
+					}
+					Flask.Drawer.setButtons(drawerTag,btns);
+					for (var k in data) {
+						Flask.Drawer.param[drawerTag][k]=data[k];
+					}
+					$("#"+drawerTag+" form").first().attr('id','form_'+drawerTag);
+					Flask.Form.initElements(drawerTag);
+					$("#"+drawerTag+" form :input").not('textarea').not('.noautosubmit').keypress(function(e){
+						if (e.which==13) {
+							$("#"+drawerTag+" .actions button").first().trigger('click');
+						}
+					});
+					setTimeout(function(){
+						Flask.Drawer.showDrawer(drawerTag,param);
+					},25);
+				}
+				else {
+					Flask.alert(oneof(data.error,Locale.get('FLASK.COMMON.Error.ErrorOpeningModal')),Locale.get('FLASK.COMMON.Error'));
+				}
+			},
+			error: function(xhr, ajaxOptions, thrownError) {
+				Flask.alert(Locale.get('FLASK.COMMON.Error.ErrorOpeningModal')+' - '+thrownError+' - '+xhr.responseText,Locale.get('FLASK.COMMON.Error'));
+			}
+		});
 	},
 
 	// Handle submit
@@ -974,6 +1263,98 @@ Flask.Form = {
 							eval(data.successaction);
 						}
 						Flask.Modal.closeModal(modalTag);
+					}
+				}
+				else
+				{
+					Flask.Form.progressStop();
+					if (data!=null && data.error!=null) {
+						if (typeof(data.error)=='object') {
+							var globalerror=[];
+							for(var fld_tag in data.error) {
+								if ($("#field_"+fld_tag).length>0) {
+									Flask.Form.showFieldError(fld_tag,data.error[fld_tag]);
+								}
+								else {
+									globalerror.push(data.error[fld_tag]);
+								}
+							}
+							if (globalerror.length) {
+								Flask.Form.showErrors(formID,globalerror);
+							}
+						}
+						else {
+							Flask.alert(oneof(data.error,Locale.get('FLASK.COMMON.Error.ErrorSavingData')),Locale.get('FLASK.COMMON.Error'));
+						}
+					}
+					else {
+						Flask.alert(Locale.get('FLASK.COMMON.Error.ErrorSavingData'),Locale.get('FLASK.COMMON.Error'));
+					}
+				}
+			},
+			error: function(xhr, ajaxOptions, thrownError) {
+				Flask.Form.progressStop();
+				Flask.alert(Locale.get('FLASK.COMMON.Error.ErrorSavingData')+' - '+thrownError+' - '+xhr.responseText,Locale.get('FLASK.COMMON.Error'));
+			}
+		});
+	},
+
+	// Submit modal
+	submitDrawer: function ( drawerTag, submitAction, param )
+	{
+		// Check
+		if ($("#"+drawerTag+" form").length==0) {
+			Flask.alert(Locale.get('FLASK.FORM.Error.CouldNotFindForm'),Locale.get('FLASK.COMMON.Error'));
+			return;
+		}
+		else {
+			var formID=$("#"+drawerTag+" form").first().attr('id');
+		}
+
+		// Param
+		if (param!=null) {
+			for (var k in param) {
+				Flask.Drawer.param[drawerTag]=param[k];
+			}
+		}
+		var param=Flask.Drawer.param[drawerTag];
+
+		// Clear errors
+		this.clearErrors(formID);
+
+		// Progress message
+		var progressmessage=oneof(param.progressmessage,Locale.get('FLASK.FORM.Msg.Saving'));
+		this.progressStart(progressmessage);
+
+		// Submit
+		var submitdata={};
+		submitdata.action=submitAction;
+		submitdata[submitAction]=1;
+		$("#"+formID).ajaxSubmit({
+			data: submitdata,
+			success: function( data ) {
+				if (data!=null && data.status=='1') {
+					if (param.success_callback!=null) {
+						Flask.Form.progressStop();
+						param.success_callback(data);
+					}
+					else if (data.reload!=null && data.reload) {
+						Flask.reload();
+					}
+					else if (data.redirect!=null && data.redirect.length>0) {
+						if (data.redirect_data!=null) {
+							Flask.doPostSubmit(data.redirect,data.redirect_data);
+						}
+						else {
+							Flask.redirect(data.redirect);
+						}
+					}
+					else {
+						Flask.Form.progressStop();
+						if (data.successaction!=null && data.successaction!='') {
+							eval(data.successaction);
+						}
+						Flask.Drawer.closeDrawer(modalTag);
 					}
 				}
 				else

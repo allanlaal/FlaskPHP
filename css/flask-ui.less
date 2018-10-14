@@ -74,6 +74,16 @@
 	border: 1px solid #e0b4b4 !important;
 }
 
+textarea {
+	resize: none !important;
+}
+
+.text-muted {
+	color: #868e96;
+}
+
+
+
 
 /*
  *   Info table
@@ -196,3 +206,112 @@
 	}
 
 }
+
+
+/*
+ *   Modals
+ */
+
+.ui.modal:focus {
+  outline: none !important;
+}
+
+
+
+/*
+ *   Drawer
+ */
+
+body.overflow-hidden {
+  overflow: hidden;
+}
+
+.flask-drawer {
+  display: -ms-flexbox;
+  display: flex;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+
+	.flask-drawer-dimmer {
+		background: rgba(0,0,0, 0.6);
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		transition: opacity 300ms ease-in-out;
+		z-index: 1;
+		opacity: 0;
+	}
+
+	.flask-drawer-container {
+		background: #ffffff;
+		box-shadow: 0 8px 10px -5px rgba(0,0,0,.2), 0 16px 24px 2px rgba(0,0,0,.14), 0 6px 30px 5px rgba(0,0,0,.12);
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: auto;
+		width: 100%;
+		max-width: 540px;
+		display: -ms-flexbox;
+		display: flex;
+		flex-direction: column;
+		pointer-events: all;
+		overflow-y: auto;
+		transform: translateX(calc( 103% + 30px) );
+		transition: transform 250ms ease-in-out;
+		z-index: 2;
+
+		&.wide {
+			max-width: 700px;
+		}
+
+		&.very.wide {
+			max-width: 960px;
+		}
+
+		&.full.width {
+			max-width: calc(100vw - 30px);
+		}
+
+		.flask-drawer-header {
+			padding: 15px 20px;
+			flex: 0 0 auto;
+			font-size: 20px;
+			font-weight: bold;
+			border-bottom: 1px rgba(34, 36, 38, 0.15) solid;
+		}
+
+		.flask-drawer-content {
+			padding: 20px;
+			flex: 1 1 auto;
+		}
+
+		.flask-drawer-actions {
+			flex: 0 0 auto;
+			border-top: 1px rgba(34, 36, 38, 0.15) solid;
+			background: #f9fafb;
+			padding: 15px 20px;
+		}
+	}
+
+	&.visible {
+		pointer-events: all;
+
+		.flask-drawer-container {
+			transform: translateX(0);
+			transition: transform 250ms ease-in-out;
+		}
+		.flask-drawer-dimmer {
+			opacity: 1;
+			transition: opacity 300ms ease-in-out;
+		}
+	}
+}
+
