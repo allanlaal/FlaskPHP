@@ -777,16 +777,16 @@ Flask.Drawer = {
 	{
 		// Param
 		var param=Flask.Drawer.param[drawerTag];
-		var drawerClass=(param.drawerclass!=null?param.drawerclass+' ':'')+'flask-drawer';
+		var drawerClass='ui'+(param.drawerclass!=null?' '+param.drawerclass:'')+' drawer';
 		var drawerStyle='';
 
 		// Create html
 		var drawerHTML='<div id="'+drawerTag+'" class="'+drawerClass+'" tabindex="-1">';
-		drawerHTML+='<div class="flask-drawer-container">';
-		drawerHTML+='<div class="flask-drawer-content">';
+		drawerHTML+='<div class="wrapper">';
+		drawerHTML+='<div class="content">';
 		drawerHTML+='</div>';
 		drawerHTML+='</div>';
-		drawerHTML+='<div class="flask-drawer-dimmer"></div>';
+		drawerHTML+='<div class="dimmer"></div>';
 		drawerHTML+='</div>';
 		$('body').append(drawerHTML);
 
@@ -807,18 +807,18 @@ Flask.Drawer = {
 	{
 		$('body').addClass('overflow-hidden');
 		$('#'+drawerTag).addClass('visible');
-		$('#'+drawerTag+' .flask-drawer-dimmer').on('click',function(){
+		$('#'+drawerTag+' .dimmer').on('click',function(){
 			Flask.Drawer.hideDrawer(drawerTag);
 		});
-		if ($("#"+drawerTag+" .flask-drawer-content .defaultfocus").length)
+		if ($("#"+drawerTag+" .content .defaultfocus").length)
 		{
-			$("#"+drawerTag+" .flask-drawer-content .defaultfocus").focus();
+			$("#"+drawerTag+" .content .defaultfocus").focus();
 		}
 		else
 		{
-			if ($("#"+drawerTag+" .flask-drawer-content .ui.form input:visible").length)
+			if ($("#"+drawerTag+" .content .ui.form input:visible").length)
 			{
-				$("#"+drawerTag+" .flask-drawer-content .ui.form input:visible").first().focus();
+				$("#"+drawerTag+" .content .ui.form input:visible").first().focus();
 			}
 		}
 		$("#"+drawerTag).on('keypress',function(evt){
@@ -903,36 +903,36 @@ Flask.Drawer = {
 	setTitle: function( drawerTag, title, noclosebtn )
 	{
 		// Create header wrapper if needed
-		if ($("#"+drawerTag+" .flask-drawer-header").length==0) {
-			var drawerHeader='<div class="flask-drawer-header">';
-			drawerHeader+='<div class="title text-left"></div>';
+		if ($("#"+drawerTag+" .header").length==0) {
+			var drawerHeader='<div class="header">';
+			drawerHeader+='<div class="title"></div>';
 			drawerHeader+='</div>';
-			$("#"+drawerTag+" .flask-drawer-container").prepend(drawerHeader);
+			$("#"+drawerTag+" .wrapper").prepend(drawerHeader);
 		}
 
 		// Set title
-		$("#"+drawerTag+" .flask-drawer-header .title").html(title);
+		$("#"+drawerTag+" .header .title").html(title);
 	},
 
 	// Set content
 	setContent: function( drawerTag, content )
 	{
-		$("#"+drawerTag+" .flask-drawer-content").html(content);
+		$("#"+drawerTag+" .content").html(content);
 	},
 
 	// Set content
 	setButtons: function( drawerTag, buttons )
 	{
 		// Create button container if needed
-		if ($("#"+drawerTag+" .flask-drawer-actions").length==0) {
-			var drawerFooter='<div class="flask-drawer-actions"></div>';
-			$("#"+drawerTag+" .flask-drawer-container").append(drawerFooter);
+		if ($("#"+drawerTag+" .actions").length==0) {
+			var drawerFooter='<div class="actions"></div>';
+			$("#"+drawerTag+" .wrapper").append(drawerFooter);
 		}
 
 		// Add buttons
 		for (var k in buttons) {
 			var btnHTML='<button id="'+drawerTag+'_'+k+'" type="button" class="ui button '+oneof(buttons[k].class,'')+'">'+buttons[k].title+'</button>';
-			$("#"+drawerTag+" .flask-drawer-actions").append(btnHTML);
+			$("#"+drawerTag+" .actions").append(btnHTML);
 			if (buttons[k].onclick!=null) {
 				$("#"+drawerTag+"_"+k).on('click',buttons[k].onclick);
 			}
