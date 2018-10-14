@@ -157,7 +157,7 @@
 
 		public function renderTabBar()
 		{
-			$tabBar='<div class="tabbedview-tabs ui tabular menu mb-4">';
+			$tabBar='<div class="tabbedview-tabs ui tabular menu">';
 			$t=0;
 			foreach ($this->tab as $tabTag => $tabObject)
 			{
@@ -182,7 +182,7 @@
 		public function renderTabContent()
 		{
 			$t=0;
-			$tabContent='<div class="tabbedview-content mt-4">';
+			$tabContent='<div class="tabbedview-content">';
 			foreach ($this->tab as $tabTag => $tabObject)
 			{
 				if (!$t)

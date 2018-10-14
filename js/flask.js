@@ -683,10 +683,10 @@ Flask.Modal = {
 	{
 		// Create header wrapper if needed
 		if ($("#"+modalTag+" .header").length==0) {
-			var modalHeader='<div class="header d-flex justify-content-between">';
-			modalHeader+='<div class="title text-left"></div>';
+			var modalHeader='<div class="header">';
+			modalHeader+='<div class="title"></div>';
 			if (noclosebtn==null || !noclosebtn) {
-				modalHeader+='<a class="close-btn text-right ml-4"><i class="remove icon"></i></a>';
+				modalHeader+='<a class="close-btn"><i class="remove icon"></i></a>';
 			}
 			modalHeader+='</div>';
 			$("#"+modalTag).prepend(modalHeader);
@@ -1999,7 +1999,7 @@ Flask.Chooser = {
 			html+='<button class="ui basic button ml-2" id="'+fieldTag+'_addform">'+param.addform_buttontitle+'</button>';
 		}
 		html+='</div>';
-		html+='<div class="chooser-modal-searchresult mt-4" id="'+fieldTag+'_result"></div>';
+		html+='<div class="chooser-modal-searchresult" id="'+fieldTag+'_result"></div>';
 		html+='</div>';
 
 		// Open dialog

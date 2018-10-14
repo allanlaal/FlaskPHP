@@ -337,7 +337,7 @@
 			$c.='</div>';
 
 			// Other fields
-			$c.='<div class="fields mb-0">';
+			$c.='<div class="fields" style="margin-bottom: 0">';
 			foreach ($fieldList as $fieldTag => $fieldValue)
 			{
 				$c.='<div class="'.$fieldWidth[$fieldTag].' wide field">';

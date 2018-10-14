@@ -733,7 +733,7 @@
 		public function displayFormSubmit()
 		{
 			// Start
-			$form_submit='<div class="ui secondary segment text-center mt-4 form-submit">';
+			$form_submit='<div class="ui secondary segment text-center form-submit">';
 
 			// Submit param
 			$submitParam=new \stdClass();
@@ -746,7 +746,7 @@
 				// Traverse
 				foreach ($this->submit as $submitTag => $submitTitle)
 				{
-					$submit='<button type="button" class="ui primary button mx-2 form-button form-button-submit" id="submit_'.$submitTag.'" name="submit_'.$submitTag.'" onclick="Flask.Form.submit(\''.$submitTag.'\','.$submitParam.')">'.$submitTitle.'</button>';
+					$submit='<button type="button" class="ui primary button form-button form-button-submit" id="submit_'.$submitTag.'" name="submit_'.$submitTag.'" onclick="Flask.Form.submit(\''.$submitTag.'\','.$submitParam.')">'.$submitTitle.'</button>';
 					$this->template->set('submit_'.$submitTag,$submit);
 					$form_submit.=$submit;
 				}
@@ -755,7 +755,7 @@
 			// Standard submit
 			else
 			{
-				$submit='<button type="button" class="ui primary button mx-2 form-button form-button-submit" id="submit_save" name="submit_save" onclick="Flask.Form.submit(\'submit_save\','.$submitParam.')">'.oneof($this->getParam('submitbuttontitle'),'[[ FLASK.FORM.Btn.'.$this->operation.' ]]').'</button>';
+				$submit='<button type="button" class="ui primary button form-button form-button-submit" id="submit_save" name="submit_save" onclick="Flask.Form.submit(\'submit_save\','.$submitParam.')">'.oneof($this->getParam('submitbuttontitle'),'[[ FLASK.FORM.Btn.'.$this->operation.' ]]').'</button>';
 				$this->template->set('submit_'.$this->operation,$submit);
 				$form_submit.=$submit;
 			}
@@ -764,7 +764,7 @@
 			$cancelParam=new \stdClass();
 			if ($this->getParam('progressmessage')) $cancelParam->progressmessage=$this->getParam('progressmessage');
 			$cancelParam=FlaskPHP\Util::htmlJSON($cancelParam);
-			$submit='<button type="button" class="ui secondary button mx-2 form-button form-button-cancel" id="submit_cancel" name="submit_cancel" onclick="Flask.Form.submit(\'submit_cancel\','.$cancelParam.')">[[ FLASK.FORM.Btn.Cancel ]]</button>';
+			$submit='<button type="button" class="ui secondary button form-button form-button-cancel" id="submit_cancel" name="submit_cancel" onclick="Flask.Form.submit(\'submit_cancel\','.$cancelParam.')">[[ FLASK.FORM.Btn.Cancel ]]</button>';
 			$this->template->set('submit_cancel',$submit);
 			$form_submit.=$submit;
 

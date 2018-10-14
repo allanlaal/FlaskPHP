@@ -230,7 +230,7 @@
 			$elementWidth=round(12-$labelWidth);
 
 			// Wrapper
-			$c='<div class="d-flex justify-content-between align-items-center">';
+			$c='<div class="ui chooserfield">';
 
 			// Field
 			$c.='<input';
@@ -252,7 +252,7 @@
 			$c.='>';
 
 			// Value
-			$c.='<div class="float-left chooser-value">';
+			$c.='<div class="chooser-value">';
 				if (!empty($value))
 				{
 					$c.=$this->displayValue();
@@ -264,7 +264,7 @@
 			$c.='</div>';
 
 			// Actions
-			$c.='<div class="float-right chooser-actions">';
+			$c.='<div class="chooser-actions">';
 
 				// Clear
 				if ($this->getParam('chooser_clear'))

@@ -44,7 +44,7 @@
 			$logData='';
 			if (!empty($value->operation))
 			{
-				$logData.='<div class="pb-2 mb-2" style="border-bottom: 1px #e0e1e2 solid"><b>[[ FLASK.LOG.Fld.LogData.Operation ]]:</b> '.strval($value->operation).'</div>';
+				$logData.='<div style="border-bottom: 1px #e0e1e2 solid; padding-bottom: 10px; margin-bottom: 10px"><b>[[ FLASK.LOG.Fld.LogData.Operation ]]:</b> '.strval($value->operation).'</div>';
 			}
 			if (!empty($value->data))
 			{

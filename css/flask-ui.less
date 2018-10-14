@@ -32,6 +32,17 @@
 
 .form-subtitle {
 	color: #868e96;
+	margin-top: 1.5rem;
+	margin-bottom: 0.75rem;
+}
+
+.form-submit {
+	margin-top: 1.5rem;
+
+	.form-button {
+		margin-right: 0.5rem;
+		margin-left: 0.5rem;
+	}
 }
 
 .ui.fileupload-view {
@@ -74,6 +85,25 @@
 	border: 1px solid #e0b4b4 !important;
 }
 
+.ui.chooserfield {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	.chooser-value {
+		text-align: left;
+	}
+
+	.chooser-actions {
+		text-align: right;
+		margin-left: 1rem;
+	}
+}
+
+.chooser-modal-searchresult {
+	margin-top: 1.5rem;
+}
+
 textarea {
 	resize: none !important;
 }
@@ -83,6 +113,17 @@ textarea {
 }
 
 
+/*
+ *   Tabbed view
+ */
+
+.tabbedview-tabs {
+	margin-bottom: 1.5rem;
+}
+
+.tabbedview-content {
+	margin-top: 1.5rem;
+}
 
 
 /*
@@ -212,8 +253,25 @@ textarea {
  *   Modals
  */
 
-.ui.modal:focus {
-  outline: none !important;
+.ui.modal {
+
+	.header {
+		display: flex;
+		justify-content: space-between;
+
+		.title {
+			text-align: left;
+		}
+
+		.close-btn {
+			text-align: right;
+		  margin-left: 1.5rem;
+		}
+	}
+
+	&:focus {
+	  outline: none !important;
+	}
 }
 
 

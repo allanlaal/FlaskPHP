@@ -52,7 +52,7 @@
 
 		public function renderFormLabel( $value, int $row=null )
 		{
-			return '<h3 class="form-subtitle mt-4 mb-2">'.$this->getTitle().'</h3>';
+			return '<h3 class="form-subtitle">'.$this->getTitle().'</h3>';
 		}
 
 
