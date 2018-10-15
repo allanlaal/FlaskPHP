@@ -733,7 +733,7 @@
 		public function displayFormSubmit()
 		{
 			// Start
-			$form_submit='<div class="ui secondary segment text-center form-submit">';
+			$form_submit='<div class="ui secondary segment form-submit">';
 
 			// Submit param
 			$submitParam=new \stdClass();
