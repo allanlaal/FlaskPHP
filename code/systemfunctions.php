@@ -72,6 +72,20 @@
 		return null;
 	}
 
+
+	/**
+	 *   Return first existing file from the list
+	 *   @param mixed
+	 *   @return string First existing file
+	 */
+
+	function onefileof()
+	{
+		$args=func_get_args();
+		foreach ($args as $arg) if (file_exists($arg) && is_readable($arg)) return $arg;
+		return null;
+	}
+
 	
 	/**
 	 *   Return var_dump output as string
