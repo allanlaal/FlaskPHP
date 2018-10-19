@@ -485,7 +485,7 @@
 					$whereList[]=($tablePrefix?$this->listObject->model->getParam('table').'.':'').$field." like ".$loadListParam::colValue('%'.strval($value).'%');
 				}
 			}
-			$loadListParam->addWhere('('.join(') or (',$whereList).')');
+			$loadListParam->addWhere('(('.join(') or (',$whereList).'))');
 		}
 
 
