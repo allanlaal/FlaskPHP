@@ -381,8 +381,8 @@
 --------------------*/
 
 /* For source only. Modified in gulp for dist */
-@imagePath : '/flask/static/vendor/semantic/themes/default/assets/images';
-@fontPath  : '/flask/static/vendor/semantic/themes/default/assets/fonts';
+@imagePath : '../../themes/default/assets/images';
+@fontPath  : '../../themes/default/assets/fonts';
 
 /*-------------------
        Em Sizes
