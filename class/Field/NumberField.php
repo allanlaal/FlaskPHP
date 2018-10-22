@@ -170,7 +170,7 @@
 			{
 				if ($this->getParam('minvalue_message'))
 				{
-					$validateError=str_replace('$minvalue',intval($this->getParam('minvalue')));
+					$validateError=str_replace('$minvalue',intval($this->getParam('minvalue')),$this->getParam('minvalue_message'));
 				}
 				else
 				{
@@ -186,7 +186,7 @@
 			{
 				if ($this->getParam('maxvalue_message'))
 				{
-					$validateError=str_replace('$maxvalue',intval($this->getParam('maxvalue')));
+					$validateError=str_replace('$maxvalue',intval($this->getParam('maxvalue')),$this->getParam('maxvalue_message'));
 				}
 				else
 				{

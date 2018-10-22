@@ -996,7 +996,7 @@
 			{
 				if ($this->getParam('minlength_message'))
 				{
-					$validateError=str_replace('$minlength',intval($this->getParam('minlength')));
+					$validateError=str_replace('$minlength',intval($this->getParam('minlength')),$this->getParam('minlength_message'));
 				}
 				else
 				{
@@ -1012,7 +1012,7 @@
 			{
 				if ($this->getParam('maxlength_message'))
 				{
-					$validateError=str_replace('$maxlength',intval($this->getParam('maxlength')));
+					$validateError=str_replace('$maxlength',intval($this->getParam('maxlength')),$this->getParam('maxlength_message'));
 				}
 				else
 				{
