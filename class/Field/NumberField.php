@@ -201,6 +201,23 @@
 
 		/**
 		 *
+		 *   Get field value
+		 *   ---------------
+		 *   @access public
+		 *   @throws \Exception
+		 *   @return mixed
+		 *
+		 */
+
+		public function getValue()
+		{
+			// Change , -> . and eliminate whitespace
+			return trim(preg_replace("/\s+/",'',str_replace(',','.',parent::getValue())));
+		}
+
+
+		/**
+		 *
 		 *   Get displayable value
 		 *   ---------------------
 		 *   @access public
