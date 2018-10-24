@@ -324,10 +324,31 @@
 
 		public static function getMimeType( $filename )
 		{
+			// Try finfo
 			$finfo=finfo_open(FILEINFO_MIME_TYPE);
 			$mimeType=finfo_file($finfo,$filename);
 			finfo_close($finfo);
-			return $mimeType;
+			if (!empty($mimeType)) return $mimeType;
+
+			// Try mime.types
+			$fileExtension=mb_strtolower(pathinfo($filename,PATHINFO_EXTENSION));
+			$mimeTypes=file(__DIR__.'/../../data/mime/mime.types',FILE_IGNORE_NEW_LINES);
+			if (empty($mimeTypes) || !is_array($mimeTypes)) return null;
+
+			// Find MIME type
+			foreach ($mimeTypes as $line)
+			{
+				if (empty($line) || $line[0]=='#') continue;
+				$lineArr=preg_split("/\s+/",$line);
+				if (empty($lineArr[1])) continue;
+				for ($i=1;$i<sizeof($lineArr);++$i)
+				{
+					if (mb_strtolower($lineArr[$i])==$fileExtension) return $lineArr[0];
+				}
+			}
+
+			// Nothing?
+			return null;
 		}
 
 
