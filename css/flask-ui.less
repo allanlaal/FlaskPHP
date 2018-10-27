@@ -344,18 +344,6 @@ body.overflow-hidden {
 		transition: transform 250ms ease-in-out;
 		z-index: 2;
 
-		&.wide {
-			max-width: 700px;
-		}
-
-		&.very.wide {
-			max-width: 960px;
-		}
-
-		&.full.width {
-			max-width: calc(100vw - 30px);
-		}
-
 		.header {
 			padding: 15px 20px;
 			flex: 0 0 auto;
@@ -374,6 +362,24 @@ body.overflow-hidden {
 			border-top: 1px rgba(34, 36, 38, 0.15) solid;
 			background: #f9fafb;
 			padding: 15px 20px;
+		}
+	}
+
+	&.wide {
+		.wrapper {
+			max-width: 700px;
+		}
+	}
+
+	&.very.wide {
+		.wrapper {
+			max-width: 960px;
+		}
+	}
+
+	&.full.width {
+		.wrapper {
+			max-width: calc(100vw - 30px);
 		}
 	}
 
