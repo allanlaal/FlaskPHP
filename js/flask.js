@@ -731,7 +731,14 @@ Flask.Modal = {
 	// Close modal
 	closeModal: function( modalTag )
 	{
-		Flask.Modal.hideModal(modalTag);
+		if (modalTag!=null && modalTag!='undefined') {
+			Flask.Modal.hideModal(modalTag);
+		}
+		else {
+			$(".ui.drawer.visible").each(function(){
+				Flask.Modal.hideModal($(this).attr('id'));
+			});
+		}
 	},
 
 	// Hide modal
@@ -942,7 +949,14 @@ Flask.Drawer = {
 	// Close drawer
 	closeDrawer: function( drawerTag )
 	{
-		Flask.Drawer.hideDrawer(drawerTag);
+		if (drawerTag!=null && drawerTag!='undefined') {
+			Flask.Drawer.hideDrawer(drawerTag);
+		}
+		else {
+			$(".ui.drawer.visible").each(function(){
+				Flask.Drawer.hideDrawer($(this).attr('id'));
+			});
+		}
 	},
 
 	// Hide modal
