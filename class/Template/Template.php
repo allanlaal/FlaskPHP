@@ -54,14 +54,18 @@
 		 *   @access public
 		 */
 
-		public $templateParseVars  = true;
+		public $templateParseVars = true;
 
 
 		/**
+		 *
 		 *   The constructor
+		 *   ---------------
 		 *   @access public
 		 *   @param string $templateName Template name/identifier
 		 *   @throws \Exception
+		 *   @return Template
+		 *
 		 */
 
 		public function __construct( string $templateName=null )
@@ -78,10 +82,13 @@
 
 
 		/**
+		 *
 		 *   Load the template
+		 *   -----------------
 		 *   @access public
 		 *   @throws \Exception
 		 *   @return void
+		 *
 		 */
 
 		public function loadTemplate()
@@ -126,24 +133,54 @@
 
 
 		/**
+		 *
 		 *   Set a template var
+		 *   ------------------
 		 *   @access public
 		 *   @param string $varName variable name
 		 *   @param mixed $varValue value
-		 *   @return void
+		 *   @throws \Exception
+		 *   @return Template
+		 *
 		 */
 
 		public function set( $varName, $varValue )
 		{
 			traverse_set($varName,$this->templateVar,$varValue);
+			return $this;
 		}
 
 
 		/**
+		 *
+		 *   Set template variables from array
+		 *   ---------------------------------
+		 *   @access public
+		 *   @param array $variables Variables
+		 *   @throws \Exception
+		 *   @return Template
+		 *
+		 */
+
+		public function setVariables( array $variables )
+		{
+			foreach ($variables as $k => $v)
+			{
+				$this->templateVar[$k]=$v;
+			}
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Get a template var
+		 *   ------------------
 		 *   @access public
 		 *   @param string $varName variable name
+		 *   @throws \Exception
 		 *   @return mixed Value
+		 *
 		 */
 
 		public function get( $varName )
@@ -153,29 +190,102 @@
 
 
 		/**
+		 *
 		 *   Parse the static content for locale variables
+		 *   ---------------------------------------------
 		 *   @access public
 		 *   @static
 		 *   @param string $content Content
 		 *   @param bool $parseLocale Parse locale tags
-		 *   @param bool $parseVariables Parse variables
+		 *   @param array $variables Variables
+		 *   @throws \Exception
 		 *   @return string parsed template
+		 *
 		 */
 
-		public static function parseContent( $content, $parseLocale=true, $parseVariables=true )
+		public static function parseContent( $content, $parseLocale=true, array $variables=null )
 		{
 			$template=new Template();
-			return ($template->parse($content,$parseLocale,$parseVariables));
+			if ($variables!==null)
+			{
+				$template->setVariables($variables);
+				return ($template->parse($content,$parseLocale,true));
+			}
+			else
+			{
+				return ($template->parse($content,$parseLocale,false));
+			}
 		}
 
 
 		/**
+		 *
+		 *   Parse template for locale tags
+		 *   ------------------------------
+		 *   @access public
+		 *   @static
+		 *   @param string $content Content
+		 *   @throws \Exception
+		 *   @return string parsed template
+		 *
+		 */
+
+		public static function parseLocale( $content )
+		{
+			$Template=new Template();
+			$content=preg_replace_callback("/\[\[\s*(.+?)\s*\]\]/",array($Template,'_parse_locale'),$content);
+			return $content;
+		}
+
+
+		/**
+		 *
+		 *   Parse template for variables
+		 *   ----------------------------
+		 *   @access public
+		 *   @static
+		 *   @param string $content Content
+		 *   @param array $variables
+		 *   @param string $variableTagFormat Variable tag format
+		 *   @throws \Exception
+		 *   @return string parsed template
+		 *
+		 */
+
+		public static function parseVariables( $content, array $variables=array(), string $variableTagFormat='{{' )
+		{
+			$Template=new Template();
+			$Template->setVariables($variables);
+			switch ($variableTagFormat)
+			{
+				case '{{':
+					$content=preg_replace_callback("/\{\{\s*(.+?)\s*\}\}/",array($Template,'_parse_variable'),$content);
+					break;
+				case '{':
+					$content=preg_replace_callback("/\{\s*(.+?)\s*\}/",array($Template,'_parse_variable'),$content);
+					break;
+				case '$':
+					$content=preg_replace_callback("/\$([A-Za-z0-9]+?)/",array($Template,'_parse_variable'),$content);
+					break;
+				default:
+					throw new FlaskPHP\Exception\InvalidParameterException('Invalid $variableTagFormat value.');
+			}
+			return $content;
+		}
+
+
+
+		/**
+		 *
 		 *   Parse template contents
+		 *   -----------------------
 		 *   @access public
 		 *   @param string $src Source
 		 *   @param bool $parseLocale Parse locale tags
 		 *   @param bool $parseVariables Parse variable tags
+		 *   @throws \Exception
 		 *   @return string parsed template
+		 *
 		 */
 
 		public function parse( $src=null, $parseLocale=true, $parseVariables=true )
@@ -216,11 +326,15 @@
 
 
 		/**
+		 *
 		 *   Get a variable
+		 *   --------------
 		 *   @access private
 		 *   @param string $match Match
 		 *   @param array $var Variables as array
+		 *   @throws \Exception
 		 *   @return string parsed variable
+		 *
 		 */
 
 		private function _parse_variable( $match, $var=null )
@@ -231,10 +345,14 @@
 
 
 		/**
+		 *
 		 *   Get a localized string
+		 *   ----------------------
 		 *   @access private
 		 *   @param string $match match
+		 *   @throws \Exception
 		 *   @return string localized string
+		 *
 		 */
 
 		function _parse_locale( $match )
@@ -296,12 +414,15 @@
 
 
 		/**
-		 *   Get a localized string
+		 *
+		 *   Apply function
+		 *   ---------------
 		 *   @access private
 		 *   @param string $str String
 		 *   @param string $func Modifier function
-		 *   @return string Processed string
 		 *   @throws \Exception
+		 *   @return string Processed string
+		 *
 		 */
 
 		function _apply_function( $str, $func )
@@ -318,6 +439,24 @@
 				$funcParamList=array();
 			}
 
+			if (!empty($funcParamList))
+			{
+				$unparsedFuncParamList=$funcParamList;
+				$funcParamList=array();
+				foreach ($unparsedFuncParamList as $param)
+				{
+					if (mb_strpos($param,'=')!==false)
+					{
+						list($k,$v)=str_array($param,'=',2);
+						$funcParamList[$k]=$v;
+					}
+					else
+					{
+						$funcParamList[$param]=true;
+					}
+				}
+			}
+
 			// Do the magic
 			switch (mb_strtolower($func))
 			{
@@ -329,6 +468,36 @@
 				case 'tolower':
 					return mb_strtolower($str);
 
+				// Format date
+				case 'date':
+					return Flask()->I18n->formatDate($str);
+
+				// Format time
+				case 'time':
+					switch (Flask()->I18n->i18nTimeFormat)
+					{
+						case '12':
+							return date("h:i",strtotime($str));
+						default:
+							return date("H:i",strtotime($str));
+					}
+
+				// Format number
+				case 'number':
+					return Flask()->I18n->formatDecimalValue(floatval($str),intval($funcParamList['precision']),(!empty($funcParamList['trim'])?true:false));
+
+
+				// Format currency
+				case 'currency':
+					if (!empty($funcParamList['currency']))
+					{
+						return Flask()->I18n->formatCurrency(floatval($str),$funcParamList['currency'],true);
+					}
+					else
+					{
+						return Flask()->I18n->formatDecimalValue(floatval($str),2,false);
+					}
+
 				// Unknown function
 				default:
 					throw new FlaskPHP\Exception\TemplateRenderException('Unknown modifier function: '.$func);
@@ -337,9 +506,13 @@
 
 
 		/**
+		 *
 		 *   Render the template and return the contents
+		 *   -------------------------------------------
 		 *   @access public
+		 *   @throws \Exception
 		 *   @return string parsed template
+		 *
 		 */
 
 		public function render()
@@ -349,12 +522,15 @@
 
 
 		/**
+		 *
 		 *   Replace simple $-variables
+		 *   --------------------------
 		 *   @access public
 		 *   @static
 		 *   @param string $string Input string
 		 *   @param array|object $variables Variables
 		 *   @return string parsed string
+		 *
 		 */
 
 		public static function parseSimpleVariables( string $string, $variables )
@@ -369,7 +545,6 @@
 			}
 			return $string;
 		}
-
 
 
 	}
