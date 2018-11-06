@@ -46,7 +46,7 @@ FLASK.COMMON.Address                                         Adresse
 FLASK.COMMON.Address.Street                                  Adresse
 FLASK.COMMON.Address.City                                    Stadt
 FLASK.COMMON.Address.State                                   Zustand
-FLASK.COMMON.Address.ZIP                                     PLZ\n
+FLASK.COMMON.Address.ZIP                                     PLZ
 FLASK.COMMON.Address.Country                                 Land
 
 FLASK.COMMON.Error                                           Error

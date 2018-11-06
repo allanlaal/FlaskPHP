@@ -40,7 +40,7 @@ FLASK.COMMON.Name.Last                                       cognome
 FLASK.COMMON.Name.Title                                      titolo
 
 FLASK.COMMON.Password                                        password
-FLASK.COMMON.Language                                        lingua\n
+FLASK.COMMON.Language                                        lingua
 
 FLASK.COMMON.Address                                         indirizzo
 FLASK.COMMON.Address.Street                                  strada
@@ -167,7 +167,7 @@ FLASK.FIELD.Chooser.Search.Submit                            ricerca
 FLASK.FIELD.Chooser.AddNew.Submit                            aggiungere nuova
 FLASK.FIELD.Chooser.Progress                                 interrogare i dati, attendere ...
 FLASK.FIELD.Chooser.Result.NoResults                         nessun risultato trovato
-FLASK.FIELD.Chooser.Result.MaxResults                        Più di \"$maxresults\" risultati trovati, cerca di essere più specifico.
+FLASK.FIELD.Chooser.Result.MaxResults                        Più di $maxresults risultati trovati, cerca di essere più specifico.
 FLASK.FIELD.Chooser.Error                                    Errore durante il recupero dei risultati di ricerca.
 FLASK.FIELD.Chooser.Error.SearchEmpty                        Si prega di inserire un termine di ricerca.
 FLASK.FIELD.Chooser.Error.SearchMinLength                    Termine di ricerca troppo breve, inserisci almeno $minlength caratteri.
@@ -175,7 +175,7 @@ FLASK.FIELD.Chooser.Error.SearchMinLength                    Termine di ricerca 
 FLASK.FIELD.Error.RequiredFieldEmpty                         Campo obbligatorio vuoto.
 FLASK.FIELD.Error.MinLength                                  Valore troppo corto, richiede almeno $minlength caratteri.
 FLASK.FIELD.Error.MaxLength                                  Valore troppo lungo, è consentito un massimo di caratteri di lunghezza massima di $maxlength.
-FLASK.FIELD.Error.MinValue                                   Valore inferiore al valore minimo consentito ($minore)\n\n
+FLASK.FIELD.Error.MinValue                                   Valore inferiore al valore minimo consentito ($minore)
 FLASK.FIELD.Error.MaxValue                                   Valore superiore al valore massimo consentito ($maxvalue).
 FLASK.FIELD.Error.Filter                                     Il valore contiene caratteri non validi.
 FLASK.FIELD.Error.Unique                                     Valore non unico, valore duplicato non consentito.
@@ -232,7 +232,7 @@ FLASK.FORM.Btn.Cancel                                        Annulla
 FLASK.FORM.Btn.Close                                         chiudi
 FLASK.FORM.Msg.Saving                                        Salvataggio dei dati, attendere ...
 FLASK.FORM.Error.CouldNotFindForm                            Impossibile trovare il modulo.
-FLASK.FORM.Error.Validate                                    Durante la convalida dell'inserimento del modulo si sono verificati i seguenti errori\n
+FLASK.FORM.Error.Validate                                    Durante la convalida dell'inserimento del modulo si sono verificati i seguenti errori
 FLASK.FORM.Error.DuplicateKey                                Una registrazione con questi dati esiste già, non può creare un duplicato.
 
 
