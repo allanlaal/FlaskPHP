@@ -1,0 +1,290 @@
+#
+#
+#   FlaskPHP
+#   --------
+#   System locale - German
+#
+#   (c) Codelab Solutions OÜ <codelab@codelab.ee>
+#   Distributed under the MIT License: https://www.flaskphp.com/LICENSE
+#
+#
+
+
+FLASK.COMMON.OK                                              OK
+FLASK.COMMON.Warnings                                        Warnungen
+FLASK.COMMON.NotOK                                           Nicht ok
+FLASK.COMMON.Missing                                         fehlt
+FLASK.COMMON.NotSet                                          nicht eingestellt
+FLASK.COMMON.NotEntered                                      nicht beigetreten
+FLASK.COMMON.NotConnected                                    nicht verbunden
+FLASK.COMMON.None                                            keiner
+FLASK.COMMON.Empty                                           leeren
+FLASK.COMMON.Unknown                                         unbekannte
+FLASK.COMMON.All                                             alles
+FLASK.COMMON.SelectAll                                       Wählen Sie Alle
+FLASK.COMMON.Selected                                        ausgewählt
+FLASK.COMMON.Other                                           andere
+FLASK.COMMON.OtherEnter                                      andere, geben Sie ein
+FLASK.COMMON.BackToList                                      zurück zur Liste
+
+FLASK.COMMON.Yes                                             Ja
+FLASK.COMMON.No                                              Nein
+
+FLASK.COMMON.Email                                           E-Mail-Addresse
+FLASK.COMMON.Email.Short                                     Email
+
+FLASK.COMMON.Name                                            Name
+FLASK.COMMON.Name.First                                      Vorname
+FLASK.COMMON.Name.Middle                                     Zweiter Vorname
+FLASK.COMMON.Name.Last                                       Nachname
+FLASK.COMMON.Name.Title                                      Titel
+
+FLASK.COMMON.Password                                        Passwort
+FLASK.COMMON.Language                                        Sprache
+
+FLASK.COMMON.Address                                         Adresse
+FLASK.COMMON.Address.Street                                  Adresse
+FLASK.COMMON.Address.City                                    Stadt
+FLASK.COMMON.Address.State                                   Zustand
+FLASK.COMMON.Address.ZIP                                     PLZ\n
+FLASK.COMMON.Address.Country                                 Land
+
+FLASK.COMMON.Error                                           Error
+FLASK.COMMON.Error.InvalidRequest                            Ungültige Anfrage.
+FLASK.COMMON.Error.ErrorOpeningModal                         Fehler beim Öffnen des Dialogs
+FLASK.COMMON.Error.ErrorReadingData                          Fehler beim Lesen von Daten
+FLASK.COMMON.Error.ErrorSavingData                           Fehler beim Speichern von Daten
+
+
+#
+#  Date/time stuff
+#
+
+FLASK.COMMON.Date                                            Datum
+FLASK.COMMON.Time                                            Zeit
+FLASK.COMMON.DateTime                                        Terminzeit
+
+FLASK.COMMON.Day                                             Tag
+FLASK.COMMON.Days                                            Tage
+FLASK.COMMON.DayAbbr                                         D
+FLASK.COMMON.Week                                            Woche
+FLASK.COMMON.Weeks                                           Wochen
+FLASK.COMMON.WeekAbbr                                        W
+FLASK.COMMON.Month                                           Monat
+FLASK.COMMON.Months                                          Monate
+FLASK.COMMON.MonthAbbr                                       M
+FLASK.COMMON.Year                                            Jahr
+FLASK.COMMON.Years                                           Jahre
+FLASK.COMMON.YearAbbr                                        Y
+FLASK.COMMON.Hour                                            Stunde
+FLASK.COMMON.Hours                                           Std
+FLASK.COMMON.HourAbbr                                        h
+FLASK.COMMON.Min                                             Minute
+FLASK.COMMON.Mins                                            Protokoll
+FLASK.COMMON.MinAbbr                                         m
+FLASK.COMMON.Second                                          zweite
+FLASK.COMMON.Seconds                                         Sekunden
+FLASK.COMMON.SecondAbbr                                      s
+
+FLASK.COMMON.Today                                           Heute
+FLASK.COMMON.Now                                             Jetzt
+
+FLASK.COMMON.Day.1                                           Montag
+FLASK.COMMON.Day.2                                           Dienstag
+FLASK.COMMON.Day.3                                           Mittwoch
+FLASK.COMMON.Day.4                                           Donnerstag
+FLASK.COMMON.Day.5                                           Freitag
+FLASK.COMMON.Day.6                                           Samstag
+FLASK.COMMON.Day.7                                           Sonntag
+
+FLASK.COMMON.Day.Short.1                                     Mo
+FLASK.COMMON.Day.Short.2                                     Di
+FLASK.COMMON.Day.Short.3                                     Heiraten
+FLASK.COMMON.Day.Short.4                                     Do
+FLASK.COMMON.Day.Short.5                                     Fr.
+FLASK.COMMON.Day.Short.6                                     Sat
+FLASK.COMMON.Day.Short.7                                     Sonne
+
+FLASK.COMMON.Day.Abbr.1                                      M
+FLASK.COMMON.Day.Abbr.2                                      T
+FLASK.COMMON.Day.Abbr.3                                      W
+FLASK.COMMON.Day.Abbr.4                                      T
+FLASK.COMMON.Day.Abbr.5                                      F
+FLASK.COMMON.Day.Abbr.6                                      S
+FLASK.COMMON.Day.Abbr.7                                      S
+
+FLASK.COMMON.Month.1                                         Januar
+FLASK.COMMON.Month.2                                         Februar
+FLASK.COMMON.Month.3                                         März
+FLASK.COMMON.Month.4                                         April
+FLASK.COMMON.Month.5                                         Kann
+FLASK.COMMON.Month.6                                         Juni
+FLASK.COMMON.Month.7                                         Juli
+FLASK.COMMON.Month.8                                         August
+FLASK.COMMON.Month.9                                         September
+FLASK.COMMON.Month.10                                        Oktober
+FLASK.COMMON.Month.11                                        November
+FLASK.COMMON.Month.12                                        Dezember
+
+FLASK.COMMON.Month.Short.1                                   Jan
+FLASK.COMMON.Month.Short.2                                   Feb.
+FLASK.COMMON.Month.Short.3                                   Beschädigen
+FLASK.COMMON.Month.Short.4                                   April
+FLASK.COMMON.Month.Short.5                                   Kann
+FLASK.COMMON.Month.Short.6                                   Jun
+FLASK.COMMON.Month.Short.7                                   Jul
+FLASK.COMMON.Month.Short.8                                   Aug
+FLASK.COMMON.Month.Short.9                                   Sep
+FLASK.COMMON.Month.Short.10                                  Okt
+FLASK.COMMON.Month.Short.11                                  Nov
+FLASK.COMMON.Month.Short.12                                  Dez
+
+
+#
+#  Field stuff
+#
+
+FLASK.FIELD.Select                                           hier auswählen
+
+FLASK.FIELD.Password.EnterPassword                           Passwort eingeben
+FLASK.FIELD.Password.RepeatPassword                          Wiederhole das Passwort
+FLASK.FIELD.Password.Suggest.FormComment                     Schlagen Sie ein sicheres Passwort vor
+FLASK.FIELD.Password.Suggest.Title                           Passwortvorschlag
+FLASK.FIELD.Password.Suggest.Result.1                        Ihr Passwort lautet
+FLASK.FIELD.Password.Suggest.Result.2                        Bitte notieren Sie es und bewahren Sie es an einem sicheren Ort auf.
+
+FLASK.FIELD.File.NoFile                                      Keine Datei ausgewählt
+FLASK.FIELD.File.Browse                                      Durchsuche
+FLASK.FIELD.File.FileRemoved                                 Datei wurde entfernt
+FLASK.FIELD.File.Remove                                      Löschen
+FLASK.FIELD.File.Remove.Confirm                              Diese Datei entfernen?
+
+FLASK.FIELD.Chooser.choose                                   wählen
+FLASK.FIELD.Chooser.clear                                    klar
+FLASK.FIELD.Chooser.Search.Title                             Wählen
+FLASK.FIELD.Chooser.Search.Placeholder                       Suchbegriff eingeben
+FLASK.FIELD.Chooser.Search.Submit                            Suche
+FLASK.FIELD.Chooser.AddNew.Submit                            Neue hinzufügen
+FLASK.FIELD.Chooser.Progress                                 Daten abfragen, bitte warten ...
+FLASK.FIELD.Chooser.Result.NoResults                         Keine Ergebnisse gefunden.
+FLASK.FIELD.Chooser.Result.MaxResults                        Es wurden mehr als $ maxresults Ergebnisse gefunden.
+FLASK.FIELD.Chooser.Error                                    Fehler beim Abrufen der Suchergebnisse
+FLASK.FIELD.Chooser.Error.SearchEmpty                        Bitte geben Sie eine Suchzeichenfolge ein.
+FLASK.FIELD.Chooser.Error.SearchMinLength                    Suchzeichenfolge zu kurz, bitte geben Sie mindestens $ Minlength-Zeichen ein.
+
+FLASK.FIELD.Error.RequiredFieldEmpty                         Pflichtfeld leer
+FLASK.FIELD.Error.MinLength                                  Wert zu kurz, mindestens $ Zeichenlänge erforderlich.
+FLASK.FIELD.Error.MaxLength                                  Wert zu lang, maximal $ maxlength Zeichen zulässig.
+FLASK.FIELD.Error.MinValue                                   Wert unter dem zulässigen Mindestwert ($ minvalue).
+FLASK.FIELD.Error.MaxValue                                   Wert über zulässigem Maximalwert ($ maxvalue).
+FLASK.FIELD.Error.Filter                                     Wert enthält unzulässige Zeichen.
+FLASK.FIELD.Error.Unique                                     Wert nicht eindeutig, doppelter Wert nicht zulässig.
+FLASK.FIELD.Error.NumberFld.Format                           Feldwert ist keine gültige Zahl.
+FLASK.FIELD.Error.NumberFld.Format.Negative                  Feldwert ist keine gültige positive Zahl.
+FLASK.FIELD.Error.InvalidValue                               Ungültiger Wert.
+FLASK.FIELD.Error.InvalidEmail                               Ungültige E-Mail-Adresse.
+FLASK.FIELD.Error.InvalidDate                                Ungültiges Datum.
+FLASK.FIELD.Error.InvalidDate.Fmt                            Ungültiges Datum (nicht im Format $).
+FLASK.FIELD.Error.InvalidTime                                Ungültige Zeit
+FLASK.FIELD.Error.IncompleteDateTime                         Unvollständiges Datum / Uhrzeit
+FLASK.FIELD.Error.FileTypeNotAllowed                         Dieser Dateityp ist nicht zulässig.
+FLASK.FIELD.Error.PasswordWeak1                              Passwort zu schwach (muss sowohl Zeichen als auch Zahlen enthalten).
+FLASK.FIELD.Error.PasswordWeak2                              Passwort zu schwach (muss aus Klein- und Großbuchstaben, Ziffern und Satzzeichen bestehen).
+FLASK.FIELD.Error.PasswordRepeatEmpty                        Passwort wiederholen leer.
+FLASK.FIELD.Error.PasswordRepeatMismatch                     Passwort wiederholen stimmt nicht überein.
+
+
+#
+#  User
+#
+
+FLASK.USER.Login.Login                                       Anmeldung
+FLASK.USER.Login.Success                                     erfolgreicher Login
+FLASK.USER.Login.Error.EmailEmpty                            E-Mail-Adresse ist leer.
+FLASK.USER.Login.Error.EmailInvalid                          Ungültige E-Mail-Adresse.
+FLASK.USER.Login.Error.PasswordEmpty                         Passwort ist leer
+FLASK.USER.Login.Error.Unsuccessful                          Login fehlgeschlagen.
+FLASK.USER.Login.Error.NoSuchUser                            Kein solcher Benutzer.
+FLASK.USER.Login.Error.WrongPassword                         Falsches Passwort.
+FLASK.USER.Login.Error.UserPending                           Konto ist ausstehend
+FLASK.USER.Login.Error.UserDisabled                          Account deaktiviert.
+FLASK.USER.Login.Error.UnknownLanguage                       Unbekannte Sprache
+
+
+#
+#  Modal
+#
+
+FLASK.MODAL.Btn.OK                                           OK
+FLASK.MODAL.Confirm                                          Bitte bestätigen
+FLASK.MODAL.Progress                                         Bearbeitungsanfrage, bitte warten ...
+
+
+#
+#  Form
+#
+
+FLASK.FORM.Title.add                                         Einen neuen Eintrag hinzufügen
+FLASK.FORM.Title.edit                                        Eintrag bearbeiten
+FLASK.FORM.Btn.add                                           Hinzufügen
+FLASK.FORM.Btn.edit                                          sparen
+FLASK.FORM.Btn.Cancel                                        Stornieren
+FLASK.FORM.Btn.Close                                         Schließen
+FLASK.FORM.Msg.Saving                                        Daten werden gespeichert, bitte warten ...
+FLASK.FORM.Error.CouldNotFindForm                            Das Formular konnte nicht gefunden werden.
+FLASK.FORM.Error.Validate                                    Bei der Überprüfung der Formulareingabe sind folgende Fehler aufgetreten
+FLASK.FORM.Error.DuplicateKey                                Ein Datensatz mit den angegebenen Daten ist bereits vorhanden. Es kann kein Duplikat erstellt werden.
+
+
+#
+#  List
+#
+
+FLASK.LIST.Filter.Submit                                     Filter anwenden
+FLASK.LIST.Filter.Clear                                      Filter löschen
+FLASK.LIST.Filter.ShowAll                                    zeige alles
+FLASK.LIST.Progress                                          Daten abfragen, bitte warten ...
+FLASK.LIST.Message.FilterRequired                            Bitte wählen Sie mindestens ein Filterkriterium aus.
+FLASK.LIST.Message.NoResults                                 Keine Ergebnisse gefunden.
+FLASK.LIST.Message.NoResults.Filtered                        Es wurden keine Ergebnisse gefunden, die den Filterkriterien entsprechen.
+FLASK.LIST.Message.FoundRows                                 Summe der $ Foundrows-Datensätze.
+FLASK.LIST.Return                                            Rückkehr
+
+
+#
+#  Tabbed view
+#
+
+FLASK.TABBEDVIEW.Progress                                    Daten werden geladen, ein Moment ...
+
+
+#
+#  Log
+#
+
+FLASK.LOG.Fld.TimeStamp                                      Terminzeit
+FLASK.LOG.Fld.User                                           Nutzer
+FLASK.LOG.Fld.LogEntry                                       Log Eintrag
+FLASK.LOG.Fld.LogData                                        Eintragsdetails protokollieren
+FLASK.LOG.Fld.LogData.View                                   Details anzeigen
+FLASK.LOG.Fld.LogData.Operation                              Operation
+FLASK.LOG.Fld.LogData.Empty                                  leeren
+FLASK.LOG.LogEntry.Action.add                                hinzugefügt
+FLASK.LOG.LogEntry.Action.edit                               bearbeitet
+FLASK.LOG.LogEntry.Action.delete                             gelöscht
+FLASK.LOG.LogEntry.Action.swap                               Bestellung getauscht
+
+
+#
+#  Auth providers
+#
+
+FLASK.AUTH.EEMobileID.Error.NotActivated                     Mobile-ID ist nicht aktiviert.
+FLASK.AUTH.EEMobileID.Error.NotReady                         Die Mobile-ID-Funktion ist noch nicht verfügbar. Versuchen Sie es später erneut.
+FLASK.AUTH.EEMobileID.Error.RequestFailed                    Das Senden der Authentifizierungsanforderung an das Telefon ist fehlgeschlagen.
+FLASK.AUTH.EEMobileID.Error.UserCancelled                    Benutzer hat die Authentifizierung abgebrochen.
+FLASK.AUTH.EEMobileID.Error.TechnicalError                   Technischer Fehler des Service.
+FLASK.AUTH.EEMobileID.Error.SIMError                         SIM-Anwendungsfehler
+FLASK.AUTH.EEMobileID.Error.PhoneAbsent                      Telefon ist nicht in Reichweite.
+FLASK.AUTH.EEMobileID.Error.CertificateRevoked               Mobile-ID-Benutzerzertifikate werden widerrufen oder ausgesetzt.
+FLASK.AUTH.EEMobileID.Error.UnknownError                     Anderer / unbekannter Mobile-ID-Fehler.
