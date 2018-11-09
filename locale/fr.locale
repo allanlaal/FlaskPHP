@@ -167,16 +167,16 @@ FLASK.FIELD.Chooser.Search.Submit                            Chercher
 FLASK.FIELD.Chooser.AddNew.Submit                            Ajouter nouveau
 FLASK.FIELD.Chooser.Progress                                 Interrogation des données, veuillez patienter ...
 FLASK.FIELD.Chooser.Result.NoResults                         Aucun résultat trouvé.
-FLASK.FIELD.Chooser.Result.MaxResults                        Plus de $ résultats maximum trouvés, veuillez être plus précis.
+FLASK.FIELD.Chooser.Result.MaxResults                        Plus de $maxresults maximum trouvés, veuillez être plus précis.
 FLASK.FIELD.Chooser.Error                                    Erreur lors de l'extraction des résultats de la recherche.
 FLASK.FIELD.Chooser.Error.SearchEmpty                        Entrez s'il vous plaît une chaîne de recherche.
-FLASK.FIELD.Chooser.Error.SearchMinLength                    Chaîne de recherche trop courte, veuillez entrer au moins $ caractères.
+FLASK.FIELD.Chooser.Error.SearchMinLength                    Chaîne de recherche trop courte, veuillez entrer au moins $minlength caractères.
 
 FLASK.FIELD.Error.RequiredFieldEmpty                         Champ obligatoire vide.
-FLASK.FIELD.Error.MinLength                                  Valeur trop courte, requis au moins $ caractères.
-FLASK.FIELD.Error.MaxLength                                  Valeur trop longue, un maximum de $ caractères est autorisé.
-FLASK.FIELD.Error.MinValue                                   Valeur inférieure à la valeur minimale autorisée ($ minvalue).
-FLASK.FIELD.Error.MaxValue                                   Valeur supérieure à la valeur maximale autorisée ($ maxvalue).
+FLASK.FIELD.Error.MinLength                                  Valeur trop courte, requis au moins $minlength caractères.
+FLASK.FIELD.Error.MaxLength                                  Valeur trop longue, un maximum de $maxlength caractères est autorisé.
+FLASK.FIELD.Error.MinValue                                   Valeur inférieure à la valeur minimale autorisée ($minvalue).
+FLASK.FIELD.Error.MaxValue                                   Valeur supérieure à la valeur maximale autorisée ($maxvalue).
 FLASK.FIELD.Error.Filter                                     La valeur contient des caractères illégaux.
 FLASK.FIELD.Error.Unique                                     Valeur non unique, valeur en double non autorisée.
 FLASK.FIELD.Error.NumberFld.Format                           La valeur du champ n'est pas un nombre valide.
@@ -184,7 +184,7 @@ FLASK.FIELD.Error.NumberFld.Format.Negative                  La valeur du champ 
 FLASK.FIELD.Error.InvalidValue                               Valeur invalide.
 FLASK.FIELD.Error.InvalidEmail                               Adresse e-mail invalide.
 FLASK.FIELD.Error.InvalidDate                                Date invalide.
-FLASK.FIELD.Error.InvalidDate.Fmt                            Date invalide (pas au format $ format).
+FLASK.FIELD.Error.InvalidDate.Fmt                            Date invalide (pas au format $format).
 FLASK.FIELD.Error.InvalidTime                                Temps invalide.
 FLASK.FIELD.Error.IncompleteDateTime                         Date / heure incomplète.
 FLASK.FIELD.Error.FileTypeNotAllowed                         Ce type de fichier n'est pas autorisé.
@@ -247,7 +247,7 @@ FLASK.LIST.Progress                                          Interrogation des d
 FLASK.LIST.Message.FilterRequired                            Veuillez choisir au moins un critère de filtre.
 FLASK.LIST.Message.NoResults                                 Aucun résultat trouvé.
 FLASK.LIST.Message.NoResults.Filtered                        Aucun résultat trouvé correspondant aux critères de filtrage.
-FLASK.LIST.Message.FoundRows                                 Nombre total d'enregistrements trouvés.
+FLASK.LIST.Message.FoundRows                                 $foundrows total d'enregistrements trouvés.
 FLASK.LIST.Return                                            retour
 
 

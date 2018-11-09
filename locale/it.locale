@@ -175,7 +175,7 @@ FLASK.FIELD.Chooser.Error.SearchMinLength                    Termine di ricerca 
 FLASK.FIELD.Error.RequiredFieldEmpty                         Campo obbligatorio vuoto.
 FLASK.FIELD.Error.MinLength                                  Valore troppo corto, richiede almeno $minlength caratteri.
 FLASK.FIELD.Error.MaxLength                                  Valore troppo lungo, è consentito un massimo di caratteri di lunghezza massima di $maxlength.
-FLASK.FIELD.Error.MinValue                                   Valore inferiore al valore minimo consentito ($minore)
+FLASK.FIELD.Error.MinValue                                   Valore inferiore al valore minimo consentito ($minvalue)
 FLASK.FIELD.Error.MaxValue                                   Valore superiore al valore massimo consentito ($maxvalue).
 FLASK.FIELD.Error.Filter                                     Il valore contiene caratteri non validi.
 FLASK.FIELD.Error.Unique                                     Valore non unico, valore duplicato non consentito.
@@ -184,7 +184,7 @@ FLASK.FIELD.Error.NumberFld.Format.Negative                  Il valore del campo
 FLASK.FIELD.Error.InvalidValue                               Valore non valido.
 FLASK.FIELD.Error.InvalidEmail                               Indirizzo email non valido.
 FLASK.FIELD.Error.InvalidDate                                Data non valida.
-FLASK.FIELD.Error.InvalidDate.Fmt                            Data non valida (non in formato $ format).
+FLASK.FIELD.Error.InvalidDate.Fmt                            Data non valida (non in formato $format).
 FLASK.FIELD.Error.InvalidTime                                Ora non valida
 FLASK.FIELD.Error.IncompleteDateTime                         Data / ora incompleta.
 FLASK.FIELD.Error.FileTypeNotAllowed                         Questo tipo di file non è permesso.
@@ -247,7 +247,7 @@ FLASK.LIST.Progress                                          Interrogare i dati,
 FLASK.LIST.Message.FilterRequired                            Si prega di scegliere almeno un criterio di filtro.
 FLASK.LIST.Message.NoResults                                 Nessun risultato trovato.
 FLASK.LIST.Message.NoResults.Filtered                        Nessun risultato trovato corrispondente ai criteri del filtro.
-FLASK.LIST.Message.FoundRows                                 Totale di $ foundrows (s) registrazioni.
+FLASK.LIST.Message.FoundRows                                 Totale di $foundrows registrazioni.
 FLASK.LIST.Return                                            ritorno
 
 
