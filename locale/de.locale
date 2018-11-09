@@ -247,7 +247,7 @@ FLASK.LIST.Progress                                          Daten abfragen, bit
 FLASK.LIST.Message.FilterRequired                            Bitte wählen Sie mindestens ein Filterkriterium aus.
 FLASK.LIST.Message.NoResults                                 Keine Ergebnisse gefunden.
 FLASK.LIST.Message.NoResults.Filtered                        Es wurden keine Ergebnisse gefunden, die den Filterkriterien entsprechen.
-FLASK.LIST.Message.FoundRows                                 Summe der $foundrows-Datensätze.
+FLASK.LIST.Message.FoundRows                                 Gesamtergebnisse $foundrows Datensätze.
 FLASK.LIST.Return                                            Rückkehr
 
 
