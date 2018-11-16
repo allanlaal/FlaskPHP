@@ -140,51 +140,61 @@
 
 		public function runAction()
 		{
-			// Set defaults
-			$this->setDefaults();
-
-			// Init delete
-			$this->initDelete();
-
-			// Check
-			if (!is_object($this->model)) throw new FlaskPHP\Exception\InvalidParameterException('No model defined.');
-			if (!Flask()->Request->postVar($this->model->getParam('idfield'))) throw new FlaskPHP\Exception\InvalidParameterException('[[ FLASK.COMMON.Error.InvalidRequest ]]');
-			if (!intval(Flask()->Request->postVar($this->model->getParam('idfield')))) throw new FlaskPHP\Exception\InvalidParameterException('[[ FLASK.COMMON.Error.InvalidRequest ]]');
-
-			// Load
-			$Object=$this->model=$this->model::getObject(intval(Flask()->Request->postVar($this->model->getParam('idfield'))));
-
-			// Pre-delete trigger
-			$this->triggerPreDelete();
-
-			// Delete
-			$Object->delete(
-				$this->getParam('log_message'),
-				null,
-				$this->getParam('log_refoid'),
-				$this->getParam('log_op'),
-				($this->getParam('skipvalidation')?true:false)
-			);
-
-			// Post-delete trigger
-			$this->triggerPostDelete();
-
-			// Response
-			$response=new \stdClass();
-			$response->status=1;
-			if ($this->getParam('url_redirect'))
+			try
 			{
-				$response->redirect=$this->getParam('url_redirect');
+				// Set defaults
+				$this->setDefaults();
+
+				// Init delete
+				$this->initDelete();
+
+				// Check
+				if (!is_object($this->model)) throw new FlaskPHP\Exception\InvalidParameterException('No model defined.');
+				if (!Flask()->Request->postVar($this->model->getParam('idfield'))) throw new FlaskPHP\Exception\InvalidParameterException('[[ FLASK.COMMON.Error.InvalidRequest ]]');
+				if (!intval(Flask()->Request->postVar($this->model->getParam('idfield')))) throw new FlaskPHP\Exception\InvalidParameterException('[[ FLASK.COMMON.Error.InvalidRequest ]]');
+
+				// Load
+				$Object=$this->model=$this->model::getObject(intval(Flask()->Request->postVar($this->model->getParam('idfield'))));
+
+				// Pre-delete trigger
+				$this->triggerPreDelete();
+
+				// Delete
+				$Object->delete(
+					$this->getParam('log_message'),
+					null,
+					$this->getParam('log_refoid'),
+					$this->getParam('log_op'),
+					($this->getParam('skipvalidation')?true:false)
+				);
+
+				// Post-delete trigger
+				$this->triggerPostDelete();
+
+				// Response
+				$response=new \stdClass();
+				$response->status=1;
+				if ($this->getParam('url_redirect'))
+				{
+					$response->redirect=$this->getParam('url_redirect');
+				}
+				elseif ($this->getParam('reload'))
+				{
+					$response->reload=1;
+				}
+				if ($this->getParam('successaction'))
+				{
+					$response->successaction=$this->getParam('successaction');
+				}
+				return new FlaskPHP\Response\JSONResponse($response);
 			}
-			elseif ($this->getParam('reload'))
+			catch (\Exception $e)
 			{
-				$response->reload=1;
+				$response=new \stdClass();
+				$response->status=2;
+				$response->error=$e->getMessage();
+				return new FlaskPHP\Response\JSONResponse($response);
 			}
-			if ($this->getParam('successaction'))
-			{
-				$response->successaction=$this->getParam('successaction');
-			}
-			return new FlaskPHP\Response\JSONResponse($response);
 		}
 
 

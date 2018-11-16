@@ -132,91 +132,101 @@
 
 		public function runAction()
 		{
-			// Set defaults
-			$this->setDefaults();
-
-			// Init delete
-			$this->initSwap();
-
-			// Check
-			if (!is_object($this->model)) throw new FlaskPHP\Exception\InvalidParameterException('No model defined.');
-			if (!Flask()->Request->postVar($this->model->getParam('idfield'))) throw new FlaskPHP\Exception\InvalidParameterException('[[ FLASK.COMMON.Error.InvalidRequest ]]');
-			if (!intval(Flask()->Request->postVar($this->model->getParam('idfield')))) throw new FlaskPHP\Exception\InvalidParameterException('[[ FLASK.COMMON.Error.InvalidRequest ]]');
-			if (!Flask()->Request->postVar('with')) throw new FlaskPHP\Exception\InvalidParameterException('[[ FLASK.COMMON.Error.InvalidRequest ]]');
-			if (!intval(Flask()->Request->postVar('with'))) throw new FlaskPHP\Exception\InvalidParameterException('[[ FLASK.COMMON.Error.InvalidRequest ]]');
-
-			// Load
-			$Object=$this->model=$this->model::getObject(intval(Flask()->Request->postVar($this->model->getParam('idfield'))));
-			$SwapWith=$this->swapWith=$this->model::getObject(intval(Flask()->Request->postVar('with')));
-
-			// Some more checks
-			if (get_class($Object)!=get_class($SwapWith)) throw new FlaskPHP\Exception\InvalidParameterException('[[ FLASK.COMMON.Error.InvalidRequest ]]');
-			if (!$Object->getParam('setord')) throw new FlaskPHP\Exception\InvalidParameterException('[[ FLASK.COMMON.Error.InvalidRequest ]]');
-
-			// Pre-swap trigger
-			$this->triggerPreSwap();
-
-			// Swap
 			try
 			{
-				// Start TX
-				Flask()->DB->startTransaction();
+				// Set defaults
+				$this->setDefaults();
 
-				// Get vars
-				$ord1=$Object->ord;
-				$ord2=$SwapWith->ord;
+				// Init delete
+				$this->initSwap();
 
-				// Swap #1
-				$Object->ord=$ord2;
-				$Object->save(
-					Flask()->DB->getQueryBuilder()->addField('ord'),
-					$this->getParam('log_message'),
-					null,
-					$this->getParam('log_refoid'),
-					$this->getParam('log_op'),
-					true
-				);
+				// Check
+				if (!is_object($this->model)) throw new FlaskPHP\Exception\InvalidParameterException('No model defined.');
+				if (!Flask()->Request->postVar($this->model->getParam('idfield'))) throw new FlaskPHP\Exception\InvalidParameterException('[[ FLASK.COMMON.Error.InvalidRequest ]]');
+				if (!intval(Flask()->Request->postVar($this->model->getParam('idfield')))) throw new FlaskPHP\Exception\InvalidParameterException('[[ FLASK.COMMON.Error.InvalidRequest ]]');
+				if (!Flask()->Request->postVar('with')) throw new FlaskPHP\Exception\InvalidParameterException('[[ FLASK.COMMON.Error.InvalidRequest ]]');
+				if (!intval(Flask()->Request->postVar('with'))) throw new FlaskPHP\Exception\InvalidParameterException('[[ FLASK.COMMON.Error.InvalidRequest ]]');
 
-				// Swap #2
-				$SwapWith->ord=$ord1;
-				$SwapWith->save(
-					Flask()->DB->getQueryBuilder()->addField('ord'),
-					$this->getParam('log_message'),
-					null,
-					$this->getParam('log_refoid'),
-					$this->getParam('log_op'),
-					true
-				);
+				// Load
+				$Object=$this->model=$this->model::getObject(intval(Flask()->Request->postVar($this->model->getParam('idfield'))));
+				$SwapWith=$this->swapWith=$this->model::getObject(intval(Flask()->Request->postVar('with')));
 
-				// Commit
-				Flask()->DB->doCommit();
+				// Some more checks
+				if (get_class($Object)!=get_class($SwapWith)) throw new FlaskPHP\Exception\InvalidParameterException('[[ FLASK.COMMON.Error.InvalidRequest ]]');
+				if (!$Object->getParam('setord')) throw new FlaskPHP\Exception\InvalidParameterException('[[ FLASK.COMMON.Error.InvalidRequest ]]');
+
+				// Pre-swap trigger
+				$this->triggerPreSwap();
+
+				// Swap
+				try
+				{
+					// Start TX
+					Flask()->DB->startTransaction();
+
+					// Get vars
+					$ord1=$Object->ord;
+					$ord2=$SwapWith->ord;
+
+					// Swap #1
+					$Object->ord=$ord2;
+					$Object->save(
+						Flask()->DB->getQueryBuilder()->addField('ord'),
+						$this->getParam('log_message'),
+						null,
+						$this->getParam('log_refoid'),
+						$this->getParam('log_op'),
+						true
+					);
+
+					// Swap #2
+					$SwapWith->ord=$ord1;
+					$SwapWith->save(
+						Flask()->DB->getQueryBuilder()->addField('ord'),
+						$this->getParam('log_message'),
+						null,
+						$this->getParam('log_refoid'),
+						$this->getParam('log_op'),
+						true
+					);
+
+					// Commit
+					Flask()->DB->doCommit();
+				}
+				catch (\Exception $e)
+				{
+					// Rollback and rethrow
+					Flask()->DB->doRollback();
+					throw $e;
+				}
+
+				// Post-swap trigger
+				$this->triggerPostSwap();
+
+				// Response
+				$response=new \stdClass();
+				$response->status=1;
+				if ($this->getParam('url_redirect'))
+				{
+					$response->redirect=$this->getParam('url_redirect');
+				}
+				elseif ($this->getParam('reload'))
+				{
+					$response->reload=1;
+				}
+				if ($this->getParam('successaction'))
+				{
+					$response->successaction=$this->getParam('successaction');
+				}
+				return new FlaskPHP\Response\JSONResponse($response);
 			}
 			catch (\Exception $e)
 			{
-				// Rollback and rethrow
-				Flask()->DB->doRollback();
-				throw $e;
+				$response=new \stdClass();
+				$response->status=2;
+				$response->error=$e->getMessage();
+				return new FlaskPHP\Response\JSONResponse($response);
 			}
-
-			// Post-swap trigger
-			$this->triggerPostSwap();
-
-			// Response
-			$response=new \stdClass();
-			$response->status=1;
-			if ($this->getParam('url_redirect'))
-			{
-				$response->redirect=$this->getParam('url_redirect');
-			}
-			elseif ($this->getParam('reload'))
-			{
-				$response->reload=1;
-			}
-			if ($this->getParam('successaction'))
-			{
-				$response->successaction=$this->getParam('successaction');
-			}
-			return new FlaskPHP\Response\JSONResponse($response);
 		}
 
 
