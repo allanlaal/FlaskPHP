@@ -160,7 +160,7 @@
 			// Just glue to tab-separated string
 			else
 			{
-				return join("\t",Flask()->Request->postVar($this->tag));
+				return strval(join("\t",Flask()->Request->postVar($this->tag)));
 			}
 		}
 
