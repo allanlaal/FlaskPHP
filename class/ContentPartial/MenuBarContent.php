@@ -121,6 +121,39 @@
 
 		/**
 		 *
+		 *   Add menu header
+		 *   ---------------
+		 *   @param string $menuHeader Menu header
+		 *   @return MenuBarMenuItem
+		 *
+		 */
+
+		public function addMenuHeader( string $menuHeader )
+		{
+			$menuTag=uniqid();
+			$this->menuItems[$menuTag]=new MenuBarMenuHeader($menuHeader);
+			return $this->menuItems[$menuTag];
+		}
+
+
+		/**
+		 *
+		 *   Add menu divider
+		 *   ----------------
+		 *   @return MenuBarMenuItem
+		 *
+		 */
+
+		public function addMenuDivider()
+		{
+			$menuTag=uniqid();
+			$this->menuItems[$menuTag]=new MenuBarMenuDivider();
+			return $this->menuItems[$menuTag];
+		}
+
+
+		/**
+		 *
 		 *   Add right side item
 		 *   -------------------
 		 *   @param string $itemContent Item content
@@ -140,8 +173,8 @@
 
 		/**
 		 *
-		 *   Add menu item
-		 *   -------------
+		 *   Add right side menu item
+		 *   ------------------------
 		 *   @param string $menuTitle Menu item title
 		 *   @param string $menuTag Menu item tag
 		 *   @param string $menuURL Menu item URL/link
@@ -155,6 +188,39 @@
 		{
 			if ($menuTag==null) $menuTag=FlaskPHP\Util::stringToURL($menuTitle);
 			$this->rightSideItems[$menuTag]=new MenuBarMenuItem($menuTitle,$menuTag,$menuURL,$menuAction,$subItems);
+			return $this->rightSideItems[$menuTag];
+		}
+
+
+		/**
+		 *
+		 *   Add menu header
+		 *   ---------------
+		 *   @param string $menuHeader Menu header
+		 *   @return MenuBarMenuItem
+		 *
+		 */
+
+		public function addRightSideMenuHeader( string $menuHeader )
+		{
+			$menuTag=uniqid();
+			$this->rightSideItems[$menuTag]=new MenuBarMenuHeader($menuHeader);
+			return $this->rightSideItems[$menuTag];
+		}
+
+
+		/**
+		 *
+		 *   Add menu divider
+		 *   ----------------
+		 *   @return MenuBarMenuItem
+		 *
+		 */
+
+		public function addRightSideMenuDivider()
+		{
+			$menuTag=uniqid();
+			$this->rightSideItems[$menuTag]=new MenuBarMenuDivider();
 			return $this->rightSideItems[$menuTag];
 		}
 

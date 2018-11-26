@@ -117,6 +117,40 @@
 
 		/**
 		 *
+		 *   Add subheader
+		 *   -------------
+		 *   @param string $menuHeader
+		 *   @return MenuBarMenuHeader
+		 *
+		 */
+
+		public function addSubHeader( string $menuHeader )
+		{
+			$menuTag=uniqid();
+			$this->subItems[$menuTag]=new MenuBarMenuHeader($menuHeader);
+			return $this->subItems[$menuTag];
+		}
+
+
+		/**
+		 *
+		 *   Add divider
+		 *   -----------
+		 *   @param string $menuHeader
+		 *   @return MenuBarMenuDivider
+		 *
+		 */
+
+		public function addSubDivider()
+		{
+			$menuTag=uniqid();
+			$this->subItems[$menuTag]=new MenuBarMenuDivider();
+			return $this->subItems[$menuTag];
+		}
+
+
+		/**
+		 *
 		 *   Render item
 		 *   -----------
 		 *   @access public
