@@ -40,6 +40,15 @@
 
 
 		/**
+		 *   Template functions
+		 *   @var array
+		 *   @access public
+		 */
+
+		public $templateFunc = array();
+
+
+		/**
 		 *   Template contents
 		 *   @var string
 		 *   @access public
@@ -191,6 +200,46 @@
 
 		/**
 		 *
+		 *   Set template function
+		 *   ---------------------
+		 *   @access public
+		 *   @param string $functionName Function name
+		 *   @param mixed $functionValue Function value
+		 *   @throws \Exception
+		 *   @return Template
+		 *
+		 */
+
+		public function setFunction( string $functionName, $functionValue )
+		{
+			$this->templateFunc[mb_strtolower($functionName)]=$functionValue;
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set template functions from array
+		 *   ---------------------------------
+		 *   @access public
+		 *   @param array $functions Functions
+		 *   @throws \Exception
+		 *   @return Template
+		 *
+		 */
+
+		public function setFunctions( array $functions )
+		{
+			foreach ($functions as $k => $v)
+			{
+				$this->templateFunc[mb_strtolower($k)]=$v;
+			}
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Parse the static content for locale variables
 		 *   ---------------------------------------------
 		 *   @access public
@@ -299,7 +348,11 @@
 			// Parse variables
 			if ($src===false || $parseVariables)
 			{
-				if ($this->templateParseVars) $src=preg_replace_callback("/\{\{\s*(.+?)\s*\}\}/",array($this,'_parse_variable'),$src);
+				if ($this->templateParseVars)
+				{
+					$src=preg_replace_callback("/\{\{\s*(.+?)\s*\}\}/",array($this,'_parse_variable'),$src);
+					$src=preg_replace_callback("/\{\%\s*(.+?)\s*\%\}/",array($this,'_parse_func'),$src);
+				}
 
 				// Import template vars into local context
 				extract($this->templateVar,EXTR_SKIP);
@@ -339,8 +392,106 @@
 
 		private function _parse_variable( $match, $var=null )
 		{
+			// Variables
 			$var=($var===null)?$this->templateVar:$var;
-			return traverse_get($match[1],$var);
+
+			// Split functions
+			$modifierFunctionList=str_array(trim($match[1]),'|');
+			$varName=array_shift($modifierFunctionList);
+
+			// Variable
+			$retval=traverse_get($varName,$var);
+
+			// Modifier functions?
+			try
+			{
+				if (sizeof($modifierFunctionList))
+				{
+					foreach ($modifierFunctionList as $func)
+					{
+						$retval=$this->_apply_function($retval,$func);
+					}
+				}
+			}
+			catch (\Exception $e)
+			{
+				$retval='{{ ERROR APPLYING MODIFIER: '.$e->getMessage().' }}';
+			}
+
+			// Return
+			return $retval;
+		}
+
+
+		/**
+		 *
+		 *   Apply a function
+		 *   ----------------
+		 */
+
+		private function _parse_func( $match )
+		{
+			// Split functions
+			$modifierFunctionList=str_array(trim($match[1]),'|');
+			$funcName=array_shift($modifierFunctionList);
+
+			// Parse parameters
+			$funcParamList=$funcTagParamList=array();
+			if (mb_strpos($funcName,':')!==false)
+			{
+				list($funcName,$funcParam)=str_array($funcName,':',2);
+				$funcParamList=str_array($funcParam,';');
+				foreach ($funcParamList as $param => $paramValue)
+				{
+					if (mb_strpos($paramValue,'=')!==false)
+					{
+						list($paramName,$paramValue)=str_array($paramValue,'=',2);
+						$funcTagParamList[$paramName]=$paramValue;
+						$funcParamList[$param]=$paramValue;
+					}
+					else
+					{
+						$funcTagParamList[trim($paramValue)]=true;
+					}
+				}
+			}
+
+			// Run function
+			$funcName=mb_strtolower($funcName);
+			if (array_key_exists($funcName,$this->templateFunc))
+			{
+				try
+				{
+					$retval=call_user_func($this->templateFunc[$funcName],$funcTagParamList,$this);
+				}
+				catch (\Exception $e)
+				{
+					$retval='{{ ERROR RUNNING FUNCTION '.$funcName.': '.$e->getMessage().' }}';
+				}
+			}
+			else
+			{
+				$retval='{{ UNKNOWN FUNCTION: '.$funcName.' }}';
+			}
+
+			// Modifier functions?
+			try
+			{
+				if (sizeof($modifierFunctionList))
+				{
+					foreach ($modifierFunctionList as $func)
+					{
+						$retval=$this->_apply_function($retval,$func);
+					}
+				}
+			}
+			catch (\Exception $e)
+			{
+				$retval='[[ ERROR APPLYING MODIFIER: '.$e->getMessage().' ]]';
+			}
+
+			// Return
+			return $retval;
 		}
 
 
@@ -358,8 +509,8 @@
 		function _parse_locale( $match )
 		{
 			// Split functions
-			$functionList=str_array(trim($match[1]),'|');
-			$localeTag=array_shift($functionList);
+			$modifierFunctionList=str_array(trim($match[1]),'|');
+			$localeTag=array_shift($modifierFunctionList);
 
 			// Parse locale tag
 			$localeParamList=$localeTagParamList=array();
@@ -392,12 +543,12 @@
 				$retval=static::parseSimpleVariables($retval,$localeTagParamList);
 			}
 
-			// Functions?
+			// Modifier functions?
 			try
 			{
-				if (sizeof($functionList))
+				if (sizeof($modifierFunctionList))
 				{
-					foreach ($functionList as $func)
+					foreach ($modifierFunctionList as $func)
 					{
 						$retval=$this->_apply_function($retval,$func);
 					}

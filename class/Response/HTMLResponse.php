@@ -40,6 +40,15 @@
 
 
 		/**
+		 *   Response template functions
+		 *   @var array
+		 *   @access public
+		 */
+
+		public $responseFunc = array();
+
+
+		/**
 		 *   Meta tags
 		 *   @var array
 		 *   @access public
@@ -343,6 +352,46 @@
 
 		/**
 		 *
+		 *   Set template function
+		 *   ---------------------
+		 *   @access public
+		 *   @param string $functionName Function name
+		 *   @param mixed $functionValue Function value
+		 *   @throws \Exception
+		 *   @return HTMLResponse
+		 *
+		 */
+
+		public function setFunction( string $functionName, $functionValue )
+		{
+			$this->responseFunc[mb_strtolower($functionName)]=$functionValue;
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set template functions from array
+		 *   ---------------------------------
+		 *   @access public
+		 *   @param array $functions Functions
+		 *   @throws \Exception
+		 *   @return HTMLResponse
+		 *
+		 */
+
+		public function setFunctions( array $functions )
+		{
+			foreach ($functions as $k => $v)
+			{
+				$this->responseFunc[mb_strtolower($k)]=$v;
+			}
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Output extra content
 		 *   --------------------
 		 *   @access public
@@ -384,6 +433,7 @@
 			$responseTemplate->templateVar['JS']=$this->responseJS;
 			$responseTemplate->templateVar['content']=$this->responseContent;
 			$responseTemplate->templateVar['response']=$this;
+			$responseTemplate->templateFunc=$this->responseFunc;
 			$responseContent=$responseTemplate->render();
 
 			// Display HTML
