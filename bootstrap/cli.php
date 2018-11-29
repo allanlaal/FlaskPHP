@@ -181,21 +181,34 @@
 	//  Run script
 	//
 
-	$classList=get_declared_classes();
-	$scriptClass=null;
-	foreach ($classList as $className)
+	$scriptObject=null;
+
+	$variableList=get_defined_vars();
+	foreach ($variableList as $variable)
 	{
-		if (is_subclass_of($className,'Codelab\FlaskPHP\Script\ScriptInterface'))
+		if ($variable instanceof FlaskPHP\Script\ScriptInterface)
 		{
-			if (is_object($scriptClass)) throw new FlaskPHP\Exception\FatalException('Multiple ScriptInterface classes defined.');
-			$scriptClass=new $className();
+			if (is_object($scriptObject)) throw new FlaskPHP\Exception\FatalException('Multiple ScriptInterface instances defined.');
+			$scriptObject=$variable;
 		}
 	}
-	if (!is_object($scriptClass))
+	if (!is_object($scriptObject))
 	{
-		throw new FlaskPHP\Exception\FatalException('No ScriptInterface classes defined.');
+		$classList=get_declared_classes();
+		foreach ($classList as $className)
+		{
+			if (is_subclass_of($className,'Codelab\FlaskPHP\Script\ScriptInterface'))
+			{
+				if (is_object($scriptObject)) throw new FlaskPHP\Exception\FatalException('Multiple ScriptInterface classes defined.');
+				$scriptObject=new $className();
+			}
+		}
 	}
-	$returnCode=$scriptClass->runScript();
+	if (!is_object($scriptObject))
+	{
+		throw new FlaskPHP\Exception\FatalException('No ScriptInterface instances or classes defined.');
+	}
+	$returnCode=$scriptObject->runScript();
 
 
 	//
