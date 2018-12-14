@@ -197,7 +197,18 @@
 				'phplocale'         => 'it_IT',
 				'dateformat_disp'   => 'd.m.Y',
 				'dateformat_check'  => '(\d\d)\.(\d\d)\.(\d\d\d\d)'
-			)
+			),
+
+			'pt' => array(
+				'tag'               => 'PT',
+				'name'              => 'Português',
+				'name_short'        => 'Português',
+				'name_sel'          => 'Em Português',
+				'name_eng'          => 'Portuguese',
+				'phplocale'         => 'pt_PT',
+				'dateformat_disp'   => 'd.m.Y',
+				'dateformat_check'  => '(\d\d)\.(\d\d)\.(\d\d\d\d)'
+			),
 
 		);
 
