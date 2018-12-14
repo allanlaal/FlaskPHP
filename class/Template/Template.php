@@ -654,15 +654,15 @@
 					{
 						if (!empty($funcParamList['replace']))
 						{
-							$str=$funcParamList['replace'];
+							$str=preg_replace('/(^[\"\']|[\"\']$)/','',$funcParamList['replace']);
 						}
 						if (!empty($funcParamList['prepend']))
 						{
-							$str=$funcParamList['prepend'].' '.$str;
+							$str=preg_replace('/(^[\"\']|[\"\']$)/','',$funcParamList['prepend']).$str;
 						}
 						if (!empty($funcParamList['append']))
 						{
-							$str=$str.' '.$funcParamList['append'];
+							$str=$str.preg_replace('/(^[\"\']|[\"\']$)/','',$funcParamList['append']);
 						}
 					}
 					return $str;
@@ -673,15 +673,15 @@
 					{
 						if (!empty($funcParamList['replace']))
 						{
-							$str=$funcParamList['replace'];
+							$str=preg_replace('/(^[\"\']|[\"\']$)/','',$funcParamList['replace']);
 						}
 						if (!empty($funcParamList['prepend']))
 						{
-							$str=$funcParamList['prepend'].' '.$str;
+							$str=preg_replace('/(^[\"\']|[\"\']$)/','',$funcParamList['prepend']).$str;
 						}
 						if (!empty($funcParamList['append']))
 						{
-							$str=$str.' '.$funcParamList['append'];
+							$str=$str.preg_replace('/(^[\"\']|[\"\']$)/','',$funcParamList['append']);
 						}
 					}
 					return $str;
