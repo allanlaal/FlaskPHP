@@ -637,7 +637,6 @@
 				case 'number':
 					return Flask()->I18n->formatDecimalValue(floatval($str),intval($funcParamList['precision']),(!empty($funcParamList['trim'])?true:false));
 
-
 				// Format currency
 				case 'currency':
 					if (!empty($funcParamList['currency']))
@@ -648,6 +647,44 @@
 					{
 						return Flask()->I18n->formatDecimalValue(floatval($str),2,false);
 					}
+
+				// If empty
+				case 'ifempty':
+					if (empty($str))
+					{
+						if (!empty($funcParamList['replace']))
+						{
+							$str=$funcParamList['replace'];
+						}
+						if (!empty($funcParamList['prepend']))
+						{
+							$str=$funcParamList['prepend'].' '.$str;
+						}
+						if (!empty($funcParamList['append']))
+						{
+							$str=$str.' '.$funcParamList['append'];
+						}
+					}
+					return $str;
+
+				// If not empty
+				case 'ifnotempty':
+					if (!empty($str))
+					{
+						if (!empty($funcParamList['replace']))
+						{
+							$str=$funcParamList['replace'];
+						}
+						if (!empty($funcParamList['prepend']))
+						{
+							$str=$funcParamList['prepend'].' '.$str;
+						}
+						if (!empty($funcParamList['append']))
+						{
+							$str=$str.' '.$funcParamList['append'];
+						}
+					}
+					return $str;
 
 				// Unknown function
 				default:
