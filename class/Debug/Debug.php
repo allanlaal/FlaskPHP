@@ -85,6 +85,24 @@
 
 
 		/**
+		 *   Custom error display function: XML
+		 *   @var string
+		 *   @access public
+		 */
+
+		public $outputErrorXML = null;
+
+
+		/**
+		 *   Custom error display function: JSON
+		 *   @var string
+		 *   @access public
+		 */
+
+		public $outputErrorJSON = null;
+
+
+		/**
 		 *   Custom error display function: HTML
 		 *   @var string
 		 *   @access public
@@ -103,9 +121,13 @@
 
 
 		/**
+		 *
 		 *   Init debugger
+		 *   -------------
 		 *   @access public
+		 *   @throws \Exception
 		 *   @return void
+		 *
 		 */
 
 		public function initDebug()
@@ -115,6 +137,12 @@
 			$this->profilerOn=(Flask()->Config->get('dev.profiler')?Flask()->Config->get('dev.profiler'):false);
 			$this->debugFile=(Flask()->Config->get('dev.debugfile')?Flask()->Config->get('dev.debugfile'):false);
 			$this->devEnvironment=(Flask()->Config->get('dev.dev')?true:false);
+
+			// Init error handler functions
+			if (Flask()->Config->get('errorhandler.xml')) $this->outputErrorXML=Flask()->Config->get('errorhandler.xml');
+			if (Flask()->Config->get('errorhandler.json')) $this->outputErrorJSON=Flask()->Config->get('errorhandler.json');
+			if (Flask()->Config->get('errorhandler.html')) $this->outputErrorHTML=Flask()->Config->get('errorhandler.html');
+			if (Flask()->Config->get('errorhandler.plain')) $this->outputErrorPlain=Flask()->Config->get('errorhandler.plain');
 
 			// Init profiler array
 			$this->debugProfilerData=array(
@@ -127,12 +155,16 @@
 
 
 		/**
+		 *
 		 *   Add a debug message
+		 *   -------------------
 		 *   @access public
 		 *   @param string $debugTitle Message title
 		 *   @param string $debugMessage Message content
 		 *   @param int $debugMessageType Message type
+		 *   @throws \Exception
 		 *   @return void
+		 *
 		 */
 
 		public function addMessage( $debugTitle, $debugMessage, $debugMessageType=1 )
@@ -170,9 +202,13 @@
 
 
 		/**
+		 *
 		 *   Log profiler info
+		 *   -----------------
 		 *   @access public
+		 *   @throws \Exception
 		 *   @return void
+		 *
 		 */
 
 		public function logProfilerInfo()
@@ -215,9 +251,13 @@
 
 
 		/**
+		 *
 		 *   Get debug output
+		 *   ----------------
 		 *   @access public
+		 *   @throws \Exception
 		 *   @return string
+		 *
 		 */
 
 		public function getDebugOutput()

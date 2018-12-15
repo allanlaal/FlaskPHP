@@ -58,12 +58,12 @@
 					foreach (debug_backtrace() as $lvl => $trace)
 					{
 						$t='';
-						$t.='#'.$lvl.': '.$trace['file'].' line '.$trace['line'];
+						$t.=$trace['file'].' line '.$trace['line'];
 						if (!empty($trace['function']))
 						{
 							$t.=' -- ';
-							if (!empty($trace['class'])) if ($debugOn) $t.= $trace['class'].$trace['type'];
-							if ($debugOn) $t.= $trace['function'].'(';
+							if (!empty($trace['class'])) $t.= $trace['class'].$trace['type'];
+							$t.= $trace['function'].'(';
 							if (!empty($trace['args']) && sizeof($trace['args']))
 							{
 								$arg=array();
@@ -94,30 +94,56 @@
 										$arg[]='"'.$a.'"';
 									}
 								}
-								if ($debugOn) $t.= join(', ',$arg);
+								$t.= join(', ',$arg);
 							}
-							if ($debugOn) $t.= ')';
+							$t.= ')';
 						}
 						$stackTrace[]=$t;
 					}
 				}
 				if ($XHR)
 				{
-					outputErrorJSON($errStr,($debugOn?$stackTrace:false));
+					if (Flask()->Debug->outputErrorJSON)
+					{
+						call_user_func(Flask()->Debug->outputErrorJSON,$errStr,$stackTrace);
+					}
+					else
+					{
+						outputErrorJSON($errStr,($debugOn?$stackTrace:false));
+					}
 				}
 				elseif ($XML)
 				{
-					outputErrorXML($errStr,($debugOn?$stackTrace:false));
+					if (Flask()->Debug->outputErrorXML)
+					{
+						call_user_func(Flask()->Debug->outputErrorXML,$errStr,$stackTrace);
+					}
+					else
+					{
+						outputErrorXML($errStr,($debugOn?$stackTrace:false));
+					}
 				}
 				elseif (!empty($_SERVER['HTTP_HOST']))
 				{
-					$errorFunc=oneof(Flask()->Debug->outputErrorHTML,'outputErrorHTML');
-					call_user_func($errorFunc,$errStr,($debugOn?$stackTrace:false));
+					if (Flask()->Debug->outputErrorHTML)
+					{
+						call_user_func(Flask()->Debug->outputErrorHTML,$errStr,$stackTrace);
+					}
+					else
+					{
+						outputErrorHTML($errStr,($debugOn?$stackTrace:false));
+					}
 				}
 				else
 				{
-					$errorFunc=oneof(Flask()->Debug->outputErrorPlain,'outputErrorPlain');
-					call_user_func($errorFunc,$errStr,($debugOn?$stackTrace:false));
+					if (Flask()->Debug->outputErrorPlain)
+					{
+						call_user_func(Flask()->Debug->outputErrorPlain,$errStr,$stackTrace);
+					}
+					else
+					{
+						outputErrorPlain($errStr,($debugOn?$stackTrace:false));
+					}
 				}
 				exit;
 		}
@@ -146,12 +172,12 @@
 			foreach ($e->getTrace() as $lvl => $trace)
 			{
 				$t='';
-				$t.='#'.$lvl.': '.$trace['file'].' line '.$trace['line'];
+				$t.=$trace['file'].' line '.$trace['line'];
 				if (!empty($trace['function']))
 				{
 					$t.=' -- ';
-					if (!empty($trace['class'])) if ($debugOn) $t.= $trace['class'].$trace['type'];
-					if ($debugOn) $t.= $trace['function'].'(';
+					if (!empty($trace['class'])) $t.= $trace['class'].$trace['type'];
+					$t.= $trace['function'].'(';
 					if (!empty($trace['args']) && sizeof($trace['args']))
 					{
 						$arg=array();
@@ -182,9 +208,9 @@
 								$arg[]='"'.htmlspecialchars($a).'"';
 							}
 						}
-						if ($debugOn) $t.= join(', ',$arg);
+						$t.= join(', ',$arg);
 					}
-					if ($debugOn) $t.= ')';
+					$t.= ')';
 				}
 				$stackTrace[]=$t;
 			}
@@ -195,21 +221,47 @@
 		}
 		if ($XHR)
 		{
-			outputErrorJSON($errStr,($debugOn?$stackTrace:false));
+			if (Flask()->Debug->outputErrorJSON)
+			{
+				call_user_func(Flask()->Debug->outputErrorJSON,$errStr,$stackTrace);
+			}
+			else
+			{
+				outputErrorJSON($errStr,($debugOn?$stackTrace:false));
+			}
 		}
 		elseif ($XML)
 		{
-			outputErrorXML($errStr,($debugOn?$stackTrace:false));
+			if (Flask()->Debug->outputErrorXML)
+			{
+				call_user_func(Flask()->Debug->outputErrorXML,$errStr,$stackTrace);
+			}
+			else
+			{
+				outputErrorXML($errStr,($debugOn?$stackTrace:false));
+			}
 		}
 		elseif (!empty($_SERVER['HTTP_HOST']))
 		{
-			$errorFunc=oneof(Flask()->Debug->outputErrorHTML,'outputErrorHTML');
-			call_user_func($errorFunc,$errStr,($debugOn?$stackTrace:false));
+			if (Flask()->Debug->outputErrorHTML)
+			{
+				call_user_func(Flask()->Debug->outputErrorHTML,$errStr,$stackTrace);
+			}
+			else
+			{
+				outputErrorHTML($errStr,($debugOn?$stackTrace:false));
+			}
 		}
 		else
 		{
-			$errorFunc=oneof(Flask()->Debug->outputErrorPlain,'outputErrorPlain');
-			call_user_func($errorFunc,$errStr,($debugOn?$stackTrace:false));
+			if (Flask()->Debug->outputErrorPlain)
+			{
+				call_user_func(Flask()->Debug->outputErrorPlain,$errStr,$stackTrace);
+			}
+			else
+			{
+				outputErrorPlain($errStr,($debugOn?$stackTrace:false));
+			}
 		}
 		exit;
 	}
