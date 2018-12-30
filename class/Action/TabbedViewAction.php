@@ -393,7 +393,11 @@
 				$tabbedView.=$this->renderReturnLink();
 
 				// Return
-				return new FlaskPHP\Response\HTMLResponse($tabbedView);
+				$Response=new FlaskPHP\Response\HTMLResponse();
+				if ($this->getParam('responsetemplate')) $Response->setTemplate($this->getParam('responsetemplate'));
+				if ($this->getParam('pagetitle')) $Response->setPageTitle($this->getParam('pagetitle'),$this->getParam('pagetitle_append'),$this->getParam('pagetitle_separator'));
+				$Response->setContent($tabbedView);
+				return $Response;
 			}
 			catch (\Exception $e)
 			{

@@ -976,10 +976,11 @@
 				}
 
 				// Display form
-				$response=new FlaskPHP\Response\HTMLResponse();
-				if ($this->getParam('responsetemplate')) $response->setTemplate($this->getParam('responsetemplate'));
-				$response->setContent($this->displayForm());
-				return $response;
+				$Response=new FlaskPHP\Response\HTMLResponse();
+				if ($this->getParam('responsetemplate')) $Response->setTemplate($this->getParam('responsetemplate'));
+				if ($this->getParam('pagetitle')) $Response->setPageTitle($this->getParam('pagetitle'),$this->getParam('pagetitle_append'),$this->getParam('pagetitle_separator'));
+				$Response->setContent($this->displayForm());
+				return $Response;
 			}
 			catch (\Exception $e)
 			{
@@ -995,10 +996,11 @@
 				// HTML
 				else
 				{
-					$response=new FlaskPHP\Response\HTMLResponse();
-					if ($this->getParam('responsetemplate')) $response->setTemplate($this->getParam('responsetemplate'));
-					$response->setContent('<h1>[[ FLASK.COMMON.Error ]]</h1><div class="error">'.htmlspecialchars($e->getMessage()).'</div>');
-					return $response;
+					$Response=new FlaskPHP\Response\HTMLResponse();
+					if ($this->getParam('responsetemplate')) $Response->setTemplate($this->getParam('responsetemplate'));
+					if ($this->getParam('pagetitle')) $Response->setPageTitle($this->getParam('pagetitle'),$this->getParam('pagetitle_append'),$this->getParam('pagetitle_separator'));
+					$Response->setContent('<h1>[[ FLASK.COMMON.Error ]]</h1><div class="error">'.htmlspecialchars($e->getMessage()).'</div>');
+					return $Response;
 				}
 			}
 		}

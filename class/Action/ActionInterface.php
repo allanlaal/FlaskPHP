@@ -179,6 +179,27 @@
 
 		/**
 		 *
+		 *   Set page title
+		 *   --------------
+		 *   @access public
+		 *   @param string $title Page title
+		 *   @param boolean|int $append Append (true or 1) or prepend (2 or -1) to current title
+		 *   @param string $titleSeparator Title separator
+		 *   @return ActionInterface
+		 *
+		 */
+
+		public function setPageTitle( $title, $append=true, $titleSeparator='»' )
+		{
+			$this->setParam('pagetitle',$title);
+			$this->setParam('pagetitle_append',$append);
+			$this->setParam('pagetitle_separator',$titleSeparator);
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Set log message
 		 *   ---------------
 		 *   @access public
