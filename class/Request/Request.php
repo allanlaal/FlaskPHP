@@ -261,12 +261,6 @@
 					$varValue=true;
 				}
 
-				// Check name
-				if (!preg_match("/^[A-Za-z0-9\.\_\-]+$/",$varName))
-				{
-					throw new FlaskPHP\Exception\FatalException('HTTP 400: Bad request.',400);
-				}
-
 				// Set variable
 				if (is_string($varValue) && preg_match("/^[0-9]+$/",$varValue)) $varValue=intval($varValue);
 				if (is_string($varValue) && preg_match("/^[0-9\.]+$/",$varValue)) $varValue=floatval($varValue);
