@@ -117,7 +117,7 @@ FLASK.COMMON.Month.1                                         Januar
 FLASK.COMMON.Month.2                                         Februar
 FLASK.COMMON.Month.3                                         März
 FLASK.COMMON.Month.4                                         April
-FLASK.COMMON.Month.5                                         Kann
+FLASK.COMMON.Month.5                                         Mai
 FLASK.COMMON.Month.6                                         Juni
 FLASK.COMMON.Month.7                                         Juli
 FLASK.COMMON.Month.8                                         August
@@ -130,7 +130,7 @@ FLASK.COMMON.Month.Short.1                                   Jan
 FLASK.COMMON.Month.Short.2                                   Feb.
 FLASK.COMMON.Month.Short.3                                   Beschädigen
 FLASK.COMMON.Month.Short.4                                   April
-FLASK.COMMON.Month.Short.5                                   Kann
+FLASK.COMMON.Month.Short.5                                   Mai
 FLASK.COMMON.Month.Short.6                                   Jun
 FLASK.COMMON.Month.Short.7                                   Jul
 FLASK.COMMON.Month.Short.8                                   Aug
