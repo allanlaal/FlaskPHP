@@ -1500,6 +1500,20 @@ Flask.Form = {
 					$("#"+fld).trigger('change');
 				}
 			}
+			else if ($("#"+fld).parent(".ui.dropdown").length) {
+				if (typeof(values[fld])==='object') {
+					var valueHTML='';
+					for (var k in values[fld]) {
+						valueHTML=valueHTML+'<div class="item" data-value="'+k+'">'+values[fld][k]+'</div>';
+					}
+					$("#field_"+fld+" .menu").html(valueHTML);
+				}
+				else {
+					$("#field_"+fld+" .menu").html(values[fld]);
+				}
+				$("#"+fld).parent(".ui.dropdown").dropdown('refresh');
+				$("#"+fld).parent(".ui.dropdown").dropdown('set selected','');
+			}
 			else if ($("input[name="+fld+"]").attr('type')=='radio') {
 				$("#"+fld+"_"+values[fld]).trigger("click");
 			}
