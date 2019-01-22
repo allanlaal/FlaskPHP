@@ -298,6 +298,26 @@
 		return false;
 	}
 
+
+	/**
+	 *   Recursive get_object_vars()
+	 *   @param  object $object Input object
+	 *   @return array resulting array
+	 */
+
+	function recursive_get_object_vars( $object )
+	{
+		$object=get_object_vars($object);
+		foreach ($object as $k => $v)
+		{
+			if (is_object($v))
+			{
+				$object[$k]=recursive_get_object_vars($v);
+			}
+		}
+		return $object;
+	}
+
 	
 	/**
 	 *   Sort a dataset (array of associative arrays or objects) on a key of an element
