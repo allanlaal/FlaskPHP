@@ -298,8 +298,7 @@ Flask.doAjaxAction = function( actionURL, actionData, param, confirmed )
 		data: actionData,
 		success: function(data) {
 			if (data!=null && data.status=='1') {
-				if (data.redirect!=null)
-				{
+				if (data.redirect!=null) {
 					if (data.redirect_data!=null) {
 						Flask.doPostSubmit(data.redirect,data.redirect_data);
 					}
@@ -307,17 +306,12 @@ Flask.doAjaxAction = function( actionURL, actionData, param, confirmed )
 						Flask.redirect(data.redirect);
 					}
 				}
-				else if ((data.reload!=null && data.reload=='1') || (param.reload_on_success!=null && param.reload_on_success==true))
-				{
+				else if ((data.reload!=null && data.reload=='1') || (param.reload_on_success!=null && param.reload_on_success==true)) {
 					Flask.reload();
 				}
-				else
-				{
+				else {
 					Flask.ProgressDialog.hide();
-					if (data.successaction!=null && data.successaction.length>0)
-					{
-						eval(data.successaction);
-					}
+					Flask.processResponse(data);
 				}
 			}
 			else
@@ -375,6 +369,57 @@ Flask.doPostSubmit = function( form_url, form_data, confirm_message, new_window 
 		$('#form_'+form_tag).append('<input type="hidden" name="'+k+'" value="'+htmlspecialchars(form_data[k])+'" />');
 	}
 	$('#form_'+form_tag)[0].submit();
+};
+
+Flask.processResponse = function( data, close_progress )
+{
+	// Redirect?
+	if (data.redirect!=null) {
+		if (data.redirect_data!=null) {
+			Flask.doPostSubmit(data.redirect,data.redirect_data);
+		}
+		else {
+			Flask.redirect(data.redirect);
+		}
+		return;
+	}
+
+	// Reload?
+	if (data.reload!=null) {
+		Flask.reload();
+		return;
+	}
+
+	// Close progress
+	if (close_progress!=null) {
+		Flask.Form.progressStop();
+	}
+
+	// Replace content
+	if (data.replacecontent!=null) {
+		for (var k in data.replacecontent) {
+			$(k).html(data.replacecontent[k]);
+		}
+	}
+
+	// Hide elements
+	if (data.hideelements!=null) {
+		for (var k in data.hideelements) {
+			$(data.hideelements[k]).hide();
+		}
+	}
+
+	// Show elements
+	if (data.showelements!=null) {
+		for (var k in data.showelements) {
+			$(data.showelements[k]).show();
+		}
+	}
+
+	// Success triger
+	if (data.successaction!=null && data.successaction.length>0) {
+		eval(data.successaction);
+	}
 };
 
 
@@ -515,6 +560,33 @@ Flask.initElements = function( base )
 	// Init tooltips
 	$(base+'[data-tooltip]').popup();
 	$(base+'[data-html]').popup();
+};
+
+
+/*
+ *   Copy text to clipboard
+ *   ----------------------
+ */
+
+Flask.copyToClipboard = function( str, show_toast )
+{
+	const el=document.createElement('textarea');
+  el.value=str;
+  document.body.appendChild(el);
+  el.select();
+  document.execCommand('copy');
+  document.body.removeChild(el);
+  if (show_toast!=null && show_toast) {
+		$('body')
+		.toast({
+			message: Locale.get('FLASK.COPYTOCLIPBOARD.Toast'),
+			displayTime: 2000,
+			class : 'green',
+			className: {
+				toast: 'ui message'
+			}
+		});
+	}
 };
 
 
@@ -1168,24 +1240,7 @@ Flask.Form = {
 						Flask.Form.progressStop();
 						param.success_callback(data);
 					}
-					else if (data.successaction!=null && data.successaction!='') {
-						Flask.Form.progressStop();
-						eval(data.successaction);
-					}
-					else if (data.reload!=null && data.reload=='1') {
-						Flask.reload();
-					}
-					else if (data.redirect!=null && data.redirect.length>0) {
-						if (data.redirect_data!=null) {
-							Flask.doPostSubmit(data.redirect,data.redirect_data);
-						}
-						else {
-							Flask.redirect(data.redirect);
-						}
-					}
-					else {
-						Flask.Form.progressStop();
-					}
+					Flask.processResponse(data,true);
 				}
 				else
 				{
@@ -1260,24 +1315,8 @@ Flask.Form = {
 						Flask.Form.progressStop();
 						param.success_callback(data);
 					}
-					else if (data.reload!=null && data.reload) {
-						Flask.reload();
-					}
-					else if (data.redirect!=null && data.redirect.length>0) {
-						if (data.redirect_data!=null) {
-							Flask.doPostSubmit(data.redirect,data.redirect_data);
-						}
-						else {
-							Flask.redirect(data.redirect);
-						}
-					}
-					else {
-						Flask.Form.progressStop();
-						if (data.successaction!=null && data.successaction!='') {
-							eval(data.successaction);
-						}
-						Flask.Modal.closeModal(modalTag);
-					}
+					Flask.processResponse(data,true);
+					Flask.Modal.closeModal(modalTag);
 				}
 				else
 				{
@@ -1352,24 +1391,8 @@ Flask.Form = {
 						Flask.Form.progressStop();
 						param.success_callback(data);
 					}
-					else if (data.reload!=null && data.reload) {
-						Flask.reload();
-					}
-					else if (data.redirect!=null && data.redirect.length>0) {
-						if (data.redirect_data!=null) {
-							Flask.doPostSubmit(data.redirect,data.redirect_data);
-						}
-						else {
-							Flask.redirect(data.redirect);
-						}
-					}
-					else {
-						Flask.Form.progressStop();
-						if (data.successaction!=null && data.successaction!='') {
-							eval(data.successaction);
-						}
-						Flask.Drawer.closeDrawer(modalTag);
-					}
+					Flask.processResponse(data,true);
+					Flask.Drawer.closeDrawer(modalTag);
 				}
 				else
 				{
@@ -2330,22 +2353,7 @@ Flask.Login = {
 			success: function( data ) {
 				Flask.Login.progressStop();
 				if (data!=null && data.status=='1') {
-					if (data.redirect!=null && data.redirect!='') {
-						if (data.redirect_data!=null) {
-							Flask.doPostSubmit(data.redirect,data.redirect_data);
-						}
-						else {
-							Flask.redirect(data.redirect);
-						}
-					}
-					else if (data.reload!=null && data.reload=='1') {
-						Flask.reload();
-					}
-					else {
-						if (data.successaction) {
-							eval(data.successaction);
-						}
-					}
+					Flask.processResponse(data);
 				}
 				else
 				{

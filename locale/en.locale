@@ -259,6 +259,14 @@ FLASK.TABBEDVIEW.Progress                                            Loading dat
 
 
 #
+#  Copy to clipboard
+#
+
+FLASK.COPYTOCLIPBOARD.Tooltip                                        Copy to clipboard
+FLASK.COPYTOCLIPBOARD.Toast                                          Copied.
+
+
+#
 #  Log
 #
 
