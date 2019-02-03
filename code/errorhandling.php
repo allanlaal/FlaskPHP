@@ -28,7 +28,7 @@
 		$debugOn=(Flask()->Debug->debugOn)?true:false;
 		$devMode=(Flask()->Debug->devEnvironment)?true:false;
 		$XHR=((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH']=='XMLHttpRequest')?true:false);
-		$XML=((Flask()->Response->responseObject instanceof \Codelab\FlaskPHP\Response\XMLResponse)=='xml'?true:false);
+		$XML=((is_object(Flask()->Response) && is_object(Flask()->Response->responseObject) && Flask()->Response->responseObject instanceof \Codelab\FlaskPHP\Response\XMLResponse)=='xml'?true:false);
 		$stackTrace=array();
 		switch($errNo)
 		{
@@ -162,7 +162,7 @@
 		$debugOn=(Flask()->Debug->debugOn)?true:false;
 		$devMode=(Flask()->Debug->devEnvironment)?true:false;
 		$XHR=((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH']=='XMLHttpRequest')?true:false);
-		$XML=((Flask()->Response->responseObject instanceof \Codelab\FlaskPHP\Response\XMLResponse)=='xml'?true:false);
+		$XML=((is_object(Flask()->Response) && is_object(Flask()->Response->responseObject) && Flask()->Response->responseObject instanceof \Codelab\FlaskPHP\Response\XMLResponse)=='xml'?true:false);
 		$errStr=$e->getMessage();
 		$errCode=$e->getCode();
 		$stackTrace=array();
