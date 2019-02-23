@@ -1250,6 +1250,23 @@
 
 				// Sortable?
 				$fieldSortable=($fieldObject->getParam('list_sortable')?true:false);
+				if ($sortField==$fieldObject->tag)
+				{
+					$fieldSorted=($sortDir=='desc'?'desc':'asc');
+				}
+				else
+				{
+					$fieldSorted='';
+				}
+				if ($fieldSortable)
+				{
+					$fieldClass[]=oneof($this->getParam('list_header_sortclass'),'list-table-field-sortable');
+				}
+				if (!empty($fieldSorted))
+				{
+					$fieldClass[]=oneof($this->getParam('list_header_sortclass_sorted'),'list-table-field-sorted');
+					$fieldClass[]=oneof($this->getParam('list_header_sortclass_sorted'),'list-table-field-sorted').'-'.$fieldSorted;
+				}
 
 				// Cell
 				$contentTableHeader.='<th';
@@ -1258,7 +1275,7 @@
 				$contentTableHeader.='>';
 				if ($fieldSortable)
 				{
-					$contentTableHeader.='<a class="'.oneof($this->getParam('list_header_sortclass_link'),'list-table-field-sort').'" onclick="Flask.List.getContent(\''.$this->getParam('id').'\',\''.$this->buildURL().'\',\'sort\',{sort_field:\''.jsencode($fieldObject->tag).'\',sort_dir:\''.($sortField==$fieldObject->tag?($sortDir=='asc'?'desc':'asc'):oneof($this->getParam('list_sort_defaultorder'),'asc')).'\'})">';
+					$contentTableHeader.='<a class="'.oneof($this->getParam('list_header_sortclass_link'),'list-table-field-sort').(!empty($fieldSorted)?' '.oneof($this->getParam('list_header_sortclass_sorted_link'),'list-table-field-sorted').' '.oneof($this->getParam('list_header_sortclass_sorted_link'),'list-table-field-sorted').'-'.$fieldSorted:'').'" onclick="Flask.List.getContent(\''.$this->getParam('id').'\',\''.$this->buildURL().'\',\'sort\',{sort_field:\''.jsencode($fieldObject->tag).'\',sort_dir:\''.($sortField==$fieldObject->tag?($sortDir=='asc'?'desc':'asc'):oneof($this->getParam('list_sort_defaultorder'),'asc')).'\'})">';
 				}
 				$contentTableHeader.=$fieldObject->getParam('title');
 				if ($fieldSortable)
