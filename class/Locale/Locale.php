@@ -210,6 +210,28 @@
 				'dateformat_check'  => '(\d\d)\.(\d\d)\.(\d\d\d\d)'
 			),
 
+			'nl' => array(
+				'tag'               => 'NL',
+				'name'              => 'Nederlandse',
+				'name_short'        => 'Nederlandse',
+				'name_sel'          => 'In het Nederlands',
+				'name_eng'          => 'Dutch',
+				'phplocale'         => 'nl_NL',
+				'dateformat_disp'   => 'd.m.Y',
+				'dateformat_check'  => '(\d\d)\.(\d\d)\.(\d\d\d\d)'
+			),
+
+			'no' => array(
+				'tag'               => 'PT',
+				'name'              => 'Norsk',
+				'name_short'        => 'Norsk',
+				'name_sel'          => 'På Norsk',
+				'name_eng'          => 'Norwegian',
+				'phplocale'         => 'no_NO',
+				'dateformat_disp'   => 'd.m.Y',
+				'dateformat_check'  => '(\d\d)\.(\d\d)\.(\d\d\d\d)'
+			),
+
 		);
 
 
