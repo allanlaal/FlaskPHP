@@ -39,15 +39,20 @@
 			}
 
 			// Start session
-			session_start();
-			$this->sessionData=&$_SESSION;
-			$this->sessionLoaded=true;
-
-			// Set cookie lifetime
 			if (intval(Flask()->Config->get('session.cookie_lifetime')))
 			{
-		    setcookie(session_name(),session_id(),time()+intval(Flask()->Config->get('session.cookie_lifetime')),"/");
+				session_start([
+					'cookie_lifetime' => intval(Flask()->Config->get('session.cookie_lifetime'))
+				]);
 			}
+			else
+			{
+				session_start();
+			}
+
+			// Finish up
+			$this->sessionData=&$_SESSION;
+			$this->sessionLoaded=true;
 		}
 
 
