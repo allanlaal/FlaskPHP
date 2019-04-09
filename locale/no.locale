@@ -8,3 +8,283 @@
 #   Distributed under the MIT License: https://www.flaskphp.com/LICENSE
 #
 #
+
+
+FLASK.COMMON.OK                                              OK
+FLASK.COMMON.Warnings                                        Advarsler
+FLASK.COMMON.NotOK                                           Ikke OK
+FLASK.COMMON.Missing                                         mangler
+FLASK.COMMON.NotSet                                          ikke angitt
+FLASK.COMMON.NotEntered                                      ikke oppgitt
+FLASK.COMMON.NotConnected                                    ikke koblet til
+FLASK.COMMON.None                                            ingen
+FLASK.COMMON.Empty                                           tom
+FLASK.COMMON.Unknown                                         ukjent
+FLASK.COMMON.All                                             alle
+FLASK.COMMON.SelectAll                                       velg alle
+FLASK.COMMON.Selected                                        valgt
+FLASK.COMMON.Other                                           annen
+FLASK.COMMON.OtherEnter                                      annen, oppgi
+FLASK.COMMON.BackToList                                      tilbake til liste
+
+FLASK.COMMON.Yes                                             Ja
+FLASK.COMMON.No                                              Nei
+
+FLASK.COMMON.Email                                           E-postadresse
+FLASK.COMMON.Email.Short                                     E-post
+
+FLASK.COMMON.Name                                            Navn
+FLASK.COMMON.Name.First                                      Fornavn
+FLASK.COMMON.Name.Middle                                     Mellomnavn
+FLASK.COMMON.Name.Last                                       Etternavn
+FLASK.COMMON.Name.Title                                      Tittel
+
+FLASK.COMMON.Password                                        Passord
+FLASK.COMMON.Language                                        Språk
+
+FLASK.COMMON.Address                                         Adresse
+FLASK.COMMON.Address.Street                                  Gateadresse
+FLASK.COMMON.Address.City                                    Poststed
+FLASK.COMMON.Address.State                                   Stat
+FLASK.COMMON.Address.ZIP                                     Postnummer
+FLASK.COMMON.Address.Country                                 Land
+
+FLASK.COMMON.Error                                           Feil
+FLASK.COMMON.Error.InvalidRequest                            Ugyldig forespørsel.
+FLASK.COMMON.Error.ErrorOpeningModal                         Feil under åpning av dialog
+FLASK.COMMON.Error.ErrorReadingData                          Feil under lesing av data
+FLASK.COMMON.Error.ErrorSavingData                           Feil under lagring av data
+
+
+#
+#  Date/time stuff
+#
+
+FLASK.COMMON.Date                                            Dato
+FLASK.COMMON.Time                                            Tidspunkt
+FLASK.COMMON.DateTime                                        Dato/tidspunkt
+
+FLASK.COMMON.Day                                             dag
+FLASK.COMMON.Days                                            dager
+FLASK.COMMON.DayAbbr                                         D
+FLASK.COMMON.Week                                            uke
+FLASK.COMMON.Weeks                                           uker
+FLASK.COMMON.WeekAbbr                                        U
+FLASK.COMMON.Month                                           måned
+FLASK.COMMON.Months                                          måneder
+FLASK.COMMON.MonthAbbr                                       M
+FLASK.COMMON.Year                                            år
+FLASK.COMMON.Years                                           år
+FLASK.COMMON.YearAbbr                                        Å
+FLASK.COMMON.Hour                                            time
+FLASK.COMMON.Hours                                           timer
+FLASK.COMMON.HourAbbr                                        t
+FLASK.COMMON.Min                                             minutt
+FLASK.COMMON.Mins                                            minutter
+FLASK.COMMON.MinAbbr                                         m
+FLASK.COMMON.Second                                          sekund
+FLASK.COMMON.Seconds                                         sekunder
+FLASK.COMMON.SecondAbbr                                      s
+
+FLASK.COMMON.Today                                           I dag
+FLASK.COMMON.Now                                             Nå
+
+FLASK.COMMON.Day.1                                           Mandag
+FLASK.COMMON.Day.2                                           Tirsdag
+FLASK.COMMON.Day.3                                           Onsdag
+FLASK.COMMON.Day.4                                           Torsdag
+FLASK.COMMON.Day.5                                           Fredag
+FLASK.COMMON.Day.6                                           Lørdag
+FLASK.COMMON.Day.7                                           Søndag
+
+FLASK.COMMON.Day.Short.1                                     Man.
+FLASK.COMMON.Day.Short.2                                     Tir.
+FLASK.COMMON.Day.Short.3                                     Ons.
+FLASK.COMMON.Day.Short.4                                     Tor.
+FLASK.COMMON.Day.Short.5                                     Fre.
+FLASK.COMMON.Day.Short.6                                     Lør.
+FLASK.COMMON.Day.Short.7                                     Søn.
+
+FLASK.COMMON.Day.Abbr.1                                      M
+FLASK.COMMON.Day.Abbr.2                                      T
+FLASK.COMMON.Day.Abbr.3                                      O
+FLASK.COMMON.Day.Abbr.4                                      T
+FLASK.COMMON.Day.Abbr.5                                      F
+FLASK.COMMON.Day.Abbr.6                                      L
+FLASK.COMMON.Day.Abbr.7                                      S
+
+FLASK.COMMON.Month.1                                         Januar
+FLASK.COMMON.Month.2                                         Februar
+FLASK.COMMON.Month.3                                         Mars
+FLASK.COMMON.Month.4                                         April
+FLASK.COMMON.Month.5                                         Mai
+FLASK.COMMON.Month.6                                         Juni
+FLASK.COMMON.Month.7                                         Juli
+FLASK.COMMON.Month.8                                         August
+FLASK.COMMON.Month.9                                         September
+FLASK.COMMON.Month.10                                        Oktober
+FLASK.COMMON.Month.11                                        November
+FLASK.COMMON.Month.12                                        Desember
+
+FLASK.COMMON.Month.Short.1                                   Jan.
+FLASK.COMMON.Month.Short.2                                   Feb.
+FLASK.COMMON.Month.Short.3                                   Mar.
+FLASK.COMMON.Month.Short.4                                   Apr.
+FLASK.COMMON.Month.Short.5                                   Mai
+FLASK.COMMON.Month.Short.6                                   Jun.
+FLASK.COMMON.Month.Short.7                                   Jul.
+FLASK.COMMON.Month.Short.8                                   Aug.
+FLASK.COMMON.Month.Short.9                                   Sep.
+FLASK.COMMON.Month.Short.10                                  Okt.
+FLASK.COMMON.Month.Short.11                                  Nov.
+FLASK.COMMON.Month.Short.12                                  Des.
+
+
+#
+#  Field stuff
+#
+
+FLASK.FIELD.Select                                           velg herfra
+
+FLASK.FIELD.Password.EnterPassword                           Oppgi passord
+FLASK.FIELD.Password.RepeatPassword                          Skriv inn passord på nytt
+FLASK.FIELD.Password.Suggest.FormComment                     Foreslå et sikkert passord
+FLASK.FIELD.Password.Suggest.Title                           Passordforslag
+FLASK.FIELD.Password.Suggest.Result.1                        Passordet ditt er
+FLASK.FIELD.Password.Suggest.Result.2                        Skriv det ned og oppbevar det på et trygt sted.
+
+FLASK.FIELD.File.NoFile                                      Ingen fil valgt
+FLASK.FIELD.File.Browse                                      Bla gjennom
+FLASK.FIELD.File.FileRemoved                                 Fil fjernet
+FLASK.FIELD.File.Remove                                      Fjern
+FLASK.FIELD.File.Remove.Confirm                              Fjerne denne filen?
+
+FLASK.FIELD.Chooser.choose                                   velg
+FLASK.FIELD.Chooser.clear                                    tøm
+FLASK.FIELD.Chooser.Search.Title                             Velg
+FLASK.FIELD.Chooser.Search.Placeholder                       Oppgi søkeord
+FLASK.FIELD.Chooser.Search.Submit                            Søk
+FLASK.FIELD.Chooser.AddNew.Submit                            Legg til ny
+FLASK.FIELD.Chooser.Progress                                 Dataspørring, vent litt ... 
+FLASK.FIELD.Chooser.Result.NoResults                         Ingen resultater funnet.
+FLASK.FIELD.Chooser.Result.MaxResults                        Mer enn $maxresults resultater funnet, vær mer spesifikk.
+FLASK.FIELD.Chooser.Error                                    Feil under henting av søkeresultater.
+FLASK.FIELD.Chooser.Error.SearchEmpty                        Oppgi en søkestreng.
+FLASK.FIELD.Chooser.Error.SearchMinLength                    Søkestrengen er for kort, den må inneholde minst $minlength tegn.
+
+FLASK.FIELD.Error.RequiredFieldEmpty                         Obligatorisk felt er tomt.
+FLASK.FIELD.Error.MinLength                                  Verdien er for kort, den må inneholde minst $minlength tegn.
+FLASK.FIELD.Error.MaxLength                                  Verdien er for lang, maksimalt $maxlength tegn er tillatt.
+FLASK.FIELD.Error.MinValue                                   Verdien er under tillatt minimumsverdi ($minvalue).
+FLASK.FIELD.Error.MaxValue                                   Verdien er over tillatt maksimalverdi ($maxvalue).
+FLASK.FIELD.Error.Filter                                     Verdien inneholder ugyldige tegn.
+FLASK.FIELD.Error.Unique                                     Verdien er ikke unik, duplikat verdi er ikke tillatt.
+FLASK.FIELD.Error.NumberFld.Format                           Feltverdien er ikke et gyldig nummer.
+FLASK.FIELD.Error.NumberFld.Format.Negative                  Feltverdien er ikke et gyldig, positivt nummer.
+FLASK.FIELD.Error.InvalidValue                               Ugyldig verdi.
+FLASK.FIELD.Error.InvalidEmail                               Ugyldig e-postadresse.
+FLASK.FIELD.Error.InvalidDate                                Ugyldig dato.
+FLASK.FIELD.Error.InvalidDate.Fmt                            Ugyldig dato (ikke i $format-format).
+FLASK.FIELD.Error.InvalidTime                                Ugyldig tidspunkt.
+FLASK.FIELD.Error.IncompleteDateTime                         Ufullstendig dato/tidspunkt.
+FLASK.FIELD.Error.FileTypeNotAllowed                         Denne filtypen er ikke tillatt.
+FLASK.FIELD.Error.PasswordWeak1                              Passordet er for svakt (må inneholder både tegn og tall).
+FLASK.FIELD.Error.PasswordWeak2                              Passordet er for svakt (må inneholde store og små tegn, tall og tegnsetting).
+FLASK.FIELD.Error.PasswordRepeatEmpty                        Gjenta passord er tom.
+FLASK.FIELD.Error.PasswordRepeatMismatch                     Passordene er ikke like.
+
+
+#
+#  User
+#
+
+FLASK.USER.Login.Login                                       Logg på
+FLASK.USER.Login.Success                                     Du er pålogget
+FLASK.USER.Login.Error.EmailEmpty                            E-postadresse er tom.
+FLASK.USER.Login.Error.EmailInvalid                          Ugyldig e-postadresse.
+FLASK.USER.Login.Error.PasswordEmpty                         Passord er tom.
+FLASK.USER.Login.Error.Unsuccessful                          Pålogging mislyktes.
+FLASK.USER.Login.Error.NoSuchUser                            Ingen slik bruker.
+FLASK.USER.Login.Error.WrongPassword                         Feil passord.
+FLASK.USER.Login.Error.UserPending                           Kontoen venter.
+FLASK.USER.Login.Error.UserDisabled                          Kontoen er deaktivert.
+FLASK.USER.Login.Error.UnknownLanguage                       Ukjent språk.
+
+
+#
+#  Modal
+#
+
+FLASK.MODAL.Btn.OK                                           OK
+FLASK.MODAL.Confirm                                          Bekreft
+FLASK.MODAL.Progress                                         Behandler forespørsel, vent litt ...
+
+
+#
+#  Form
+#
+
+FLASK.FORM.Title.add                                         Legg til en ny oppføring
+FLASK.FORM.Title.edit                                        Rediger oppføring
+FLASK.FORM.Btn.add                                           Legg til
+FLASK.FORM.Btn.edit                                          Lagre
+FLASK.FORM.Btn.Cancel                                        Avbryt
+FLASK.FORM.Btn.Close                                         Lukk
+FLASK.FORM.Msg.Saving                                        Lagrer data, vent litt ... 
+FLASK.FORM.Error.CouldNotFindForm                            Kunne ikke finne skjemaet.
+FLASK.FORM.Error.Validate                                    Følgende feil oppstod under validering av inndata
+FLASK.FORM.Error.DuplicateKey                                En oppføring med denne informasjonen eksisterer allerede, kan ikke opprette et duplikat.
+
+
+#
+#  List
+#
+
+FLASK.LIST.Filter.Submit                                     Bruk filtre
+FLASK.LIST.Filter.Clear                                      Tøm filtre
+FLASK.LIST.Filter.ShowAll                                    vis alle
+FLASK.LIST.Progress                                          Dataspørring, vent litt ... 
+FLASK.LIST.Message.FilterRequired                            Velg minst ett filtervilkår.
+FLASK.LIST.Message.NoResults                                 Ingen resultater funnet.
+FLASK.LIST.Message.NoResults.Filtered                        Ingen resultater som samsvarer med filtervilkåret funnet.
+FLASK.LIST.Message.FoundRows                                 Totalt av $foundrows oppføring(er).
+FLASK.LIST.Return                                            gå tilbake
+
+
+#
+#  Tabbed view
+#
+
+FLASK.TABBEDVIEW.Progress                                    Laster data, vent litt ...
+
+
+#
+#  Log
+#
+
+FLASK.LOG.Fld.TimeStamp                                      Dato/tidspunkt
+FLASK.LOG.Fld.User                                           Bruker
+FLASK.LOG.Fld.LogEntry                                       Loggfør oppføring
+FLASK.LOG.Fld.LogData                                        Loggfør oppføringsdetaljer
+FLASK.LOG.Fld.LogData.View                                   Vis detaljer
+FLASK.LOG.Fld.LogData.Operation                              Bruk
+FLASK.LOG.Fld.LogData.Empty                                  tom
+FLASK.LOG.LogEntry.Action.add                                lagt til
+FLASK.LOG.LogEntry.Action.edit                               redigert
+FLASK.LOG.LogEntry.Action.delete                             slettet
+FLASK.LOG.LogEntry.Action.swap                               rekkefølge byttet
+
+
+#
+#  Auth providers
+#
+
+FLASK.AUTH.EEMobileID.Error.NotActivated                     Mobile-ID er ikke aktivert.
+FLASK.AUTH.EEMobileID.Error.NotReady                         Mobile-ID-funksjonaliteten er ikke klar enda, prøv igjen senere.
+FLASK.AUTH.EEMobileID.Error.RequestFailed                    Sending av autentiseringsforespørsel til telefonen mislyktes.
+FLASK.AUTH.EEMobileID.Error.UserCancelled                    Bruker avbrøt autentisering.
+FLASK.AUTH.EEMobileID.Error.TechnicalError                   Teknisk feil på tjenesten.
+FLASK.AUTH.EEMobileID.Error.SIMError                         Feil på SIM-applikasjon.
+FLASK.AUTH.EEMobileID.Error.PhoneAbsent                      Telefonen har ikke dekning.
+FLASK.AUTH.EEMobileID.Error.CertificateRevoked               Mobile-ID-brukersertifikater er trukket tilbake eller suspendert.
+FLASK.AUTH.EEMobileID.Error.UnknownError                     Annen/ukjent feil med Mobile-ID.

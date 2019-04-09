@@ -8,3 +8,283 @@
 #   Distributed under the MIT License: https://www.flaskphp.com/LICENSE
 #
 #
+
+
+FLASK.COMMON.OK                                              OK
+FLASK.COMMON.Warnings                                        Waarschuwingen
+FLASK.COMMON.NotOK                                           Niet OK
+FLASK.COMMON.Missing                                         ontbreekt
+FLASK.COMMON.NotSet                                          niet ingesteld
+FLASK.COMMON.NotEntered                                      niet ingevoerd
+FLASK.COMMON.NotConnected                                    niet verbonden
+FLASK.COMMON.None                                            geen
+FLASK.COMMON.Empty                                           leeg
+FLASK.COMMON.Unknown                                         onbekend
+FLASK.COMMON.All                                             allen
+FLASK.COMMON.SelectAll                                       alles selecteren
+FLASK.COMMON.Selected                                        geselecteerd
+FLASK.COMMON.Other                                           overige
+FLASK.COMMON.OtherEnter                                      andere, enter
+FLASK.COMMON.BackToList                                      terug naar lijst
+
+FLASK.COMMON.Yes                                             Ja
+FLASK.COMMON.No                                              Nee
+
+FLASK.COMMON.Email                                           E-mailadres
+FLASK.COMMON.Email.Short                                     E-mail
+
+FLASK.COMMON.Name                                            Naam
+FLASK.COMMON.Name.First                                      Voornaam
+FLASK.COMMON.Name.Middle                                     Tussenvoegsel
+FLASK.COMMON.Name.Last                                       Achternaam
+FLASK.COMMON.Name.Title                                      Titel
+
+FLASK.COMMON.Password                                        Wachtwoord
+FLASK.COMMON.Language                                        Taal
+
+FLASK.COMMON.Address                                         Adres
+FLASK.COMMON.Address.Street                                  Adres
+FLASK.COMMON.Address.City                                    Plaats
+FLASK.COMMON.Address.State                                   Staat
+FLASK.COMMON.Address.ZIP                                     POSTCODE
+FLASK.COMMON.Address.Country                                 Land
+
+FLASK.COMMON.Error                                           Fout
+FLASK.COMMON.Error.InvalidRequest                            Ongeldig verzoek.
+FLASK.COMMON.Error.ErrorOpeningModal                         Fout bij openen dialoogvenster
+FLASK.COMMON.Error.ErrorReadingData                          Fout bij lezen gegevens
+FLASK.COMMON.Error.ErrorSavingData                           Fout bij opslaan gegevens
+
+
+#
+#  Date/time stuff
+#
+
+FLASK.COMMON.Date                                            Datum
+FLASK.COMMON.Time                                            Tijd
+FLASK.COMMON.DateTime                                        Datum/tijd
+
+FLASK.COMMON.Day                                             dag
+FLASK.COMMON.Days                                            dagen
+FLASK.COMMON.DayAbbr                                         D
+FLASK.COMMON.Week                                            week
+FLASK.COMMON.Weeks                                           weken
+FLASK.COMMON.WeekAbbr                                        W
+FLASK.COMMON.Month                                           maand
+FLASK.COMMON.Months                                          maanden
+FLASK.COMMON.MonthAbbr                                       M
+FLASK.COMMON.Year                                            jaar
+FLASK.COMMON.Years                                           jaren
+FLASK.COMMON.YearAbbr                                        J
+FLASK.COMMON.Hour                                            uur
+FLASK.COMMON.Hours                                           uren
+FLASK.COMMON.HourAbbr                                        h
+FLASK.COMMON.Min                                             minuut
+FLASK.COMMON.Mins                                            minuten
+FLASK.COMMON.MinAbbr                                         m
+FLASK.COMMON.Second                                          tweede
+FLASK.COMMON.Seconds                                         seconden
+FLASK.COMMON.SecondAbbr                                      s
+
+FLASK.COMMON.Today                                           Vandaag
+FLASK.COMMON.Now                                             Nu
+
+FLASK.COMMON.Day.1                                           Maandag
+FLASK.COMMON.Day.2                                           Dinsdag
+FLASK.COMMON.Day.3                                           Woensdag
+FLASK.COMMON.Day.4                                           Donderdag
+FLASK.COMMON.Day.5                                           Vrijdag
+FLASK.COMMON.Day.6                                           Zaterdag
+FLASK.COMMON.Day.7                                           Zondag
+
+FLASK.COMMON.Day.Short.1                                     Ma
+FLASK.COMMON.Day.Short.2                                     Di
+FLASK.COMMON.Day.Short.3                                     Wo
+FLASK.COMMON.Day.Short.4                                     Do
+FLASK.COMMON.Day.Short.5                                     Vr
+FLASK.COMMON.Day.Short.6                                     Zat
+FLASK.COMMON.Day.Short.7                                     Zon
+
+FLASK.COMMON.Day.Abbr.1                                      M
+FLASK.COMMON.Day.Abbr.2                                      D
+FLASK.COMMON.Day.Abbr.3                                      W
+FLASK.COMMON.Day.Abbr.4                                      D
+FLASK.COMMON.Day.Abbr.5                                      V
+FLASK.COMMON.Day.Abbr.6                                      S
+FLASK.COMMON.Day.Abbr.7                                      S
+
+FLASK.COMMON.Month.1                                         Januari
+FLASK.COMMON.Month.2                                         Februari
+FLASK.COMMON.Month.3                                         Maart
+FLASK.COMMON.Month.4                                         April
+FLASK.COMMON.Month.5                                         Mei
+FLASK.COMMON.Month.6                                         Juni
+FLASK.COMMON.Month.7                                         Juli
+FLASK.COMMON.Month.8                                         Augustus
+FLASK.COMMON.Month.9                                         September
+FLASK.COMMON.Month.10                                        Oktober
+FLASK.COMMON.Month.11                                        November
+FLASK.COMMON.Month.12                                        December
+
+FLASK.COMMON.Month.Short.1                                   Jan
+FLASK.COMMON.Month.Short.2                                   Feb
+FLASK.COMMON.Month.Short.3                                   Mrt
+FLASK.COMMON.Month.Short.4                                   Apr
+FLASK.COMMON.Month.Short.5                                   Mei
+FLASK.COMMON.Month.Short.6                                   Jun
+FLASK.COMMON.Month.Short.7                                   Jul
+FLASK.COMMON.Month.Short.8                                   Aug
+FLASK.COMMON.Month.Short.9                                   Sep
+FLASK.COMMON.Month.Short.10                                  Okt
+FLASK.COMMON.Month.Short.11                                  Nov
+FLASK.COMMON.Month.Short.12                                  Dec
+
+
+#
+#  Field stuff
+#
+
+FLASK.FIELD.Select                                           selecteren hieruit
+
+FLASK.FIELD.Password.EnterPassword                           Voer wachtwoord in
+FLASK.FIELD.Password.RepeatPassword                          Wachtwoord herhalen
+FLASK.FIELD.Password.Suggest.FormComment                     Stel een veilig wachtwoord voor
+FLASK.FIELD.Password.Suggest.Title                           Wachtwoordregels
+FLASK.FIELD.Password.Suggest.Result.1                        Uw wachtwoord is
+FLASK.FIELD.Password.Suggest.Result.2                        Schrijf het op en bewaar het op een veilige plaats.
+
+FLASK.FIELD.File.NoFile                                      Geen bestand geselecteerd
+FLASK.FIELD.File.Browse                                      Bladeren
+FLASK.FIELD.File.FileRemoved                                 Bestand verwijderd
+FLASK.FIELD.File.Remove                                      Verwijderen
+FLASK.FIELD.File.Remove.Confirm                              Dit bestand verwijderen?
+
+FLASK.FIELD.Chooser.choose                                   kies
+FLASK.FIELD.Chooser.clear                                    wissen
+FLASK.FIELD.Chooser.Search.Title                             Kies
+FLASK.FIELD.Chooser.Search.Placeholder                       Voer zoekterm in
+FLASK.FIELD.Chooser.Search.Submit                            Zoeken
+FLASK.FIELD.Chooser.AddNew.Submit                            Voeg nieuwe toe
+FLASK.FIELD.Chooser.Progress                                 Gegevens opvragen, even geduld ...
+FLASK.FIELD.Chooser.Result.NoResults                         Geen resultaten gevonden.
+FLASK.FIELD.Chooser.Result.MaxResults                        Meer dan $maxresults resultaten gevonden, probeer specifieker te zijn.
+FLASK.FIELD.Chooser.Error                                    Fout bij ophalen zoekresultaten.
+FLASK.FIELD.Chooser.Error.SearchEmpty                        Voer een zoekreeks in.
+FLASK.FIELD.Chooser.Error.SearchMinLength                    Zoekreeks te kort, vul minstens $minlength tekens in.
+
+FLASK.FIELD.Error.RequiredFieldEmpty                         Verplicht veld leeg.
+FLASK.FIELD.Error.MinLength                                  Waarde te kort, vereist ten minste $minlength tekens.
+FLASK.FIELD.Error.MaxLength                                  Waarde te lang, maximaal $maxlength karakters toegestaan.
+FLASK.FIELD.Error.MinValue                                   Waarde onder de toegestane minimumwaarde ($minvalue).
+FLASK.FIELD.Error.MaxValue                                   Waarde boven toegestane maximumwaarde ($maxvalue).
+FLASK.FIELD.Error.Filter                                     Waarde bevat illegale tekens.
+FLASK.FIELD.Error.Unique                                     Waarde niet uniek, dubbele waarde niet toegestaan.
+FLASK.FIELD.Error.NumberFld.Format                           Veldwaarde is geen geldig getal.
+FLASK.FIELD.Error.NumberFld.Format.Negative                  Veldwaarde is geen geldig positief getal.
+FLASK.FIELD.Error.InvalidValue                               Ongeldige waarde.
+FLASK.FIELD.Error.InvalidEmail                               Ongeldig e-mailadres.
+FLASK.FIELD.Error.InvalidDate                                Ongeldige datum.
+FLASK.FIELD.Error.InvalidDate.Fmt                            Ongeldige datum (niet in $format-formaat).
+FLASK.FIELD.Error.InvalidTime                                Ongeldige tijd.
+FLASK.FIELD.Error.IncompleteDateTime                         Onvolledige datum/tijd.
+FLASK.FIELD.Error.FileTypeNotAllowed                         Dit type bestand is niet toegestaan.
+FLASK.FIELD.Error.PasswordWeak1                              Wachtwoord te zwak (moet zowel tekens als cijfers bevatten).
+FLASK.FIELD.Error.PasswordWeak2                              Wachtwoord te zwak (moet kleine en hoofdletters, cijfers en leestekens bevatten).
+FLASK.FIELD.Error.PasswordRepeatEmpty                        Wachtwoord herhalen leeg.
+FLASK.FIELD.Error.PasswordRepeatMismatch                     Wachtwoord herhalen komt niet overeen.
+
+
+#
+#  User
+#
+
+FLASK.USER.Login.Login                                       Login
+FLASK.USER.Login.Success                                     Succesvolle aanmelding
+FLASK.USER.Login.Error.EmailEmpty                            E-mailadres is leeg.
+FLASK.USER.Login.Error.EmailInvalid                          Ongeldig e-mailadres.
+FLASK.USER.Login.Error.PasswordEmpty                         Wachtwoord is leeg.
+FLASK.USER.Login.Error.Unsuccessful                          Aanmelding niet succesvol.
+FLASK.USER.Login.Error.NoSuchUser                            Gebruiker onbekend.
+FLASK.USER.Login.Error.WrongPassword                         Verkeerd wachtwoord.
+FLASK.USER.Login.Error.UserPending                           Account is in behandeling.
+FLASK.USER.Login.Error.UserDisabled                          Account uitgeschakeld.
+FLASK.USER.Login.Error.UnknownLanguage                       Onbekende taal.
+
+
+#
+#  Modal
+#
+
+FLASK.MODAL.Btn.OK                                           OK
+FLASK.MODAL.Confirm                                          S.v.p. bevestigen
+FLASK.MODAL.Progress                                         Verzoek wordt verwerkt, even geduld ...
+
+
+#
+#  Form
+#
+
+FLASK.FORM.Title.add                                         Voeg een nieuwe invoer toe
+FLASK.FORM.Title.edit                                        Bewerken invoer
+FLASK.FORM.Btn.add                                           Toevoegen
+FLASK.FORM.Btn.edit                                          Opslaan
+FLASK.FORM.Btn.Cancel                                        Annuleren
+FLASK.FORM.Btn.Close                                         Sluiten
+FLASK.FORM.Msg.Saving                                        Bezig met opslaan gegevens, even geduld ...
+FLASK.FORM.Error.CouldNotFindForm                            Kon het formulier niet vinden.
+FLASK.FORM.Error.Validate                                    Bij de validatie van de formulierinvoer zijn de volgende fouten opgetreden
+FLASK.FORM.Error.DuplicateKey                                Er bestaat al een record met deze gegevens, kan geen duplicaat maken.
+
+
+#
+#  List
+#
+
+FLASK.LIST.Filter.Submit                                     Filters toepassen
+FLASK.LIST.Filter.Clear                                      Filters wissen
+FLASK.LIST.Filter.ShowAll                                    alles tonen
+FLASK.LIST.Progress                                          Gegevens opvragen, even geduld ...
+FLASK.LIST.Message.FilterRequired                            Kies ten minste één filtercriterium.
+FLASK.LIST.Message.NoResults                                 Geen resultaten gevonden.
+FLASK.LIST.Message.NoResults.Filtered                        Geen resultaten gevonden die voldoen aan de filtercriteria.
+FLASK.LIST.Message.FoundRows                                 Totaal van $foundrows record(s).
+FLASK.LIST.Return                                            terug
+
+
+#
+#  Tabbed view
+#
+
+FLASK.TABBEDVIEW.Progress                                    Bezig met laden gegevens, even geduld ...
+
+
+#
+#  Log
+#
+
+FLASK.LOG.Fld.TimeStamp                                      Datum/tijd
+FLASK.LOG.Fld.User                                           Gebruiker
+FLASK.LOG.Fld.LogEntry                                       Logboek invoer
+FLASK.LOG.Fld.LogData                                        Logboekgegevens
+FLASK.LOG.Fld.LogData.View                                   Gegevens weergeven
+FLASK.LOG.Fld.LogData.Operation                              Bediening
+FLASK.LOG.Fld.LogData.Empty                                  leeg
+FLASK.LOG.LogEntry.Action.add                                toegevoegd
+FLASK.LOG.LogEntry.Action.edit                               bewerkt
+FLASK.LOG.LogEntry.Action.delete                             verwijderd
+FLASK.LOG.LogEntry.Action.swap                               volgorde omgewisseld
+
+
+#
+#  Auth providers
+#
+
+FLASK.AUTH.EEMobileID.Error.NotActivated                     Mobiele-ID is niet geactiveerd.
+FLASK.AUTH.EEMobileID.Error.NotReady                         Mobile-ID functionaliteit is nog niet klaar, probeer het na een tijdje nog eens.
+FLASK.AUTH.EEMobileID.Error.RequestFailed                    Authenticatieverzoek naar telefoon mislukt.
+FLASK.AUTH.EEMobileID.Error.UserCancelled                    Door gebruiker geannuleerde authenticatie.
+FLASK.AUTH.EEMobileID.Error.TechnicalError                   Technische storing.
+FLASK.AUTH.EEMobileID.Error.SIMError                         Fout in de SIM-toepassing.
+FLASK.AUTH.EEMobileID.Error.PhoneAbsent                      Telefoonnummer is niet binnen dekkingsgebied.
+FLASK.AUTH.EEMobileID.Error.CertificateRevoked               Mobile-ID-gebruikerscertificaten zijn ingetrokken of opgeschort.
+FLASK.AUTH.EEMobileID.Error.UnknownError                     Andere/onbekende mobile-ID-fout.
