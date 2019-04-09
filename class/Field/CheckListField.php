@@ -208,7 +208,7 @@
 			if (!is_array($value) || !sizeof($value))
 			{
 				throw new FlaskPHP\Exception\ValidateException([
-					$this->tag => '[[ FLASK.FIELD.Error.RequiredFieldEmpty ]]'
+					$this->tag => oneof($this->getParam('required_message'),'[[ FLASK.FIELD.Error.RequiredFieldEmpty ]]')
 				]);
 			}
 		}

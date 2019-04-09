@@ -115,7 +115,7 @@
 			// Required, but not set
 			if ($this->required() && !mb_strlen($value))
 			{
-				$errors[$this->tag]='[[ FLASK.FIELD.Error.RequiredFieldEmpty ]]';
+				$errors[$this->tag]=oneof($this->getParam('required_message'),'[[ FLASK.FIELD.Error.RequiredFieldEmpty ]]');
 			}
 			if ($this->required() && !mb_strlen(Flask()->Request->postVar($this->tag.'_repeat')))
 			{

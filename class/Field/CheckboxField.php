@@ -107,7 +107,7 @@
 				if ($value!=$checkboxValue)
 				{
 					throw new FlaskPHP\Exception\ValidateException([
-						$this->tag => '[[ FLASK.FIELD.Error.RequiredFieldEmpty ]]'
+						$this->tag => oneof($this->getParam('required_message'),'[[ FLASK.FIELD.Error.RequiredFieldEmpty ]]')
 					]);
 				}
 			}

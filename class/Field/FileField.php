@@ -175,7 +175,7 @@
 					if (!intval($_FILES[$this->tag]['size'][0]))
 					{
 						throw new FlaskPHP\Exception\ValidateException([
-							$this->tag => '[[ FLASK.FIELD.Error.RequiredFieldEmpty ]]'
+							$this->tag => oneof($this->getParam('required_message'),'[[ FLASK.FIELD.Error.RequiredFieldEmpty ]]')
 						]);
 					}
 				}
@@ -184,21 +184,21 @@
 					if (!intval($_FILES[$this->tag]['size']))
 					{
 						throw new FlaskPHP\Exception\ValidateException([
-							$this->tag => '[[ FLASK.FIELD.Error.RequiredFieldEmpty ]]'
+							$this->tag => oneof($this->getParam('required_message'),'[[ FLASK.FIELD.Error.RequiredFieldEmpty ]]')
 						]);
 					}
 				}
 				if (Flask()->Request->postVar($this->tag.'_clear'))
 				{
 					throw new FlaskPHP\Exception\ValidateException([
-						$this->tag => '[[ FLASK.FIELD.Error.RequiredFieldEmpty ]]'
+						$this->tag => oneof($this->getParam('required_message'),'[[ FLASK.FIELD.Error.RequiredFieldEmpty ]]')
 					]);
 				}
 			}
 			if (is_object($this->formObject) && $this->formObject->operation=='edit' && $this->getParam('required')=='add' && Flask()->Request->postVar($this->tag.'_clear'))
 			{
 				throw new FlaskPHP\Exception\ValidateException([
-					$this->tag => '[[ FLASK.FIELD.Error.RequiredFieldEmpty ]]'
+					$this->tag => oneof($this->getParam('required_message'),'[[ FLASK.FIELD.Error.RequiredFieldEmpty ]]')
 				]);
 			}
 
