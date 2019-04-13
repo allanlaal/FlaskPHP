@@ -177,7 +177,6 @@
 		{
 			// Init controller handlers
 			$this->initControllerMappers();
-
 			// Request method
 			$this->requestMethod=$_SERVER['REQUEST_METHOD'];
 
@@ -185,7 +184,7 @@
 			$this->requestLang=Flask()->Locale->localeLanguage;
 
 			// Headers
-			$this->requestHeader=getallheaders();
+			$this->requestHeader=$this->parseRequestHeaders();
 
 			// Parse URI
 			$uriArray=oneof(str_array(preg_split("/[?&#]/",$_SERVER['REQUEST_URI'])[0],'\/'),array('index'));
@@ -571,6 +570,37 @@
 
 		/**
 		 *
+		 *   Parse request headers
+		 *   ---------------------
+		 *   @access public
+		 *   @return array
+		 *
+		 */
+
+		public function parseRequestHeaders()
+		{
+			// Do we have apache_request_headers() ?
+			if (function_exists('apache_request_headers'))
+			{
+				return apache_request_headers();
+			}
+
+			// Parse from $_SERVER
+			$requestHeader=array();
+			foreach ($_SERVER as $k => $v)
+			{
+				if (preg_match("/^HTTP\_/",$k))
+				{
+					$headerName=ucwords(str_replace('_','-',$k),'-');
+					$requestHeader[$headerName]=$v;
+				}
+			}
+			return $requestHeader;
+		}
+
+
+		/**
+		 *
 		 *   Get request header
 		 *   ------------------
 		 *   @access public
@@ -593,6 +623,28 @@
 			}
 			return null;
 		}
+
+
+		/**
+		 *
+		 *   Get bearer token
+		 *   ----------------
+		 *   @access public
+		 *   @throws \Exception
+		 *   @return string
+		 *
+		 */
+
+		public function getBearerToken()
+		{
+			$authHeader=$this->getRequestHeader('Authorization');
+			if ($authHeader && preg_match('/Bearer\s(\S+)/',$authHeader,$match))
+			{
+				return $match[1];
+			}
+			return null;
+		}
+
 
 
 	}
