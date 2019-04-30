@@ -232,6 +232,17 @@
 				'dateformat_check'  => '(\d\d)\.(\d\d)\.(\d\d\d\d)'
 			),
 
+			'pl' => array(
+				'tag'               => 'PL',
+				'name'              => 'Polski',
+				'name_short'        => 'Polski',
+				'name_sel'          => 'Polski',
+				'name_eng'          => 'Polish',
+				'phplocale'         => 'pl_PL',
+				'dateformat_disp'   => 'd.m.Y',
+				'dateformat_check'  => '(\d\d)\.(\d\d)\.(\d\d\d\d)'
+			),
+
 		);
 
 
