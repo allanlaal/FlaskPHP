@@ -1557,13 +1557,31 @@ Flask.Form = {
 	// Load dropdown options
 	setSelectOptions: function( field, options, selectedValue )
 	{
-		var option='';
-		for(var key in options) {
-			var dkey=((key.indexOf("#_") > -1)?key.replace("#_",""):key).trim();
-			option+='<option value="'+dkey+'"'+(dkey==selectedValue?' selected="selected"':'')+'>'+options[key]+'</option>';
+		if (!$(field).length) return;
+		if ($(field).prop('tagName')=='SELECT') {
+			var option='';
+			for(var key in options) {
+				var dkey=((key.indexOf("#_") > -1)?key.replace("#_",""):key).trim();
+				option+='<option value="'+dkey+'"'+(dkey==selectedValue?' selected="selected"':'')+'>'+options[key]+'</option>';
+			}
+			$(field+' option').remove();
+			$(field).html(option);
 		}
-		$(field+' option').remove();
-		$(field).html(option);
+		else if ($(field).parent(".ui.dropdown").length) {
+			if (typeof(options)==='object') {
+				var valueHTML='';
+				for (var key in options) {
+					var dkey=((key.indexOf("#_") > -1)?key.replace("#_",""):key).trim();
+					valueHTML=valueHTML+'<div class="item" data-value="'+dkey+'">'+options[key]+'</div>';
+				}
+				$(".menu",$(field).parent(".ui.dropdown")).html(valueHTML);
+			}
+			else {
+				$(".menu",$(field).parent(".ui.dropdown")).html(options);
+			}
+			$(field).parent(".ui.dropdown").dropdown('refresh');
+			$(field).parent(".ui.dropdown").dropdown('set selected',selectedValue);
+		}
 	},
 
 	// Init elements
