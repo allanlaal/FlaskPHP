@@ -1634,7 +1634,10 @@ Flask.Form = {
 	showFieldError: function( field, error )
 	{
 		$("#"+field).closest('form').addClass('error');
-		if ($("#"+field).parent().is('.ui.input') || $("#"+field).parent().is('.ui.dropdown')) {
+		if ($("#"+field).parent().parent().is('.ui.search')) {
+			$("#"+field).parent().parent().parent().append('<div class="ui basic red pointing prompt label transition visible">'+error+'</div>');
+		}
+		else if ($("#"+field).parent().is('.ui.input') || $("#"+field).parent().is('.ui.dropdown')) {
 			$("#"+field).parent().parent().append('<div class="ui basic red pointing prompt label transition visible">'+error+'</div>');
 		}
 		else if ($("#field_"+field+" .ui.radiochecklist.segment").length) {
