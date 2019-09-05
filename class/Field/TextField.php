@@ -23,6 +23,23 @@
 
 		/**
 		 *
+		 *   Set field type
+		 *   --------------
+		 *   @access public
+		 *   @param string $type Field type
+		 *   @return \Codelab\FlaskPHP\Field\TextField
+		 *
+		 */
+
+		public function setFieldType( string $type )
+		{
+			$this->setParam('fieldtype',$type);
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Render form field: element
 		 *   --------------------------
 		 *   @access public
@@ -81,7 +98,7 @@
 
 			// Field
 			$c.='<input';
-				$c.=' type="text"';
+				$c.=' type="'.oneof($this->getParam('fieldtype'),'text').'"';
 				$c.=' id="'.$this->tag.'"';
 				$c.=' name="'.$this->tag.'"';
 				$c.=' value="'.$value.'"';

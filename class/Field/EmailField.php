@@ -23,6 +23,23 @@
 
 		/**
 		 *
+		 *   The constructor
+		 *   ---------------
+		 *   @access public
+		 *   @param string $tag Field tag
+		 *   @return \Codelab\FlaskPHP\Field\EmailField
+		 *
+		 */
+
+		public function __construct( string $tag=null )
+		{
+			parent::__construct($tag);
+			$this->setFieldType('email');
+		}
+
+
+		/**
+		 *
 		 *   Allow multiple e-mail addresses?
 		 *   --------------------------------
 		 *   @access public
@@ -155,6 +172,7 @@
 				{
 					$emailArray[$k]='<a href="mailto:'.$v.'">'.$v.'</a>';
 				}
+				return join(', ',$emailArray);
 			}
 			else
 			{
