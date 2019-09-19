@@ -154,6 +154,18 @@
 				'dateformat_check'  => '(\d\d)\.(\d\d)\.(\d\d\d\d)'
 			 ),
 
+			'da' => array
+			 (
+				'tag'               => 'DA',
+				'name'              => 'Dansk',
+				'name_short'        => 'Dansk',
+				'name_sel'          => 'På dansk',
+				'name_eng'          => 'Danish',
+				'phplocale'         => 'da_DK',
+				'dateformat_disp'   => 'd.m.Y',
+				'dateformat_check'  => '(\d\d)\.(\d\d)\.(\d\d\d\d)'
+			 ),
+
 			'de' => array(
 				'tag'               => 'DE',
 				'name'              => 'Deutsch',
