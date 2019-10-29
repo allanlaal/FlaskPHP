@@ -452,8 +452,10 @@ Flask.initElements = function( base )
 	// Init date fields
 	$(base+'.ui.calendar').each(function(){
 		var dateFormat=$('input',this).attr('data-date-format');
+		var dateFirstDayOfWeek=oneof($('input',this).attr('data-date-firstdayofweek'),'1');
 		$(this).calendar({
 			type: 'date',
+			firstDayOfWeek: dateFirstDayOfWeek,
 			text: {
 				days: [
 					Locale.get('FLASK.COMMON.DAY.Abbr.7'),
