@@ -385,7 +385,7 @@ Flask.processResponse = function( data, close_progress )
 	}
 
 	// Reload?
-	if (data.reload!=null) {
+	if (data.reload!=null && data.reload) {
 		Flask.reload();
 		return;
 	}
