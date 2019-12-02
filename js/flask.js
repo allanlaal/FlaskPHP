@@ -903,6 +903,7 @@ Flask.Drawer = {
 			}
 		}
 		$("#"+drawerTag).on('keypress',function(evt){
+			console.log(evt.which);
 			if (evt.which==27) {
 				Flask.Drawer.closeDrawer(drawerTag);
 				evt.stopPropagation()
