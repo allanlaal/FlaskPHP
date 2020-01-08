@@ -1,6 +1,6 @@
 /*!
- * # Semantic UI - Calendar
- * http://github.com/semantic-org/semantic-ui/
+ * # Fomantic-UI - Calendar
+ * http://github.com/fomantic/Fomantic-UI/
  *
  *
  * Released under the MIT license
@@ -85,10 +85,6 @@
   margin: 0;
 }
 
-.ui.calendar .ui.table tr th .icon {
-  margin: 0;
-}
-
 .ui.calendar .ui.table tr:first-child th {
   position: relative;
   padding-left: 0;
@@ -126,8 +122,14 @@
 }
 
 .ui.calendar .ui.table tr .disabled {
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: default;
   color: @disabledTextColor;
+}
+
+.ui.calendar .ui.table tr .adjacent:not(.disabled) {
+  color: @adjacentTextColor;
+  background: @adjacentBackground;
 }
 
 /*--------------
@@ -165,17 +167,19 @@
             States
 *******************************/
 
-/*--------------------
-        Disabled
----------------------*/
+& when (@variationCalendarDisabled) {
+  /*--------------------
+          Disabled
+  ---------------------*/
 
-.ui.disabled.calendar {
-  opacity: @disabledOpacity;
-}
+  .ui.disabled.calendar {
+    opacity: @disabledOpacity;
+  }
 
-.ui.disabled.calendar > .input,
-.ui.disabled.calendar .ui.table tr .link {
-  pointer-events: none;
+  .ui.disabled.calendar > .input,
+  .ui.disabled.calendar .ui.table tr .link {
+    pointer-events: none;
+  }
 }
 
 

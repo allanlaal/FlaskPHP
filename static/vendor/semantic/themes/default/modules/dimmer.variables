@@ -20,7 +20,7 @@
 @textColor: @white;
 @overflow: hidden;
 
-@blurredStartFilter: e("blur(0px) grayscale(0)");
+@blurredStartFilter: initial;
 @blurredEndFilter: e("blur(5px) grayscale(0.7)");
 @blurredTransition: 800ms filter @defaultEasing;
 
@@ -48,7 +48,7 @@
 
 /* Inverted */
 @invertedBackgroundColor: rgba(255, 255, 255, 0.85);
-@invertedTextColor: @textColor;
+@invertedTextColor: @fullBlack;
 
 /* Simple */
 @simpleZIndex: 1;
