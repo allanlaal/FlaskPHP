@@ -670,10 +670,12 @@ Flask.Modal = {
 				}
 			},
 			onHidden: function(){
-				$('#'+modalTag).remove();
-				if ($(".ui.dimmer.modals").length && $(".ui.dimmer.modals div").length==0) {
-					$(".ui.dimmer.modals").remove();
-				}
+				setTimeout(function(){
+					$('#'+modalTag).remove();
+					if ($(".ui.dimmer.modals").length && $(".ui.dimmer.modals div").length==0) {
+						$(".ui.dimmer.modals").remove();
+					}
+				},400);
 			}
 		}).modal('show');
 		if (param.noclosebtn==null) {
@@ -1937,11 +1939,9 @@ Flask.ProgressDialog = {
 	// Hide
 	hide: function () {
 		if ($("#progressdimmer").length) {
-			$("#progressdimmer").dimmer({
-				onHide: function(){
-					$("#progressdimmer").remove();
-				}
-			}).dimmer('hide');
+			$("#progressdimmer").dimmer('hide',function(){
+				$("#progressdimmer").remove();
+			});
 		}
 	}
 
