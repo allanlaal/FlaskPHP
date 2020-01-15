@@ -1924,24 +1924,19 @@ Flask.ProgressDialog = {
 	// Show
 	show: function( message, container ) {
 		if (container!=null) {
-			var progressHTML='<div id="progressdimmer" class="ui active inverted dimmer"><div class="content"><div class="center"><div class="ui active centered inline large text loader">'+message+'</div></div></div></div>';
+			var progressHTML='<div id="progressdimmer" class="ui active inverted dimmer transition visible" style="display: flex !important;"><div class="content"><div class="center"><div class="ui active centered inline large text loader">'+message+'</div></div></div></div>';
 			$(container).append(progressHTML);
 		}
 		else {
-			var progressHTML='<div id="progressdimmer" class="ui page active inverted dimmer"><div class="content"><div class="center"><div class="ui active centered inline large text loader">'+message+'</div></div></div></div>';
+			var progressHTML='<div id="progressdimmer" class="ui page active inverted dimmer transition visible" style="display: flex !important;"><div class="content"><div class="center"><div class="ui active centered inline large text loader">'+message+'</div></div></div></div>';
 			$('body').append(progressHTML);
 		}
-		$("#progressdimmer").dimmer({
-			closable: false
-		}).dimmer('show');
 	},
 
 	// Hide
 	hide: function () {
 		if ($("#progressdimmer").length) {
-			$("#progressdimmer").dimmer('hide',function(){
-				$("#progressdimmer").remove();
-			});
+			$("#progressdimmer").remove();
 		}
 	}
 
