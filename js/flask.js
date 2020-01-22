@@ -905,7 +905,6 @@ Flask.Drawer = {
 			}
 		}
 		$("#"+drawerTag).on('keypress',function(evt){
-			console.log(evt.which);
 			if (evt.which==27) {
 				Flask.Drawer.closeDrawer(drawerTag);
 				evt.stopPropagation()
@@ -2364,6 +2363,7 @@ Flask.Login = {
 	doLogin: function() {
 		if (!Flask.Login.validateLogin()) return;
 		Flask.Login.progressStart();
+		console.log("test")
 		$("#login_form").ajaxSubmit({
 			type: 'post',
 			data: {
