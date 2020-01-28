@@ -572,7 +572,7 @@ Flask.initElements = function( base )
 
 Flask.copyToClipboard = function( str, show_toast )
 {
-	const el=document.createElement('textarea');
+	var el=document.createElement('textarea');
   el.value=str;
   document.body.appendChild(el);
   el.select();
