@@ -259,6 +259,14 @@ FLASK.TABBEDVIEW.Progress                                    Andmete laadimine, 
 
 
 #
+#  Copy to clipboard
+#
+
+FLASK.COPYTOCLIPBOARD.Tooltip                                Kopeeri
+FLASK.COPYTOCLIPBOARD.Toast                                  Kopeeritud.
+
+
+#
 #  Log
 #
 
