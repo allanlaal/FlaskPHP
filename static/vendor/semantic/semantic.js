@@ -7393,7 +7393,27 @@ $.fn.dropdown = function(parameters) {
               }
             }
           },
-
+          search: {
+            focus: function(event) {
+              activated = true;
+              if(module.is.multiple()) {
+                module.remove.activeLabel();
+              }
+              if(settings.showOnFocus || (event.type !== 'focus' && event.type !== 'focusin')) {
+                module.search();
+              }
+            },
+            blur: function(event) {
+              pageLostFocus = (document.activeElement === this);
+              if(module.is.searchSelection() && !willRefocus) {
+                if(!itemActivated && !pageLostFocus) {
+                  if(settings.forceSelection) {
+                    module.forceSelection();
+                  } else if(!settings.allowAdditions){
+                    module.remove.searchTerm();
+                  }
+                  module.hide();
+                }
               }
               willRefocus = false;
             }
