@@ -1,4 +1,4 @@
-<? if ($this->get('title')) { ?><h1>{{ title }}</h1><? } ?>
+<?php if ($this->get('title')) { ?><h1>{{ title }}</h1><?php } ?>
 <div class="list">
 	{{ list_extraheader }}
 	{{ list_globalaction }}
