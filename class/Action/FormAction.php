@@ -847,6 +847,24 @@
 
 		/**
 		 *
+		 *   Cancel trigger
+		 *   --------------
+		 *   @access public
+		 *   @throws \Exception
+		 *   @return FlaskPHP\Response\ResponseInterface
+		 *
+		 */
+
+		public function triggerCancel()
+		{
+			// This can be overwritten in the subclass if necessary.
+			// Should return null or a ResponseInterface.
+			// In case of null, normal cancel flow will resume.
+		}
+
+
+		/**
+		 *
 		 *   Run action and return response
 		 *   ------------------------------
 		 *   @access public
@@ -868,6 +886,11 @@
 				// Cancel?
 				if (Flask()->Request->postVar('submit_cancel')!==null)
 				{
+					// Cancel trigger
+					$retVal=$this->triggerCancel();
+					if ($retVal!==null) return $retVal;
+
+					// Normal cancel flow
 					$response=new \stdClass();
 					$response->status=1;
 					$response->redirect=$this->buildURL(oneof($this->getParam('url_cancel'),$this->getParam('url_return'),$this->buildURL()));
