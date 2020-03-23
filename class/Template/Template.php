@@ -359,7 +359,7 @@
 
 				// Parse template
 				ob_start();
-				eval('?>'.$src.'<?');
+				eval('?>'.$src.'<?php ');
 				$tmplContent=ob_get_contents();
 				ob_end_clean();
 			}
