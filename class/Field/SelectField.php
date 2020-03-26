@@ -133,7 +133,40 @@
 			// Unset from log values
 			$logData->setHandled($this->tag);
 
-			// TODO: finish
+			// Check if we need to log
+			if ($logData->operation!='edit' && !mb_strlen($model->{$this->tag})) return;
+			if ($logData->operation=='edit')
+			{
+				if ($model->{$this->tag}==$model->_in[$this->tag]) return;
+				if ($model->{$this->tag}=='' && $model->_in[$this->tag]=='0') return;
+				if ($model->{$this->tag}=='0' && $model->_in[$this->tag]=='') return;
+			}
+
+			// Get options
+			$options=$this->getOptions();
+
+			// Compose log entry
+			$fieldLogData=new \stdClass();
+			$fieldLogData->id=$this->tag;
+			$fieldLogData->name=$this->getTitle();
+			if (in_array($logData->operation,array('add','edit')))
+			{
+				if ($logData->operation!='add' && !$this->getParam('forcevalue'))
+				{
+					$fieldLogData->old_value=$model->_in[$this->tag];
+					$fieldLogData->old_description=$options[$fieldLogData->old_value];
+				}
+				$fieldLogData->new_value=$model->{$this->tag};
+				$fieldLogData->new_description=$options[$fieldLogData->new_value];
+			}
+			else
+			{
+				$fieldLogData->value=$model->{$this->tag};
+				$fieldLogData->description=$options[$fieldLogData->value];
+			}
+
+			// Add log entry
+			$logData->addData($this->tag,$fieldLogData);
 		}
 
 
