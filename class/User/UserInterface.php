@@ -138,18 +138,19 @@
 		 *
 		 *   Check if user has any of the given roles
 		 *   ----------------------------------------
-		 *   @param string|array $roleList
+		 *   @param string|array $roleList List of roles
+		 *   @param bool $superPowers Supervisor has superpowers (set to false to check for specific role)
 		 *   @return bool
 		 *
 		 */
 
-		public function checkRole( $roleList )
+		public function checkRole( $roleList, bool $superPowers=true )
 		{
 			// Not logged in?
 			if (!$this->isLoggedIn()) return false;
 
 			// Superpowwa
-			if (in_array('supervisor',$this->_roles)) return true;
+			if ($superPowers && in_array('supervisor',$this->_roles)) return true;
 
 			// Parse: we support checking for multiple possible roles
 			$roleList=str_array($roleList);
