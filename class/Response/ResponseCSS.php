@@ -356,6 +356,20 @@
 			$c='';
 
 			//
+			//   External CSS - priority
+			//
+
+			if (sizeof($this->responseExternalCSS))
+			{
+				$this->responseExternalCSS=sortdataset($this->responseExternalCSS,'itemPriority');
+				foreach ($this->responseExternalCSS as $cssID => $cssItem)
+				{
+					if ($cssItem->itemPriority>=0) continue;
+					$c.='<link rel="stylesheet" href="'.$cssItem->itemURL.'">';
+				}
+			}
+
+			//
 			//  Standard CSS bundles
 			//
 
@@ -526,6 +540,7 @@
 				$this->responseExternalCSS=sortdataset($this->responseExternalCSS,'itemPriority');
 				foreach ($this->responseExternalCSS as $cssID => $cssItem)
 				{
+					if ($cssItem->itemPriority<0) continue;
 					$c.='<link rel="stylesheet" href="'.$cssItem->itemURL.'">';
 				}
 			}

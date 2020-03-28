@@ -270,6 +270,25 @@
 		{
 			$c='';
 
+
+			//
+			//  Priority external JS
+			//
+
+			if (sizeof($this->responseExternalJS))
+			{
+				$this->responseExternalJS=sortdataset($this->responseExternalJS,'itemPriority');
+				foreach ($this->responseExternalJS as $jsID => $jsItem)
+				{
+					if ($jsItem->itemPriority>=0) continue;
+					$scriptParam=array();
+					$scriptParam[]='src="'.$jsItem->itemURL.'"';
+					foreach ($jsItem->itemParam as $itemParam => $itemParamValue) $scriptParam[]=$itemParam.'="'.$itemParamValue.'"';
+					$c.='<script '.join(' ',$scriptParam).'></script>';
+				}
+			}
+
+
 			//
 			//  Add base components
 			//
@@ -385,6 +404,7 @@
 				$this->responseExternalJS=sortdataset($this->responseExternalJS,'itemPriority');
 				foreach ($this->responseExternalJS as $jsID => $jsItem)
 				{
+					if ($jsItem->itemPriority<0) continue;
 					$scriptParam=array();
 					$scriptParam[]='src="'.$jsItem->itemURL.'"';
 					foreach ($jsItem->itemParam as $itemParam => $itemParamValue) $scriptParam[]=$itemParam.'="'.$itemParamValue.'"';
