@@ -1018,10 +1018,10 @@
 			$listGlobalActions='<div class="list-global-actions">';
 			foreach ($this->globalAction as $actionTag => $actionObject)
 			{
-				$listGlobalActions.='<div class="list-global-action ui basic button"  onclick="'.$actionObject->getParam('action').'">';
+				$listGlobalActions.='<button type="button" class="list-global-action '.oneof($actionObject->getParam('buttonclass'),'ui basic button').'"  onclick="'.$actionObject->getParam('action').'">';
 				if ($actionObject->hasParam('icon')) $listGlobalActions.='<i class="'.$actionObject->getParam('icon').' icon"></i> ';
 				$listGlobalActions.=$actionObject->getParam('title');
-				$listGlobalActions.='</div>';
+				$listGlobalActions.='</button>';
 			}
 			$listGlobalActions.='</div>';
 
@@ -1591,6 +1591,10 @@
 									{
 										$actionURL=FlaskPHP\Template\Template::parseSimpleVariables($actionObject->getParam('url'),$paramList);
 										$contentTableRows.=' href="'.$actionURL.'"';
+									}
+									if ($actionObject->getParam('buttonclass'))
+									{
+										$contentTableRows.=' class="'.$actionObject->getParam('buttonclass').'"';
 									}
 									$contentTableRows.='>';
 									$contentTableRows.=$actionObject->getParam('title');

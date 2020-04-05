@@ -52,7 +52,7 @@
 		 *   ---------
 		 *   @access public
 		 *   @param string $title List title
-		 *   @return \Codelab\FlaskPHP\Action\ListActionInterface
+		 *   @return self
 		 *
 		 */
 
@@ -69,7 +69,7 @@
 		 *   ----------
 		 *   @access public
 		 *   @param string $action Action
-		 *   @return \Codelab\FlaskPHP\Action\ListActionInterface
+		 *   @return self
 		 *
 		 */
 
@@ -86,7 +86,7 @@
 		 *   ---------------------
 		 *   @access public
 		 *   @param string $enabledIf Enabled condition
-		 *   @return \Codelab\FlaskPHP\Action\ListActionInterface
+		 *   @return self
 		 *
 		 */
 
@@ -103,7 +103,7 @@
 		 *   ------------------
 		 *   @access public
 		 *   @param string $disabledTitle Disabled title
-		 *   @return \Codelab\FlaskPHP\Action\ListActionInterface
+		 *   @return self
 		 *
 		 */
 
@@ -120,13 +120,30 @@
 		 *   -------
 		 *   @access public
 		 *   @param string $url URL
-		 *   @return \Codelab\FlaskPHP\Action\ListActionInterface
+		 *   @return self
 		 *
 		 */
 
 		public function setURL( string $url )
 		{
 			$this->setParam('url',$url);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Set button class
+		 *   ---------------
+		 *   @access public
+		 *   @param string $buttonClass Button class
+		 *   @return self
+		 *
+		 */
+
+		public function setButtonClass( string $buttonClass )
+		{
+			$this->setParam('buttonclass',$buttonClass);
 			return $this;
 		}
 
