@@ -255,6 +255,30 @@
 				'dateformat_check'  => '(\d\d)\.(\d\d)\.(\d\d\d\d)'
 			),
 
+			'cs' => array
+			(
+				'tag'               => 'CS',
+				'name'              => 'Český jazyk',
+				'name_short'        => 'Česky',
+				'name_sel'          => 'V češtině',
+				'name_eng'          => 'Czech',
+				'phplocale'         => 'cs_CZ',
+				'dateformat_disp'   => 'd.m.Y',
+				'dateformat_check'  => '(\d\d)\.(\d\d)\.(\d\d\d\d)'
+			),
+
+			'sk' => array
+			(
+				'tag'               => 'SK',
+				'name'              => 'Slovenský jazyk',
+				'name_short'        => 'Slovenský',
+				'name_sel'          => 'Po slovensky',
+				'name_eng'          => 'Slovak',
+				'phplocale'         => 'sk_SK',
+				'dateformat_disp'   => 'd.m.Y',
+				'dateformat_check'  => '(\d\d)\.(\d\d)\.(\d\d\d\d)'
+			),
+
 		);
 
 
