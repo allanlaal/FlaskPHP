@@ -279,6 +279,18 @@
 				'dateformat_check'  => '(\d\d)\.(\d\d)\.(\d\d\d\d)'
 			),
 
+			'hu' => array
+			(
+				'tag'               => 'HU',
+				'name'              => 'Magyar nyelv',
+				'name_short'        => 'Magyar',
+				'name_sel'          => 'Alapján a magyar',
+				'name_eng'          => 'Hungarian',
+				'phplocale'         => 'hu_HU',
+				'dateformat_disp'   => 'd.m.Y',
+				'dateformat_check'  => '(\d\d)\.(\d\d)\.(\d\d\d\d)'
+			),
+
 		);
 
 
