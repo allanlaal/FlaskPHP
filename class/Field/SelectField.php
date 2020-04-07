@@ -358,6 +358,9 @@
 			// Dropdown ends
 			$c.='</div>';
 
+			// Comment
+			$c.=$this->renderComment();
+
 			// Field ends
 			return $c;
 		}
