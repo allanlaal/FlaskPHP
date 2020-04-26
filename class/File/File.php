@@ -272,11 +272,11 @@
 			{
 				if ($type)
 				{
-					$fileList=glob(static::getFileName($OID).'*');
+					$fileList=glob(static::getFileName($OID,$type).'*');
 				}
 				else
 				{
-					$fileList=glob(static::getFileName($OID,$type).'*');
+					$fileList=glob(static::getFileName($OID).'*');
 				}
 				foreach ($fileList as $file)
 				{
