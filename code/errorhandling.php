@@ -71,10 +71,10 @@
 								{
 									if (is_object($a))
 									{
-										$a.='&'.get_called_class($a);
+										$t.='&'.get_class($a);
 										if ($a instanceof \Codelab\FlaskPHP\Model\ModelInterface)
 										{
-											$a.'('.intval($a->_oid).')';
+											$t.='('.intval($a->_oid).')';
 										}
 									}
 									elseif ($a===null)
@@ -185,10 +185,10 @@
 						{
 							if (is_object($a))
 							{
-								$a.='&'.get_called_class($a);
+								$t.='&'.get_class($a);
 								if ($a instanceof \Codelab\FlaskPHP\Model\ModelInterface)
 								{
-									$a.'('.intval($a->_oid).')';
+									$t.='('.intval($a->_oid).')';
 								}
 							}
 							elseif ($a===null)
