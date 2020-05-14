@@ -1396,7 +1396,7 @@ Flask.Form = {
 						param.success_callback(data);
 					}
 					Flask.processResponse(data,true);
-					Flask.Drawer.closeDrawer(modalTag);
+					Flask.Drawer.closeDrawer(drawerTag);
 				}
 				else
 				{
