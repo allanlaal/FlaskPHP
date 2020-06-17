@@ -606,8 +606,6 @@
 
 		public static function getName( $localeTag, $name=null )
 		{
-			global $LAB;
-
 			if (empty(static::$localeInfo[mb_strtolower($localeTag)])) throw new FlaskPHP\Exception\InvalidParameterException('Unknown locale: '.$localeTag);
 			if (!empty($name))
 			{

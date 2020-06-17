@@ -361,7 +361,7 @@
 			$actionHandler->controllerObject=$this;
 
 			// Set baseURL
-			// $actionObject->setBaseURL('/'.$LAB->REQUEST->requestController.(!empty($urlActionTag)?'/'.$urlActionTag:''));
+			// $actionObject->setBaseURL('/'.Flask()->Request->requestController.(!empty($urlActionTag)?'/'.$urlActionTag:''));
 
 			// Pass the inherited parameters
 			$actionHandler->inheritParameters($this->_param, $this->model);

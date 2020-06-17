@@ -103,15 +103,13 @@
 
 		public static function getFileCacheDir( int $OID=null )
 		{
-			global $LAB;
-
 			// Check
 			$fileDataDir=Flask()->Config->get('app.cachepath');
 			if (!mb_strlen($fileDataDir)) throw new FlaskPHP\Exception\Exception('File storage not enabled.');
 
 			// Init
 			umask(0);
-			$fileDataDir=$LAB->CONFIG->get('app.cachepath');
+			$fileDataDir=Flask()->Config->get('app.cachepath');
 			if (!file_exists($fileDataDir)) throw new FlaskPHP\Exception\Exception('Cache path ('.$fileDataDir.') does not exist.');
 			if (!is_writable($fileDataDir)) throw new FlaskPHP\Exception\Exception('Cache path ('.$fileDataDir.') not writable by web server.');
 

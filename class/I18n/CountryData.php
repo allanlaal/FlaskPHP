@@ -4145,8 +4145,6 @@
 
 		public static function getCountryList( bool $localize=true, string $prioritizeCountry=null )
 		{
-			global $LAB;
-
 			// Init
 			$retVal=array();
 
@@ -4185,7 +4183,6 @@
 
 		public static function getName( string $cCode, bool $localize=true )
 		{
-			global $LAB;
 			if (empty($cCode)) throw new FlaskPHP\Exception\InvalidParameterException('Country code not specified.');
 			return ($localize?oneof(static::$countryListLocalized[Flask()->Locale->localeLanguage][$cCode],static::$countryList[$cCode]):static::$countryList[$cCode]);
 		}
@@ -4224,7 +4221,6 @@
 
 		public static function getCountryData( string $cCode=null, string $data=null )
 		{
-			global $LAB;
 			try
 			{
 				// Get from cache or parse
@@ -4233,7 +4229,7 @@
 					$countryDataFile=Flask()->resolvePath('data/countries/countries.json');
 					if (!$countryDataFile) throw new FlaskPHP\Exception\Exception('Could not load countries.json file.');
 					Flask()->Cache->countryData=json_decode(file_get_contents($countryDataFile));
-					if (!is_object($LAB->CACHE->countryData) && !is_array($LAB->CACHE->countryData)) throw new FlaskPHP\Exception\Exception('Could not parse countries.json file: '.json_last_error().' / '.json_last_error_msg());
+					if (!is_object(Flask()->Cache->countryData) && !is_array(Flask()->Cache->countryData)) throw new FlaskPHP\Exception\Exception('Could not parse countries.json file: '.json_last_error().' / '.json_last_error_msg());
 				}
 				$countryData=&Flask()->Cache->countryData;
 

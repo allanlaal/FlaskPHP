@@ -398,8 +398,6 @@
 
 		public static function displayModelImage( FlaskPHP\Model\ModelInterface $model, $baseField, $type=null, $param=null )
 		{
-			global $LAB;
-
 			// Check
 			if (!is_object($model) || !$model->_loaded || !intval($model->{$baseField.'_fsize'}))
 			{
