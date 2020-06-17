@@ -277,7 +277,7 @@
 
 			if (sizeof($this->responseExternalJS))
 			{
-				$this->responseExternalJS=sortdataset($this->responseExternalJS,'itemPriority');
+				$this->responseExternalJS=sortdataset($this->responseExternalJS,'itemPriority',false,SORT_NUMERIC);
 				foreach ($this->responseExternalJS as $jsID => $jsItem)
 				{
 					if ($jsItem->itemPriority>=0) continue;
@@ -329,7 +329,6 @@
 				$this->addJS('js/flask.js','base_flask',-9000);
 			}
 
-
 			//
 			//  Standard JS bundles
 			//
@@ -339,7 +338,7 @@
 				// Build asset array
 				$assetArray=array();
 				$assetTimeStamp=0;
-				$bundleContents=sortdataset($bundleContents,'itemPriority');
+				$bundleContents=sortdataset($bundleContents,'itemPriority',false,SORT_NUMERIC);
 				foreach ($bundleContents as $jsID => $jsItem)
 				{
 					if (!Flask()->resolvePath($jsItem->itemFilename)) throw new FlaskPHP\Exception\Exception('JS file not readable: '.$jsItem->itemFilename);
@@ -401,7 +400,7 @@
 
 			if (sizeof($this->responseExternalJS))
 			{
-				$this->responseExternalJS=sortdataset($this->responseExternalJS,'itemPriority');
+				$this->responseExternalJS=sortdataset($this->responseExternalJS,'itemPriority',false,SORT_NUMERIC);
 				foreach ($this->responseExternalJS as $jsID => $jsItem)
 				{
 					if ($jsItem->itemPriority<0) continue;
@@ -419,7 +418,7 @@
 
 			if (sizeof($this->responseInlineJS))
 			{
-				$this->responseInlineJS=sortdataset($this->responseInlineJS,'itemPriority');
+				$this->responseInlineJS=sortdataset($this->responseInlineJS,'itemPriority',false,SORT_NUMERIC);
 				foreach ($this->responseInlineJS as $jsID => $jsItem)
 				{
 					$scriptParam=array();

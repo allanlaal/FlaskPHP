@@ -361,7 +361,7 @@
 
 			if (sizeof($this->responseExternalCSS))
 			{
-				$this->responseExternalCSS=sortdataset($this->responseExternalCSS,'itemPriority');
+				$this->responseExternalCSS=sortdataset($this->responseExternalCSS,'itemPriority',false,SORT_NUMERIC);
 				foreach ($this->responseExternalCSS as $cssID => $cssItem)
 				{
 					if ($cssItem->itemPriority>=0) continue;
@@ -378,7 +378,7 @@
 				// Build asset array
 				$assetArray=array();
 				$assetTimeStamp=0;
-				$bundleContents=sortdataset($bundleContents,'itemPriority');
+				$bundleContents=sortdataset($bundleContents,'itemPriority',false,SORT_NUMERIC);
 				foreach ($bundleContents as $cssID => $cssItem)
 				{
 					if ($cssItem->itemType=='inline')
@@ -537,7 +537,7 @@
 
 			if (sizeof($this->responseExternalCSS))
 			{
-				$this->responseExternalCSS=sortdataset($this->responseExternalCSS,'itemPriority');
+				$this->responseExternalCSS=sortdataset($this->responseExternalCSS,'itemPriority',false,SORT_NUMERIC);
 				foreach ($this->responseExternalCSS as $cssID => $cssItem)
 				{
 					if ($cssItem->itemPriority<0) continue;
