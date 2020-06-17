@@ -350,7 +350,7 @@
 	 *   @throws \Exception
 	 */
 
-	function sortdataset( $dataset, $key, $reverse=false, $sortFlags=null )
+	function sortdataset( $dataset, $key, $reverse=false, $sortFlags=SORT_NATURAL )
 	{
 		$sortarr=array();
 		foreach ($dataset as $k => $d)
