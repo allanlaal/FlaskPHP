@@ -4126,8 +4126,7 @@
 			'SK', // Slovakia
 			'SI', // Slovenia
 			'ES', // Spain
-			'SE', // Sweden
-			'UK'  // United Kingdom
+			'SE'  // Sweden
 		);
 
 
