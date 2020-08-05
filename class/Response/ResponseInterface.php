@@ -231,6 +231,44 @@
 				header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
 			}
 
+			// Security headers
+			if (!array_key_exists('Strict-Transport-Security',$this->responseHeader))
+			{
+				if (Flask()->Request->isHTTPS())
+				{
+					if (Flask()->Config->get('response.header.strict-transport-security')!==null && Flask()->Config->get('response.header.strict-transport-security')!==false)
+					{
+						header('Strict-Transport-Security: '.Flask()->Config->get('response.header.strict-transport-security'));
+					}
+					elseif (Flask()->Config->get('response.header.strict-transport-security')!==false)
+					{
+						header('Strict-Transport-Security: max-age=31536000; includeSubDomains; preload');
+					}
+				}
+			}
+			if (!array_key_exists('X-XSS-Protection',$this->responseHeader))
+			{
+				if (Flask()->Config->get('response.header.x-xss-protection')!==null && Flask()->Config->get('response.header.x-xss-protection')!==false)
+				{
+					header('X-XSS-Protection: '.Flask()->Config->get('response.header.x-xss-protection'));
+				}
+				elseif (Flask()->Config->get('response.header.x-xss-protection')!==false)
+				{
+					header('X-XSS-Protection: 1; mode=block');
+				}
+			}
+			if (!array_key_exists('X-Content-Type-Options',$this->responseHeader))
+			{
+				if (Flask()->Config->get('response.header.x-content-type-options')!==null && Flask()->Config->get('response.header.x-content-type-options')!==false)
+				{
+					header('X-Content-Type-Options: '.Flask()->Config->get('response.header.x-content-type-options'));
+				}
+				elseif (Flask()->Config->get('response.header.x-xss-protection')!==false)
+				{
+					header('X-Content-Type-Options: nosniff');
+				}
+			}
+
 			// Set other headers
 			foreach ($this->responseHeader as $headerName => $headerValue)
 			{

@@ -473,6 +473,23 @@
 
 		/**
 		 *
+		 *   Is this an HTTPS request?
+		 *   -------------------------
+		 *   @access public
+		 *   @return boolean
+		 *
+		 */
+
+		public function isHTTPS()
+		{
+			if (!array_key_exists('HTTPS',$_SERVER)) return false;
+			if ($_SERVER['HTTPS']=='off') return false;
+			return true;
+		}
+
+
+		/**
+		 *
 		 *   Get user's IP
 		 *   -------------
 		 *   @access public
