@@ -38,17 +38,47 @@
 				}
 			}
 
-			// Start session
-			if (intval(Flask()->Config->get('session.cookie_lifetime')))
+			// Session parameters
+			$sessionParam=array();
+			if (Flask()->Config->get('session.cookie_lifetime')!==null)
 			{
-				session_start([
-					'cookie_lifetime' => intval(Flask()->Config->get('session.cookie_lifetime'))
-				]);
+				$sessionParam['cookie_lifetime']=intval(Flask()->Config->get('session.cookie_lifetime'));
+			}
+			if (Flask()->Config->get('session.cookie_httponly')!==null)
+			{
+				$sessionParam['cookie_httponly']=Flask()->Config->get('session.cookie_httponly');
 			}
 			else
 			{
-				session_start();
+				$sessionParam['cookie_httponly']=true;
 			}
+			if (Flask()->Config->get('session.cookie_secure')!==null)
+			{
+				$sessionParam['cookie_secure']=Flask()->Config->get('session.cookie_secure');
+			}
+			elseif (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']=='on')
+			{
+				$sessionParam['cookie_secure']=true;
+			}
+			if (Flask()->Config->get('session.cookie_samesite')!==null)
+			{
+				$sessionParam['cookie_samesite']=Flask()->Config->get('session.cookie_samesite');
+			}
+			else
+			{
+				$sessionParam['cookie_samesite']='lax';
+			}
+			if (Flask()->Config->get('session.cookie_path')!==null)
+			{
+				$sessionParam['cookie_path']=Flask()->Config->get('session.cookie_path');
+			}
+			if (Flask()->Config->get('session.cookie_domain')!==null)
+			{
+				$sessionParam['cookie_domain']=Flask()->Config->get('session.cookie_domain');
+			}
+
+			// Start session
+			session_start($sessionParam);
 
 			// Finish up
 			$appID=Flask()->Config->get('app.id');
