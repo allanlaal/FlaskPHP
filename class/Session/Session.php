@@ -51,7 +51,12 @@
 			}
 
 			// Finish up
-			$this->sessionData=&$_SESSION;
+			$appID=Flask()->Config->get('app.id');
+			if (!array_key_exists($appID,$_SESSION) || !is_array($_SESSION[$appID]))
+			{
+				$_SESSION[$appID]=array();
+			}
+			$this->sessionData=&$_SESSION[$appID];
 			$this->sessionLoaded=true;
 		}
 
