@@ -90,6 +90,19 @@
 
 
 		/**
+		 *   Regenerate session ID
+		 *   @access public
+		 *   @return void
+		 */
+
+		public function regenerateSessionID()
+		{
+			// This should be implemented in the session class
+		}
+
+
+
+		/**
 		 *   Set a session variable
 		 *   @access public
 		 *   @param string $varName Variable name

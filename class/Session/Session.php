@@ -93,6 +93,19 @@
 		}
 
 
+
+		/**
+		 *   Regenerate session ID
+		 *   @access public
+		 *   @return void
+		 */
+
+		public function regenerateSessionID()
+		{
+			session_regenerate_id(true);
+		}
+
+
 	}
 
 

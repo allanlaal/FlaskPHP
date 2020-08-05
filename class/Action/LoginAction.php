@@ -430,6 +430,9 @@
 						// Login trigger/validate
 						$this->loginTrigger();
 
+						// Regenerate session ID for security
+						Flask()->Session->regenerateSessionID();
+
 						// Select language
 						$this->selectLanguage();
 
