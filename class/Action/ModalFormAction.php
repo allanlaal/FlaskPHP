@@ -188,6 +188,16 @@
 							$errors=array_merge($errors,$validateException->getErrors());
 						}
 
+						// Validate CSRF token
+						try
+						{
+							$this->validateCSRFToken(Flask()->Request->postVar('csrf_token'));
+						}
+						catch (FlaskPHP\Exception\ValidateException $validateException)
+						{
+							$errors=array_merge($errors,$validateException->getErrors());
+						}
+
 						// Do global error checking
 						try
 						{

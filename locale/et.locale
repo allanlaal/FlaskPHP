@@ -234,6 +234,8 @@ FLASK.FORM.Msg.Saving                                        Andmete salvestamin
 FLASK.FORM.Error.CouldNotFindForm                            Ei leidnud vormi.
 FLASK.FORM.Error.Validate                                    Vormi andmete kontrollimisel ilmnesid järgnevad vead
 FLASK.FORM.Error.DuplicateKey                                Selliste andmetega kirje juba eksisteerib, duplikaati ei saa luua.
+FLASK.FORM.Error.MissingCSRFToken                            Päring ei sisalda nõutud CSRF tokenit.
+FLASK.FORM.Error.InvalidCSRFToken                            Vigane/vale CSRF token.
 
 
 #

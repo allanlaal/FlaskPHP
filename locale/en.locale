@@ -234,6 +234,8 @@ FLASK.FORM.Msg.Saving                                                Saving data
 FLASK.FORM.Error.CouldNotFindForm                                    Could not find the form.
 FLASK.FORM.Error.Validate                                            The following errors occurred while validating form input
 FLASK.FORM.Error.DuplicateKey                                        A record with the given data already exists, cannot create a duplicate.
+FLASK.FORM.Error.MissingCSRFToken                                    The CSRF token is missing in the request.
+FLASK.FORM.Error.InvalidCSRFToken                                    Invalid/wrong CSRF token submitted.
 
 
 #
