@@ -191,7 +191,7 @@
 						// Validate CSRF token
 						try
 						{
-							$this->validateCSRFToken(Flask()->Request->postVar('csrf_token'));
+							FlaskPHP\CSRF\CSRF::validateCSRFToken(Flask()->Request->postVar('csrf_token'));
 						}
 						catch (FlaskPHP\Exception\ValidateException $validateException)
 						{

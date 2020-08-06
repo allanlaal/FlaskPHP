@@ -440,6 +440,29 @@
 
 		/**
 		 *
+		 *   Get cookie
+		 *   ----------
+		 *   @access public
+		 *   @param string $var Cookie name
+		 *   @param bool $sanitize Sanitize input
+		 *   @throws \Exception
+		 *   @return mixed
+		 *
+		 */
+
+		public function getCookie( string $var, bool $sanitize=true )
+		{
+			if (array_key_exists($var,$_COOKIE))
+			{
+				if ($sanitize) return static::sanitizeInput($_COOKIE[$var]);
+				return $_COOKIE[$var];
+			}
+			return null;
+		}
+
+
+		/**
+		 *
 		 *   Is user using Internet Explorer?
 		 *   --------------------------------
 		 *   @access public

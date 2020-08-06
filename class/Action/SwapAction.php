@@ -147,6 +147,17 @@
 				if (!Flask()->Request->postVar('with')) throw new FlaskPHP\Exception\InvalidParameterException('[[ FLASK.COMMON.Error.InvalidRequest ]]');
 				if (!intval(Flask()->Request->postVar('with'))) throw new FlaskPHP\Exception\InvalidParameterException('[[ FLASK.COMMON.Error.InvalidRequest ]]');
 
+				// Check CSRF token
+				try
+				{
+					FlaskPHP\CSRF\CSRF::validateCSRFToken(Flask()->Request->getCookie('CSRF-Token'));
+				}
+				catch (FlaskPHP\Exception\ValidateException $e)
+				{
+					$err=$e->getErrors();
+					throw new FlaskPHP\Exception\Exception($err['csrf']);
+				}
+
 				// Load
 				$Object=$this->model=$this->model::getObject(intval(Flask()->Request->postVar($this->model->getParam('idfield'))));
 				$SwapWith=$this->swapWith=$this->model::getObject(intval(Flask()->Request->postVar('with')));

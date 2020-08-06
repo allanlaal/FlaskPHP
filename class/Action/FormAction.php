@@ -666,7 +666,7 @@
 			$form_begin='<form id="flask-form" class="ui form" method="post" action="'.$this->buildURL($this->getParam('url')).'" onsubmit="return false">';
 
 			// CSRF token
-			$form_begin.='<input type="hidden" id="csrf_token" name="csrf_token" value="'.htmlspecialchars($this->getCSRFToken()).'">';
+			$form_begin.='<input type="hidden" id="csrf_token" name="csrf_token" value="'.htmlspecialchars(FlaskPHP\CSRF\CSRF::getCSRFToken()).'">';
 
 			// ID field if it's not in the fieldset
 			if ($this->operation=='edit' && !is_object($this->field[$this->model->getParam('idfield')]))
@@ -868,69 +868,6 @@
 
 		/**
 		 *
-		 *   Get CSRF token
-		 *   --------------
-		 *   @access public
-		 *   @throws \Exception
-		 *   @return string
-		 *
-		 */
-
-		public function getCSRFToken()
-		{
-			// Already exists?
-			$sessionCSRFToken=Flask()->Session->get('form.csrf.token');
-
-			// If more than 3 hours old, regenerate
-			if (mb_strlen($sessionCSRFToken))
-			{
-				$sessionCSRFTokenGenerated=Flask()->Session->get('form.csrf.tstamp');
-				if (time()-$sessionCSRFTokenGenerated>10800) $sessionCSRFToken=null;
-			}
-
-			// Return if valid
-			if (mb_strlen($sessionCSRFToken)) return $sessionCSRFToken;
-
-			// Generate
-			$sessionCSRFToken=sha1(Flask()->Config->get('app.id').time().uniqid());
-			Flask()->Session->set('form.csrf.token',$sessionCSRFToken);
-			Flask()->Session->set('form.csrf.tstamp',time());
-
-			// Return
-			return $sessionCSRFToken;
-		}
-
-
-		/**
-		 *
-		 *   Validate CSRF token
-		 *   -------------------
-		 *   @access public
-		 *   @throws \Exception
-		 *   @return void
-		 *
-		 */
-
-		public function validateCSRFToken( string $submittedToken )
-		{
-			// Get token from session
-			$sessionCSRFToken=Flask()->Session->get('form.csrf.token');
-
-			// No token - nothing to validate against
-			if (!mb_strlen($sessionCSRFToken)) return;
-
-			// Check submitted token
-			if (!mb_strlen($submittedToken)) throw new FlaskPHP\Exception\ValidateException([
-				'csrf' => '[[ FLASK.FORM.Error.MissingCSRFToken ]]'
-			]);
-			if ($submittedToken!=$sessionCSRFToken) throw new FlaskPHP\Exception\ValidateException([
-				'csrf' => '[[ FLASK.FORM.Error.InvalidCSRFToken ]]'
-			]);
-		}
-
-
-		/**
-		 *
 		 *   Run action and return response
 		 *   ------------------------------
 		 *   @access public
@@ -1019,7 +956,7 @@
 						// Validate CSRF token
 						try
 						{
-							$this->validateCSRFToken(Flask()->Request->postVar('csrf_token'));
+							FlaskPHP\CSRF\CSRF::validateCSRFToken(Flask()->Request->postVar('csrf_token'));
 						}
 						catch (FlaskPHP\Exception\ValidateException $validateException)
 						{

@@ -207,6 +207,9 @@
 				header("HTTP/1.1 ".$this->responseStatus." ".static::$setHttpStatus[$this->responseStatus]);
 			}
 
+			// Send CSRF cookie
+			FlaskPHP\CSRF\CSRF::
+
 			// Send expires header if set
 			if (!empty($this->responseExpires))
 			{
