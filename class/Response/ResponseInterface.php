@@ -208,7 +208,7 @@
 			}
 
 			// Send CSRF cookie
-			FlaskPHP\CSRF\CSRF::
+			FlaskPHP\CSRF\CSRF::setCSRFCookie();
 
 			// Send expires header if set
 			if (!empty($this->responseExpires))
