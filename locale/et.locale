@@ -190,6 +190,7 @@ FLASK.FIELD.Error.IncompleteDateTime                         Puudulik kuupäev/k
 FLASK.FIELD.Error.FileTypeNotAllowed                         Seda tüüpi fail ei ole lubatud.
 FLASK.FIELD.Error.PasswordWeak1                              Salasõna on liiga nõrk (peab sisaldama tähti ja numbreid).
 FLASK.FIELD.Error.PasswordWeak2                              Salasõna on liiga nõrk (peab sisaldama suur- ja väiketähti, numbreid ja kirjavahemärke).
+FLASK.FIELD.Error.PasswordDictionaryFail                     Valitud salasõna leiti teada nõrkade paroolide nimekirjast. Palun sisesta turvalisem salasõna.
 FLASK.FIELD.Error.PasswordRepeatEmpty                        Salasõna kordus on tühi.
 FLASK.FIELD.Error.PasswordRepeatMismatch                     Salasõna kordus ei klapi.
 

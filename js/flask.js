@@ -2240,9 +2240,130 @@ Flask.Password = {
 		// Set
 		$("#"+fieldTag).val(password);
 		$("#"+fieldTag+"_repeat").val(password);
+		$("#"+fieldTag).trigger('keyup');
 
 		// Show
 		Flask.alert(Locale.get('FLASK.FIELD.Password.Suggest.Result.1')+': <b>'+password+'</b><br/>'+Locale.get('FLASK.FIELD.Password.Suggest.Result.2'),Locale.get('FLASK.FIELD.Password.Suggest.Title'));
+	},
+
+	// Update strength meter
+	updateStrengthMeter: function( fieldTag )
+	{
+		// Init progress bar if needed
+		if ($("#"+fieldTag).attr('data-progress-initialized')!='1') {
+			$("#strengthmeter_"+fieldTag).progress({
+				className : {
+ 					 success : ''
+				}
+			});
+			$("#"+fieldTag).attr('data-progress-initialized','1');
+		}
+
+		// Calculate password strength
+		var passwordScore=this.scorePassword(fieldTag);
+		if (passwordScore>80) {
+			var color='green';
+		}
+		else if (passwordScore>60) {
+			var color='olive';
+		}
+		else if (passwordScore>40) {
+			var color='yellow';
+		}
+		else if (passwordScore>20) {
+			var color='orange';
+		}
+		else {
+			var color='red';
+		}
+		$("#strengthmeter_"+fieldTag).attr('class','ui '+color+' bottom attached progress');
+
+		// Calculate password length
+		var passwordLength=$("#"+fieldTag).val().length;
+		var minLength=$("#"+fieldTag).attr('data-minlength');
+		var lengthPerc=Math.round((passwordLength/minLength)*100,0);
+		if (lengthPerc>100) {
+			lengthPerc=100;
+		}
+		$("#strengthmeter_"+fieldTag).progress('set percent',lengthPerc);
+	},
+
+	// Score password
+	scorePassword: function( fieldTag )
+	{
+		var m_strUpperCase="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		var m_strLowerCase="abcdefghijklmnopqrstuvwxyz";
+		var m_strNumber="0123456789";
+		var m_strCharacters="!@#$%^&*?_~-.,; ";
+
+		var strPassword=$("#"+fieldTag).val().trim();
+		if (strPassword=='') return 0;
+    var nScore=0;
+
+    // Password length
+    if (strPassword.length >=6 && strPassword.length <=10) {
+			nScore+=5;
+    }
+    else if (strPassword.length>10 && strPassword.length<=14) {
+			nScore+=10;
+    }
+    else if (strPassword.length>=15) {
+			nScore+=25;
+    }
+
+    // Letters
+    var nUpperCount=this.countContain(strPassword,m_strUpperCase);
+    var nLowerCount=this.countContain(strPassword,m_strLowerCase);
+    var nLowerUpperCount=nUpperCount+nLowerCount;
+    if (nUpperCount==0 && nLowerCount!=0) {
+			nScore+=10;
+    }
+    else if (nUpperCount != 0 && nLowerCount!=0) {
+			nScore+=20;
+    }
+
+    // Numbers
+    var nNumberCount=this.countContain(strPassword,m_strNumber);
+    if (nNumberCount<=2) {
+			nScore+=10;
+    }
+    if (nNumberCount>=3) {
+			nScore+=20;
+    }
+
+    // Characters
+    var nCharacterCount=this.countContain(strPassword,m_strCharacters);
+    if (nCharacterCount==1) {
+			nScore+=10;
+    }
+    if (nCharacterCount>1) {
+			nScore+=25;
+    }
+
+    // Bonus
+    if (nNumberCount!= 0 && nLowerUpperCount!=0) {
+			nScore+=2;
+    }
+    if (nNumberCount!=0 && nLowerUpperCount!=0 && nCharacterCount!=0) {
+			nScore+=3;
+    }
+    if (nNumberCount!=0 && nUpperCount!=0 && nLowerCount!=0 && nCharacterCount!=0) {
+			nScore+=5;
+    }
+
+    return nScore;
+	},
+
+	// Helper for scorepassword
+	countContain: function( strPassword, strCheck )
+	{
+		var nCount = 0;
+		for (i = 0; i < strPassword.length; i++) {
+			if (strCheck.indexOf(strPassword.charAt(i)) > -1) {
+				nCount++;
+			}
+		}
+		return nCount;
 	}
 
 };

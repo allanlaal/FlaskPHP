@@ -190,6 +190,7 @@ FLASK.FIELD.Error.IncompleteDateTime                                 Incomplete 
 FLASK.FIELD.Error.FileTypeNotAllowed                                 This type of file is not allowed.
 FLASK.FIELD.Error.PasswordWeak1                                      Password too weak (must contain both characters and numbers).
 FLASK.FIELD.Error.PasswordWeak2                                      Password too weak (must contain lower- and uppercase characters, numbers and punctuation).
+FLASK.FIELD.Error.PasswordDictionaryFail                             Password found in the list of known weak passwords. Please choose a more secure password.
 FLASK.FIELD.Error.PasswordRepeatEmpty                                Password repeat empty.
 FLASK.FIELD.Error.PasswordRepeatMismatch                             Password repeat does not match.
 

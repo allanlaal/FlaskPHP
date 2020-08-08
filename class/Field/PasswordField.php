@@ -74,6 +74,76 @@
 
 		/**
 		 *
+		 *   Enable form password strength calculator
+		 *   ----------------------------------------
+		 *   @access public
+		 *   @param bool $strengthMeter Enable visual strength meter
+		 *   @return \Codelab\FlaskPHP\Field\PasswordField
+		 *
+		 */
+
+		public function setFormStrengthMeter( bool $strengthMeter )
+		{
+			$this->setParam('form_strengthmeter',$strengthMeter);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Check passwords against weak password dictionary
+		 *   ------------------------------------------------
+		 *   @access public
+		 *   @param bool $dictionaryCheck Enable check against weak password dictionary
+		 *   @return \Codelab\FlaskPHP\Field\PasswordField
+		 *
+		 */
+
+		public function setDictionaryCheck( bool $dictionaryCheck )
+		{
+			$this->setParam('form_dictionarycheck',$dictionaryCheck);
+			return $this;
+		}
+
+
+		/**
+		 *
+		 *   Run a dictionary check on password
+		 *   ----------------------------------
+		 *   @access public
+		 *   @param string $password Password
+		 *   @throws \Exception
+		 *   @return bool
+		 *
+		 */
+
+		public function dictionaryCheck( string $password )
+		{
+			try
+			{
+				$dictionaryList=str_array(file_get_contents(Flask()->resolvePath('data/passworddictionary/dictionary.list')),"\n");
+				foreach ($dictionaryList as $dictionaryFile)
+				{
+					$Dictionary=str_array(file_get_contents(Flask()->resolvePath('data/passworddictionary/'.$dictionaryFile)),"\n");
+					foreach ($Dictionary as $dictionaryItem)
+					{
+						$dictionaryItem=trim($dictionaryItem);
+						if (!mb_strlen($dictionaryItem)) continue;
+						if (mb_strtolower($dictionaryItem)==mb_strtolower($password)) return false;
+					}
+				}
+				return true;
+			}
+			catch (\Exception $e)
+			{
+				if (Flask()->Debug->devEnvironment) throw $e;
+				return true;
+			}
+		}
+
+
+		/**
+		 *
 		 *   No save?
 		 *   --------
 		 *   @access public
@@ -159,6 +229,12 @@
 					default:
 						break;
 				}
+			}
+
+			// Dictionary check
+			if (empty($errors[$this->tag]) && $this->getParam('form_dictionarycheck'))
+			{
+				if (!$this->dictionaryCheck($value)) $errors[$this->tag]='[[ FLASK.FIELD.Error.PasswordDictionaryFail ]]';
 			}
 
 			// Repeat doesn't match
@@ -293,6 +369,20 @@
 
 		public function renderFormElement( $value, int $row=null )
 		{
+			// Strength meter
+			if ($this->getParam('form_strengthmeter'))
+			{
+				$this->addFormEvent('onkeyup',"Flask.Password.updateStrengthMeter('".$this->tag."');",true);
+				if ($this->getParam('minlength'))
+				{
+					$this->_param['form_data']['minlength']=$this->getParam('minlength');
+				}
+				else
+				{
+					$this->_param['form_data']['minlength']='6';
+				}
+			}
+
 			// Style
 			$style=array();
 			if ($this->getParam('form_fieldstyle')) $style[]=$this->getParam('form_fieldstyle');
@@ -316,7 +406,7 @@
 				$c.=' id="'.$this->tag.'"';
 				$c.=' name="'.$this->tag.'"';
 				$c.=' autocomplete="off"';
-				$c.=' class="'.join(' ',$class).'"';
+				$c.=' class="'.join(' ',$class).($this->getParam('form_strengthmeter')?' strengthmeter':'').'"';
 				if (!empty($style)) $c.=' style="'.join('; ',$style).'"';
 				$c.=' placeholder="'.oneof($this->getParam('form_placeholder'),'[[ FLASK.FIELD.Password.EnterPassword ]]').'"';
 				if ($this->getParam('maxlength')) $c.=' maxlength="'.$this->getParam('maxlength').'"';
@@ -338,6 +428,12 @@
 			{
 				$c.='<a class="ui tag label" onclick="Flask.Password.suggestPassword(\''.$this->tag.'\')"><i class="idea icon"></i></a>';
 				$c.='</div>';
+			}
+
+			// Strenth meter
+			if ($this->getParam('form_strengthmeter'))
+			{
+				$c.='<div id="strengthmeter_'.$this->tag.'" class="ui grey bottom attached progress" data-percent="0"><div class="bar"></div></div>';
 			}
 
 			// Comment
