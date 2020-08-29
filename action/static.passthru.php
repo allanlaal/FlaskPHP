@@ -31,7 +31,7 @@
 
 				// Output
 				$response=new FlaskPHP\Response\RawResponse();
-				$response->setContentType(FlaskPHP\Util::getMimeType($fileName));
+				$response->setContentType(oneof(FlaskPHP\Util::getMimeType($fileName),'application/octet-stream'));
 				$response->setContentDisposition('inline');
 				$response->setExpires(strtotime('+1year'));
 				$response->setHeader('Last-Modified',date('r',filemtime($fileName)));
