@@ -743,6 +743,24 @@
 
 		/**
 		 *
+		 *   Set list sort field
+		 *   -------------------
+		 *   @access public
+		 *   @param string $listSortField Sort field/column
+		 *   @throws FlaskPHP\Exception\InvalidParameterException
+		 *   @return \Codelab\FlaskPHP\Field\FieldInterface
+		 *
+		 */
+
+		public function setListSortField( string $listSortField )
+		{
+			$this->setParam('list_sort_field',$listSortField);
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Set list field alignment
 		 *   ------------------------
 		 *   @access public
@@ -1751,6 +1769,24 @@
 
 		public function getListSortCriteria( string $sortOrder, FlaskPHP\DB\QueryBuilderInterface $loadListParam )
 		{
+			// Arbitrary?
+			if ($this->getParam('list_sort_field'))
+			{
+				$sortField=$this->getParam('list_sort_field');
+				if (is_array($sortField))
+				{
+					foreach ($sortField as $sf)
+					{
+						$loadListParam->addOrderBy($sf.' '.$sortOrder);
+					}
+				}
+				else
+				{
+					$loadListParam->addOrderBy($sortField.' '.$sortOrder);
+				}
+				return;
+			}
+
 			// Alias?
 			if (mb_strpos($this->tag,' ')!==false)
 			{
