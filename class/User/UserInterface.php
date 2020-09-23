@@ -520,7 +520,7 @@
 						'loginlog_status' => 'failure',
 						'loginlog_ip' => Flask()->Request->remoteIP(),
 						'loginlog_hostname' => Flask()->Request->remoteHost(),
-						'loginlog_email' => $email,
+						'loginlog_email' => '',
 						'loginlog_entry' => $e->getMessage()
 					);
 					if (is_array($this->getParam('loginlog_data')))
