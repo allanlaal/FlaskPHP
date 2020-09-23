@@ -83,6 +83,9 @@
 					// Do logout
 					Flask()->User->doLogout();
 
+					// Clear CSRF token
+					FlaskPHP\CSRF\CSRF::clearCSRFToken();
+
 					// Response
 					$response=new \stdClass();
 					$response->status=1;
@@ -114,6 +117,9 @@
 
 				// Do logout
 				Flask()->User->doLogout();
+
+				// Clear CSRF token
+				FlaskPHP\CSRF\CSRF::clearCSRFToken();
 
 				// Render
 				$response=new FlaskPHP\Response\RedirectResponse();

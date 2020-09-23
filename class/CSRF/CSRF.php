@@ -89,6 +89,24 @@
 
 		/**
 		 *
+		 *   Clear CSRF token
+		 *   ----------------
+		 *   @access public
+		 *   @static
+		 *   @throws \Exception
+		 *   @return void
+		 *
+		 */
+
+		public static function clearCSRFToken()
+		{
+			// Clear token
+			Flask()->Session->set('csrf.token',null);
+		}
+
+
+		/**
+		 *
 		 *   Set CSRF cookie
 		 *   ---------------
 		 *   @access public
