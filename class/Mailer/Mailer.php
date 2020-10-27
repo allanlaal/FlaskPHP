@@ -57,6 +57,22 @@
 				$this->Port=Flask()->Config->get('smtp.port');
 			}
 
+			// Set default sender
+			if (Flask()->Config->get('mail.from'))
+			{
+				$mailFrom=Flask()->Config->get('mail.from');
+				if (is_array($mailFrom))
+				{
+					$this->Sender=$mailFrom[0];
+					$this->setFrom($mailFrom[0],$mailFrom[1]);
+				}
+				else
+				{
+					$this->Sender=$mailFrom;
+					$this->setFrom($mailFrom);
+				}
+			}
+
 			// Init mailer
 			$this->initMailer();
 		}
