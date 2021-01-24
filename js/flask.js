@@ -516,7 +516,7 @@ Flask.initElements = function( base )
 			parser: {
 				date: function (date, settings) {
 					if (!date || date=='') return null;
-					if (date.match(/^([0-9]+)$/)) {
+					if (typeof(date)=='string' && date.match(/^([0-9]+)$/)) {
 						return moment.unix(parseInt(date)).toDate();
 					}
 					return moment(date,[dateFormat]).toDate();
