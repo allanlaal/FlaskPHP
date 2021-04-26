@@ -299,7 +299,12 @@
 			}
 
 			// Get declared classes after including controller
-			$declaredClassesAfter=get_declared_classes();
+			$declaredClassesAfter=array_filter(
+				get_declared_classes(),
+				function ($class) {
+					return is_subclass_of($class,'Codelab\FlaskPHP\Action\ActionInterface');
+				}
+			);
 
 			// Action handler
 			if (!empty($actionObject->actionHandler))
