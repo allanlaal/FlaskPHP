@@ -267,14 +267,14 @@
 				'dateformat_check'  => '(\d\d)\.(\d\d)\.(\d\d\d\d)'
 			),
 
-			'sk' => array
+			'sl' => array
 			(
-				'tag'               => 'SK',
+				'tag'               => 'SL',
 				'name'              => 'Slovenský jazyk',
 				'name_short'        => 'Slovenský',
 				'name_sel'          => 'Po slovensky',
 				'name_eng'          => 'Slovak',
-				'phplocale'         => 'sk_SK',
+				'phplocale'         => 'sl_SK',
 				'dateformat_disp'   => 'd.m.Y',
 				'dateformat_check'  => '(\d\d)\.(\d\d)\.(\d\d\d\d)'
 			),
@@ -290,6 +290,18 @@
 				'dateformat_disp'   => 'd.m.Y',
 				'dateformat_check'  => '(\d\d)\.(\d\d)\.(\d\d\d\d)'
 			),
+
+			'el' => array
+			(
+				'tag'               => 'EL',
+				'name'              => 'ελληνική γλώσσα',
+				'name_short'        => 'Ελληνικά',
+				'name_sel'          => 'στα ελληνικα',
+				'name_eng'          => 'Greek',
+				'phplocale'         => 'el_GR',
+				'dateformat_disp'   => 'd.m.Y',
+				'dateformat_check'  => '(\d\d)\.(\d\d)\.(\d\d\d\d)'
+			)
 
 		);
 
