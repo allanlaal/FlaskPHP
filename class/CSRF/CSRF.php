@@ -14,8 +14,9 @@
 
 
 	namespace Codelab\FlaskPHP\CSRF;
-	use Codelab\FlaskPHP;
 
+
+	use Codelab\FlaskPHP\Exception\ValidateException;
 
 	class CSRF
 	{
@@ -37,11 +38,18 @@
 			// Already exists?
 			$sessionCSRFToken=Flask()->Session->get('csrf.token');
 
-			// If more than 3 hours old, regenerate
+			// Get token lifetime (seconds, defaults to 3 hours)
+			$tokenLifeTime=oneof(Flask()->Config->get('csrf.tokenlifetime'),10800);
+
+			// If expired, regenerate
 			if (mb_strlen($sessionCSRFToken))
 			{
 				$sessionCSRFTokenGenerated=Flask()->Session->get('csrf.tstamp');
-				if (time()-$sessionCSRFTokenGenerated>10800) $sessionCSRFToken=null;
+				if (time()-$sessionCSRFTokenGenerated>$tokenLifeTime)
+				{
+					Flask()->Session->set('csrf.previoustoken',$sessionCSRFToken);
+					$sessionCSRFToken=null;
+				}
 			}
 
 			// Return if valid
@@ -64,7 +72,7 @@
 		 *   @access public
 		 *   @static
 		 *   @param string $submittedToken Submitted token
-		 *   @throws FlaskPHP\Exception\ValidateException
+		 *   @throws ValidateException
 		 *   @return void
 		 *
 		 */
@@ -78,12 +86,20 @@
 			if (!mb_strlen($sessionCSRFToken)) return;
 
 			// Check submitted token
-			if (!mb_strlen($submittedToken)) throw new FlaskPHP\Exception\ValidateException([
+			if (!mb_strlen($submittedToken)) throw new ValidateException([
 				'csrf' => '[[ FLASK.FORM.Error.MissingCSRFToken ]]'
 			]);
-			if ($submittedToken!=$sessionCSRFToken) throw new FlaskPHP\Exception\ValidateException([
-				'csrf' => '[[ FLASK.FORM.Error.InvalidCSRFToken ]]'
-			]);
+			if ($submittedToken!=$sessionCSRFToken)
+			{
+				// Fallback: validate against previous token in case it was refreshed mid-process
+				$previousSessionCSRFToken=Flask()->Session->get('csrf.previoustoken');
+				if (mb_strlen($previousSessionCSRFToken) && $submittedToken==$previousSessionCSRFToken) return;
+
+				// Fail if that didn't work either
+				throw new ValidateException([
+					'csrf' => '[[ FLASK.FORM.Error.InvalidCSRFToken ]]'
+				]);
+			}
 		}
 
 
