@@ -1274,7 +1274,7 @@
 									'id' => $descFld,
 									'title' => ($this->getParam('log_field_title')?$this->getParam('log_field_title')[$descFld]:null),
 									'value' => $this->{$descFld},
-									'description' => ($this->getParam('log_field_mapping')?$this->getParam('log_field_mapping')[$this[$descFld]]:null)
+									'description' => ($this->getParam('log_field_mapping')?$this->getParam('log_field_mapping')[$this->{$descFld}]:null)
 								])
 							);
 						}
