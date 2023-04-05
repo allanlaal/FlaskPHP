@@ -517,7 +517,7 @@
 			// Already in YMD?
 			if ($acceptYMD)
 			{
-				if (preg_match("/^\d\d\d\d\-\d\d\-\d\d$/",$dateString) || preg_match("/^\d\d\d\d\-\d\d\-\d\d \d\d\:\d\d\:\d\d$/"))
+				if (preg_match("/^\d\d\d\d\-\d\d\-\d\d$/",$dateString) || preg_match("/^\d\d\d\d\-\d\d\-\d\d \d\d\:\d\d\:\d\d$/",$dateString))
 				{
 					return $dateString;
 				}

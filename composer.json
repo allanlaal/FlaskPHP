@@ -15,7 +15,7 @@
     "codelab/flaskhttp": ">=1.0.0",
     "scssphp/scssphp": ">=1.0.0",
     "kylekatarnls/less.php": ">=1.7.0",
-    "tedivm/jshrink": "~1.0",
+    "tedivm/jshrink": "<=1.5.0",
     "phpmailer/phpmailer": "~5.2"
   },
   "repositories": [
