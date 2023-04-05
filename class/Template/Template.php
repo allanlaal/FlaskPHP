@@ -723,7 +723,7 @@
 
 		public static function parseSimpleVariables( string $string, $variables )
 		{
-			uksort($localeTagParamList,function($a,$b){
+			uksort($variables,function($a,$b){
 				return (strlen($b)-strlen($a));
 			});
 			foreach ($variables as $k => $v)

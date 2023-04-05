@@ -104,6 +104,9 @@
 			// Set query type
 			if ($queryType!==null) $this->queryType=$queryType;
 
+            if ($this->queryTable === null && isset($this->model)) {
+                $this->queryTable = [$this->model->getParam('table') => $this->model->getParam('table')];
+            }
 			// Sanity checks
 			if ($this->queryType===null) throw new FlaskPHP\Exception\DbQueryException('Query type not specified.');
 			if (($this->queryTable===null || !is_array($this->queryTable) || !sizeof($this->queryTable)) && $this->model===null) throw new FlaskPHP\Exception\DbQueryException('No table or model specified.');
