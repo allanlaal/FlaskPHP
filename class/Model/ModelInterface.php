@@ -383,9 +383,6 @@
 				}
 			}
 
-			// Put into object cache
-			Flask()->Cache->modelCache[mb_strtolower(get_called_class())][$this->_oid]=&$this;
-
 			// Relations
 			/*
 			if (sizeof($this->_rel))
@@ -406,6 +403,9 @@
 
 			// Post-load trigger
 			$this->triggerPostLoad();
+
+			// Put into object cache
+			Flask()->Cache->modelCache[mb_strtolower(get_called_class())][$this->_oid]=&$this;
 		}
 
 
