@@ -464,6 +464,23 @@
 
 		/**
 		 *
+		 *   Save NULL on empty value
+		 *   ------------------------
+		 *   @access public
+		 *   @param bool $readOnly Is read-only?
+		 *   @return self
+		 *
+		 */
+
+		public function setSaveNullOnEmptyValue( bool $saveNullOnEmptyValue ): self
+		{
+			$this->setParam('nullonemptyvalue',$saveNullOnEmptyValue);
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Set form field group
 		 *   --------------------
 		 *   @access public
@@ -1374,7 +1391,9 @@
 			// Regular field
 			else
 			{
-				return $this->zeroHack($this->getValue(),'remove');
+				$saveValue=$this->zeroHack($this->getValue(),'remove');
+				if (trim($saveValue)=='' && $this->getParam('nullonemptyvalue')) return null;
+				return $saveValue;
 			}
 		}
 

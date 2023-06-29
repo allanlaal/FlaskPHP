@@ -66,6 +66,23 @@
 
 		/**
 		 *
+		 *   Set data separator
+		 *   ------------------
+		 *   @access public
+		 *   @param string $dataSeparator
+		 *   @return self
+		 *
+		 */
+
+		public function setDataSeparator( string $dataSeparator ): self
+		{
+			$this->setParam('separator',trim($dataSeparator));
+			return $this;
+		}
+
+
+		/**
+		 *
 		 *   Set list separator
 		 *   ------------------
 		 *   @access public
@@ -157,10 +174,17 @@
 				return $retval;
 			}
 
-			// Just glue to tab-separated string
+			// Just glue to a separated string
 			else
 			{
-				return strval(join("\t",Flask()->Request->postVar($this->tag)));
+				if (Flask()->Request->postVar($this->tag)!==null && is_array(Flask()->Request->postVar($this->tag)) && sizeof(Flask()->Request->postVar($this->tag)))
+				{
+					return join(oneof($this->getParam('separator'),"\t"),Flask()->Request->postVar($this->tag));
+				}
+				else
+				{
+					return ($this->getParam('nullonemptyvalue')?null:'');
+				}
 			}
 		}
 
