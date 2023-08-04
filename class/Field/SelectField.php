@@ -354,7 +354,7 @@
 						$o=0;
 						foreach ($options as $optGroupName => $optGroupOptions)
 						{
-							if (!sizeof($optGroupOptions)) continue;
+							if (!is_array($optGroupOptions) || !sizeof($optGroupOptions)) continue;
 							if ($o)
 							{
 								$c.='<div class="divider"></div>';

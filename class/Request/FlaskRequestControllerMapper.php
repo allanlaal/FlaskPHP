@@ -36,7 +36,7 @@
 			if (mb_strtolower($uriElement!='flask')) return null;
 
 			// Check that we have a controller
-			if (!sizeof($uriArray)) throw new FlaskPHP\Exception\ControllerMapperException('Invalid request',400);
+			if (!is_array($uriArray) || !sizeof($uriArray)) throw new FlaskPHP\Exception\ControllerMapperException('Invalid request',400);
 
 			// Get and validate controller
 			$controllerName=array_shift($uriArray);

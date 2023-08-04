@@ -15,7 +15,6 @@
 
 	namespace Codelab\FlaskPHP;
 
-	use Codelab\FlaskPHP as FlaskPHP;
 	use Codelab\FlaskPHP\Exception\Exception;
 	use Codelab\FlaskPHP\Exception\NotFoundException;
 

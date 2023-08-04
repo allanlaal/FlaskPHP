@@ -64,7 +64,7 @@
 							$t.=' -- ';
 							if (!empty($trace['class'])) $t.= $trace['class'].$trace['type'];
 							$t.= $trace['function'].'(';
-							if (!empty($trace['args']) && sizeof($trace['args']))
+							if (!empty($trace['args']) && is_array($trace['args']) && sizeof($trace['args']))
 							{
 								$arg=array();
 								foreach ($trace['args'] as $a)
@@ -178,7 +178,7 @@
 					$t.=' -- ';
 					if (!empty($trace['class'])) $t.= $trace['class'].$trace['type'];
 					$t.= $trace['function'].'(';
-					if (!empty($trace['args']) && sizeof($trace['args']))
+					if (!empty($trace['args']) && is_array($trace['args']) && sizeof($trace['args']))
 					{
 						$arg=array();
 						foreach ($trace['args'] as $a)

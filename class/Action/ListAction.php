@@ -1122,7 +1122,7 @@
 			}
 
 			// No results
-			elseif (!sizeof($this->data))
+			elseif (!is_array($this->data) || !sizeof($this->data))
 			{
 				if ($this->filterApplied)
 				{

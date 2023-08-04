@@ -67,7 +67,7 @@
 		/**
 		 *   Subitems
 		 *   @access public
-		 *   @var string
+		 *   @var array
 		 */
 
 		public $subItems=null;
@@ -162,7 +162,7 @@
 		public function renderItem( bool $isSubItem=false )
 		{
 			$c='';
-			if (!$isSubItem && sizeof($this->subItems))
+			if (!$isSubItem && is_array($this->subItems) && sizeof($this->subItems))
 			{
 				$c.='<div class="ui dropdown item">';
 					$c.=$this->menuTitle.' <i class="dropdown icon"></i>';
