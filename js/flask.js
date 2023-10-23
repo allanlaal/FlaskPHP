@@ -527,6 +527,9 @@ Flask.initElements = function( base )
 					if (!date) return '';
 					return moment(date).format(dateFormat);
 				}
+			},
+			onChange: function(date, text, mode) {
+				$('input',this).trigger('change');
 			}
 		});
 	});
