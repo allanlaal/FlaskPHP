@@ -453,9 +453,23 @@ Flask.initElements = function( base )
 	$(base+'.ui.calendar').each(function(){
 		var dateFormat=$('input',this).attr('data-date-format');
 		var dateFirstDayOfWeek=parseInt(oneof($('input',this).attr('data-date-firstdayofweek'),'1'));
+		if ($('input',this).attr('data-date-min')!='') {
+			var minDate=new Date($('input',this).attr('data-date-min'));
+		}
+		else {
+			var minDate=null;
+		}
+		if ($('input',this).attr('data-date-max')!='') {
+			var maxDate=new Date($('input',this).attr('data-date-max'));
+		}
+		else {
+			var maxDate=null;
+		}
 		$(this).calendar({
 			type: 'date',
 			firstDayOfWeek: dateFirstDayOfWeek,
+			minDate: minDate,
+			maxDate: maxDate,
 			text: {
 				days: [
 					Locale.get('FLASK.COMMON.DAY.Abbr.7'),

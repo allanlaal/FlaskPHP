@@ -255,6 +255,14 @@
 				$c.=' data-datefield="1"';
 				$c.=' data-mask="'.Flask()->I18n->getDateFormat('mask').'"';
 				$c.=' data-date-format="'.Flask()->I18n->getDateFormat('datepicker').'"';
+				if (!empty($this->getParam('mindate')))
+				{
+					$c.=' data-date-min="'.$this->getParam('mindate').'"';
+				}
+				if (!empty($this->getParam('maxdate')))
+				{
+					$c.=' data-date-max="'.$this->getParam('maxdate').'"';
+				}
 				$c.=' autocomplete="off"';
 				$c.=' class="'.join(' ',$class).'"';
 				if (!empty($style)) $c.=' style="'.join('; ',$style).'"';
