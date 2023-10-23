@@ -353,8 +353,13 @@
 					{
 						throw new FlaskPHP\Exception\ControllerException('No action instance found in action file'.(sizeof($actionInclude)>1?'s':'').'.',500);
 					}
-                    // in php 7.4.0 and higher get_declared_classes() has different order
-                    $classList = array_reverse($classList);
+
+					// in php 7.4.0 and higher get_declared_classes() has different order
+					if (version_compare(phpversion(),'7.4.0', '>='))
+					{
+						$classList=array_reverse($classList);
+					}
+
 					// Create instance and return
 					foreach ($classList as $className)
 					{
