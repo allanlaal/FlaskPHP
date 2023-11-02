@@ -172,29 +172,6 @@
 
 		/**
 		 *
-		 *   Get field form save value
-		 *   -------------------------
-		 *   @access public
-		 *   @throws \Exception
-		 *   @return mixed
-		 *
-		 */
-
-		public function saveValue()
-		{
-			// Return NULL on empty value if -- select -- is enabled
-			if (!empty($this->getParam('select')) && !$this->hasParam('nullonemptyvalue'))
-			{
-				$this->setSaveNullOnEmptyValue(true);
-			}
-
-			// Run parent code
-			return parent::saveValue();
-		}
-
-
-		/**
-		 *
 		 *   Get list value
 		 *   --------------
 		 *   @access public
