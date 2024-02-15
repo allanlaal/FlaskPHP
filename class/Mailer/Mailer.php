@@ -191,23 +191,6 @@
 		}
 
 
-		/**
-		 *
-		 *   Add an attachment
-		 *   -----------------
-		 *   @access public
-		 *   @param string $attachmentContent Attachment content
-		 *   @param string $attachmentFilename File name
-		 *   @return void
-		 *
-		 */
-
-		public function addAttachment( $attachmentContent, $attachmentFilename )
-		{
-			$this->addStringAttachment($attachmentContent,$attachmentFilename);
-		}
-
-
 	}
 
 
