@@ -1,32 +1,26 @@
 {
-  "name": "codelab/flaskphp",
-  "description": "FlaskPHP framework by Codelab",
-  "homepage": "http://www.flaskphp.com",
-  "type": "package",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Codelab Solutions OÜ",
-      "email": "codelab@codelab.ee"
-    }
-  ],
-  "require": {
-    "php": ">=7.0",
-    "codelab/flaskhttp": ">=1.0.0",
-    "scssphp/scssphp": ">=1.0.0",
-    "kylekatarnls/less.php": ">=1.7.0",
-    "tedivm/jshrink": "<=1.5.0",
-    "phpmailer/phpmailer": "~5.2"
-  },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "git@bitbucket.org:codelab-solutions/flaskphp.git"
-    }
-  ],
-  "autoload": {
-    "psr-4": {
-      "Codelab\\FlaskPHP\\": "class/"
-    }
-  }
+	"name"			: "codelab/flaskphp",
+	"description"	: "FlaskPHP framework by Codelab",
+	"homepage"		: "http://www.flaskphp.com",
+	"type"			: "package",
+	"license"		: "MIT",
+	"authors"		: [
+		{
+			"name"	: "Codelab Solutions OÜ",
+			"email"	: "codelab@codelab.ee"
+		}
+	],
+	"require"		: {
+		"php"					: ">=7.0",
+		"codelab/flaskhttp"		: ">=1.0.0",
+		"scssphp/scssphp"		: ">=1.0.0",
+		"kylekatarnls/less.php"	: ">=1.7.0",
+		"tedivm/jshrink"		: "<=1.5.0",
+		"phpmailer/phpmailer"	: "5.2.28"
+	},
+	"autoload"		: {
+		"psr-4": {
+			"Codelab\\FlaskPHP\\": "class/"
+		}
+	}
 }
